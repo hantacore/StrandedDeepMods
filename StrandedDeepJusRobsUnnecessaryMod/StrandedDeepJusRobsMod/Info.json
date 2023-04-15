@@ -1,0 +1,8 @@
+﻿{
+  "Id": "StrandedDeepJusRobsMod",
+  "DisplayName": "Stranded Deep JusRobs Mod",
+  "Author": "JusRob",
+  "Version": "0.0.1",
+  "AssemblyName": "StrandedDeepJusRobsMod.dll",
+  "EntryMethod": "StrandedDeepJusRobsMod.Main.Load"
+}

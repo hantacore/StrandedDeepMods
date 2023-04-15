@@ -1,0 +1,1418 @@
+{
+	"[0]CRAB": {
+		"Path": "Prefabs/StrandedObjects/Animals/Crabs/Balanced/CRAB",
+		"Id": 1
+	},
+	"[1]ARCHER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/ARCHER",
+		"Id": 2
+	},
+	"[2]CLOWN_TRIGGERFISH": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/CLOWN_TRIGGERFISH",
+		"Id": 3
+	},
+	"[3]COD": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/COD",
+		"Id": 4
+	},
+	"[4]DISCUS": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/DISCUS",
+		"Id": 5
+	},
+	"[5]PILCHARD": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/PILCHARD",
+		"Id": 6
+	},
+	"[6]SARDINE": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/SARDINE",
+		"Id": 7
+	},
+	"[7]SHARK_GREAT WHITE_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/SHARK_GREAT WHITE_RAGDOLL",
+		"Id": 8
+	},
+	"[8]SHARK_TIGER_SHARK_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/SHARK_TIGER_SHARK_RAGDOLL",
+		"Id": 9
+	},
+	"[9]SHARK - TIGER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/SHARK - TIGER",
+		"Id": 10
+	},
+	"[10]SHARK - GREAT WHITE": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/SHARK - GREAT WHITE",
+		"Id": 11
+	},
+	"[11]PALM_FROND": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PALM_FROND",
+		"Id": 12
+	},
+	"[12]ROCK": {
+		"Path": "Prefabs/StrandedObjects/Crafting/ROCK",
+		"Id": 13
+	},
+	"[13]ROPE_COIL": {
+		"Path": "Prefabs/StrandedObjects/Crafting/ROPE_COIL",
+		"Id": 14
+	},
+	"[14]STICK": {
+		"Path": "Prefabs/StrandedObjects/Crafting/STICK",
+		"Id": 15
+	},
+	"[15]WATER_BOTTLE": {
+		"Path": "Prefabs/StrandedObjects/Food/WATER_BOTTLE",
+		"Id": 16
+	},
+	"[16]CAN_BEANS": {
+		"Path": "Prefabs/StrandedObjects/Food/CAN_BEANS",
+		"Id": 17
+	},
+	"[17]COCONUT_DRINKABLE": {
+		"Path": "Prefabs/StrandedObjects/Food/COCONUT_DRINKABLE",
+		"Id": 18
+	},
+	"[18]COCONUT_HALF": {
+		"Path": "Prefabs/StrandedObjects/Food/COCONUT_HALF",
+		"Id": 19
+	},
+	"[19]SHIPWRECK_2A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_2A",
+		"Id": 20
+	},
+	"[20]SHIPWRECK_3A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_3A",
+		"Id": 21
+	},
+	"[21]SHIPWRECK_4A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_4A",
+		"Id": 22
+	},
+	"[22]SHIPWRECK_5A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_5A",
+		"Id": 23
+	},
+	"[23]SHIPWRECK_6A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_6A",
+		"Id": 24
+	},
+	"[24]COMPASS": {
+		"Path": "Prefabs/StrandedObjects/Tools/COMPASS",
+		"Id": 25
+	},
+	"[25]DUCTTAPE": {
+		"Path": "Prefabs/StrandedObjects/Tools/DUCTTAPE",
+		"Id": 26
+	},
+	"[26]FLARE_GUN": {
+		"Path": "Prefabs/StrandedObjects/Tools/FLARE_GUN",
+		"Id": 27
+	},
+	"[27]FUELCAN": {
+		"Path": "Prefabs/StrandedObjects/Tools/FUELCAN",
+		"Id": 28
+	},
+	"[28]LANTERN": {
+		"Path": "Prefabs/StrandedObjects/Tools/LANTERN",
+		"Id": 29
+	},
+	"[29]YUCCA": {
+		"Path": "Prefabs/StrandedObjects/Trees/YUCCA",
+		"Id": 30
+	},
+	"[30]EGG_DEADEX": {
+		"Path": "Prefabs/StrandedObjects/Easter Eggs/EGG_DEADEX",
+		"Id": 31
+	},
+	"[31]EGG_WOLLIE": {
+		"Path": "Prefabs/StrandedObjects/Easter Eggs/EGG_WOLLIE",
+		"Id": 32
+	},
+	"[32]MARLIN": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/MARLIN",
+		"Id": 33
+	},
+	"[33]WHALE": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/WHALE",
+		"Id": 34
+	},
+	"[34]ROWBOAT_3": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/ROWBOAT_3",
+		"Id": 35
+	},
+	"[35]MARLIN_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/MARLIN_RAGDOLL",
+		"Id": 36
+	},
+	"[36]LIONFISH": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/LIONFISH",
+		"Id": 37
+	},
+	"[37]SHIPWRECK_7A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_7A",
+		"Id": 38
+	},
+	"[38]CLOTH": {
+		"Path": "Prefabs/StrandedObjects/Crafting/CLOTH",
+		"Id": 39
+	},
+	"[39]TORCH": {
+		"Path": "Prefabs/StrandedObjects/Tools/TORCH",
+		"Id": 40
+	},
+	"[40]LABEL_MAKER": {
+		"Path": "Prefabs/StrandedObjects/Tools/LABEL_MAKER",
+		"Id": 41
+	},
+	"[41]SeaFort_1": {
+		"Path": "Prefabs/StrandedObjects/SeaForts/SeaFort_1",
+		"Id": 42
+	},
+	"[42]SeaFort_2": {
+		"Path": "Prefabs/StrandedObjects/SeaForts/SeaFort_2",
+		"Id": 43
+	},
+	"[43]SeaFort_Brige": {
+		"Path": "Prefabs/StrandedObjects/SeaForts/SeaFort_Brige",
+		"Id": 44
+	},
+	"[44]SeaFort_Brige_Broken": {
+		"Path": "Prefabs/StrandedObjects/SeaForts/SeaFort_Brige_Broken",
+		"Id": 45
+	},
+	"[45]DRIFTWOOD_PILE": {
+		"Path": "Prefabs/StrandedObjects/Trees/DRIFTWOOD_PILE",
+		"Id": 46
+	},
+	"[46]FICUS_1": {
+		"Path": "Prefabs/StrandedObjects/Trees/FICUS_1",
+		"Id": 47
+	},
+	"[47]FICUS_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/FICUS_2",
+		"Id": 48
+	},
+	"[48]FICUS_3": {
+		"Path": "Prefabs/StrandedObjects/Trees/FICUS_3",
+		"Id": 49
+	},
+	"[49]ALOCASIA_1": {
+		"Path": "Prefabs/StrandedObjects/Props/ALOCASIA_1",
+		"Id": 50
+	},
+	"[50]ALOCASIA_2": {
+		"Path": "Prefabs/StrandedObjects/Props/ALOCASIA_2",
+		"Id": 51
+	},
+	"[51]BANANA_PLANT": {
+		"Path": "Prefabs/StrandedObjects/Props/BANANA_PLANT",
+		"Id": 52
+	},
+	"[52]BIGROCK_1": {
+		"Path": "Prefabs/StrandedObjects/Props/BIGROCK_1",
+		"Id": 53
+	},
+	"[53]BIGROCK_2": {
+		"Path": "Prefabs/StrandedObjects/Props/BIGROCK_2",
+		"Id": 54
+	},
+	"[54]BIGROCK_3": {
+		"Path": "Prefabs/StrandedObjects/Props/BIGROCK_3",
+		"Id": 55
+	},
+	"[55]BIGROCK_4": {
+		"Path": "Prefabs/StrandedObjects/Props/BIGROCK_4",
+		"Id": 56
+	},
+	"[56]BIGROCK_5": {
+		"Path": "Prefabs/StrandedObjects/Props/BIGROCK_5",
+		"Id": 57
+	},
+	"[57]CERIMAN_1": {
+		"Path": "Prefabs/StrandedObjects/Props/CERIMAN_1",
+		"Id": 58
+	},
+	"[58]CERIMAN_2": {
+		"Path": "Prefabs/StrandedObjects/Props/CERIMAN_2",
+		"Id": 59
+	},
+	"[59]CERIMAN_3": {
+		"Path": "Prefabs/StrandedObjects/Props/CERIMAN_3",
+		"Id": 60
+	},
+	"[60]SHORELINE_ROCK_1": {
+		"Path": "Prefabs/StrandedObjects/Props/SHORELINE_ROCK_1",
+		"Id": 61
+	},
+	"[61]SHORELINE_ROCK_2": {
+		"Path": "Prefabs/StrandedObjects/Props/SHORELINE_ROCK_2",
+		"Id": 62
+	},
+	"[62]SMALLROCK_1": {
+		"Path": "Prefabs/StrandedObjects/Props/SMALLROCK_1",
+		"Id": 63
+	},
+	"[63]SMALLROCK_2": {
+		"Path": "Prefabs/StrandedObjects/Props/SMALLROCK_2",
+		"Id": 64
+	},
+	"[64]SMALLROCK_3": {
+		"Path": "Prefabs/StrandedObjects/Props/SMALLROCK_3",
+		"Id": 65
+	},
+	"[65]FICUS_TREE": {
+		"Path": "Prefabs/StrandedObjects/Trees/FICUS_TREE",
+		"Id": 66
+	},
+	"[66]FICUS_TREE_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/FICUS_TREE_2",
+		"Id": 67
+	},
+	"[67]CLIFF_001": {
+		"Path": "Prefabs/StrandedObjects/Props/CLIFF_001",
+		"Id": 68
+	},
+	"[68]CLIFF_002": {
+		"Path": "Prefabs/StrandedObjects/Props/CLIFF_002",
+		"Id": 69
+	},
+	"[69]CLIFF_003": {
+		"Path": "Prefabs/StrandedObjects/Props/CLIFF_003",
+		"Id": 70
+	},
+	"[70]CLIFF_004": {
+		"Path": "Prefabs/StrandedObjects/Props/CLIFF_004",
+		"Id": 71
+	},
+	"[71]CLIFF_005": {
+		"Path": "Prefabs/StrandedObjects/Props/CLIFF_005",
+		"Id": 72
+	},
+	"[72]CLIFF_006": {
+		"Path": "Prefabs/StrandedObjects/Props/CLIFF_006",
+		"Id": 73
+	},
+	"[73]BANDAGE": {
+		"Path": "Prefabs/StrandedObjects/Medical/BANDAGE",
+		"Id": 74
+	},
+	"[74]CORRUGATED_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_FLOOR",
+		"Id": 75
+	},
+	"[75]CORRUGATED_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_FOUNDATION",
+		"Id": 76
+	},
+	"[76]CORRUGATED_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_PANEL_STATIC",
+		"Id": 77
+	},
+	"[77]DRIFTWOOD_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_FOUNDATION",
+		"Id": 78
+	},
+	"[78]DRIFTWOOD_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_FLOOR",
+		"Id": 79
+	},
+	"[79]DRIFTWOOD_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_PANEL_STATIC",
+		"Id": 80
+	},
+	"[80]WOOD_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_FOUNDATION",
+		"Id": 81
+	},
+	"[81]WOOD_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_FLOOR",
+		"Id": 82
+	},
+	"[82]WOOD_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_PANEL_STATIC",
+		"Id": 83
+	},
+	"[83]WOOD_STEPS": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_STEPS",
+		"Id": 84
+	},
+	"[84]TARP_PANEL": {
+		"Path": "Prefabs/StrandedObjects/Building/TARP_PANEL",
+		"Id": 85
+	},
+	"[85]TARP_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/TARP_PANEL_STATIC",
+		"Id": 86
+	},
+	"[86]PLANK_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_FOUNDATION",
+		"Id": 87
+	},
+	"[87]PLANK_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_FLOOR",
+		"Id": 88
+	},
+	"[88]PLANK_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_PANEL_STATIC",
+		"Id": 89
+	},
+	"[89]SHIPPING_CONTAINER_DOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_DOOR",
+		"Id": 90
+	},
+	"[90]SHIPPING_CONTAINER_DOOR_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_DOOR_STATIC",
+		"Id": 91
+	},
+	"[91]SHIPPING_CONTAINER_PANEL": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_PANEL",
+		"Id": 92
+	},
+	"[92]SHIPPING_CONTAINER_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_PANEL_STATIC",
+		"Id": 93
+	},
+	"[93]SHIPPING_CONTAINER_1": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_1",
+		"Id": 94
+	},
+	"[94]SHIPPING_CONTAINER_2": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_2",
+		"Id": 95
+	},
+	"[95]SHIPPING_CONTAINER_3": {
+		"Path": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_3",
+		"Id": 96
+	},
+	"[96]STRUCTURE": {
+		"Path": "Prefabs/StrandedObjects/Building/STRUCTURE",
+		"Id": 97
+	},
+	"[97]SCRAP_PLANK": {
+		"Path": "Prefabs/StrandedObjects/Building/SCRAP_PLANK",
+		"Id": 98
+	},
+	"[98]SCRAP_CORRUGATED": {
+		"Path": "Prefabs/StrandedObjects/Building/SCRAP_CORRUGATED",
+		"Id": 99
+	},
+	"[99]CORRUGATED_STEPS": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_STEPS",
+		"Id": 100
+	},
+	"[100]CORRUGATED_WEDGE_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_WEDGE_FLOOR",
+		"Id": 101
+	},
+	"[101]CORRUGATED_WEDGE_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_WEDGE_FOUNDATION",
+		"Id": 102
+	},
+	"[102]DRIFTWOOD_STEPS": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_STEPS",
+		"Id": 103
+	},
+	"[103]DRIFTWOOD_WEDGE_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_WEDGE_FLOOR",
+		"Id": 104
+	},
+	"[104]DRIFTWOOD_WEDGE_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_WEDGE_FOUNDATION",
+		"Id": 105
+	},
+	"[105]PLANK_STEPS": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_STEPS",
+		"Id": 106
+	},
+	"[106]PLANK_WEDGE_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_WEDGE_FLOOR",
+		"Id": 107
+	},
+	"[107]PLANK_WEDGE_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_WEDGE_FOUNDATION",
+		"Id": 108
+	},
+	"[108]WOOD_WEDGE_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_WEDGE_FLOOR",
+		"Id": 109
+	},
+	"[109]WOOD_WEDGE_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_WEDGE_FOUNDATION",
+		"Id": 110
+	},
+	"[110]DRIFTWOOD_STICK": {
+		"Path": "Prefabs/StrandedObjects/Crafting/DRIFTWOOD_STICK",
+		"Id": 111
+	},
+	"[111]DRIFTWOOD_ARCH": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_ARCH",
+		"Id": 112
+	},
+	"[112]DRIFTWOOD_DOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_DOOR",
+		"Id": 113
+	},
+	"[113]WOOD_ARCH": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_ARCH",
+		"Id": 114
+	},
+	"[114]WOOD_DOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_DOOR",
+		"Id": 115
+	},
+	"[115]PLANK_ARCH": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_ARCH",
+		"Id": 116
+	},
+	"[116]PLANK_DOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_DOOR",
+		"Id": 117
+	},
+	"[117]CORRUGATED_ARCH": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_ARCH",
+		"Id": 118
+	},
+	"[118]CORRUGATED_DOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_DOOR",
+		"Id": 119
+	},
+	"[119]DRIFTWOOD_WALL_HALF": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_WALL_HALF",
+		"Id": 120
+	},
+	"[120]WOOD_WALL_HALF": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_WALL_HALF",
+		"Id": 121
+	},
+	"[121]PLANK_WALL_HALF": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_WALL_HALF",
+		"Id": 122
+	},
+	"[122]CORRUGATED_WALL_HALF": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_WALL_HALF",
+		"Id": 123
+	},
+	"[123]DRIFTWOOD_WALL_WINDOW": {
+		"Path": "Prefabs/StrandedObjects/Building/DRIFTWOOD_WALL_WINDOW",
+		"Id": 124
+	},
+	"[124]WOOD_WALL_WINDOW": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_WALL_WINDOW",
+		"Id": 125
+	},
+	"[125]PLANK_WALL_WINDOW": {
+		"Path": "Prefabs/StrandedObjects/Building/PLANK_WALL_WINDOW",
+		"Id": 126
+	},
+	"[126]CORRUGATED_WALL_WINDOW": {
+		"Path": "Prefabs/StrandedObjects/Building/CORRUGATED_WALL_WINDOW",
+		"Id": 127
+	},
+	"[127]VEHICLE_LIFERAFT": {
+		"Path": "Prefabs/StrandedObjects/Building/VEHICLE_LIFERAFT",
+		"Id": 128
+	},
+	"[128]VEHICLE_SAIL": {
+		"Path": "Prefabs/StrandedObjects/Building/VEHICLE_SAIL",
+		"Id": 129
+	},
+	"[129]VEHICLE_MOTOR": {
+		"Path": "Prefabs/StrandedObjects/Building/VEHICLE_MOTOR",
+		"Id": 130
+	},
+	"[130]STRUCTURE_RAFT": {
+		"Path": "Prefabs/StrandedObjects/Building/STRUCTURE_RAFT",
+		"Id": 131
+	},
+	"[131]STRUCTURE_SMALL": {
+		"Path": "Prefabs/StrandedObjects/Building/STRUCTURE_SMALL",
+		"Id": 132
+	},
+	"[132]RAFT_BASE_WOOD_BUNDLE": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_BASE_WOOD_BUNDLE",
+		"Id": 133
+	},
+	"[133]RAFT_BASE_BALLS": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_BASE_BALLS",
+		"Id": 134
+	},
+	"[134]RAFT_BASE_BARREL": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_BASE_BARREL",
+		"Id": 135
+	},
+	"[135]RAFT_BASE_TYRE": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_BASE_TYRE",
+		"Id": 136
+	},
+	"[136]RAFT_FLOOR_DRIFTWOOD": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_DRIFTWOOD",
+		"Id": 137
+	},
+	"[137]RAFT_FLOOR_WOOD": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_WOOD",
+		"Id": 138
+	},
+	"[138]RAFT_FLOOR_PLANK": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_PLANK",
+		"Id": 139
+	},
+	"[139]RAFT_FLOOR_CORRUGATED": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_CORRUGATED",
+		"Id": 140
+	},
+	"[140]RAFT_FLOOR_CLAY": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_CLAY",
+		"Id": 141
+	},
+	"[141]BARREL": {
+		"Path": "Prefabs/StrandedObjects/Building/BARREL",
+		"Id": 142
+	},
+	"[142]BARREL_PILE": {
+		"Path": "Prefabs/StrandedObjects/Building/BARREL_PILE",
+		"Id": 143
+	},
+	"[143]TYRE": {
+		"Path": "Prefabs/StrandedObjects/Building/TYRE",
+		"Id": 144
+	},
+	"[144]TYRE_PILE": {
+		"Path": "Prefabs/StrandedObjects/Building/TYRE_PILE",
+		"Id": 145
+	},
+	"[145]BUOYBALL": {
+		"Path": "Prefabs/StrandedObjects/Building/BUOYBALL",
+		"Id": 146
+	},
+	"[146]BUOYBALL_PILE": {
+		"Path": "Prefabs/StrandedObjects/Building/BUOYBALL_PILE",
+		"Id": 147
+	},
+	"[147]KURA_TREE": {
+		"Path": "Prefabs/StrandedObjects/Farming/KURA_TREE",
+		"Id": 148
+	},
+	"[148]QUWAWA_TREE": {
+		"Path": "Prefabs/StrandedObjects/Farming/QUWAWA_TREE",
+		"Id": 149
+	},
+	"[149]KURA_FRUIT": {
+		"Path": "Prefabs/StrandedObjects/Farming/KURA_FRUIT",
+		"Id": 150
+	},
+	"[150]QUWAWA_FRUIT": {
+		"Path": "Prefabs/StrandedObjects/Farming/QUWAWA_FRUIT",
+		"Id": 151
+	},
+	"[151]FARMING_PLOT_WOOD": {
+		"Path": "Prefabs/StrandedObjects/Farming/FARMING_PLOT_WOOD",
+		"Id": 152
+	},
+	"[152]FARMING_PLOT_PLANK": {
+		"Path": "Prefabs/StrandedObjects/Farming/FARMING_PLOT_PLANK",
+		"Id": 153
+	},
+	"[153]FARMING_PLOT_CORRUGATED": {
+		"Path": "Prefabs/StrandedObjects/Farming/FARMING_PLOT_CORRUGATED",
+		"Id": 154
+	},
+	"[154]FARMING_HOE": {
+		"Path": "Prefabs/StrandedObjects/Farming/FARMING_HOE",
+		"Id": 155
+	},
+	"[155]COCONUT_ORANGE": {
+		"Path": "Prefabs/StrandedObjects/Food/COCONUT_ORANGE",
+		"Id": 156
+	},
+	"[156]PALM_1": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_1",
+		"Id": 157
+	},
+	"[157]PALM_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_2",
+		"Id": 158
+	},
+	"[158]PALM_3": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_3",
+		"Id": 159
+	},
+	"[159]PALM_4": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_4",
+		"Id": 160
+	},
+	"[160]PALM_TOP": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_TOP",
+		"Id": 161
+	},
+	"[161]PALM_LOG_1": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_LOG_1",
+		"Id": 162
+	},
+	"[162]PALM_LOG_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_LOG_2",
+		"Id": 163
+	},
+	"[163]PALM_LOG_3": {
+		"Path": "Prefabs/StrandedObjects/Trees/PALM_LOG_3",
+		"Id": 164
+	},
+	"[164]DOOR": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR",
+		"Id": 165
+	},
+	"[165]BED": {
+		"Path": "Prefabs/StrandedObjects/Crafting/BED",
+		"Id": 166
+	},
+	"[166]BED_SHELTER": {
+		"Path": "Prefabs/StrandedObjects/Crafting/BED_SHELTER",
+		"Id": 167
+	},
+	"[167]NEW_CAMPFIRE": {
+		"Path": "Prefabs/StrandedObjects/Crafting/NEW_CAMPFIRE",
+		"Id": 168
+	},
+	"[168]NEW_CAMPFIRE_PIT": {
+		"Path": "Prefabs/StrandedObjects/Crafting/NEW_CAMPFIRE_PIT",
+		"Id": 169
+	},
+	"[169]NEW_CAMPFIRE_SPIT": {
+		"Path": "Prefabs/StrandedObjects/Crafting/NEW_CAMPFIRE_SPIT",
+		"Id": 170
+	},
+	"[170]HOBO_STOVE": {
+		"Path": "Prefabs/StrandedObjects/Crafting/HOBO_STOVE",
+		"Id": 171
+	},
+	"[171]SMOKER": {
+		"Path": "Prefabs/StrandedObjects/Crafting/SMOKER",
+		"Id": 172
+	},
+	"[172]STONE_TOOL": {
+		"Path": "Prefabs/StrandedObjects/Crafting/STONE_TOOL",
+		"Id": 173
+	},
+	"[173]LEAVES_FIBROUS": {
+		"Path": "Prefabs/StrandedObjects/Crafting/LEAVES_FIBROUS",
+		"Id": 174
+	},
+	"[174]WATER_STILL": {
+		"Path": "Prefabs/StrandedObjects/Crafting/WATER_STILL",
+		"Id": 175
+	},
+	"[175]NEW_CRUDE_SPEAR": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_SPEAR",
+		"Id": 176
+	},
+	"[176]NEW_ARROW": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_ARROW",
+		"Id": 177
+	},
+	"[177]BAT": {
+		"Path": "Prefabs/StrandedObjects/Animals/Birds/BAT",
+		"Id": 178
+	},
+	"[178]SEAGULL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Birds/SEAGULL",
+		"Id": 179
+	},
+	"[179]YOUNG_PALM_1": {
+		"Path": "Prefabs/StrandedObjects/Trees/YOUNG_PALM_1",
+		"Id": 180
+	},
+	"[180]YOUNG_PALM_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/YOUNG_PALM_2",
+		"Id": 181
+	},
+	"[181]BOAR": {
+		"Path": "Prefabs/StrandedObjects/Animals/Boar/BOAR",
+		"Id": 182
+	},
+	"[182]BOAR_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Boar/BOAR_RAGDOLL",
+		"Id": 183
+	},
+	"[183]SNAKE": {
+		"Path": "Prefabs/StrandedObjects/Animals/Snake/SNAKE",
+		"Id": 184
+	},
+	"[184]SNAKE_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Snake/SNAKE_RAGDOLL",
+		"Id": 185
+	},
+	"[185]HIDESPOT_SNAKE": {
+		"Path": "Prefabs/StrandedObjects/Animals/Snake/HIDESPOT_SNAKE",
+		"Id": 186
+	},
+	"[186]KINDLING": {
+		"Path": "Prefabs/StrandedObjects/Crafting/KINDLING",
+		"Id": 187
+	},
+	"[187]MEAT_LARGE": {
+		"Path": "Prefabs/StrandedObjects/Food/MEAT_LARGE",
+		"Id": 188
+	},
+	"[188]MEAT_MEDIUM": {
+		"Path": "Prefabs/StrandedObjects/Food/MEAT_MEDIUM",
+		"Id": 189
+	},
+	"[189]MEAT_SMALL": {
+		"Path": "Prefabs/StrandedObjects/Food/MEAT_SMALL",
+		"Id": 190
+	},
+	"[190]NEW_AIRTANK": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_AIRTANK",
+		"Id": 191
+	},
+	"[191]NEW_CRUDE_AXE": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_AXE",
+		"Id": 192
+	},
+	"[192]NEW_CRUDE_BOW": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_BOW",
+		"Id": 193
+	},
+	"[193]NEW_CRUDE_HAMMER": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_HAMMER",
+		"Id": 194
+	},
+	"[194]NEW_FISHING_SPEAR": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_FISHING_SPEAR",
+		"Id": 195
+	},
+	"[195]NEW_REFINED_AXE": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_REFINED_AXE",
+		"Id": 196
+	},
+	"[196]NEW_REFINED_HAMMER": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_REFINED_HAMMER",
+		"Id": 197
+	},
+	"[197]NEW_REFINED_KNIFE": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_REFINED_KNIFE",
+		"Id": 198
+	},
+	"[198]NEW_REFINED_SPEAR": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_REFINED_SPEAR",
+		"Id": 199
+	},
+	"[199]NEW_SPEARGUN": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_SPEARGUN",
+		"Id": 200
+	},
+	"[200]NEW_SPEARGUN_ARROW": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_SPEARGUN_ARROW",
+		"Id": 201
+	},
+	"[201]PINE_1": {
+		"Path": "Prefabs/StrandedObjects/Trees/PINE_1",
+		"Id": 202
+	},
+	"[202]PINE_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/PINE_2",
+		"Id": 203
+	},
+	"[203]PINE_3": {
+		"Path": "Prefabs/StrandedObjects/Trees/PINE_3",
+		"Id": 204
+	},
+	"[204]COCA_BUSH": {
+		"Path": "Prefabs/StrandedObjects/Trees/COCA_BUSH",
+		"Id": 205
+	},
+	"[205]PINE_SMALL_2": {
+		"Path": "Prefabs/StrandedObjects/Trees/PINE_SMALL_2",
+		"Id": 206
+	},
+	"[206]PINE_SMALL_3": {
+		"Path": "Prefabs/StrandedObjects/Trees/PINE_SMALL_3",
+		"Id": 207
+	},
+	"[207]FIRE_TORCH": {
+		"Path": "Prefabs/StrandedObjects/Crafting/FIRE_TORCH",
+		"Id": 208
+	},
+	"[208]WOOD_HOOK": {
+		"Path": "Prefabs/StrandedObjects/Furniture/WOOD_HOOK",
+		"Id": 209
+	},
+	"[209]WOOD_SHELF": {
+		"Path": "Prefabs/StrandedObjects/Furniture/WOOD_SHELF",
+		"Id": 210
+	},
+	"[210]PLANK_SHELF": {
+		"Path": "Prefabs/StrandedObjects/Furniture/PLANK_SHELF",
+		"Id": 211
+	},
+	"[211]CORRUGATED_SHELF": {
+		"Path": "Prefabs/StrandedObjects/Furniture/CORRUGATED_SHELF",
+		"Id": 212
+	},
+	"[212]WOOD_CHAIR": {
+		"Path": "Prefabs/StrandedObjects/Furniture/WOOD_CHAIR",
+		"Id": 213
+	},
+	"[213]PLANK_CHAIR": {
+		"Path": "Prefabs/StrandedObjects/Furniture/PLANK_CHAIR",
+		"Id": 214
+	},
+	"[214]WOOD_TABLE": {
+		"Path": "Prefabs/StrandedObjects/Furniture/WOOD_TABLE",
+		"Id": 215
+	},
+	"[215]PLANK_TABLE": {
+		"Path": "Prefabs/StrandedObjects/Furniture/PLANK_TABLE",
+		"Id": 216
+	},
+	"[216]CORRUGATED_TABLE": {
+		"Path": "Prefabs/StrandedObjects/Furniture/CORRUGATED_TABLE",
+		"Id": 217
+	},
+	"[217]PATROL_TIGERSHARK": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Territories/PATROL_TIGERSHARK",
+		"Id": 218
+	},
+	"[218]LOOM": {
+		"Path": "Prefabs/StrandedObjects/Crafting/LOOM",
+		"Id": 219
+	},
+	"[219]TANNING_RACK": {
+		"Path": "Prefabs/StrandedObjects/Crafting/TANNING_RACK",
+		"Id": 220
+	},
+	"[220]LEATHER": {
+		"Path": "Prefabs/StrandedObjects/Crafting/LEATHER",
+		"Id": 221
+	},
+	"[221]RAWHIDE": {
+		"Path": "Prefabs/StrandedObjects/Crafting/RAWHIDE",
+		"Id": 222
+	},
+	"[222]CONTAINER_CONSOLE": {
+		"Path": "Prefabs/StrandedObjects/Containers/CONTAINER_CONSOLE",
+		"Id": 223
+	},
+	"[223]CONTAINER_CRATE": {
+		"Path": "Prefabs/StrandedObjects/Containers/CONTAINER_CRATE",
+		"Id": 224
+	},
+	"[224]CONTAINER_LOCKER_LARGE": {
+		"Path": "Prefabs/StrandedObjects/Containers/CONTAINER_LOCKER_LARGE",
+		"Id": 225
+	},
+	"[225]CONTAINER_LOCKER_SMALL": {
+		"Path": "Prefabs/StrandedObjects/Containers/CONTAINER_LOCKER_SMALL",
+		"Id": 226
+	},
+	"[226]BRICK_STATION": {
+		"Path": "Prefabs/StrandedObjects/Crafting/BRICK_STATION",
+		"Id": 227
+	},
+	"[227]CLAY": {
+		"Path": "Prefabs/StrandedObjects/Crafting/CLAY",
+		"Id": 228
+	},
+	"[228]FURNACE": {
+		"Path": "Prefabs/StrandedObjects/Crafting/FURNACE",
+		"Id": 229
+	},
+	"[229]BRICKS": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICKS",
+		"Id": 230
+	},
+	"[230]BRICK_ARCH": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_ARCH",
+		"Id": 231
+	},
+	"[231]BRICK_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_FLOOR",
+		"Id": 232
+	},
+	"[232]BRICK_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_FOUNDATION",
+		"Id": 233
+	},
+	"[233]BRICK_PANEL_STATIC": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_PANEL_STATIC",
+		"Id": 234
+	},
+	"[234]BRICK_WALL_HALF": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_WALL_HALF",
+		"Id": 235
+	},
+	"[235]BRICK_WALL_WINDOW": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_WALL_WINDOW",
+		"Id": 236
+	},
+	"[236]BRICK_WEDGE_FLOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_WEDGE_FLOOR",
+		"Id": 237
+	},
+	"[237]BRICK_WEDGE_FOUNDATION": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_WEDGE_FOUNDATION",
+		"Id": 238
+	},
+	"[238]WOOD_ROOF_CAP": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_ROOF_CAP",
+		"Id": 239
+	},
+	"[239]WOOD_ROOF_CORNER": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_ROOF_CORNER",
+		"Id": 240
+	},
+	"[240]WOOD_ROOF_MIDDLE": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_ROOF_MIDDLE",
+		"Id": 241
+	},
+	"[241]WOOD_ROOF_WEDGE": {
+		"Path": "Prefabs/StrandedObjects/Building/WOOD_ROOF_WEDGE",
+		"Id": 242
+	},
+	"[242]BRICK_ROOF_CAP": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_ROOF_CAP",
+		"Id": 243
+	},
+	"[243]BRICK_ROOF_CORNER": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_ROOF_CORNER",
+		"Id": 244
+	},
+	"[244]BRICK_ROOF_MIDDLE": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_ROOF_MIDDLE",
+		"Id": 245
+	},
+	"[245]BRICK_ROOF_WEDGE": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_ROOF_WEDGE",
+		"Id": 246
+	},
+	"[246]NEW_REFINED_PICK": {
+		"Path": "Prefabs/StrandedObjects/Tools/NEW_REFINED_PICK",
+		"Id": 247
+	},
+	"[247]MINING_ROCK": {
+		"Path": "Prefabs/StrandedObjects/Other/MINING_ROCK",
+		"Id": 248
+	},
+	"[248]MINING_ROCK_CLAY": {
+		"Path": "Prefabs/StrandedObjects/Other/MINING_ROCK_CLAY",
+		"Id": 249
+	},
+	"[249]WATER_SKIN": {
+		"Path": "Prefabs/StrandedObjects/Food/WATER_SKIN",
+		"Id": 250
+	},
+	"[250]PLANK_STATION": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PLANK_STATION",
+		"Id": 251
+	},
+	"[251]MISSION_TROPHY_SHARK": {
+		"Path": "Prefabs/StrandedObjects/Missions/MISSION_TROPHY_SHARK",
+		"Id": 252
+	},
+	"[252]MISSION_TROPHY_EEL": {
+		"Path": "Prefabs/StrandedObjects/Missions/MISSION_TROPHY_EEL",
+		"Id": 253
+	},
+	"[253]MISSION_EEL": {
+		"Path": "Prefabs/StrandedObjects/Missions/MISSION_EEL",
+		"Id": 254
+	},
+	"[254]MISSION_SHARK": {
+		"Path": "Prefabs/StrandedObjects/Missions/MISSION_SHARK",
+		"Id": 255
+	},
+	"[255]MISSION_SQUID": {
+		"Path": "Prefabs/StrandedObjects/Missions/MISSION_SQUID",
+		"Id": 256
+	},
+	"[256]MISSION_TROPHY_SQUID": {
+		"Path": "Prefabs/StrandedObjects/Missions/MISSION_TROPHY_SQUID",
+		"Id": 257
+	},
+	"[257]GYRO_BASE_1": {
+		"Path": "Prefabs/StrandedObjects/Building/GYRO_BASE_1",
+		"Id": 258
+	},
+	"[258]GYRO_COCKPIT_4": {
+		"Path": "Prefabs/StrandedObjects/Building/GYRO_COCKPIT_4",
+		"Id": 259
+	},
+	"[259]GYRO_MOTOR_3": {
+		"Path": "Prefabs/StrandedObjects/Building/GYRO_MOTOR_3",
+		"Id": 260
+	},
+	"[260]GYRO_ROTORS_5": {
+		"Path": "Prefabs/StrandedObjects/Building/GYRO_ROTORS_5",
+		"Id": 261
+	},
+	"[261]GYRO_SEAT_2": {
+		"Path": "Prefabs/StrandedObjects/Building/GYRO_SEAT_2",
+		"Id": 262
+	},
+	"[262]GYRO_STRUCTURE": {
+		"Path": "Prefabs/StrandedObjects/Building/GYRO_STRUCTURE",
+		"Id": 263
+	},
+	"[263]VEHICLE_HELICOPTER": {
+		"Path": "Prefabs/StrandedObjects/Building/VEHICLE_HELICOPTER",
+		"Id": 264
+	},
+	"[264]ALOE_VERA_FRUIT": {
+		"Path": "Prefabs/StrandedObjects/Farming/ALOE_VERA_FRUIT",
+		"Id": 265
+	},
+	"[265]ALOE_VERA_PLANT": {
+		"Path": "Prefabs/StrandedObjects/Farming/ALOE_VERA_PLANT",
+		"Id": 266
+	},
+	"[266]POTATO_PLANT": {
+		"Path": "Prefabs/StrandedObjects/Farming/POTATO_PLANT",
+		"Id": 267
+	},
+	"[267]POTATO": {
+		"Path": "Prefabs/StrandedObjects/Farming/POTATO",
+		"Id": 268
+	},
+	"[268]COCONUT_FLASK": {
+		"Path": "Prefabs/StrandedObjects/Food/COCONUT_FLASK",
+		"Id": 269
+	},
+	"[269]MEDICAL_ALOE_SALVE": {
+		"Path": "Prefabs/StrandedObjects/Medical/MEDICAL_ALOE_SALVE",
+		"Id": 270
+	},
+	"[270]MEDICAL_GAUZE": {
+		"Path": "Prefabs/StrandedObjects/Medical/MEDICAL_GAUZE",
+		"Id": 271
+	},
+	"[271]MEDICAL_ANTIDOTE": {
+		"Path": "Prefabs/StrandedObjects/Medical/MEDICAL_ANTIDOTE",
+		"Id": 272
+	},
+	"[272]AJUGA_PLANT": {
+		"Path": "Prefabs/StrandedObjects/Farming/AJUGA_PLANT",
+		"Id": 273
+	},
+	"[273]AJUGA": {
+		"Path": "Prefabs/StrandedObjects/Farming/AJUGA",
+		"Id": 274
+	},
+	"[274]MEDICAL_BREATH_BOOST": {
+		"Path": "Prefabs/StrandedObjects/Medical/MEDICAL_BREATH_BOOST",
+		"Id": 275
+	},
+	"[275]MEDICAL_REPELLENT": {
+		"Path": "Prefabs/StrandedObjects/Medical/MEDICAL_REPELLENT",
+		"Id": 276
+	},
+	"[276]WAVULAVULA": {
+		"Path": "Prefabs/StrandedObjects/Farming/WAVULAVULA",
+		"Id": 277
+	},
+	"[277]WAVULAVULA_PLANT": {
+		"Path": "Prefabs/StrandedObjects/Farming/WAVULAVULA_PLANT",
+		"Id": 278
+	},
+	"[278]PIPI": {
+		"Path": "Prefabs/StrandedObjects/Farming/PIPI",
+		"Id": 279
+	},
+	"[279]PIPI_PLANT": {
+		"Path": "Prefabs/StrandedObjects/Farming/PIPI_PLANT",
+		"Id": 280
+	},
+	"[280]PADDLE": {
+		"Path": "Prefabs/StrandedObjects/Tools/PADDLE",
+		"Id": 281
+	},
+	"[281]VEHICLE_RUDDER": {
+		"Path": "Prefabs/StrandedObjects/Building/VEHICLE_RUDDER",
+		"Id": 282
+	},
+	"[282]BOBBER": {
+		"Path": "Prefabs/StrandedObjects/Tools/BOBBER",
+		"Id": 283
+	},
+	"[283]FISHING_ROD": {
+		"Path": "Prefabs/StrandedObjects/Tools/FISHING_ROD",
+		"Id": 284
+	},
+	"[284]PART_ENGINE": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PART_ENGINE",
+		"Id": 285
+	},
+	"[285]PART_ELECTRICAL": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PART_ELECTRICAL",
+		"Id": 286
+	},
+	"[286]PART_FILTER": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PART_FILTER",
+		"Id": 287
+	},
+	"[287]PART_GYRO": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PART_GYRO",
+		"Id": 288
+	},
+	"[288]PART_FUEL": {
+		"Path": "Prefabs/StrandedObjects/Crafting/PART_FUEL",
+		"Id": 289
+	},
+	"[289]FUEL_STILL": {
+		"Path": "Prefabs/StrandedObjects/Crafting/FUEL_STILL",
+		"Id": 290
+	},
+	"[290]BRICK_DOOR": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_DOOR",
+		"Id": 291
+	},
+	"[291]BRICK_STEPS": {
+		"Path": "Prefabs/StrandedObjects/Building/BRICK_STEPS",
+		"Id": 292
+	},
+	"[292]TRAP_FISH": {
+		"Path": "Prefabs/StrandedObjects/Crafting/TRAP_FISH",
+		"Id": 293
+	},
+	"[293]TRAP_BIRD": {
+		"Path": "Prefabs/StrandedObjects/Crafting/TRAP_BIRD",
+		"Id": 294
+	},
+	"[294]RAFT_ANCHOR": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_ANCHOR",
+		"Id": 295
+	},
+	"[295]SPLINT": {
+		"Path": "Prefabs/StrandedObjects/Medical/SPLINT",
+		"Id": 296
+	},
+	"[296]AIRCRAFT_ENGINE_PART": {
+		"Path": "Prefabs/StrandedObjects/End Game/AIRCRAFT_ENGINE_PART",
+		"Id": 297
+	},
+	"[297]AIRCRAFT_PROPELLER_PART": {
+		"Path": "Prefabs/StrandedObjects/End Game/AIRCRAFT_PROPELLER_PART",
+		"Id": 298
+	},
+	"[298]AIRCRAFT_RUDDER_PART": {
+		"Path": "Prefabs/StrandedObjects/End Game/AIRCRAFT_RUDDER_PART",
+		"Id": 299
+	},
+	"[299]AIRCRAFT": {
+		"Path": "Prefabs/StrandedObjects/End Game/AIRCRAFT",
+		"Id": 300
+	},
+	"[300]YUCCA_HARVEST": {
+		"Path": "Prefabs/StrandedObjects/Farming/YUCCA_HARVEST",
+		"Id": 301
+	},
+	"[301]YUCCA_CUTTING": {
+		"Path": "Prefabs/StrandedObjects/Farming/YUCCA_CUTTING",
+		"Id": 302
+	},
+	"[302]RAFT_CANOPY": {
+		"Path": "Prefabs/StrandedObjects/Building/RAFT_CANOPY",
+		"Id": 303
+	},
+	"[303]GROUPER_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Fish/Balanced/GROUPER_RAGDOLL",
+		"Id": 304
+	},
+	"[304]SHARK_GOBLIN_SHARK_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/SHARK_GOBLIN_SHARK_RAGDOLL",
+		"Id": 305
+	},
+	"[305]SHARK_HAMMERHEAD_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/SHARK_HAMMERHEAD_RAGDOLL",
+		"Id": 306
+	},
+	"[306]SHARK_WHALE_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/SHARK_WHALE_RAGDOLL",
+		"Id": 307
+	},
+	"[307]PLANEWRECK_1A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/PLANEWRECK_1A",
+		"Id": 308
+	},
+	"[308]SHIPWRECK_8A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_8A",
+		"Id": 309
+	},
+	"[309]SHIPWRECK_12A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_12A",
+		"Id": 310
+	},
+	"[310]SHIPWRECK_13A": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPWRECK_13A",
+		"Id": 311
+	},
+	"[311]Shelter01": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter01",
+		"Id": 312
+	},
+	"[312]Shelter02": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter02",
+		"Id": 313
+	},
+	"[313]Shelter03": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter03",
+		"Id": 314
+	},
+	"[314]Shelter04": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter04",
+		"Id": 315
+	},
+	"[315]Shelter05": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter05",
+		"Id": 316
+	},
+	"[316]Shelter06": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter06",
+		"Id": 317
+	},
+	"[317]Shelter07": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter07",
+		"Id": 318
+	},
+	"[318]Shelter08": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter08",
+		"Id": 319
+	},
+	"[319]Shelter09": {
+		"Path": "Prefabs/StrandedObjects/Shelters/Shelter09",
+		"Id": 320
+	},
+	"[320]DOOR_13_85d": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13_85d",
+		"Id": 321
+	},
+	"[321]DOOR_13_165d": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13_165d",
+		"Id": 322
+	},
+	"[322]DOOR_13D1": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13D1",
+		"Id": 323
+	},
+	"[323]DOOR_13D2": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13D2",
+		"Id": 324
+	},
+	"[324]DOOR_13D3": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13D3",
+		"Id": 325
+	},
+	"[325]DOOR_13M_85d": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13M_85d",
+		"Id": 326
+	},
+	"[326]DOOR_13M_165d": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/Doors/DOOR_13M_165d",
+		"Id": 327
+	},
+	"[327]SPYGLASS": {
+		"Path": "Prefabs/StrandedObjects/Tools/SPYGLASS",
+		"Id": 328
+	},
+	"[328]CONTAINER_SHELF": {
+		"Path": "Prefabs/StrandedObjects/Furniture/CONTAINER_SHELF",
+		"Id": 329
+	},
+	"[329]SHIPPING_CONTAINER": {
+		"Path": "Prefabs/StrandedObjects/Shipwrecks/SHIPPING_CONTAINER",
+		"Id": 330
+	},
+	"[330]SHARK - HAMMERHEAD": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/SHARK - HAMMERHEAD",
+		"Id": 331
+	},
+	"[331]SHARK - WHALE": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/SHARK - WHALE",
+		"Id": 332
+	},
+	"[332]SHARK - GOBLIN": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Balanced/SHARK - GOBLIN",
+		"Id": 333
+	},
+	"[333]PATROL_HAMMERHEAD": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Territories/PATROL_HAMMERHEAD",
+		"Id": 334
+	},
+	"[334]PATROL_GOBLIN": {
+		"Path": "Prefabs/StrandedObjects/Animals/Sharks/Territories/PATROL_GOBLIN",
+		"Id": 335
+	},
+	"[335]GIANT_CRAB_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Crabs/GIANT_CRAB_RAGDOLL",
+		"Id": 336
+	},
+	"[336]GIANT_CRAB": {
+		"Path": "Prefabs/StrandedObjects/Animals/Crabs/GIANT_CRAB",
+		"Id": 337
+	},
+	"[337]CRAB_SPAWNER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Crabs/CRAB_SPAWNER",
+		"Id": 338
+	},
+	"[338]GIANT_CRAB_SPAWNER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Crabs/GIANT_CRAB_SPAWNER",
+		"Id": 339
+	},
+	"[339]BOAR_SPAWNER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Boar/BOAR_SPAWNER",
+		"Id": 340
+	},
+	"[340]SNAKE_SPAWNER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Snake/SNAKE_SPAWNER",
+		"Id": 341
+	},
+	"[341]HOG": {
+		"Path": "Prefabs/StrandedObjects/Animals/Boar/HOG",
+		"Id": 342
+	},
+	"[342]HOG_RAGDOLL": {
+		"Path": "Prefabs/StrandedObjects/Animals/Boar/HOG_RAGDOLL",
+		"Id": 343
+	},
+	"[343]HOG_SPAWNER": {
+		"Path": "Prefabs/StrandedObjects/Animals/Boar/HOG_SPAWNER",
+		"Id": 344
+	},
+	"[344]LIGHT_HOOK": {
+		"Path": "Prefabs/StrandedObjects/Furniture/LIGHT_HOOK",
+		"Id": 345
+	},
+	"[345]MACHETE": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/MACHETE",
+		"Id": 346
+	},
+	"[346]FLASHLIGHT": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/FLASHLIGHT",
+		"Id": 347
+	},
+	"[347]RUBBER_DUCK": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/RUBBER_DUCK",
+		"Id": 348
+	},
+	"[348]SUNSCREEN": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/SUNSCREEN",
+		"Id": 349
+	},
+	"[349]CONTAINER_CRATE_ENDGAME": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/CONTAINER_CRATE_ENDGAME",
+		"Id": 350
+	},
+	"[350]CONTAINER_CRATE_ENDGAME_2": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/CONTAINER_CRATE_ENDGAME_2",
+		"Id": 351
+	},
+	"[351]NEW_SPEARGUN_CARBON": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/NEW_SPEARGUN_CARBON",
+		"Id": 352
+	},
+	"[352]NEW_SPEARGUN_CARBON_ARROW": {
+		"Path": "Prefabs/StrandedObjects/EndgameRewards/NEW_SPEARGUN_CARBON_ARROW",
+		"Id": 353
+	},
+	"[353]ITEM_PILE": {
+		"Path": "Prefabs/StrandedObjects/Crafting/ITEM_PILE",
+		"Id": 354
+	}
+}

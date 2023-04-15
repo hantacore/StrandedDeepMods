@@ -1,0 +1,8 @@
+﻿{
+  "Id": "StrandedDeepRpgMod",
+  "DisplayName": "Stranded Deep Rpg Mod for 0.90 NOT WORKING",
+  "Author": "Hantacore",
+  "Version": "0.0.3",
+  "AssemblyName": "StrandedDeepRpgMod.dll",
+  "EntryMethod": "StrandedDeepRpgMod.Main.Load"
+}

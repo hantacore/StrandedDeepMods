@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.1622
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "StrandedDeepRpgMod", "StrandedDeepRpgMod\StrandedDeepRpgMod.csproj", "{BAEEE001-AE89-4596-B0D2-E8397682C6D6}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{BAEEE001-AE89-4596-B0D2-E8397682C6D6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BAEEE001-AE89-4596-B0D2-E8397682C6D6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BAEEE001-AE89-4596-B0D2-E8397682C6D6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BAEEE001-AE89-4596-B0D2-E8397682C6D6}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {B60859A0-C178-4C54-B4B6-3E8E0FCE7168}
+	EndGlobalSection
+EndGlobal

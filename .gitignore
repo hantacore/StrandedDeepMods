@@ -117,3 +117,14 @@ StrandedDeepAlternativeEndgameMod/StrandedDeepAlternativeEndgameMod/assets/video
 StrandedDeepExplorationMod/StrandedDeepExplorationMod/assets/strandeddeepexplorationmod
 StrandedDeepAnimatedFoliageMod/StrandedDeepAnimatedFoliageMod/assets/Textures/BRANCH_MainTex_almondtree.xcf
 *.xcf
+StrandedDeepAllInOneTool/.vs/
+StrandedDeepAllInOneTool/PrefabsImporter/bin/
+StrandedDeepAllInOneTool/PrefabsImporter/obj/
+StrandedDeepAllInOneTool/StrandedDeepMapper/bin/
+StrandedDeepAllInOneTool/StrandedDeepMapper/obj/
+StrandedDeepJusRobsUnnecessaryMod/StrandedDeepJusRobsMod/bin/
+StrandedDeepJusRobsUnnecessaryMod/StrandedDeepJusRobsMod/obj/
+StrandedDeepRpgMod/StrandedDeepRpgMod/bin/
+StrandedDeepRpgMod/StrandedDeepRpgMod/obj/
+StrandedDeepRpgMod/.vs/
+StrandedDeepJusRobsUnnecessaryMod/.vs/

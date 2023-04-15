@@ -1,0 +1,409 @@
+[
+	{
+		"prefab": "9fd88c0a-f6ba-4c74-b387-8394151b9ab3",
+		"Transform": {
+			"localPosition": {
+				"x": -88,
+				"y": -1,
+				"z": -88
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"respawnCounter": 0,
+		"spawnDistance": 110
+	},
+	{
+		"prefab": "9fd88c0a-f6ba-4c74-b387-8394151b9ab3",
+		"Transform": {
+			"localPosition": {
+				"x": 88,
+				"y": -1,
+				"z": 88
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"respawnCounter": 0,
+		"spawnDistance": 110
+	},
+	{
+		"prefab": "4b5344ac-7019-4fec-95eb-01c3afab966b",
+		"Transform": {
+			"localPosition": {
+				"x": -88,
+				"y": -1,
+				"z": 88
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"respawnCounter": 0,
+		"spawnDistance": 110
+	},
+	{
+		"prefab": "9fd88c0a-f6ba-4c74-b387-8394151b9ab3",
+		"Transform": {
+			"localPosition": {
+				"x": 88,
+				"y": -1,
+				"z": -88
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"respawnCounter": 0,
+		"spawnDistance": 110
+	},
+	{
+		"prefab": "6587fe7a-5ff0-4929-8d64-38bb1881a241",
+		"Transform": {
+			"localPosition": {
+				"x": 1.058487,
+				"y": -0.5428823,
+				"z": 34.73535
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "6587fe7a-5ff0-4929-8d64-38bb1881a241",
+		"Transform": {
+			"localPosition": {
+				"x": 9.32833,
+				"y": -0.7354846,
+				"z": -10.63733
+			},
+			"localRotation": {
+				"x": 0,
+				"y": -0.8703838,
+				"z": 0,
+				"w": 0.4923739
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "9e9c04b5-9c0f-4822-837b-287ea36193a3",
+		"Transform": {
+			"localPosition": {
+				"x": 52.33572,
+				"y": -100,
+				"z": -9.073006
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "a4dfc2d9-1943-49d8-b038-480c66833178",
+		"Transform": {
+			"localPosition": {
+				"x": 48.10278,
+				"y": -100,
+				"z": -31.41368
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "5393ee38-d96f-4f6c-af28-bad4d00dfa29",
+		"Transform": {
+			"localPosition": {
+				"x": 35.96404,
+				"y": -100,
+				"z": -12.0303
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "89f85c94-973f-4258-9765-d62597765de4",
+		"Transform": {
+			"localPosition": {
+				"x": 52.51141,
+				"y": -98.94214,
+				"z": -33.27056
+			},
+			"localRotation": {
+				"x": 0.765532,
+				"y": 0,
+				"z": 0,
+				"w": 0.6433979
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "c920ab66-5bc3-4dd8-8bd4-068f9e7870b6",
+		"Transform": {
+			"localPosition": {
+				"x": -28.69412,
+				"y": -100,
+				"z": 16.67004
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "a4dfc2d9-1943-49d8-b038-480c66833178",
+		"Transform": {
+			"localPosition": {
+				"x": 12.47507,
+				"y": -99.87078,
+				"z": 77.04498
+			},
+			"localRotation": {
+				"x": -0.03689302,
+				"y": -0.8879969,
+				"z": 0.02567714,
+				"w": 0.4576474
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "33471b70-b7b7-4a8d-8fc4-ba259f796142",
+		"Transform": {
+			"localPosition": {
+				"x": -56.14478,
+				"y": -98.35532,
+				"z": -22.69704
+			},
+			"localRotation": {
+				"x": -0.3033116,
+				"y": -0.4516736,
+				"z": 0.1688536,
+				"w": 0.8218768
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "eb674e64-8c3b-46fb-9849-df66950afd2f",
+		"Transform": {
+			"localPosition": {
+				"x": -66.72234,
+				"y": -99.70244,
+				"z": 64.22743
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "a3cee4f7-2141-4ab6-90b7-4aa9a781c38a",
+		"Transform": {
+			"localPosition": {
+				"x": 69.29398,
+				"y": -97.66066,
+				"z": 32.69472
+			},
+			"localRotation": {
+				"x": 0.1011767,
+				"y": 0,
+				"z": 0.04828889,
+				"w": 0.9936959
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "a4dfc2d9-1943-49d8-b038-480c66833178",
+		"Transform": {
+			"localPosition": {
+				"x": -25.71718,
+				"y": -96.71931,
+				"z": 11.64011
+			},
+			"localRotation": {
+				"x": 0.1492427,
+				"y": 0,
+				"z": 0.03165755,
+				"w": 0.9882937
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "0655abbc-1704-4b4f-9038-605df9a0e710",
+		"Transform": {
+			"localPosition": {
+				"x": 27.9456,
+				"y": -98.62663,
+				"z": 38.19478
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "a4dfc2d9-1943-49d8-b038-480c66833178",
+		"Transform": {
+			"localPosition": {
+				"x": -0.636322,
+				"y": -100,
+				"z": -45.71425
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0.8574544,
+				"z": 0,
+				"w": 0.51456
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	},
+	{
+		"prefab": "6587fe7a-5ff0-4929-8d64-38bb1881a241",
+		"Transform": {
+			"localPosition": {
+				"x": 14.71815,
+				"y": -79.3476,
+				"z": 9.623535
+			},
+			"localRotation": {
+				"x": 0,
+				"y": -0.8802444,
+				"z": 0,
+				"w": 0.4745207
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		}
+	}
+]

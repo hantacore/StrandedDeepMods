@@ -1,0 +1,3632 @@
+[
+	{
+		"prefab": "bd2f1b13-6462-4d8a-85c4-5740a73efc84",
+		"Transform": {
+			"localPosition": {
+				"x": 44.97355,
+				"y": -14.86586,
+				"z": -1.969041
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e19cd385-41df-4026-b2ef-82816204bc9b"
+	},
+	{
+		"prefab": "7c3ae2af-efda-4bf4-a3b3-f2dfd7eb8dab",
+		"Transform": {
+			"localPosition": {
+				"x": 44.62579,
+				"y": 2.26187,
+				"z": 8.779449
+			},
+			"localRotation": {
+				"x": 0.02538548,
+				"y": 0,
+				"z": 0,
+				"w": 0.9996777
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "60ad30f7-1d90-4de7-98cb-dde9725c9c7f"
+	},
+	{
+		"prefab": "7c3ae2af-efda-4bf4-a3b3-f2dfd7eb8dab",
+		"Transform": {
+			"localPosition": {
+				"x": 44.60027,
+				"y": 1.708439,
+				"z": -13.00125
+			},
+			"localRotation": {
+				"x": -0.04773055,
+				"y": 0,
+				"z": 0,
+				"w": 0.9988602
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "0a804a48-2e68-49ac-8df1-62bfa4c5736a"
+	},
+	{
+		"prefab": "7c3ae2af-efda-4bf4-a3b3-f2dfd7eb8dab",
+		"Transform": {
+			"localPosition": {
+				"x": 42.82917,
+				"y": 2.275579,
+				"z": 8.83646
+			},
+			"localRotation": {
+				"x": 0.7109812,
+				"y": -0.7012954,
+				"z": -0.01594868,
+				"w": -0.04935769
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ceb46ca6-486a-4406-86e8-493bce4b9257"
+	},
+	{
+		"prefab": "7c3ae2af-efda-4bf4-a3b3-f2dfd7eb8dab",
+		"Transform": {
+			"localPosition": {
+				"x": 45.7757,
+				"y": 2.406003,
+				"z": 8.443359
+			},
+			"localRotation": {
+				"x": -0.7564323,
+				"y": -0.6522409,
+				"z": -0.04383122,
+				"w": 0.02170066
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f3d8b679-2084-4c8a-9af4-2afa27ac94eb"
+	},
+	{
+		"prefab": "7c3ae2af-efda-4bf4-a3b3-f2dfd7eb8dab",
+		"Transform": {
+			"localPosition": {
+				"x": 46.11832,
+				"y": 1.906323,
+				"z": -12.76334
+			},
+			"localRotation": {
+				"x": -0.756908,
+				"y": -0.6509864,
+				"z": 0.03465754,
+				"w": -0.04589067
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "6864e97e-f952-402a-b5d3-cfcadf53dd6c"
+	},
+	{
+		"prefab": "7c3ae2af-efda-4bf4-a3b3-f2dfd7eb8dab",
+		"Transform": {
+			"localPosition": {
+				"x": 43.14459,
+				"y": 2.058847,
+				"z": -13.47814
+			},
+			"localRotation": {
+				"x": 0.7009128,
+				"y": -0.7100923,
+				"z": 0.04259619,
+				"w": 0.05172843
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "68092bad-94a2-43d1-8f79-9c1cd300a571"
+	},
+	{
+		"prefab": "a3cee4f7-2141-4ab6-90b7-4aa9a781c38a",
+		"Transform": {
+			"localPosition": {
+				"x": -2.490295,
+				"y": -0.4720078,
+				"z": 42.3597
+			},
+			"localRotation": {
+				"x": 0.1003296,
+				"y": 0,
+				"z": -0.08892853,
+				"w": 0.9909721
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "7725f208-f7f9-4127-a4d3-aa9e1eff9afc"
+	},
+	{
+		"prefab": "a3cee4f7-2141-4ab6-90b7-4aa9a781c38a",
+		"Transform": {
+			"localPosition": {
+				"x": 0.2913513,
+				"y": -1.117325,
+				"z": 45.20157
+			},
+			"localRotation": {
+				"x": 0.02398307,
+				"y": 0.3930902,
+				"z": -0.002478643,
+				"w": 0.9191837
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "80855bdd-466c-4a70-9a9d-93c1d557aeec"
+	},
+	{
+		"prefab": "a3cee4f7-2141-4ab6-90b7-4aa9a781c38a",
+		"Transform": {
+			"localPosition": {
+				"x": 4.15242,
+				"y": -1.353981,
+				"z": 45.33038
+			},
+			"localRotation": {
+				"x": 0.1518938,
+				"y": 0.8597148,
+				"z": 0.02044458,
+				"w": 0.4872378
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "14e787b7-7fb4-4915-97ff-9c0a7044ad80"
+	},
+	{
+		"prefab": "33471b70-b7b7-4a8d-8fc4-ba259f796142",
+		"Transform": {
+			"localPosition": {
+				"x": 7.287674,
+				"y": -1.391006,
+				"z": 43.55269
+			},
+			"localRotation": {
+				"x": 0.1415036,
+				"y": 0.7052747,
+				"z": -0.01818043,
+				"w": 0.6944306
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "bb718ce9-ed44-44b5-972f-b13842c03269"
+	},
+	{
+		"prefab": "6a987283-e1fa-4360-a499-537cd6952073",
+		"Transform": {
+			"localPosition": {
+				"x": -24.02271,
+				"y": -13.62194,
+				"z": -47.65138
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1400e2bc-4ce3-444c-b660-69e7ba9e9f3e"
+	},
+	{
+		"prefab": "fa750994-3baa-4c82-912e-6b0dc41512ad",
+		"Transform": {
+			"localPosition": {
+				"x": -4.242393,
+				"y": 0.0705719,
+				"z": -63.99886
+			},
+			"localRotation": {
+				"x": -0.0396686,
+				"y": 0,
+				"z": -0.03733515,
+				"w": 0.9985152
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ae25221b-9f4a-4a7b-8097-91eed97c5f2f"
+	},
+	{
+		"prefab": "fa750994-3baa-4c82-912e-6b0dc41512ad",
+		"Transform": {
+			"localPosition": {
+				"x": -5.031586,
+				"y": 0.2470779,
+				"z": -61.98076
+			},
+			"localRotation": {
+				"x": -0.03626567,
+				"y": 0.6005899,
+				"z": -0.08256035,
+				"w": 0.7944561
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a200b8ff-19f0-46b6-bdc9-ab28504db0a4"
+	},
+	{
+		"prefab": "fa750994-3baa-4c82-912e-6b0dc41512ad",
+		"Transform": {
+			"localPosition": {
+				"x": -7.007195,
+				"y": 0.5204163,
+				"z": -60.3108
+			},
+			"localRotation": {
+				"x": -0.05648625,
+				"y": -0.1961903,
+				"z": -0.05731399,
+				"w": 0.9772583
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "944bb3a7-f35a-4969-89cb-52b434fb40f7"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": 1.773804,
+				"y": 2.607971,
+				"z": 22.95171
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "d15fe4fc-765a-4772-8bb7-f08352bb05da"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": 5.323212,
+				"y": 2.985825,
+				"z": 19.90569
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e4127d39-3dc8-4efb-9018-38c6847134f1"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": -1.183647,
+				"y": 2.935593,
+				"z": 19.70026
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ec5c0229-5142-4c59-9a2b-cc82813531b6"
+	},
+	{
+		"prefab": "7b756d2e-ea68-471a-b57b-43b7c494a636",
+		"Transform": {
+			"localPosition": {
+				"x": -9.542793,
+				"y": -2.568625,
+				"z": 39.62421
+			},
+			"localRotation": {
+				"x": -0.01080348,
+				"y": -0.00505648,
+				"z": 0.04575726,
+				"w": 0.9988814
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "14199614-8fe6-4abb-b0c8-aa533dcfe274"
+	},
+	{
+		"prefab": "196fb328-44e1-4c79-97cb-9e035dd74625",
+		"Transform": {
+			"localPosition": {
+				"x": -5.09526,
+				"y": -1.670944,
+				"z": 42.67934
+			},
+			"localRotation": {
+				"x": -0.03497379,
+				"y": -0.00111506,
+				"z": 0.006765916,
+				"w": 0.9993647
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a470b835-2b15-4abe-9875-960aac2beaa4"
+	},
+	{
+		"prefab": "9fc25c22-8d48-46af-bf33-2436872f7238",
+		"Transform": {
+			"localPosition": {
+				"x": 18.98834,
+				"y": 2.014206,
+				"z": 26.00517
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e85f636f-0e43-433f-9051-a5af512a7de0"
+	},
+	{
+		"prefab": "9fc25c22-8d48-46af-bf33-2436872f7238",
+		"Transform": {
+			"localPosition": {
+				"x": 1.132217,
+				"y": 2.110041,
+				"z": 37.63997
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "677b9049-14c9-4ee7-bd11-14d89c27a302"
+	},
+	{
+		"prefab": "a7e1a566-0fc5-4033-8c9b-f876aa0266a2",
+		"Transform": {
+			"localPosition": {
+				"x": 49.77053,
+				"y": 0.8570085,
+				"z": 23.90713
+			},
+			"localRotation": {
+				"x": 0.1443208,
+				"y": 0,
+				"z": -0.1787855,
+				"w": 0.9732457
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f68c2af0-3b95-4a5f-990b-26d04931e716"
+	},
+	{
+		"prefab": "a7e1a566-0fc5-4033-8c9b-f876aa0266a2",
+		"Transform": {
+			"localPosition": {
+				"x": 50.27869,
+				"y": 1.226158,
+				"z": 21.02057
+			},
+			"localRotation": {
+				"x": -0.008867501,
+				"y": 0,
+				"z": -0.1884344,
+				"w": 0.9820458
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "791e9866-19fa-4b44-802c-9e10d12e8639"
+	},
+	{
+		"prefab": "cb2353d9-6da7-4396-a71f-761f2d471803",
+		"Transform": {
+			"localPosition": {
+				"x": 48.38023,
+				"y": -0.03273773,
+				"z": -28.57476
+			},
+			"localRotation": {
+				"x": -0.05333687,
+				"y": 0,
+				"z": -0.06493184,
+				"w": 0.9964633
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "21254b58-ea7a-49ad-8c54-f0dae02ef584"
+	},
+	{
+		"prefab": "cb2353d9-6da7-4396-a71f-761f2d471803",
+		"Transform": {
+			"localPosition": {
+				"x": 48.93892,
+				"y": -0.01856232,
+				"z": -25.85262
+			},
+			"localRotation": {
+				"x": -0.03887147,
+				"y": 0,
+				"z": -0.1211875,
+				"w": 0.9918683
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "3834731d-359f-4deb-a83c-324d15f6d2ee"
+	},
+	{
+		"prefab": "0acf9803-d90e-40e7-8ea6-4c9a202b70bc",
+		"Transform": {
+			"localPosition": {
+				"x": 0.0487442,
+				"y": 2.835625,
+				"z": 21.1823
+			},
+			"localRotation": {
+				"x": 0.05366053,
+				"y": 0,
+				"z": 0.0139984,
+				"w": 0.9984611
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "6a53bb7c-99c6-4607-aa7d-8fd31e50735d"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": 2.366096,
+				"y": 2.972214,
+				"z": 19.07874
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4518bb89-5163-484b-ba96-4aaa3ee43346"
+	},
+	{
+		"prefab": "dc6a69b9-98af-4a0f-93b1-28214d92378f",
+		"Transform": {
+			"localPosition": {
+				"x": 2.264679,
+				"y": 2.444376,
+				"z": 17.0325
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "73c858a3-ea7b-476c-824d-0ca98afa4530"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -1.815161,
+				"y": 2.327148,
+				"z": 21.51433
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "7eadc575-b6f6-4e7b-8c31-1ff5503ff364"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -0.502182,
+				"y": 2.223683,
+				"z": 23.43929
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "471e6982-584b-4ce6-891d-ae6b7095db70"
+	},
+	{
+		"prefab": "196fb328-44e1-4c79-97cb-9e035dd74625",
+		"Transform": {
+			"localPosition": {
+				"x": 1.034199,
+				"y": -3.79971,
+				"z": 20.70682
+			},
+			"localRotation": {
+				"x": 0.03741242,
+				"y": 0,
+				"z": -0.01402966,
+				"w": 0.9992014
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "bc42b611-d98f-47f3-ad4d-542f37d6052e"
+	},
+	{
+		"prefab": "7b756d2e-ea68-471a-b57b-43b7c494a636",
+		"Transform": {
+			"localPosition": {
+				"x": -1.975144,
+				"y": 2.476813,
+				"z": 13.74949
+			},
+			"localRotation": {
+				"x": 0.07203479,
+				"y": 0,
+				"z": -0.02323703,
+				"w": 0.9971314
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ce7c73e4-7106-411d-9951-bc37a620f51b"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": -1.403264,
+				"y": 2.147602,
+				"z": 19.4885
+			},
+			"localRotation": {
+				"x": 0.06744128,
+				"y": 0,
+				"z": -0.02558118,
+				"w": 0.9973953
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "72b366a0-e3da-40c0-9bab-b1430b87cf54"
+	},
+	{
+		"prefab": "0fcbd1c9-bad3-4aae-b560-9e768fa91c77",
+		"Transform": {
+			"localPosition": {
+				"x": -5.050641,
+				"y": 3.399075,
+				"z": 13.89344
+			},
+			"localRotation": {
+				"x": 0.02781543,
+				"y": 0,
+				"z": 0.08112834,
+				"w": 0.9963155
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "dbb59aac-0f99-47cb-8809-1b37c6916255"
+	},
+	{
+		"prefab": "0fcbd1c9-bad3-4aae-b560-9e768fa91c77",
+		"Transform": {
+			"localPosition": {
+				"x": -13.46003,
+				"y": 2.79728,
+				"z": 15.45897
+			},
+			"localRotation": {
+				"x": 0.03055773,
+				"y": -0.3603839,
+				"z": -0.0118131,
+				"w": 0.9322286
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "eb638789-bd4a-4fe3-a815-f236077bc7ff"
+	},
+	{
+		"prefab": "0fcbd1c9-bad3-4aae-b560-9e768fa91c77",
+		"Transform": {
+			"localPosition": {
+				"x": -19.69478,
+				"y": 2.624766,
+				"z": 8.856994
+			},
+			"localRotation": {
+				"x": 0.02144719,
+				"y": -0.7555319,
+				"z": -0.02476575,
+				"w": 0.6542922
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "fa9718e5-3077-4e62-981a-58e1b58fc7ea"
+	},
+	{
+		"prefab": "0fcbd1c9-bad3-4aae-b560-9e768fa91c77",
+		"Transform": {
+			"localPosition": {
+				"x": -21.95579,
+				"y": 3.295125,
+				"z": -0.03309484
+			},
+			"localRotation": {
+				"x": 0.01374471,
+				"y": -0.9072509,
+				"z": -0.02973897,
+				"w": 0.419312
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "69893c2b-224f-400e-839e-46e9d6cc6903"
+	},
+	{
+		"prefab": "0fcbd1c9-bad3-4aae-b560-9e768fa91c77",
+		"Transform": {
+			"localPosition": {
+				"x": -19.66569,
+				"y": 2.735009,
+				"z": -7.396299
+			},
+			"localRotation": {
+				"x": 0.02867339,
+				"y": -0.9755262,
+				"z": 0.07104435,
+				"w": 0.2061046
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "22b90a18-6f47-4ed1-8eff-21399e4c3ba3"
+	},
+	{
+		"prefab": "0fcbd1c9-bad3-4aae-b560-9e768fa91c77",
+		"Transform": {
+			"localPosition": {
+				"x": -12.63309,
+				"y": 2.911074,
+				"z": -10.07904
+			},
+			"localRotation": {
+				"x": 0.05678972,
+				"y": -0.9677373,
+				"z": 0.05142371,
+				"w": -0.2400314
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "76b7fc31-6cfd-4ab9-b53d-e21ba410c073"
+	},
+	{
+		"prefab": "301438df-5d31-4216-be65-79b1cfb7db12",
+		"Transform": {
+			"localPosition": {
+				"x": -3.817126,
+				"y": 5.154041,
+				"z": 0.2474157
+			},
+			"localRotation": {
+				"x": -0.1364477,
+				"y": 0.09552105,
+				"z": -0.722357,
+				"w": 0.6711618
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "99b543fb-d4a1-45fc-9272-a5e93df3832e"
+	},
+	{
+		"prefab": "301438df-5d31-4216-be65-79b1cfb7db12",
+		"Transform": {
+			"localPosition": {
+				"x": -3.735547,
+				"y": 6.931639,
+				"z": 0.2164028
+			},
+			"localRotation": {
+				"x": -0.1364477,
+				"y": 0.09552105,
+				"z": -0.722357,
+				"w": 0.6711618
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "6162dc6d-3eeb-4689-82bf-a2694cfad881"
+	},
+	{
+		"prefab": "aa4d693d-2940-4fe2-815e-4e816a829f08",
+		"Transform": {
+			"localPosition": {
+				"x": -5.39083,
+				"y": 4.660603,
+				"z": -2.039601
+			},
+			"localRotation": {
+				"x": 0.07733557,
+				"y": -0.8388741,
+				"z": -0.03627177,
+				"w": -0.5375815
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "d2dc3b01-7a59-4ca8-8c1f-a831bb728213"
+	},
+	{
+		"prefab": "67cbd440-1cc7-4256-ba5a-2ecdd51bfc94",
+		"Transform": {
+			"localPosition": {
+				"x": 4.675741,
+				"y": -1.97364,
+				"z": -2.807498
+			},
+			"localRotation": {
+				"x": -0.006756689,
+				"y": 0.778099,
+				"z": -0.05780098,
+				"w": 0.6254402
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a19824c1-0d4b-4233-ab9f-24b770ec2941"
+	},
+	{
+		"prefab": "59b6878c-a951-424e-9e7a-298d7d5552b5",
+		"Transform": {
+			"localPosition": {
+				"x": -6.938454,
+				"y": 4.54411,
+				"z": 7.536636
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "3e22cb27-fc77-4ff5-b660-4ec4e0364717"
+	},
+	{
+		"prefab": "1b2cc034-d30c-4dcb-9a10-5ff82650dd80",
+		"Transform": {
+			"localPosition": {
+				"x": -13.85867,
+				"y": 3.84733,
+				"z": 6.920074
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "0bae936d-e722-4bb2-9145-058627edbc80"
+	},
+	{
+		"prefab": "1b2cc034-d30c-4dcb-9a10-5ff82650dd80",
+		"Transform": {
+			"localPosition": {
+				"x": -14.77085,
+				"y": 3.299026,
+				"z": -2.62505
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4a3ab272-0ffe-404c-9c13-230bc25d875c"
+	},
+	{
+		"prefab": "63b2be86-1c37-4218-aad9-acbf5dca1914",
+		"Transform": {
+			"localPosition": {
+				"x": 13.66219,
+				"y": 2.152245,
+				"z": -7.144203
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1d2d57b9-018d-4ee3-96d9-12576dabe92f"
+	},
+	{
+		"prefab": "63b2be86-1c37-4218-aad9-acbf5dca1914",
+		"Transform": {
+			"localPosition": {
+				"x": 15.42125,
+				"y": 2.47909,
+				"z": -7.336288
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "68c92f04-c57e-478a-92e7-8a189e0f7d3c"
+	},
+	{
+		"prefab": "63b2be86-1c37-4218-aad9-acbf5dca1914",
+		"Transform": {
+			"localPosition": {
+				"x": 15.85065,
+				"y": 2.758458,
+				"z": -6.475098
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "bd60d1cc-7571-49d7-9e87-f25cfe3eb163"
+	},
+	{
+		"prefab": "63b2be86-1c37-4218-aad9-acbf5dca1914",
+		"Transform": {
+			"localPosition": {
+				"x": 14.59573,
+				"y": 1.795076,
+				"z": -6.554637
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ef169dd3-f8b4-4eed-bcfc-6cde1bfd34fd"
+	},
+	{
+		"prefab": "c4156b3a-e461-4053-b7da-858b41381bc8",
+		"Transform": {
+			"localPosition": {
+				"x": 12.72112,
+				"y": 2.314148,
+				"z": -7.192719
+			},
+			"localRotation": {
+				"x": 0.1786003,
+				"y": 0,
+				"z": -0.1197929,
+				"w": 0.9766021
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a97ed101-03fb-4c19-b5b7-d2501471898d"
+	},
+	{
+		"prefab": "c4156b3a-e461-4053-b7da-858b41381bc8",
+		"Transform": {
+			"localPosition": {
+				"x": 13.61707,
+				"y": 1.630859,
+				"z": -6.701752
+			},
+			"localRotation": {
+				"x": 0.5490724,
+				"y": 0,
+				"z": -0.06027741,
+				"w": 0.8335983
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4d0af30d-06fe-42a8-8d80-32aea0e4cbbe"
+	},
+	{
+		"prefab": "c4156b3a-e461-4053-b7da-858b41381bc8",
+		"Transform": {
+			"localPosition": {
+				"x": 14.37706,
+				"y": 2.480916,
+				"z": -7.69437
+			},
+			"localRotation": {
+				"x": 0.4267983,
+				"y": 0,
+				"z": -0.01116288,
+				"w": 0.904278
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "b41b2d74-49ba-4814-9cd1-e55d8e8f3575"
+	},
+	{
+		"prefab": "c4156b3a-e461-4053-b7da-858b41381bc8",
+		"Transform": {
+			"localPosition": {
+				"x": 15.92232,
+				"y": 2.354843,
+				"z": -7.308807
+			},
+			"localRotation": {
+				"x": 0.1589943,
+				"y": 0,
+				"z": 0.1126209,
+				"w": 0.9808351
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "20bde39c-955a-438e-a357-544c23574fdf"
+	},
+	{
+		"prefab": "c4156b3a-e461-4053-b7da-858b41381bc8",
+		"Transform": {
+			"localPosition": {
+				"x": 15.63925,
+				"y": 2.176966,
+				"z": -6.240462
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "06a3c8a1-83db-46b5-9896-18712f0a04cf"
+	},
+	{
+		"prefab": "c4156b3a-e461-4053-b7da-858b41381bc8",
+		"Transform": {
+			"localPosition": {
+				"x": 13.79409,
+				"y": 2.488289,
+				"z": -5.864291
+			},
+			"localRotation": {
+				"x": 0.1600923,
+				"y": 0,
+				"z": 0.004265647,
+				"w": 0.9870929
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "800a37ed-038a-4073-b56f-5af351101afb"
+	},
+	{
+		"prefab": "dd067ddf-32e5-4eaa-97be-6a4f528a3430",
+		"Transform": {
+			"localPosition": {
+				"x": -1.745638,
+				"y": 1.078281,
+				"z": -2.933369
+			},
+			"localRotation": {
+				"x": -0.04928435,
+				"y": 0,
+				"z": -0.03094628,
+				"w": 0.9983053
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "3acdc5cb-845f-4eec-b1d2-e651f23825c8"
+	},
+	{
+		"prefab": "dd067ddf-32e5-4eaa-97be-6a4f528a3430",
+		"Transform": {
+			"localPosition": {
+				"x": -2.963974,
+				"y": 1.242423,
+				"z": -2.041595
+			},
+			"localRotation": {
+				"x": -0.04928435,
+				"y": 0,
+				"z": -0.03094628,
+				"w": 0.9983053
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "fc88f9a1-c367-4f40-a494-3d1eab8d8d5e"
+	},
+	{
+		"prefab": "2e3c284c-5c95-40c0-a866-d05d45eaf348",
+		"Transform": {
+			"localPosition": {
+				"x": -3.942039,
+				"y": 1.7093,
+				"z": -1.902232
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": -0.8233782,
+				"w": 0.567493
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "9c142890-642b-44aa-a5a5-766ff080a7d7"
+	},
+	{
+		"prefab": "0655abbc-1704-4b4f-9038-605df9a0e710",
+		"Transform": {
+			"localPosition": {
+				"x": -3.838099,
+				"y": 1.012545,
+				"z": -0.5475343
+			},
+			"localRotation": {
+				"x": -0.04928435,
+				"y": 0,
+				"z": -0.03094628,
+				"w": 0.9983053
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "5a5f036d-1a80-4515-ac62-cf573479d819"
+	},
+	{
+		"prefab": "0655abbc-1704-4b4f-9038-605df9a0e710",
+		"Transform": {
+			"localPosition": {
+				"x": -2.701534,
+				"y": 0.9630366,
+				"z": -0.2519338
+			},
+			"localRotation": {
+				"x": -0.04928435,
+				"y": 0,
+				"z": -0.03094628,
+				"w": 0.9983053
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "da1156c5-9762-492d-98a2-47e25b960de1"
+	},
+	{
+		"prefab": "0655abbc-1704-4b4f-9038-605df9a0e710",
+		"Transform": {
+			"localPosition": {
+				"x": -1.72698,
+				"y": 0.9813454,
+				"z": -1.060207
+			},
+			"localRotation": {
+				"x": -0.04928435,
+				"y": 0,
+				"z": -0.03094628,
+				"w": 0.9983053
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "234399d0-5544-47c3-973b-292bd941ff3f"
+	},
+	{
+		"prefab": "0655abbc-1704-4b4f-9038-605df9a0e710",
+		"Transform": {
+			"localPosition": {
+				"x": -1.150504,
+				"y": 2.421738,
+				"z": -1.172784
+			},
+			"localRotation": {
+				"x": 0.50786,
+				"y": 0,
+				"z": -0.0690285,
+				"w": 0.8586695
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "04d0329c-45d5-4cfe-b103-ad68ddc365dd"
+	},
+	{
+		"prefab": "25445bfd-5e14-4151-ba29-4f7e486c04fd",
+		"Transform": {
+			"localPosition": {
+				"x": 3.894357,
+				"y": 2.282833,
+				"z": -1.065182
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "c17fca6b-30bc-45b6-9d0c-5f410b90fcc8"
+	},
+	{
+		"prefab": "23ea146d-f2e7-41ae-91a4-fb548c0567d4",
+		"Transform": {
+			"localPosition": {
+				"x": 3.446215,
+				"y": 2.492433,
+				"z": -1.16625
+			},
+			"localRotation": {
+				"x": -0.3425129,
+				"y": -0.4660568,
+				"z": -0.4830916,
+				"w": 0.6573421
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1966ec09-27af-4803-a195-2bdf24fb832f"
+	},
+	{
+		"prefab": "97981adb-d24e-4041-b1f3-5fa7278fb47e",
+		"Transform": {
+			"localPosition": {
+				"x": 4.14917,
+				"y": 2.293279,
+				"z": -1.337735
+			},
+			"localRotation": {
+				"x": -0.08990999,
+				"y": 0,
+				"z": -0.01284539,
+				"w": 0.9958671
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "b150dc4c-afc6-4787-a5b0-57d9833a519c"
+	},
+	{
+		"prefab": "abded059-a64c-4334-8ee2-9b098436e575",
+		"Transform": {
+			"localPosition": {
+				"x": -0.0500989,
+				"y": 1.56114,
+				"z": -0.78285
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4015cdf3-583d-48f6-a646-7bce887e2ffb"
+	},
+	{
+		"prefab": "abded059-a64c-4334-8ee2-9b098436e575",
+		"Transform": {
+			"localPosition": {
+				"x": 0.02828598,
+				"y": 1.523968,
+				"z": -1.289006
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "8d3b61d7-b704-48c7-80b8-d483e06a5119"
+	},
+	{
+		"prefab": "d54f6384-078a-4944-9261-3b4a0b9684fb",
+		"Transform": {
+			"localPosition": {
+				"x": 3.753765,
+				"y": 2.217626,
+				"z": -1.318144
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "7a18dd84-b85f-4154-a346-1cfb7f92bb58"
+	},
+	{
+		"prefab": "e111961d-6f88-448b-846a-0cb8361bd3c7",
+		"Transform": {
+			"localPosition": {
+				"x": -4.824402,
+				"y": 3.97631,
+				"z": -5.315958
+			},
+			"localRotation": {
+				"x": -0.06520966,
+				"y": 0,
+				"z": 0,
+				"w": 0.9978716
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1eaab586-eadc-4733-a20c-5d30188b05e8"
+	},
+	{
+		"prefab": "619cda60-8a6a-4033-b710-c47ede04294b",
+		"Transform": {
+			"localPosition": {
+				"x": -8.902786,
+				"y": 2.852233,
+				"z": -11.62232
+			},
+			"localRotation": {
+				"x": -0.0720924,
+				"y": 0,
+				"z": -0.002325561,
+				"w": 0.9973953
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "aa720f2a-0da3-4425-96c2-4c507a7d75ac"
+	},
+	{
+		"prefab": "ab424fff-939f-4c1a-b37d-3a531c9eddcd",
+		"Transform": {
+			"localPosition": {
+				"x": -3.310457,
+				"y": 3.996494,
+				"z": 6.72123
+			},
+			"localRotation": {
+				"x": -0.1102914,
+				"y": 0,
+				"z": -0.02987058,
+				"w": 0.9934503
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "32193809-6c9e-4789-bde9-4505a535394a"
+	},
+	{
+		"prefab": "a8985b09-e0d0-4190-b7f9-d317fd6f52dc",
+		"Transform": {
+			"localPosition": {
+				"x": 0.2160239,
+				"y": 2.790117,
+				"z": 18.3452
+			},
+			"localRotation": {
+				"x": 0.01405734,
+				"y": 0,
+				"z": -0.009371558,
+				"w": 0.9998573
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4e9080fe-bce5-438a-8cb8-b87eb4a1ec87"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": 4.418503,
+				"y": 3.11348,
+				"z": 18.41513
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1a13d939-62ea-4fe4-8dcc-36628e1ea537"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": 7.395203,
+				"y": 3.916068,
+				"z": 8.332489
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "904103b8-3d4e-4014-9d83-05ac8444c776"
+	},
+	{
+		"prefab": "b04c4d3e-194b-4c2e-826e-39856f3486f3",
+		"Transform": {
+			"localPosition": {
+				"x": 6.913116,
+				"y": 4.145134,
+				"z": 1.052406
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e03b7cbd-1fa5-49df-85df-d70c0b06316a"
+	},
+	{
+		"prefab": "c2aee3d0-81c7-48ee-82c5-7799da276c0a",
+		"Transform": {
+			"localPosition": {
+				"x": 7.105942,
+				"y": 4.112564,
+				"z": 1.804771
+			},
+			"localRotation": {
+				"x": 0.02341791,
+				"y": 0,
+				"z": 0.007025373,
+				"w": 0.9997011
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "107c876b-a2eb-4c1b-bda0-adba8723f3be"
+	},
+	{
+		"prefab": "c2aee3d0-81c7-48ee-82c5-7799da276c0a",
+		"Transform": {
+			"localPosition": {
+				"x": -23.99466,
+				"y": 2.883065,
+				"z": 4.23854
+			},
+			"localRotation": {
+				"x": 0.02806024,
+				"y": 0,
+				"z": 0.02806024,
+				"w": 0.9992123
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e21a18cd-492b-4111-9226-64e4ca999150"
+	},
+	{
+		"prefab": "19edc888-b2f0-4a35-ae79-ad1812f24ac2",
+		"Transform": {
+			"localPosition": {
+				"x": -27.78594,
+				"y": 7.346602,
+				"z": -51.16047
+			},
+			"localRotation": {
+				"x": -0.342869,
+				"y": 0,
+				"z": 0.5513809,
+				"w": 0.7605393
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f895f88a-e4f4-481b-870b-6d006380e7f2"
+	},
+	{
+		"prefab": "19edc888-b2f0-4a35-ae79-ad1812f24ac2",
+		"Transform": {
+			"localPosition": {
+				"x": -25.78461,
+				"y": 7.652133,
+				"z": -52.44621
+			},
+			"localRotation": {
+				"x": -0.6477731,
+				"y": 0,
+				"z": 0.1189772,
+				"w": 0.7524855
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "296193b4-be81-4e53-8789-974e81fd45dc"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -24.07658,
+				"y": 3.784744,
+				"z": -55.07542
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "04ccf570-ada3-442b-9021-6b885898d878"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -19.93318,
+				"y": 3.559624,
+				"z": -50.7382
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "eaf622b2-74c9-4e82-9dfa-633126983949"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -19.19822,
+				"y": 2.265274,
+				"z": -59.71603
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "36f3b76e-bc49-442c-91d8-f3e1066368bd"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -13.17377,
+				"y": 1.652084,
+				"z": -54.0035
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "33d2e249-ed76-4f50-bcb9-d52a462e3320"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -12.97974,
+				"y": 2.553596,
+				"z": -46.00582
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "287f90a8-3f78-42a0-b938-21f8f0ff38ee"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -3.286446,
+				"y": 0.9563522,
+				"z": -38.76278
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "b026f6dc-d42f-43c4-bfc1-ed6821e56402"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -13.64484,
+				"y": 0.6567535,
+				"z": -63.9915
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "71b660ff-f873-416e-9595-01cac47aade2"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -12.8026,
+				"y": 0.8991394,
+				"z": -62.6203
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0.8500093,
+				"z": 0,
+				"w": 0.5267678
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1833354e-ebe5-4bc1-8519-0f04af5be2c1"
+	},
+	{
+		"prefab": "86c84e0d-3966-42dc-ba7a-0ba08aad6886",
+		"Transform": {
+			"localPosition": {
+				"x": -11.86527,
+				"y": 0.7236786,
+				"z": -63.70217
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0.6281885,
+				"z": 0,
+				"w": 0.7780612
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "20aaab3c-1d26-45b0-8599-6563ac3aa426"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": -12.72633,
+				"y": 0.8410339,
+				"z": -63.21229
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e5537364-fe76-418a-828e-e4e477b86ba8"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": -21.9558,
+				"y": 2.354858,
+				"z": -59.20394
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "9bd4ab8d-4463-4135-8312-48bad6eb5786"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": -14.65426,
+				"y": 2.706367,
+				"z": -48.35999
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f82c4b2e-cfe9-4504-9d26-e94100ceaa72"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -19.93251,
+				"y": 1.496666,
+				"z": -61.39839
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "d915e1e1-8c7f-47af-908b-83b1384035cd"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -11.66719,
+				"y": 2.060349,
+				"z": -46.31998
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "95fe7fe9-efe5-4476-89d3-64355b30c349"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -2.688927,
+				"y": 0.6145477,
+				"z": -50.64342
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "379ecd0c-2b4d-4ecf-9440-b3189277e505"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -1.268234,
+				"y": 1.51252,
+				"z": -33.89026
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "9cdd5e37-b896-45a7-9431-8426c631e650"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -23.02448,
+				"y": 2.714722,
+				"z": -32.66071
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ac1eb146-22e8-4379-8b3a-c6f930ac4ebe"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -53.92991,
+				"y": 1.458199,
+				"z": -38.0144
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "7aa65349-dd74-4f62-93fa-33624b9ef012"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -46.99129,
+				"y": 0.2331696,
+				"z": -39.54698
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a7ab2a23-929b-4d5a-bbac-59a3e15b8840"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -50.51935,
+				"y": 1.005981,
+				"z": -31.46272
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "d5b1c8c6-9e50-4d49-8aad-626423cdc200"
+	},
+	{
+		"prefab": "c2aee3d0-81c7-48ee-82c5-7799da276c0a",
+		"Transform": {
+			"localPosition": {
+				"x": -21.62962,
+				"y": 4.167679,
+				"z": -52.90745
+			},
+			"localRotation": {
+				"x": -0.1645186,
+				"y": 0,
+				"z": -0.0822593,
+				"w": 0.982938
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "034cee2d-9884-4f2e-a1c3-5a694961a6a8"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": -4.249741,
+				"y": 0.8262329,
+				"z": -51.90202
+			},
+			"localRotation": {
+				"x": -0.02786039,
+				"y": 0,
+				"z": -0.0742944,
+				"w": 0.9968471
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "eb3b8155-ec31-45fe-a089-86cd0b3c9350"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": -12.61639,
+				"y": 1.836098,
+				"z": -47.92659
+			},
+			"localRotation": {
+				"x": -0.0507054,
+				"y": 0,
+				"z": -0.09219164,
+				"w": 0.9944494
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "32269653-1ffb-4441-bdba-6dc89efa2e62"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": 0.7317657,
+				"y": 1.621361,
+				"z": -32.96507
+			},
+			"localRotation": {
+				"x": -0.03272917,
+				"y": 0,
+				"z": -0.02571578,
+				"w": 0.9991334
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a8c864e7-5931-45ed-9031-1948a0fd4373"
+	},
+	{
+		"prefab": "cb5007cb-2793-4aa4-b0a6-32571b88e2bd",
+		"Transform": {
+			"localPosition": {
+				"x": -16.9901,
+				"y": 3.25705,
+				"z": -50.48428
+			},
+			"localRotation": {
+				"x": -0.095391,
+				"y": 0,
+				"z": -0.1067471,
+				"w": 0.9896998
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1c407040-aecd-40d5-a22d-a0c11d8625f7"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 1.374336,
+				"y": 0.1768112,
+				"z": -44.44316
+			},
+			"localRotation": {
+				"x": -0.08452398,
+				"y": 0,
+				"z": -0.09823057,
+				"w": 0.9915677
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e5a0eb13-8191-40d0-bf4a-cb78b67e48e5"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 9.426251,
+				"y": 0.8711197,
+				"z": -36.48022
+			},
+			"localRotation": {
+				"x": -0.1102429,
+				"y": 0,
+				"z": -0.03445091,
+				"w": 0.9933075
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4d28d23d-92e8-4836-a76b-8832b47cba0b"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 22.74178,
+				"y": -1.141869,
+				"z": -11.14983
+			},
+			"localRotation": {
+				"x": -0.004412106,
+				"y": 0,
+				"z": -0.1963387,
+				"w": 0.9805262
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "dca415ad-2060-46e7-b219-13cd2eafecb2"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 22.12259,
+				"y": -0.2709351,
+				"z": 4.274139
+			},
+			"localRotation": {
+				"x": -0.004455503,
+				"y": 0,
+				"z": -0.1804479,
+				"w": 0.9835745
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "341b7c39-0e6a-4b31-bd5b-4991828be8f6"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 26.57722,
+				"y": 0.9760513,
+				"z": 14.66518
+			},
+			"localRotation": {
+				"x": -0.2176407,
+				"y": 0,
+				"z": -0.1045529,
+				"w": 0.9704129
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a76721e1-2399-4364-9012-1fc6a00e82f0"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 19.83122,
+				"y": 0.25383,
+				"z": -10.74247
+			},
+			"localRotation": {
+				"x": -0.09607608,
+				"y": 0,
+				"z": -0.2902299,
+				"w": 0.9521219
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a0b490ed-2ab7-48b6-85a0-e3a4389b2a17"
+	},
+	{
+		"prefab": "1639f581-3b4c-4b3c-b5d1-f588917920b9",
+		"Transform": {
+			"localPosition": {
+				"x": -16.7613,
+				"y": 3.820221,
+				"z": 2.927605
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "2e2f5605-7370-4c6f-8907-842a50c11922"
+	},
+	{
+		"prefab": "59b6878c-a951-424e-9e7a-298d7d5552b5",
+		"Transform": {
+			"localPosition": {
+				"x": 14.8331,
+				"y": 3.114853,
+				"z": 17.92558
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "8c918f37-0dda-47ed-9504-53eb44f25699"
+	},
+	{
+		"prefab": "59b6878c-a951-424e-9e7a-298d7d5552b5",
+		"Transform": {
+			"localPosition": {
+				"x": -29.88474,
+				"y": 2.392998,
+				"z": -17.61465
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "5897b679-d066-482f-9b9b-51fb7b3dd1a3"
+	},
+	{
+		"prefab": "ece551ac-ce6f-43c1-a6a7-62a2898e7ad9",
+		"Transform": {
+			"localPosition": {
+				"x": 45.91904,
+				"y": -4.931097,
+				"z": -0.8401028
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": -0.03679593,
+				"w": 0.9993228
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "c863c3f9-6efa-4905-9052-5faa9f761db5"
+	},
+	{
+		"prefab": "6587fe7a-5ff0-4929-8d64-38bb1881a241",
+		"Transform": {
+			"localPosition": {
+				"x": 56.02132,
+				"y": -5.691788,
+				"z": -1.674099
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "8d0c0234-fd19-4490-8d11-78777cdf9645"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 2.832588,
+				"y": 0.3186951,
+				"z": 39.00275
+			},
+			"localRotation": {
+				"x": 0.1656379,
+				"y": 0,
+				"z": -0.04700535,
+				"w": 0.9850658
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "b474349f-f1bd-47d1-98e4-3e573c01835f"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": -3.133354,
+				"y": 0.6086655,
+				"z": 39.12448
+			},
+			"localRotation": {
+				"x": 0.1665621,
+				"y": 0,
+				"z": -0.08217063,
+				"w": 0.9826012
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e6e4b8c3-ad03-406c-af4f-887a51cf0827"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": 5.684738,
+				"y": 0.07826996,
+				"z": 38.86267
+			},
+			"localRotation": {
+				"x": 0.09723316,
+				"y": 0,
+				"z": -0.1175843,
+				"w": 0.9882913
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f3c414b9-093c-46a8-846d-b79ed44bf200"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": -40.2884,
+				"y": -0.2446899,
+				"z": 14.45316
+			},
+			"localRotation": {
+				"x": -0.06501964,
+				"y": 0,
+				"z": 0.04412047,
+				"w": 0.9969082
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "994e644a-80a2-4fc2-84f6-d1ebc2ed9afb"
+	},
+	{
+		"prefab": "e0db308b-fa50-4408-9517-054137154062",
+		"Transform": {
+			"localPosition": {
+				"x": -40.58263,
+				"y": -0.4279022,
+				"z": 11.73473
+			},
+			"localRotation": {
+				"x": -0.01629594,
+				"y": 0,
+				"z": 0.06518374,
+				"w": 0.9977402
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "349ccd9a-2cd2-48e7-a925-619cd0ed8464"
+	},
+	{
+		"prefab": "23ea146d-f2e7-41ae-91a4-fb548c0567d4",
+		"Transform": {
+			"localPosition": {
+				"x": -48.0715,
+				"y": 0.7259598,
+				"z": -24.27103
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4c883ec8-f453-4a2d-85e3-a1214741164a"
+	},
+	{
+		"prefab": "395145d6-667f-444c-8759-8730e0dde3ea",
+		"Transform": {
+			"localPosition": {
+				"x": -44.71858,
+				"y": 0.8628006,
+				"z": -16.94834
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f29d2ec2-046d-48c4-a5ff-fccdc2dbcf27"
+	},
+	{
+		"prefab": "395145d6-667f-444c-8759-8730e0dde3ea",
+		"Transform": {
+			"localPosition": {
+				"x": -54.47976,
+				"y": 1.046753,
+				"z": -41.12126
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "9e25313f-692d-4da9-9a27-d3821b2af182"
+	},
+	{
+		"prefab": "395145d6-667f-444c-8759-8730e0dde3ea",
+		"Transform": {
+			"localPosition": {
+				"x": -25.77464,
+				"y": 2.962631,
+				"z": -36.70232
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ec1be034-a7a3-4b8f-8a2f-2d0b0c76c29f"
+	},
+	{
+		"prefab": "395145d6-667f-444c-8759-8730e0dde3ea",
+		"Transform": {
+			"localPosition": {
+				"x": -25.56676,
+				"y": 3.937256,
+				"z": -46.34695
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "a73a5215-0696-4d85-b4ec-9f54980a7293"
+	},
+	{
+		"prefab": "395145d6-667f-444c-8759-8730e0dde3ea",
+		"Transform": {
+			"localPosition": {
+				"x": -19.00981,
+				"y": 3.790359,
+				"z": -47.29694
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "7bc83bc1-115f-41f8-a8e8-d19396af482a"
+	},
+	{
+		"prefab": "395145d6-667f-444c-8759-8730e0dde3ea",
+		"Transform": {
+			"localPosition": {
+				"x": -25.53439,
+				"y": 2.782974,
+				"z": -57.9197
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "783c957d-ed7e-4374-ae55-63c521d68a25"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -12.55341,
+				"y": 1.437119,
+				"z": -39.19114
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "587df7c1-8e83-45cf-9354-04d1d4b6a00b"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -22.93709,
+				"y": 2.053566,
+				"z": -16.18147
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1434e6e8-ddd1-4e9b-9349-318410212989"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -5.530167,
+				"y": 1.188087,
+				"z": -53.81587
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "91ccbc16-93f1-4bc8-bd98-c053829ce487"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": 3.860321,
+				"y": 1.330429,
+				"z": -32.95774
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "605adcf5-f11e-4668-95da-0e92f74adbdb"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": 9.371536,
+				"y": 2.050827,
+				"z": -22.71091
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "775404ff-720a-49a1-9b50-7a2c4fd10f3c"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -31.13159,
+				"y": 2.911835,
+				"z": -4.409286
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "c39b97ba-2b85-4bb0-82e6-a10d66d5ac2b"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -35.86725,
+				"y": 1.709473,
+				"z": -20.79233
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "57599cf9-699a-4994-9f1c-9136788feeab"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -17.81282,
+				"y": 1.84745,
+				"z": -24.75111
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "41a767f4-b566-45e2-add7-0c2dc2442dee"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -6.804588,
+				"y": 2.586327,
+				"z": -23.6693
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "419db5b6-e689-468b-8264-8b1cf9933f1b"
+	},
+	{
+		"prefab": "ce11fcdf-42c9-4e27-bb42-3a095968604d",
+		"Transform": {
+			"localPosition": {
+				"x": -11.64531,
+				"y": 3.239703,
+				"z": -12.44325
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "492ad9b1-1743-4362-80d8-925b44f73912"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -19.01693,
+				"y": 1.894806,
+				"z": -27.18839
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "f06d8e73-d2f3-4c4d-9e77-77c6d0b9a909"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -39.15039,
+				"y": 1.300766,
+				"z": -22.8029
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4c00a525-56f6-4433-bfc8-1f61daa8445e"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": 8.190079,
+				"y": 1.894028,
+				"z": -23.88965
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "952c82f5-4dfe-42e2-942b-0dcce6a722f1"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": 13.64955,
+				"y": 3.628624,
+				"z": 8.521439
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "16f67b80-6f8c-40e3-8b38-8cbf97d8e3f1"
+	},
+	{
+		"prefab": "251f7106-f305-46bd-8dcd-1fe069a3710b",
+		"Transform": {
+			"localPosition": {
+				"x": -22.90117,
+				"y": 1.86747,
+				"z": 20.23738
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "5110a784-0560-463e-a579-eca19370e595"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": -15.25425,
+				"y": 1.888412,
+				"z": -34.45854
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "cf57caf4-9c69-4303-b17e-bfa31c4ff35e"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": -5.046608,
+				"y": 2.042267,
+				"z": -24.64317
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "048f58f3-6dec-4304-9873-77f777e7399c"
+	},
+	{
+		"prefab": "ed21d921-caf8-444d-a699-c13aae7dc5c6",
+		"Transform": {
+			"localPosition": {
+				"x": 8.874252,
+				"y": 2.563515,
+				"z": -18.90202
+			},
+			"localRotation": {
+				"x": 0,
+				"y": 0,
+				"z": 0,
+				"w": 1
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1d20ca0d-451a-4662-9c60-815dce9e2a28"
+	},
+	{
+		"prefab": "8174b310-dc11-4e0a-bb1a-eb7d7f949e34",
+		"Transform": {
+			"localPosition": {
+				"x": 51.78919,
+				"y": -0.6491252,
+				"z": -29.67024
+			},
+			"localRotation": {
+				"x": -0.006204749,
+				"y": 0.003894822,
+				"z": 0.03888793,
+				"w": 0.9992167
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "2e3197dc-30a8-4825-aa71-2e2b68929985"
+	},
+	{
+		"prefab": "8174b310-dc11-4e0a-bb1a-eb7d7f949e34",
+		"Transform": {
+			"localPosition": {
+				"x": 55.21739,
+				"y": -0.06816101,
+				"z": 20.70735
+			},
+			"localRotation": {
+				"x": 0.004667351,
+				"y": 0,
+				"z": -0.05367454,
+				"w": 0.9985476
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "fd978491-09cd-45b2-b395-7f1d62410794"
+	},
+	{
+		"prefab": "b83e383f-4e85-472d-a558-64cd4688681b",
+		"Transform": {
+			"localPosition": {
+				"x": 4.658263,
+				"y": 0.9939536,
+				"z": 38.7218
+			},
+			"localRotation": {
+				"x": 0.05572797,
+				"y": 0,
+				"z": -0.05572797,
+				"w": 0.9968896
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "2d912088-d61b-4fdb-861c-509f78167ab3"
+	},
+	{
+		"prefab": "cb5007cb-2793-4aa4-b0a6-32571b88e2bd",
+		"Transform": {
+			"localPosition": {
+				"x": -12.80486,
+				"y": 3.324463,
+				"z": 10.44684
+			},
+			"localRotation": {
+				"x": 0.05129071,
+				"y": 0,
+				"z": 0.03030815,
+				"w": 0.9982238
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "dfca6e69-df13-49b7-84e4-4244838311d7"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": -13.04724,
+				"y": 3.285515,
+				"z": 3.110289
+			},
+			"localRotation": {
+				"x": 0.04082116,
+				"y": 0,
+				"z": 0.1406062,
+				"w": 0.9892237
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "bda342c9-4b97-4c52-a850-da9c8b1f9c59"
+	},
+	{
+		"prefab": "21b69409-771d-402a-b467-33a17d25f60d",
+		"Transform": {
+			"localPosition": {
+				"x": -17.03978,
+				"y": 2.291698,
+				"z": -0.06545428
+			},
+			"localRotation": {
+				"x": -0.07648693,
+				"y": 0,
+				"z": 0.03940235,
+				"w": 0.9962917
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "ee5ad59b-35ca-4c45-8fde-7cd0cf01f04c"
+	},
+	{
+		"prefab": "196fb328-44e1-4c79-97cb-9e035dd74625",
+		"Transform": {
+			"localPosition": {
+				"x": -8.870137,
+				"y": 1.615455,
+				"z": -7.231823
+			},
+			"localRotation": {
+				"x": -0.1428458,
+				"y": 0,
+				"z": 0.03401091,
+				"w": 0.9891604
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "540bc129-8e6a-415c-8e0b-65d4afd1f4d7"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": -3.713181,
+				"y": 4.262878,
+				"z": 5.418213
+			},
+			"localRotation": {
+				"x": 0.02672091,
+				"y": -0.5054923,
+				"z": -0.02380368,
+				"w": 0.8620887
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "afa7d842-4c37-4ad4-9c36-244ce22f17e1"
+	},
+	{
+		"prefab": "0acf9803-d90e-40e7-8ea6-4c9a202b70bc",
+		"Transform": {
+			"localPosition": {
+				"x": -12.45626,
+				"y": 3.433334,
+				"z": -0.5499573
+			},
+			"localRotation": {
+				"x": -0.02328067,
+				"y": 0,
+				"z": 0.06285781,
+				"w": 0.9977509
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "12fc6855-b2b1-42eb-8a6f-3987154126da"
+	},
+	{
+		"prefab": "a8985b09-e0d0-4190-b7f9-d317fd6f52dc",
+		"Transform": {
+			"localPosition": {
+				"x": -15.77592,
+				"y": 3.488037,
+				"z": -1.211754
+			},
+			"localRotation": {
+				"x": -0.1387944,
+				"y": 0,
+				"z": -0.009101273,
+				"w": 0.9902794
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "63a2d5b7-6c4d-4a03-a86f-8eacf264957b"
+	},
+	{
+		"prefab": "619cda60-8a6a-4033-b710-c47ede04294b",
+		"Transform": {
+			"localPosition": {
+				"x": -19.67303,
+				"y": 3.063148,
+				"z": 11.41692
+			},
+			"localRotation": {
+				"x": 0.05814514,
+				"y": 0,
+				"z": 0.04186451,
+				"w": 0.99743
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "3aabcb77-3b75-4e09-98fc-58a7d52a85ab"
+	},
+	{
+		"prefab": "39e21b01-d179-4ead-bfa5-6880c781f95e",
+		"Transform": {
+			"localPosition": {
+				"x": -16.85974,
+				"y": 3.280609,
+				"z": 9.323044
+			},
+			"localRotation": {
+				"x": 0.06286748,
+				"y": 0,
+				"z": -0.02095583,
+				"w": 0.9978018
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "7619ba71-9cd7-4b32-8d43-cd8311be762b"
+	},
+	{
+		"prefab": "d21a9aa9-9ed6-4857-94f1-f01a2233eac7",
+		"Transform": {
+			"localPosition": {
+				"x": -21.92606,
+				"y": 3.210312,
+				"z": 5.591095
+			},
+			"localRotation": {
+				"x": 0.05126737,
+				"y": 0,
+				"z": 0.03495502,
+				"w": 0.9980731
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "4d23fca5-cb53-4deb-9cfe-a1699ffdb360"
+	},
+	{
+		"prefab": "196fb328-44e1-4c79-97cb-9e035dd74625",
+		"Transform": {
+			"localPosition": {
+				"x": -21.3131,
+				"y": 1.866989,
+				"z": -24.65535
+			},
+			"localRotation": {
+				"x": 0.002342311,
+				"y": 0,
+				"z": 0.0210808,
+				"w": 0.9997751
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e0cda611-f868-45bd-8b5a-19f7a5196faf"
+	},
+	{
+		"prefab": "d1393df4-aa6a-45e4-bf4e-c65ccfdd0a18",
+		"Transform": {
+			"localPosition": {
+				"x": -32.5956,
+				"y": 1.208739,
+				"z": -21.87521
+			},
+			"localRotation": {
+				"x": 0.02078246,
+				"y": 0,
+				"z": 0.09698479,
+				"w": 0.9950689
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "15284651-9fdf-4f75-bb54-a430d836a878"
+	},
+	{
+		"prefab": "cb5007cb-2793-4aa4-b0a6-32571b88e2bd",
+		"Transform": {
+			"localPosition": {
+				"x": -20.57763,
+				"y": 1.891785,
+				"z": -26.10241
+			},
+			"localRotation": {
+				"x": -0.007027453,
+				"y": 0,
+				"z": 0.01873988,
+				"w": 0.9997997
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "e58ecdf1-50e8-4de1-92c1-a2bb09bf4274"
+	},
+	{
+		"prefab": "cb2353d9-6da7-4396-a71f-761f2d471803",
+		"Transform": {
+			"localPosition": {
+				"x": -34.51064,
+				"y": 1.710472,
+				"z": -22.36597
+			},
+			"localRotation": {
+				"x": 0.01158048,
+				"y": 0,
+				"z": 0.08801167,
+				"w": 0.9960521
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "1361f6c4-fc17-4bfe-a526-c84fc553ddde"
+	},
+	{
+		"prefab": "aa4d693d-2940-4fe2-815e-4e816a829f08",
+		"Transform": {
+			"localPosition": {
+				"x": -4.630278,
+				"y": 4.87645,
+				"z": 0.1584583
+			},
+			"localRotation": {
+				"x": -0.05793807,
+				"y": -0.608299,
+				"z": 0.005489946,
+				"w": 0.7915716
+			},
+			"localScale": {
+				"x": 1,
+				"y": 1,
+				"z": 1
+			}
+		},
+		"rpgModUniqueId": "14a4946f-e337-4ec7-bf02-669fd6da75f2"
+	}
+]
