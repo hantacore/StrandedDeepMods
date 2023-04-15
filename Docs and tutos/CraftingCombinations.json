@@ -1,0 +1,4981 @@
+[
+	{
+		"Name": "CRAFTING",
+		"Term": "CRAFTING_COMBINATION_CATEGORY_CRAFTING",
+		"ToolRequired": {
+			"IType": "None",
+			"MType": "None"
+		},
+		"Subcategories": [
+			{
+				"Name": "TOOLS",
+				"Term": "CRAFTING_COMBINATION_CRAFTING_SUBCATEGORY_TOOLS",
+				"Combinations": [
+					{
+						"Name": "ITEM PILE",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_ITEM_PILE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/ITEM_PILE",
+						"SpriteAssetPath": "",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": true,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "CRAFTING_ITEM_PILE",
+							"MType": "None"
+						},
+						"Materials": null
+					},
+					{
+						"Name": "STONE TOOL",
+						"Term": "INTERACTIVE_TYPE_TOOLS_STONE_TOOL",
+						"Description": "A stone tool.",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/STONE_TOOL",
+						"SpriteAssetPath": "Icons/Small/TOOLS_STONE_TOOL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "TOOLS_STONE_TOOL",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "KINDLING",
+						"Term": "INTERACTIVE_TYPE_TOOLS_KINDLING",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/KINDLING",
+						"SpriteAssetPath": "Icons/Small/TOOLS_KINDLING",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "TOOLS_KINDLING",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "LASHING",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_LASHING",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/ROPE_COIL",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_LASHING",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "CRAFTING_LASHING",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							}
+						}
+					},
+					{
+						"Name": "REFINED KNIFE",
+						"Term": "ATTRIBUTE_TYPE_REFINED INTERACTIVE_TYPE_TOOLS_KNIFE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_REFINED_KNIFE",
+						"SpriteAssetPath": "Icons/Small/TOOLS_KNIFE-REFINED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "TOOLS_KNIFE",
+							"MType": "Refined"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "FIRE TORCH",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_FIRE_TORCH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/FIRE_TORCH",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_FIRE_TORCH",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "CRAFTING_FIRE_TORCH",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CRUDE AXE",
+						"Term": "ATTRIBUTE_TYPE_CRUDE INTERACTIVE_TYPE_TOOLS_AXE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_AXE",
+						"SpriteAssetPath": "Icons/Small/TOOLS_AXE-CRUDE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "TOOLS_AXE",
+							"MType": "Crude"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CRUDE HAMMER",
+						"Term": "ATTRIBUTE_TYPE_CRUDE INTERACTIVE_TYPE_TOOLS_HAMMER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_HAMMER",
+						"SpriteAssetPath": "Icons/Small/TOOLS_HAMMER-CRUDE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "TOOLS_HAMMER",
+							"MType": "Crude"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CRUDE SPEAR",
+						"Term": "ATTRIBUTE_TYPE_CRUDE INTERACTIVE_TYPE_TOOLS_SPEAR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_SPEAR",
+						"SpriteAssetPath": "Icons/Small/TOOLS_SPEAR-CRUDE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "TOOLS_SPEAR",
+							"MType": "Crude"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "FISHING ROD",
+						"Term": "INTERACTIVE_TYPE_TOOLS_FISHINGROD",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/FISHING_ROD",
+						"SpriteAssetPath": "Icons/Medium/TOOLS_FISHINGROD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "TOOLS_FISHINGROD",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "FISHING BOBBER",
+						"Term": "INTERACTIVE_TYPE_TOOLS_BOBBER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/BOBBER",
+						"SpriteAssetPath": "Icons/Medium/TOOLS_BOBBER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "TOOLS_BOBBER",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "BuoyBalls"
+							}
+						}
+					},
+					{
+						"Name": "FISHING SPEAR",
+						"Term": "ATTRIBUTE_TYPE_CRUDE INTERACTIVE_TYPE_TOOLS_FISHING_SPEAR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_FISHING_SPEAR",
+						"SpriteAssetPath": "Icons/Small/TOOLS_FISHING_SPEAR-CRUDE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "TOOLS_FISHING_SPEAR",
+							"MType": "Crude"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "CLOTH",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_CLOTH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/CLOTH",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_CLOTH",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "CRAFTING_CLOTH",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "STATION_LOOM",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LEAVES",
+								"MType": "Fibrous"
+							}
+						}
+					},
+					{
+						"Name": "REFINED AXE",
+						"Term": "ATTRIBUTE_TYPE_REFINED INTERACTIVE_TYPE_TOOLS_AXE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_REFINED_AXE",
+						"SpriteAssetPath": "Icons/Small/TOOLS_AXE-REFINED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "TOOLS_AXE",
+							"MType": "Refined"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_AXE",
+								"MType": "Crude"
+							},
+							"[1]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CRUDE HOE",
+						"Term": "ATTRIBUTE_TYPE_CRUDE INTERACTIVE_TYPE_TOOLS_HOE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Farming/FARMING_HOE",
+						"SpriteAssetPath": "Icons/Small/TOOLS_HOE-CRUDE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "TOOLS_HOE",
+							"MType": "Crude"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CRUDE BOW",
+						"Term": "ATTRIBUTE_TYPE_CRUDE INTERACTIVE_TYPE_TOOLS_BOW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_CRUDE_BOW",
+						"SpriteAssetPath": "Icons/Small/TOOLS_BOW-CRUDE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "TOOLS_BOW",
+							"MType": "Crude"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "ARROW",
+						"Term": "INTERACTIVE_TYPE_TOOLS_ARROW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_ARROW",
+						"SpriteAssetPath": "Icons/Small/TOOLS_ARROW",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "TOOLS_ARROW",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "LEATHER",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_LEATHER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/LEATHER",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_LEATHER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "CRAFTING_LEATHER",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "STATION_TANNING_RACK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_RAWHIDE",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "PLANKS",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_SCRAP",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/SCRAP_PLANK",
+						"SpriteAssetPath": "Icons/Medium/SCRAP-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "SCRAP",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "STATION_PLANK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LOG",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "REFINED PICK",
+						"Term": "ATTRIBUTE_TYPE_REFINED INTERACTIVE_TYPE_TOOLS_PICK",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_REFINED_PICK",
+						"SpriteAssetPath": "Icons/Small/TOOLS_PICK-REFINED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "TOOLS_PICK",
+							"MType": "Refined"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "REFINED SPEAR",
+						"Term": "ATTRIBUTE_TYPE_REFINED INTERACTIVE_TYPE_TOOLS_SPEAR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_REFINED_SPEAR",
+						"SpriteAssetPath": "Icons/Small/TOOLS_SPEAR-REFINED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "TOOLS_SPEAR",
+							"MType": "Refined"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_SPEAR",
+								"MType": "Crude"
+							},
+							"[1]Material": {
+								"IType": "TOOLS_STONE_TOOL",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "BRICKS",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_SCRAP",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICKS",
+						"SpriteAssetPath": "Icons/Small/SCRAP-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "SCRAP",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "STATION_BRICK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "STATION_FURNACE",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "SPEARGUN",
+						"Term": "INTERACTIVE_TYPE_TOOLS_SPEARGUN",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_SPEARGUN",
+						"SpriteAssetPath": "Icons/Small/TOOLS_SPEARGUN",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "TOOLS_SPEARGUN",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_AIRTANK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "TOOLS_DUCTTAPE",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "SPEARGUN ARROW",
+						"Term": "INTERACTIVE_TYPE_TOOLS_SPEARGUN_ARROW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/NEW_SPEARGUN_ARROW",
+						"SpriteAssetPath": "Icons/Small/TOOLS_SPEARGUN_ARROW",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "TOOLS_SPEARGUN_ARROW",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "STRUCTURES",
+				"Term": "CRAFTING_COMBINATION_CRAFTING_SUBCATEGORY_STRUCTURES",
+				"Combinations": [
+					{
+						"Name": "SHELTER",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_BED_SHELTER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/BED_SHELTER",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_BED_SHELTER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "CRAFTING_BED_SHELTER",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_PALM_FROND",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_PALM_FROND",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_PALM_FROND",
+								"MType": "None"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_PALM_FROND",
+								"MType": "None"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CAMP FIRE",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_FIRE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/NEW_CAMPFIRE",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_FIRE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "CRAFTING_FIRE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "FIRE PIT",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_FIRE_PIT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/NEW_CAMPFIRE_PIT",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_FIRE_PIT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "CRAFTING_FIRE_PIT",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_FIRE",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "FIRE SPIT",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_FIRE_SPIT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/NEW_CAMPFIRE_SPIT",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_FIRE_SPIT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "CRAFTING_FIRE_SPIT",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_FIRE_PIT",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "WATER STILL",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_WATER_STILL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/WATER_STILL",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_WATER_STILL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "CRAFTING_WATER_STILL",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_PALM_FROND",
+								"MType": "None"
+							},
+							"[6]Material": {
+								"IType": "FOOD_COCONUT_FLASK",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "HOBO STOVE",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_HOBO_STOVE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/HOBO_STOVE",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_HOBO_STOVE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "CRAFTING_HOBO_STOVE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_FIRE_PIT",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "Barrel"
+							}
+						}
+					},
+					{
+						"Name": "SMOKER",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_SMOKER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/SMOKER",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_SMOKER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "CRAFTING_SMOKER",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_FIRE_PIT",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "LOOM",
+						"Term": "INTERACTIVE_TYPE_STATION_LOOM",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/LOOM",
+						"SpriteAssetPath": "Icons/Small/STATION_LOOM",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "STATION_LOOM",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[9]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "PLANK STATION",
+						"Term": "INTERACTIVE_TYPE_STATION_PLANK",
+						"Description": "A crafting station used for crafting planks from logs.",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/PLANK_STATION",
+						"SpriteAssetPath": "Icons/Small/STATION_PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "STATION_PLANK",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_AXE",
+								"MType": "Refined"
+							},
+							"[1]Material": {
+								"IType": "TOOLS_HAMMER",
+								"MType": "Crude"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_LOG",
+								"MType": "Wood"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "FURNACE",
+						"Term": "INTERACTIVE_TYPE_STATION_FURNACE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/FURNACE",
+						"SpriteAssetPath": "Icons/Small/STATION_FURNACE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "STATION_FURNACE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[9]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[10]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "TANNING RACK",
+						"Term": "INTERACTIVE_TYPE_STATION_TANNING_RACK",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/TANNING_RACK",
+						"SpriteAssetPath": "Icons/Small/STATION_TANNING_RACK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "STATION_TANNING_RACK",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "BRICK STATION",
+						"Term": "INTERACTIVE_TYPE_STATION_BRICK",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/BRICK_STATION",
+						"SpriteAssetPath": "Icons/Small/STATION_BRICK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "STATION_BRICK",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "FUEL STILL",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_FUEL_STILL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/FUEL_STILL",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_FUEL_STILL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "CRAFTING_FUEL_STILL",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_FIRE_PIT",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[4]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[9]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[10]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[11]Material": {
+								"IType": "TOOLS_JERRYCAN",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "FURNITURE",
+				"Term": "CRAFTING_COMBINATION_CRAFTING_SUBCATEGORY_FURNITURE",
+				"Combinations": [
+					{
+						"Name": "HOOK",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_HOOK",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/WOOD_HOOK",
+						"SpriteAssetPath": "Icons/Small/HOOK-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "HOOK",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "LIGHT HOOK",
+						"Term": "ATTRIBUTE_TYPE_LIGHT INTERACTIVE_TYPE_HOOK",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/LIGHT_HOOK",
+						"SpriteAssetPath": "Icons/Small/HOOK-LIGHT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "HOOK",
+							"MType": "Light"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CONTAINER SHELF",
+						"Term": "INTERACTIVE_TYPE_CONTAINER_SHELF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/CONTAINER_SHELF",
+						"SpriteAssetPath": "Icons/Small/CONTAINER_SHELF",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "CONTAINER_SHELF",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "WOOD CHAIR",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_CHAIR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/WOOD_CHAIR",
+						"SpriteAssetPath": "Icons/Small/CHAIR-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "CHAIR",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "WOOD SHELF",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_SHELF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/WOOD_SHELF",
+						"SpriteAssetPath": "Icons/Small/SHELF-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "SHELF",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "WOOD TABLE",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_TABLE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/WOOD_TABLE",
+						"SpriteAssetPath": "Icons/Small/TABLE-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "TABLE",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "WOOD CONTAINER",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_CONTAINER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Containers/CONTAINER_CRATE",
+						"SpriteAssetPath": "Icons/Small/CONTAINER-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "CONTAINER",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "PLANK CHAIR",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_CHAIR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/PLANK_CHAIR",
+						"SpriteAssetPath": "Icons/Small/CHAIR-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "CHAIR",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "PLANK SHELF",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_SHELF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/PLANK_SHELF",
+						"SpriteAssetPath": "Icons/Small/SHELF-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "SHELF",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "PLANK TABLE",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_TABLE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/PLANK_TABLE",
+						"SpriteAssetPath": "Icons/Small/TABLE-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "TABLE",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "SLEEPING BAG",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_BED",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/BED",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_BED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "CRAFTING_BED",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED SHELF",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_SHELF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/CORRUGATED_SHELF",
+						"SpriteAssetPath": "Icons/Small/SHELF-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "SHELF",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED TABLE",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_TABLE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Furniture/CORRUGATED_TABLE",
+						"SpriteAssetPath": "Icons/Small/TABLE-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "TABLE",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "HUNTING",
+				"Term": "CRAFTING_COMBINATION_CRAFTING_SUBCATEGORY_HUNTING",
+				"Combinations": [
+					{
+						"Name": "BIRD SNARE",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_TRAP_BIRD",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/TRAP_BIRD",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_TRAP_BIRD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "CRAFTING_TRAP_BIRD",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "FISH TRAP",
+						"Term": "INTERACTIVE_TYPE_CRAFTING_TRAP_FISH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Crafting/TRAP_FISH",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_TRAP_FISH",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "CRAFTING_TRAP_FISH",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[9]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "TOOL BELT",
+				"Term": "CRAFTING_COMBINATION_CRAFTING_SUBCATEGORY_TOOL_BELT",
+				"Combinations": [
+					{
+						"Name": "TOOL BELT",
+						"Term": "ITEM_DISPLAY_NAME_TOOL_BELT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/TOOL_BELT",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_TOOL_BELT",
+						"Unlocked": true,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 10,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "None",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "TOOL BELT POUCH 1",
+						"Term": "ITEM_DISPLAY_NAME_TOOL_BELT_POUCH_1",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/TOOL_POUCH_LV1",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_TOOL_BELT_POUCH_1",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "None",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "TOOL BELT POUCH 2",
+						"Term": "ITEM_DISPLAY_NAME_TOOL_BELT_POUCH_2",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/TOOL_POUCH_LV2",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_TOOL_BELT_POUCH_2",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "None",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_RAWHIDE",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "TOOL BELT POUCH 3",
+						"Term": "ITEM_DISPLAY_NAME_TOOL_BELT_POUCH_3",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Tools/TOOL_POUCH_LV3",
+						"SpriteAssetPath": "Icons/Small/CRAFTING_TOOL_BELT_POUCH_3",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "None",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			}
+		]
+	},
+	{
+		"Name": "BUILDING",
+		"Term": "CRAFTING_COMBINATION_CATEGORY_BUILDING",
+		"ToolRequired": {
+			"IType": "TOOLS_HAMMER",
+			"MType": "None"
+		},
+		"Subcategories": [
+			{
+				"Name": "FOUNDATIONS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_FOUNDATION",
+				"Combinations": [
+					{
+						"Name": "WOOD FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_FOUNDATION",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "WOOD WEDGE FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_FOUNDATION_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_WEDGE_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION_WEDGE-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION_WEDGE",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "PLANK FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_FOUNDATION",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[3]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "PLANK WEDGE FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_FOUNDATION_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_WEDGE_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION_WEDGE-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION_WEDGE",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_FOUNDATION",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[3]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED WEDGE FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_FOUNDATION_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_WEDGE_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION_WEDGE-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION_WEDGE",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "BRICK FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_FOUNDATION",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[3]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					},
+					{
+						"Name": "BRICK WEDGE FOUNDATION",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_FOUNDATION_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_WEDGE_FOUNDATION",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FOUNDATION_WEDGE-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_FOUNDATION_WEDGE",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "FLOORS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_FLOORS",
+				"Combinations": [
+					{
+						"Name": "WOOD FLOOR",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "WOOD WEDGE FLOOR",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_FLOOR_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_WEDGE_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR_WEDGE-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR_WEDGE",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "PLANK FLOOR",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[3]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "PLANK WEDGE FLOOR",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_FLOOR_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_WEDGE_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR_WEDGE-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR_WEDGE",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED FLOOR",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[3]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED WEDGE FLOOR",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_FLOOR_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_WEDGE_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR_WEDGE-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR_WEDGE",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "BRICK FLOOR",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					},
+					{
+						"Name": "BRICK WEDGE FLOOR",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_FLOOR_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_WEDGE_FLOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FLOOR_WEDGE-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_FLOOR_WEDGE",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "WALLS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_WALLS",
+				"Combinations": [
+					{
+						"Name": "TARP WALL",
+						"Term": "ATTRIBUTE_TYPE_TARP INTERACTIVE_TYPE_BUILDING_WALL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/TARP_PANEL_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL-TARP",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "BUILDING_WALL",
+							"MType": "Tarp"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "WOOD WALL",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_WALL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_PANEL_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_WALL",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "WOOD HALF WALL",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_WALL_HALF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_WALL_HALF",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_HALF-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_HALF",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "PLANK WALL",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_WALL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_PANEL_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_WALL",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "PLANK HALF WALL",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_WALL_HALF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_WALL_HALF",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_HALF-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_HALF",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED WALL",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_WALL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_PANEL_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_WALL",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED HALF WALL",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_WALL_HALF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_WALL_HALF",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_HALF-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_HALF",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CONTAINER WALL",
+						"Term": "ATTRIBUTE_TYPE_CONTAINER INTERACTIVE_TYPE_BUILDING_WALL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_PANEL_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL-CONTAINER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_WALL",
+							"MType": "Container"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "BUILDING_PANEL",
+								"MType": "Container"
+							}
+						}
+					},
+					{
+						"Name": "BRICK WALL",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_WALL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_PANEL_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_WALL",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					},
+					{
+						"Name": "BRICK HALF WALL",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_WALL_HALF",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_WALL_HALF",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_HALF-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_HALF",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "WINDOWS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_WINDOWS",
+				"Combinations": [
+					{
+						"Name": "WOOD WINDOW",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_WALL_WINDOW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_WALL_WINDOW",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_WINDOW-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_WINDOW",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "PLANK WINDOW",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_WALL_WINDOW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_WALL_WINDOW",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_WINDOW-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_WINDOW",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED WINDOW",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_WALL_WINDOW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_WALL_WINDOW",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_WINDOW-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_WINDOW",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "BRICK WINDOW",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_WALL_WINDOW",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_WALL_WINDOW",
+						"SpriteAssetPath": "Icons/Small/BUILDING_WALL_WINDOW-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_WALL_WINDOW",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "ARCHES",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_ARCHES",
+				"Combinations": [
+					{
+						"Name": "WOOD ARCH",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_ARCH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_ARCH",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ARCH-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_ARCH",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "PLANK ARCH",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_ARCH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_ARCH",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ARCH-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_ARCH",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED ARCH",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_ARCH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_ARCH",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ARCH-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_ARCH",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "BRICK ARCH",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_ARCH",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_ARCH",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ARCH-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_ARCH",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "DOORS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_DOORS",
+				"Combinations": [
+					{
+						"Name": "WOOD DOOR",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_DOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_DOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_DOOR-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_DOOR",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "PLANK DOOR",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_DOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_DOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_DOOR-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_DOOR",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED DOOR",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_DOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_DOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_DOOR-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_DOOR",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CONTAINER DOOR",
+						"Term": "ATTRIBUTE_TYPE_CONTAINER INTERACTIVE_TYPE_BUILDING_DOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/SHIPPING_CONTAINER_DOOR_STATIC",
+						"SpriteAssetPath": "Icons/Small/BUILDING_DOOR-CONTAINER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_DOOR",
+							"MType": "Container"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "BUILDING_PANEL_DOOR",
+								"MType": "Container"
+							}
+						}
+					},
+					{
+						"Name": "BRICK DOOR",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_DOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_DOOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_DOOR-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_DOOR",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "STEPS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_STEPS",
+				"Combinations": [
+					{
+						"Name": "WOOD STEPS",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_STEPS",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_STEPS",
+						"SpriteAssetPath": "Icons/Small/BUILDING_STEPS-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_STEPS",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "PLANK STEPS",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_STEPS",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/PLANK_STEPS",
+						"SpriteAssetPath": "Icons/Small/BUILDING_STEPS-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_STEPS",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED STEPS",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_STEPS",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/CORRUGATED_STEPS",
+						"SpriteAssetPath": "Icons/Small/BUILDING_STEPS-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_STEPS",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "BRICK STEPS",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_STEPS",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_STEPS",
+						"SpriteAssetPath": "Icons/Small/BUILDING_STEPS-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_STEPS",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[2]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "ROOFS",
+				"Term": "CRAFTING_COMBINATION_BUILDING_SUBCATEGORY_ROOFS",
+				"Combinations": [
+					{
+						"Name": "WOOD ROOF MIDDLE",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_ROOF_MIDDLE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_ROOF_MIDDLE",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_MIDDLE-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_MIDDLE",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "WOOD ROOF CORNER",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_ROOF_CORNER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_ROOF_CORNER",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_CORNER-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_CORNER",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "WOOD ROOF WEDGE CORNER",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_ROOF_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_ROOF_WEDGE",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_WEDGE-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_WEDGE",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "WOOD ROOF CAP",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_ROOF_CAP",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/WOOD_ROOF_CAP",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_CAP-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_CAP",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "CLAY ROOF MIDDLE",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_ROOF_MIDDLE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_ROOF_MIDDLE",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_MIDDLE-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_MIDDLE",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					},
+					{
+						"Name": "CLAY ROOF CORNER",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_ROOF_CORNER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_ROOF_CORNER",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_CORNER-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_CORNER",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					},
+					{
+						"Name": "CLAY ROOF WEDGE CORNER",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_ROOF_WEDGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_ROOF_WEDGE",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_WEDGE-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_WEDGE",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					},
+					{
+						"Name": "CLAY ROOF CAP",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_ROOF_CAP",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/BRICK_ROOF_CAP",
+						"SpriteAssetPath": "Icons/Small/BUILDING_ROOF_CAP-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_ROOF_CAP",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			}
+		]
+	},
+	{
+		"Name": "VEHICLES",
+		"Term": "CRAFTING_COMBINATION_CATEGORY_VEHICLES",
+		"ToolRequired": {
+			"IType": "TOOLS_HAMMER",
+			"MType": "None"
+		},
+		"Subcategories": [
+			{
+				"Name": "RAFT BUOYANCY",
+				"Term": "CRAFTING_COMBINATION_VEHICLE_SUBCATEGORY_RAFT_BUOYANCY",
+				"Combinations": [
+					{
+						"Name": "WOOD RAFT BASE",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_RAFT_BASE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_BASE_WOOD_BUNDLE",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_BASE-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_BASE",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[9]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[10]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[11]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[12]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[13]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[14]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "BUOY BALL RAFT BASE",
+						"Term": "ATTRIBUTE_TYPE_BUOYBALLS INTERACTIVE_TYPE_BUILDING_RAFT_BASE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_BASE_BALLS",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_BASE-BUOYBALLS",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_BASE",
+							"MType": "BuoyBalls"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "BuoyBalls"
+							},
+							"[1]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "BuoyBalls"
+							},
+							"[2]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "BuoyBalls"
+							},
+							"[3]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "BuoyBalls"
+							},
+							"[4]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "BuoyBalls"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "TYRE RAFT BASE",
+						"Term": "ATTRIBUTE_TYPE_TYRES INTERACTIVE_TYPE_BUILDING_RAFT_BASE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_BASE_TYRE",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_BASE-TYRES",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_BASE",
+							"MType": "Tyres"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "Tyres"
+							},
+							"[1]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "Tyres"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "BARREL RAFT BASE",
+						"Term": "ATTRIBUTE_TYPE_BARREL INTERACTIVE_TYPE_BUILDING_RAFT_BASE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_BASE_BARREL",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_BASE-BARREL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_BASE",
+							"MType": "Barrel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "Barrel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "Barrel"
+							},
+							"[2]Material": {
+								"IType": "SCRAP_BUOYANT",
+								"MType": "Barrel"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "RAFT FLOORS",
+				"Term": "CRAFTING_COMBINATION_VEHICLE_SUBCATEGORY_RAFT_FLOORS",
+				"Combinations": [
+					{
+						"Name": "WOOD RAFT FLOOR",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_RAFT_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_WOOD",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_FLOOR-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_FLOOR",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "PLANK RAFT FLOOR",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_RAFT_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_PLANK",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_FLOOR-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_FLOOR",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED RAFT FLOOR",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_RAFT_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_CORRUGATED",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_FLOOR-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_FLOOR",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					},
+					{
+						"Name": "CLAY RAFT FLOOR",
+						"Term": "ATTRIBUTE_TYPE_STEEL INTERACTIVE_TYPE_BUILDING_RAFT_FLOOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_FLOOR_CLAY",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_FLOOR-STEEL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 75,
+						"CraftsmanshipLevelRequired": 5,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_FLOOR",
+							"MType": "Steel"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Steel"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "RAFT MOVEMENT",
+				"Term": "CRAFTING_COMBINATION_VEHICLE_SUBCATEGORY_RAFT_MOVEMENT",
+				"Combinations": [
+					{
+						"Name": "RAFT CANOPY",
+						"Term": "INTERACTIVE_TYPE_BUILDING_RAFT_CANOPY",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_CANOPY",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_CANOPY",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_CANOPY",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "ANCHOR",
+						"Term": "INTERACTIVE_TYPE_BUILDING_RAFT_ANCHOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/RAFT_ANCHOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_ANCHOR",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_ANCHOR",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[5]Material": {
+								"IType": "CRAFTING_ROCK",
+								"MType": "None"
+							},
+							"[6]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[7]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[8]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[9]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[10]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "SAIL",
+						"Term": "INTERACTIVE_TYPE_BUILDING_RAFT_SAIL",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/VEHICLE_SAIL",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_SAIL",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_SAIL",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "RUDDER",
+						"Term": "INTERACTIVE_TYPE_BUILDING_RAFT_RUDDER",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/VEHICLE_RUDDER",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_RUDDER",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_RUDDER",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "BOAT MOTOR",
+						"Term": "INTERACTIVE_TYPE_BUILDING_RAFT_MOTOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/VEHICLE_MOTOR",
+						"SpriteAssetPath": "Icons/Small/BUILDING_RAFT_MOTOR",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_RAFT_MOTOR",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "TOOLS_DUCTTAPE",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_ENGINE_PART",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_FILTER_PART",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_FUEL_PART",
+								"MType": "None"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_ELECTRIC_PART",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			},
+			{
+				"Name": "GYROCOPTER",
+				"Term": "CRAFTING_COMBINATION_VEHICLE_SUBCATEGORY_GYROCOPTER",
+				"Combinations": [
+					{
+						"Name": "GYROCOPTER FRAME",
+						"Term": "INTERACTIVE_TYPE_BUILDING_VEHICLE_GYRO_BASE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/GYRO_BASE_1",
+						"SpriteAssetPath": "Icons/Small/BUILDING_VEHICLE_GYRO_BASE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 115,
+						"CraftsmanshipLevelRequired": 6,
+						"CraftingType": {
+							"IType": "BUILDING_VEHICLE_GYRO_BASE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_GYRO_PART",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "GYROCOPTER SEAT",
+						"Term": "INTERACTIVE_TYPE_BUILDING_VEHICLE_GYRO_SEAT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/GYRO_SEAT_2",
+						"SpriteAssetPath": "Icons/Small/BUILDING_VEHICLE_GYRO_SEAT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 115,
+						"CraftsmanshipLevelRequired": 6,
+						"CraftingType": {
+							"IType": "BUILDING_VEHICLE_GYRO_SEAT",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_GYRO_PART",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "GYROCOPTER MOTOR",
+						"Term": "INTERACTIVE_TYPE_BUILDING_VEHICLE_GYRO_MOTOR",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/GYRO_MOTOR_3",
+						"SpriteAssetPath": "Icons/Small/BUILDING_VEHICLE_GYRO_MOTOR",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 115,
+						"CraftsmanshipLevelRequired": 6,
+						"CraftingType": {
+							"IType": "BUILDING_VEHICLE_GYRO_MOTOR",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_ENGINE_PART",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_FILTER_PART",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_FUEL_PART",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "GYROCOPTER COCKPIT",
+						"Term": "INTERACTIVE_TYPE_BUILDING_VEHICLE_GYRO_COCKPIT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/GYRO_COCKPIT_4",
+						"SpriteAssetPath": "Icons/Small/BUILDING_VEHICLE_GYRO_COCKPIT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 115,
+						"CraftsmanshipLevelRequired": 6,
+						"CraftingType": {
+							"IType": "BUILDING_VEHICLE_GYRO_COCKPIT",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_ELECTRIC_PART",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "GYROCOPTER ROTORS",
+						"Term": "INTERACTIVE_TYPE_BUILDING_VEHICLE_GYRO_ROTORS",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Building/GYRO_ROTORS_5",
+						"SpriteAssetPath": "Icons/Small/BUILDING_VEHICLE_GYRO_ROTORS",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 115,
+						"CraftsmanshipLevelRequired": 6,
+						"CraftingType": {
+							"IType": "BUILDING_VEHICLE_GYRO_ROTORS",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_GYRO_PART",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_ELECTRIC_PART",
+								"MType": "None"
+							}
+						}
+					}
+				]
+			}
+		]
+	},
+	{
+		"Name": "FARMING",
+		"Term": "CRAFTING_COMBINATION_CATEGORY_FARMING",
+		"ToolRequired": {
+			"IType": "TOOLS_HOE",
+			"MType": "None"
+		},
+		"Subcategories": [
+			{
+				"Name": "PLOTS",
+				"Term": "CRAFTING_COMBINATION_FARMING_SUBCATEGORY_PLOTS",
+				"Combinations": [
+					{
+						"Name": "WOOD FARMING PLOT",
+						"Term": "ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_FARMING_PLOT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Farming/FARMING_PLOT_WOOD",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FARMING_PLOT-WOOD",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "BUILDING_FARMING_PLOT",
+							"MType": "Wood"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[4]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "PLANK FARMING PLOT",
+						"Term": "ATTRIBUTE_TYPE_PLANK INTERACTIVE_TYPE_BUILDING_FARMING_PLOT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Farming/FARMING_PLOT_PLANK",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FARMING_PLOT-PLANK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "BUILDING_FARMING_PLOT",
+							"MType": "Plank"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Plank"
+							}
+						}
+					},
+					{
+						"Name": "CORRUGATED FARMING PLOT",
+						"Term": "ATTRIBUTE_TYPE_CORRUGATED INTERACTIVE_TYPE_BUILDING_FARMING_PLOT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Farming/FARMING_PLOT_CORRUGATED",
+						"SpriteAssetPath": "Icons/Small/BUILDING_FARMING_PLOT-CORRUGATED",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "BUILDING_FARMING_PLOT",
+							"MType": "Corrugated"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							},
+							"[1]Material": {
+								"IType": "SCRAP",
+								"MType": "Corrugated"
+							}
+						}
+					}
+				]
+			}
+		]
+	},
+	{
+		"Name": "STORY",
+		"Term": "CRAFTING_COMBINATION_CATEGORY_STORY",
+		"ToolRequired": {
+			"IType": "None",
+			"MType": "None"
+		},
+		"Subcategories": [
+			{
+				"Name": "TROPHYS",
+				"Term": "CRAFTING_COMBINATION_STORY_SUBCATEGORY_TROPHIES",
+				"Combinations": [
+					{
+						"Name": "SHARK TROPHY",
+						"Term": "INTERACTIVE_TYPE_TROPHY",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Missions/MISSION_TROPHY_SHARK",
+						"SpriteAssetPath": "Icons/Small/TROPHY-MEGALODON",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "TROPHY",
+							"MType": "Megalodon"
+						},
+						"Materials": null
+					},
+					{
+						"Name": "EEL TROPHY",
+						"Term": "INTERACTIVE_TYPE_TROPHY",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Missions/MISSION_TROPHY_EEL",
+						"SpriteAssetPath": "Icons/Small/TROPHY-EEL",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "TROPHY",
+							"MType": "Eel"
+						},
+						"Materials": null
+					},
+					{
+						"Name": "SQUID TROPHY",
+						"Term": "INTERACTIVE_TYPE_TROPHY",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Missions/MISSION_TROPHY_SQUID",
+						"SpriteAssetPath": "Icons/Small/TROPHY-SQUID",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": 1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "TROPHY",
+							"MType": "Squid"
+						},
+						"Materials": null
+					}
+				]
+			},
+			{
+				"Name": "AIRCRAFT",
+				"Term": "CRAFTING_COMBINATION_STORY_SUBCATEGORY_AIRCRAFT",
+				"Combinations": [
+					{
+						"Name": "AIRCRAFT ENGINE PART",
+						"Term": "INTERACTIVE_TYPE_AIRCRAFT_ENGINE_PART",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/End Game/AIRCRAFT_ENGINE_PART",
+						"SpriteAssetPath": "Icons/Small/AIRCRAFT_ENGINE_PART",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "AIRCRAFT_ENGINE_PART",
+							"MType": "None"
+						},
+						"Materials": null
+					},
+					{
+						"Name": "AIRCRAFT PROPELLER PART",
+						"Term": "INTERACTIVE_TYPE_AIRCRAFT_PROPELLER_PART",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/End Game/AIRCRAFT_PROPELLER_PART",
+						"SpriteAssetPath": "Icons/Small/AIRCRAFT_PROPELLER_PART",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "AIRCRAFT_PROPELLER_PART",
+							"MType": "None"
+						},
+						"Materials": null
+					},
+					{
+						"Name": "AIRCRAFT RUDDER PART",
+						"Term": "INTERACTIVE_TYPE_AIRCRAFT_RUDDER_PART",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/End Game/AIRCRAFT_RUDDER_PART",
+						"SpriteAssetPath": "Icons/Small/AIRCRAFT_RUDDER_PART",
+						"Unlocked": false,
+						"Lockable": true,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 0,
+						"CraftsmanshipLevelRequired": 0,
+						"CraftingType": {
+							"IType": "AIRCRAFT_RUDDER_PART",
+							"MType": "None"
+						},
+						"Materials": null
+					}
+				]
+			}
+		]
+	},
+	{
+		"Name": "CONSUMABLES",
+		"Term": "CRAFTING_COMBINATION_CATEGORY_CONSUMABLES",
+		"ToolRequired": {
+			"IType": "None",
+			"MType": "None"
+		},
+		"Subcategories": [
+			{
+				"Name": "CONSUMABLES",
+				"Term": "CRAFTING_COMBINATION_CONSUMABLES_SUBCATEGORY_CONSUMABLES",
+				"Combinations": [
+					{
+						"Name": "COCONUT FLASK",
+						"Term": "INTERACTIVE_TYPE_FOOD_COCONUT_FLASK",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Food/COCONUT_FLASK",
+						"SpriteAssetPath": "Icons/Small/FOOD_COCONUT_FLASK",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "FOOD_COCONUT_FLASK",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "FOOD_COCONUT_GREEN",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "ALOE SALVE",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_ALOE_SALVE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/MEDICAL_ALOE_SALVE",
+						"SpriteAssetPath": "Icons/Small/MEDICAL_ALOE_SALVE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 15,
+						"CraftsmanshipLevelRequired": 1,
+						"CraftingType": {
+							"IType": "MEDICAL_ALOE_SALVE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "FOOD_COCONUT_FLASK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "MEDICAL_ALOE",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "MEDICAL_ALOE",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "BANDAGE",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_BANDAGE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/BANDAGE",
+						"SpriteAssetPath": "Icons/Medium/MEDICAL_BANDAGE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "MEDICAL_BANDAGE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_CLOTH",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "WATER SKIN",
+						"Term": "INTERACTIVE_TYPE_FOOD_WATER_SKIN",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Food/WATER_SKIN",
+						"SpriteAssetPath": "Icons/Small/FOOD_WATER_SKIN",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "FOOD_WATER_SKIN",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "STATION_TANNING_RACK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LEATHER",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							}
+						}
+					},
+					{
+						"Name": "SPLINT",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_SPLINT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/SPLINT",
+						"SpriteAssetPath": "Icons/Medium/MEDICAL_SPLINT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 25,
+						"CraftsmanshipLevelRequired": 2,
+						"CraftingType": {
+							"IType": "MEDICAL_SPLINT",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_STICK",
+								"MType": "Wood"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "ANTIDOTE",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_ANTIDOTE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/MEDICAL_ANTIDOTE",
+						"SpriteAssetPath": "Icons/Small/MEDICAL_ANTIDOTE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "MEDICAL_ANTIDOTE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "FOOD_COCONUT_FLASK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "MEDICAL_PIPI",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "GAUZE",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_GAUZE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/MEDICAL_GAUZE",
+						"SpriteAssetPath": "Icons/Small/MEDICAL_GAUZE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 35,
+						"CraftsmanshipLevelRequired": 3,
+						"CraftingType": {
+							"IType": "MEDICAL_GAUZE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "FOOD_COCONUT_FLASK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "FOOD_FRUIT",
+								"MType": "Kura"
+							},
+							"[2]Material": {
+								"IType": "FOOD_FRUIT",
+								"MType": "Quwawa"
+							}
+						}
+					},
+					{
+						"Name": "BREATH BOOST",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_BREATH_BOOST",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/MEDICAL_BREATH_BOOST",
+						"SpriteAssetPath": "Icons/Small/MEDICAL_BREATH_BOOST",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "MEDICAL_BREATH_BOOST",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "FOOD_COCONUT_FLASK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "MEDICAL_AJUGA",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "CLAY WATER BOTTLE",
+						"Term": "INTERACTIVE_TYPE_FOOD_WATER_BOTTLE",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Food/WATER_BOTTLE",
+						"SpriteAssetPath": "Icons/Small/FOOD_WATER_BOTTLE",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": true,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "FOOD_WATER_BOTTLE",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "STATION_FURNACE",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "CRAFTING_CLAY",
+								"MType": "None"
+							},
+							"[3]Material": {
+								"IType": "CRAFTING_LASHING",
+								"MType": "None"
+							}
+						}
+					},
+					{
+						"Name": "SHARK REPELLENT",
+						"Term": "INTERACTIVE_TYPE_MEDICAL_REPELLENT",
+						"Description": "",
+						"PrefabAssetPath": "Prefabs/StrandedObjects/Medical/MEDICAL_REPELLENT",
+						"SpriteAssetPath": "Icons/Small/MEDICAL_REPELLENT",
+						"Unlocked": true,
+						"Lockable": false,
+						"Limit": -1,
+						"IsDynamic": false,
+						"IsExtension": false,
+						"ExpRewardOnCraft": 50,
+						"CraftsmanshipLevelRequired": 4,
+						"CraftingType": {
+							"IType": "MEDICAL_REPELLENT",
+							"MType": "None"
+						},
+						"Materials": {
+							"[0]Material": {
+								"IType": "FOOD_COCONUT_FLASK",
+								"MType": "None"
+							},
+							"[1]Material": {
+								"IType": "MEDICAL_ANTIDOTE",
+								"MType": "None"
+							},
+							"[2]Material": {
+								"IType": "ANIMALS_FISH",
+								"MType": "Lion"
+							}
+						}
+					}
+				]
+			}
+		]
+	}
+]

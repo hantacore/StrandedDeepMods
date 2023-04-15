@@ -1,0 +1,77 @@
+<html>
+
+<head>
+	<script type="text/javascript" src="jquery-3.2.1.min.js" ></script>
+	<script type="text/javascript" src="mapper-new.js" ></script>
+	
+	<style>
+		@media screen { 
+  
+		  /* start of screen rules. */ 
+		  
+		  /* Generic pane rules */
+		  body { margin: 10px }
+		  .row, .col { overflow: hidden; position: absolute; }
+		  .row { left: 10; right: 10; }
+		  .col { top: 10; bottom: 10; }
+		  .scroll-x { overflow-x: auto; }
+		  .scroll-y { overflow-y: auto; }
+
+		  .header.row { height: 170px; top: 0; }
+		  .body.row { top: 170px; bottom: 10px; }
+		  .footer.row { height: 0px; bottom: 0; }
+		  
+		  /* end of screen rules. */ 
+		}
+	</style>
+</head>
+   
+   
+<body>
+	<div class="header row">
+		<h1>Stranded Deep mapper 0.8</h1>
+		<form id="jsonFile" name="jsonFile" enctype="multipart/form-data" method="post" style="background-color:#ffffff;border: none;box-shadow: none;">
+		  <fieldset>
+			<span>Open the savegame file : </span>
+			 <input type='file' id='fileinput'>
+			 <input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+			 <input type='button' id='btnRefresh' onclick='drawMap(true, false);' value="Refresh"></input>
+			 <input type='button' id='btnReset' onclick='resetAll();' value="Reset"></input>
+			 <input type='checkbox' id='checkTextures' onChange='updateFlags();'>Use textures (cause why not)</radio>
+			 <br />
+			 <input type='checkbox' id='checkItems' onChange='updateFlags();'>Show items and tools</radio>
+			 <input type='checkbox' id='checkAnimals' onChange='updateFlags();'>Show animals</radio>
+			 <input type='checkbox' id='checkWreckages' onChange='updateFlags();'>Show shipwrecks</radio>
+			 <input type='checkbox' id='checkMineables' onChange='updateFlags();'>Show mineable resources</radio>
+			 <input type='checkbox' id='checkSavePoints' checked='checked' onChange='updateFlags();'>Show saving points</radio>
+			 <input type='checkbox' id='checkRaftMaterials' onChange='updateFlags();'>Show raft resources</radio>
+			 <input type='checkbox' id='checkFruits' onChange='updateFlags();'>Show fruits</radio>
+			 <input type='checkbox' id='checkMedicine' onChange='updateFlags();'>Show medicine</radio>
+			 <br />
+			 <input type='button' id='btnFocusOnPlayer' onclick='drawMap(true, true);' value="Find player"></input>
+			 Zoom = <input type='text' id='txtZoomLevel' size='5' readonly/>
+		  </fieldset>
+		</form>
+	</div>
+
+	<div class="body row" id="canvasdiv" style="width:98%; margin:0 auto; overflow: hidden; cursor: hand; border-style: solid;border-width: 1px; background-color: #000088;">
+		<canvas id="mapCanvas" width="6000" height="6000">
+			Message for non canvas-supporting browsers.
+		</canvas>
+		<img src="icons/compass.png" style="width:200px;height:200px;position:absolute;top:190px;left:20px;transform:rotate(45deg);" />
+	</div>
+
+	<div class="footer row"></div>
+	
+	<script type="text/javascript">
+		<!-- draw grid -->
+		initViewPort();
+		initDictionaries();
+		setTimeout(function(){
+			drawMap();
+		}, 200);
+	</script>
+
+</body>
+
+</html>

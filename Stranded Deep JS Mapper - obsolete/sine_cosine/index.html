@@ -1,0 +1,120 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="jquery-3.2.1.min.js" ></script>
+</head>
+<body>
+
+<form>
+	<textarea id='txtDebug' cols="80" rows="5" readonly></textarea>
+</form>
+
+<script type="text/javascript">
+
+function cos_taylor_running_yterms(x, y)
+{
+    let div = Math.trunc(x / Math.PI);
+    x = x - (div * Math.PI);
+    let sign = 1;
+    if (div % 2 != 0)
+        sign = -1;
+
+    let result = 1.0;
+    let inter = 1.0;
+    let num = x * x;
+    for (let i = 1; i <= y; i++)
+    {
+        let comp = 2.0 * i;
+        let den = comp * (comp - 1.0);
+        inter *= num / den;
+        if (i % 2 == 0)
+            result += inter;
+        else
+            result -= inter;
+    }
+    return sign * result;
+}
+
+function cos_taylor_literal_10terms(x)
+{
+    x = x % 2 * Math.PI;
+    let sign = 1;
+    if (x > Math.PI)
+    {
+        x -= Math.PI;
+        sign = -1;
+    }
+    let xx = x * x;
+
+    return sign * (1 - ((xx) / (2)) + ((xx * xx) / (24)) - ((xx * xx * xx) / (720)) + ((xx * xx * xx * xx) / (40320)) - ((xx * xx * xx * xx * xx) / (3628800)) + ((xx * xx * xx * xx * xx * xx) / (479001600)) - ((xx * xx * xx * xx * xx * xx * xx) / (87178291200)) + ((xx * xx * xx * xx * xx * xx * xx * xx) / (20922789888000)) - ((xx * xx * xx * xx * xx * xx * xx * xx * xx) / (6402373705728000)) + ((xx * xx * xx * xx * xx * xx * xx * xx * xx * xx) / (2432902008176640000)));
+}
+
+
+
+function truncateDecimals (num, digits) {
+    var numS = num.toString(),
+        decPos = numS.indexOf('.'),
+        substrLength = decPos == -1 ? numS.length : 1 + decPos + digits,
+        trimmedResult = numS.substr(0, substrLength),
+        finalResult = isNaN(trimmedResult) ? 0 : trimmedResult;
+
+    return parseFloat(finalResult);
+}
+
+function round(value, decimals) {
+  return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+}
+
+	var debugconsole = null;
+	if (debugconsole == null) 
+	{
+		debugconsole = document.getElementById("txtDebug");
+	}
+
+	let customPI = 3.14159274; // .net method converts PI to float
+	debugconsole.value += ("random" + "$" + "Math.sin(random).toPrecision(7)" + "$"+ "Math.cos(random).toPrecision(7)" + "$" + "f" + "$" + "Math.sin(f).toPrecision(7)" + "$" + "Math.cos(f).toPrecision(7)" + "$" + "nextRandom" + "$" + "xtemp" + "$" + "ytemp" + "\n");
+	//for (var random = 0.043068; random < (2 * Math.PI); random += 0.001)
+	for (var random = 0; random < (2 * Math.PI); random += 0.001)
+	{
+		//double radius = 500f;
+		let f = (random * customPI * 2);
+		if (f > 0.001)
+		{
+			f = round((random * customPI * 2), 9).toPrecision(7)
+		}
+		else if (f > 0.01)
+		{
+			f = round((random * customPI * 2), 8).toPrecision(7)
+		}
+		else if (f > 0.1)
+		{
+			f = round((random * customPI * 2), 7).toPrecision(7)
+		}
+		else if (f > 1)
+		{
+			f = round((random * customPI * 2), 6).toPrecision(7)
+		}
+		if (f > 10)
+		{
+			f = round((random * customPI * 2), 5).toPrecision(7)
+		}
+		
+		//f = (random * customPI * 2).toPrecision(7)
+		
+		
+		let nextRandom = 54660;
+		let xtemp = Math.sin(f).toPrecision(7) * Math.trunc((nextRandom / 100));
+		
+		let terms = 24;
+		let ytemp = cos_taylor_running_yterms(f, terms).toPrecision(7) * Math.trunc((nextRandom / 100));//Math.cos(f).toPrecision(7) * Math.trunc((nextRandom / 100));
+	
+		debugconsole.value += (random + "$" + Math.sin(random).toPrecision(7) + "$"+ cos_taylor_running_yterms(random, terms).toPrecision(7) + "$" + f + "$" + Math.sin(f).toPrecision(7) + "$" + cos_taylor_running_yterms(f, terms).toPrecision(7) + "$" + nextRandom + "$" + xtemp.toPrecision(7) + "$" + ytemp.toPrecision(7) + "\n");
+	}
+
+</script>
+
+
+
+</body>
+</html>

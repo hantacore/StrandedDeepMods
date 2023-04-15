@@ -1,0 +1,95 @@
+<html>
+
+<head>
+	<meta charset="UTF-8">
+	<script type="text/javascript" src="jquery-3.2.1.min.js" ></script>
+	<script type="text/javascript" src="tooltip.js" ></script>
+	<script type="text/javascript" src="vector.js" ></script>
+	<script type="text/javascript" src="fastrandom.js" ></script>
+	<script type="text/javascript" src="zonepositiongenerator.js" ></script>
+	<script type="text/javascript" src="mapper-new.js" ></script>
+	
+	<style>
+		@media screen { 
+  
+		  /* start of screen rules. */ 
+		  
+		  /* Generic pane rules */
+		  body { margin: 10px }
+		  .row, .col { overflow: hidden; position: absolute; }
+		  .row { left: 10; right: 10; }
+		  .col { top: 10; bottom: 10; }
+		  .scroll-x { overflow-x: auto; }
+		  .scroll-y { overflow-y: auto; }
+
+		  .header.row { height: 170px; top: 0; }
+		  .body.row { top: 170px; bottom: 10px; }
+		  .footer.row { height: 0px; bottom: 0; }
+		  
+		  /* end of screen rules. */ 
+		}
+	</style>
+</head>
+   
+   
+<body>
+	<div class="header row">
+		<h1>Stranded Deep mapper 0.22 (BIG WORLD update)</h1>
+		<p style="position:absolute;top:42px">Usage : open your savegame using the file menu + Load. Mousewheel to zoom, drag and drop to move map. Color code : <span style='color:green;'>Non cheat</span> <span style='color:orange;'>Mild cheat</span> <span style='color:red;'>Strong cheat</span></p>
+		<form id="jsonFile" name="jsonFile" enctype="multipart/form-data" method="post" style="background-color:#ffffff;border: none;box-shadow: none;">
+			<fieldset>
+				<span>Open the savegame file : </span>
+				<input type='file' id='fileinput'>
+				<input type='button' id='btnLoad' value='Load' onclick='loadFile(true);'>
+				<!--<input type='button' id='btnRefresh' onclick='loadFile(false);' value="Refresh"></input>-->
+				<input type='button' id='btnReset' onclick='resetAll();' value="Reset"></input>
+				Zoom = <input type='text' id='txtZoomLevel' size='5' readonly/>
+				<br />
+				<input type='button' id='btnFocusOnPlayer' onclick='drawMap(true, true);' value="Find player"></input>
+				<input type='checkbox' id='checkSavePoints' checked='checked' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show saving points</span></radio>
+				<input type='checkbox' id='checkItems' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show items and tools</span></radio>
+				<input type='checkbox' id='checkAnimals' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show animals</span></radio>
+				<input type='checkbox' id='checkWreckages' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show shipwrecks</span></radio>
+				<input type='checkbox' id='checkMineables' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show mineable resources</span></radio>
+				<input type='checkbox' id='checkRaftMaterials' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show raft resources</span></radio>
+				<input type='checkbox' id='checkFruits' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show fruits</span></radio>
+				<input type='checkbox' id='checkMedicine' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show medicine</span></radio>
+				<input type='checkbox' id='checkBuildings' onChange='updateFlags();' title='Non cheat'><span title='Non cheat' style='color:green;'>Show buildings</span></radio>
+				<br />
+				<input type='checkbox' id='checkWorld' onChange='updateFlags();' title='Mild cheat'><span title='Mild cheat' style='color:orange;'>Reveal world</span></radio>
+				<input type='checkbox' id='checkMissions' onChange='updateFlags();' title='Mild cheat'><span title='Mild cheat' style='color:red;'>Show missions</span></radio>
+				<input type='checkbox' id='checkZoneNames' onChange='updateFlags();' title='Strong cheat'><span title='Strong cheat' style='color:red;'>Show zone names</span></radio>
+				<input type='checkbox' id='checkDebug' onChange='updateFlags();' title='Strong cheat'><span title='Strong cheat' style='color:red;'>Debug mode</span></radio>
+				<input type='checkbox' id='checkTextures' onChange='updateFlags();'>Use textures (bad perf with bigworld)</radio>
+			</fieldset>
+		</form>
+	</div>
+
+	<div class="body row" id="canvasdiv" style="width:98%; margin:0 auto; overflow: hidden; cursor: pointer; border-style: solid;border-width: 1px; background-color: #000088;">
+		<p style="position: absolute;top:-50px;font-weight: bold;font-size: 48px;color:white;z-index:0;opacity: 0.2;">by Hantacore</p>
+		<canvas id="mapCanvas" width="10000" height="10000">
+			Message for non canvas-supporting browsers.
+		</canvas>
+		<canvas id="tooltipCanvas" width="250" height="20" style="position:absolute;top:0px;">
+			Message for non canvas-supporting browsers.
+		</canvas>
+		<img src="icons/compass.png" style="width:200px;height:200px;position:absolute;top:190px;left:20px;transform:rotate(45deg);" />
+	</div>
+	<form style="z-index:200">
+		<textarea id='txtLog' cols="80" rows="5" style="visibility:hidden;position:absolute;right:0px;top:0px;z-index:200" readonly title="Transmit these elements to the creator to have them added"></textarea>
+		<textarea id='txtDebug' cols="80" rows="5" style="visibility:hidden;position:absolute;right:0px;top:150px;z-index:200" readonly></textarea>
+	</form>
+	<div class="footer row"></div>
+	
+	<script type="text/javascript">
+		<!-- draw grid -->
+		initViewPort();
+		initDictionaries();
+		setTimeout(function(){
+			drawMap();
+		}, 200);
+	</script>
+
+</body>
+
+</html>

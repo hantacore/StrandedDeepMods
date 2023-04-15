@@ -1,0 +1,41 @@
+<html>
+
+<head>
+	<script type="text/javascript" src="jquery-3.2.1.min.js" ></script>
+	<script type="text/javascript" src="mapper.js" ></script>
+</head>
+   
+   
+<body>
+<h1>Stranded Deep mapper 0.4</h1>
+<form id="jsonFile" name="jsonFile" enctype="multipart/form-data" method="post">
+  <fieldset>
+    <h2>Json File</h2>
+     <input type='file' id='fileinput'>
+     <input type='button' id='btnLoad' value='Load' onclick='loadFile();'>
+	 <input type='button' id='btnRefresh' onclick='drawMap();' value="Refresh"></input>
+	 <input type='button' id='btnReset' onclick='resetAll();' value="Reset"></input>
+	 <input type='checkbox' id='checkAnimals' onChange='updateFlags();'>Show animals</radio>
+	 <input type='checkbox' id='checkWreckages' onChange='updateFlags();'>Show shipwrecks</radio>
+	 <input type='checkbox' id='checkMineables' onChange='updateFlags();'>Show mineable resources</radio>
+	 <input type='checkbox' id='checkSavePoints' checked='checked' onChange='updateFlags();'>Show saving points</radio>
+  </fieldset>
+</form>
+
+<div id="canvasdiv" style="width: 1500px; height: 700px; overflow: hidden; cursor: hand; border-style: solid;border-width: 1px; background-color: #000088;">
+	<!--<canvas id="mapCanvas" width="3000" height="3000" style="background-color:#ccffff;">-->
+	<canvas id="mapCanvas" width="6000" height="6000" style="background-color:#ccffff;">
+		Message for non canvas-supporting browsers.
+	</canvas>
+</div>
+
+<script type="text/javascript">
+	<!-- draw grid -->
+	initViewPort();
+	initDictionaries();
+	drawGrid();
+</script>
+
+</body>
+
+</html>
