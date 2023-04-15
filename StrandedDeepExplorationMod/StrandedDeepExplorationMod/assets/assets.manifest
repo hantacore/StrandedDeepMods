@@ -1,0 +1,10 @@
+ManifestFileVersion: 0
+CRC: 2773823751
+AssetBundleManifest:
+  AssetBundleInfos:
+    Info_0:
+      Name: strandeddeepmoaimod
+      Dependencies: {}
+    Info_1:
+      Name: strandeddeepexplorationmod
+      Dependencies: {}

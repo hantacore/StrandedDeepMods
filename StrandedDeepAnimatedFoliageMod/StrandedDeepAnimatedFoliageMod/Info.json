@@ -1,0 +1,9 @@
+﻿{
+  "Id": "StrandedDeepAnimatedFoliageMod",
+  "DisplayName": "Stranded Deep Animated Foliage Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.7",
+  "AssemblyName": "StrandedDeepAnimatedFoliageMod.dll",
+  "EntryMethod": "StrandedDeepAnimatedFoliageMod.Main.Load",
+  "LoadAfter" : ["StrandedWideMod"]
+}

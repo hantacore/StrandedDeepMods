@@ -1,0 +1,8 @@
+﻿{
+  "Id": "StrandedDeepMusicMod",
+  "DisplayName": "Stranded Deep Music Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.4",
+  "AssemblyName": "StrandedDeepMusicMod.dll",
+  "EntryMethod": "StrandedDeepMusicMod.Main.Load"
+}

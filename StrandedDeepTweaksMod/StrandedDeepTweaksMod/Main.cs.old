@@ -1,0 +1,1253 @@
+﻿using Beam;
+using Beam.Rendering;
+using Beam.Terrain;
+using SharpNeatLib.Maths;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityModManagerNet;
+using Funlabs;
+using Beam.Crafting;
+using Beam.Serialization.Json;
+using System.IO;
+using Beam.Serialization;
+
+namespace StrandedDeepTweaksMod
+{
+    static class Main
+    {
+        private static string configFileName = "StrandedDeepTweaksMod.config";
+
+        private static bool alwaysSkipIntro = false;
+
+        private static bool infiniteAir = false;
+        private static bool biggerAirTank = false;
+        private static List<Funlabs.MiniGuid> handledAirtankReferences;
+        private static int originalGameAirCapacity = 3;
+        private static int newCapacity = 10;
+
+        private static bool showDistances = false;
+
+        private static bool saveAnywhereAllowed = true;
+
+        private static bool addBuoyancies = true;
+
+        private static bool harderbosses = false;
+        private static bool hardcorebosses = false;
+
+        private static bool fixItemWeigths = true;
+        private static bool fixRainReset = true;
+
+        private static bool biggerStackSizes = false;
+
+        private static bool bossesInitialized = false;
+
+        //private static bool hardersharks = true;
+        //private static bool hardcoresharks = true;
+
+        private static bool infiniteGas = false;
+        private static bool biggerGasTank = false;
+        private static List<string> handledGastankReferences;
+
+        private static FieldInfo fi_holding;
+        private static FieldInfo fi_owner;
+
+        private static float textCanvasDefaultScreenWitdh = 1024f;
+        private static float textCanvasDefaultScreenHeight = 768f;
+
+        private static FastRandom random = new FastRandom();
+
+        internal static System.Diagnostics.Stopwatch chrono = new System.Diagnostics.Stopwatch();
+        internal static bool perfCheck = false;
+
+        private static FieldInfo fi_rain = typeof(AtmosphereStorm).GetField("_rain", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static FieldInfo fi_AudioManagerInstance = typeof(AudioManager).GetField("_Instance", BindingFlags.NonPublic | BindingFlags.Static);
+
+        static bool Load(UnityModManager.ModEntry modEntry)
+        {
+            try
+            {
+                chrono.Start();
+
+                modEntry.OnUpdate = OnUpdate;
+                modEntry.OnGUI = OnGUI;
+                modEntry.OnHideGUI = OnHideGUI;
+
+                handledAirtankReferences = new List<Funlabs.MiniGuid>();
+                handledGastankReferences = new List<string>();
+
+                ReadConfig();
+
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings MasterVolume before : " + Options.AudioSettings.MasterVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings MusicVolume before : " + Options.AudioSettings.MusicVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings VoiceVolume before : " + Options.AudioSettings.VoiceVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings EffectsVolume before : " + Options.AudioSettings.EffectsVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings EnvironmentVolume before : " + Options.AudioSettings.EnvironmentVolume);
+                ForceAudioSettingsReload();
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings MasterVolume after : " + Options.AudioSettings.MasterVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings MusicVolume after : " + Options.AudioSettings.MusicVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings VoiceVolume after : " + Options.AudioSettings.VoiceVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings EffectsVolume after : " + Options.AudioSettings.EffectsVolume);
+                //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings EnvironmentVolume after : " + Options.AudioSettings.EnvironmentVolume);
+
+                fi_holding = typeof(Beam.Crafting.InteractiveObject_SPYGLASS).GetField("_holding", BindingFlags.NonPublic | BindingFlags.Instance);
+                if (fi_holding == null)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : _holding field not found");
+                    return false;
+                }
+
+                fi_owner = typeof(Beam.Crafting.InteractiveObject_SPYGLASS).BaseType.GetField("_owner", BindingFlags.NonPublic | BindingFlags.Instance);
+                if (fi_owner == null)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : _owner field not found");
+                    return false;
+                }
+
+                if (fixItemWeigths)
+                {
+                    foreach (Beam.Serialization.PrefabReference prefab in Beam.Serialization.Prefabs.PrefabReferences)
+                    {
+                        //Renderer r = prefab.Prefab.GetComponent<Renderer>();
+                        //if (r != null)
+                        //{
+                        //    Debug.Log("Stranded Deep Tweaks Mod : prefab renderer type : " + r.GetType().Name);
+                        //    Texture2D t2d = new Texture2D(1, 1);
+                        //    t2d.SetPixel(0, 0, Color.red);
+                        //    r.sharedMaterial.mainTexture = t2d;
+                        //}
+
+                        if (prefab.Id == 13)
+                        {
+                            foreach (Rigidbody body in prefab.Prefab.AllRigidbodies)
+                            {
+                                Debug.Log("Stranded Deep Tweaks Mod : changing rock mass to 1");
+                                body.mass = 1;
+                            }
+                        }
+                        //if (prefab.Id == 224)
+                        //{
+                        //    Debug.Log("Stranded Deep Tweaks Mod : adding buoyancy to military crates");
+                        //    Buoyancy buoy = prefab.Prefab.gameObject.AddComponent<Buoyancy>();
+                        //}
+                    }
+                }
+
+                if (biggerStackSizes)
+                {
+                    IncreaseStackSizes(4);
+                }
+
+                Debug.Log("Stranded Deep Tweaks Mod properly loaded");
+
+                return true;
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep Tweaks Mod error on load : " + e);
+            }
+            finally
+            {
+                Debug.Log("Stranded Deep Tweaks Mod load time (ms) = " + chrono.ElapsedMilliseconds);
+            }
+
+            return false;
+        }
+
+        private static void ForceAudioSettingsReload()
+        {
+            try
+            {
+                JObject jobject;
+                try
+                {
+                    using (StreamReader streamReader = new StreamReader(FilePath.OPTIONS_FILE))
+                    {
+                        jobject = new JObject(streamReader.ReadToEnd());
+                    }
+                    JObject field4 = jobject.GetField("Audio");
+                    if (field4 != null)
+                    {
+                        if (!SavingUtilities.Load(Options.AudioSettings, field4))
+                        {
+                            Debug.LogError("Options::Load:: Could not load [audio] data. \nAudio settings have been reverted to defaults.");
+                        }
+                    }
+                    else
+                    {
+                        Debug.LogError("Options::Load:: No [audio] data was found. \nAudio settings have been reverted to defaults.");
+                    }
+                }
+                catch (Exception ex)
+                {
+                    string str = "Options::Load:: Could not load options data. \nOptions settings have been reverted to defaults. \n\n";
+                    Exception ex2 = ex;
+                    Debug.LogError(str + ((ex2 != null) ? ex2.ToString() : null));
+                    return;
+                }
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Stranded Deep Tweaks Mod error in ForceAudioSettingsReload : " + e);
+            }
+        }
+
+        private static void IncreaseStackSizes(int ratio)
+        {
+            try
+            {
+                Debug.Log("Stranded Deep Tweaks Mod : changing stack sizes ratio to " + ratio);
+                Debug.Log("Stranded Deep Tweaks Mod : changing stack sizes ratio step 1");
+                FieldInfo fi_stackSizes = typeof(SlotStorage).GetField("STACK_SIZES", BindingFlags.NonPublic | BindingFlags.Static);
+                Dictionary<InteractiveType, int> STACK_SIZES = fi_stackSizes.GetValue(null) as Dictionary<InteractiveType, int>;
+                STACK_SIZES[InteractiveType.CONTAINER] = 1 * ratio;
+                STACK_SIZES[InteractiveType.CRAFTING_LEAVES] = 24 * ratio;
+                STACK_SIZES[InteractiveType.CRAFTING_LOG] = 1 * ratio;
+                STACK_SIZES[InteractiveType.TOOLS_ARROW] = 24 * ratio;
+                STACK_SIZES[InteractiveType.TOOLS_SPEARGUN_ARROW] = 24 * ratio;
+                STACK_SIZES[InteractiveType.ANIMALS_FISH] = 8 * ratio;
+                STACK_SIZES[InteractiveType.FOOD_MEAT] = 8 * ratio;
+                STACK_SIZES[InteractiveType.FOOD_FRUIT] = 8 * ratio;
+
+                Debug.Log("Stranded Deep Tweaks Mod : changing stack sizes ratio step 2");
+                // default is 4, add any value in the dictionary to increase
+                //private const int DEFAULT_STACK_SIZE = 4;
+                foreach (InteractiveType current in Enum.GetValues(typeof(InteractiveType)).Cast<InteractiveType>())
+                {
+                    if (!STACK_SIZES.ContainsKey(current))
+                    {
+                        STACK_SIZES.Add(current, 4 * ratio);
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep Tweaks Mod : error on IncreaseStackSizes : " + e);
+            }
+        }
+
+        static void OnGUI(UnityModManager.ModEntry modEntry)
+        {
+            GUILayout.Label("Tweaks mod by Hantacore");
+            alwaysSkipIntro = GUILayout.Toggle(alwaysSkipIntro, "Always skip the private jet intro");
+            biggerAirTank = GUILayout.Toggle(biggerAirTank, "Bigger air tank (10 charges)");
+            infiniteAir = GUILayout.Toggle(infiniteAir, "Inifinite air in tank");
+            //biggerGasTank = GUILayout.Toggle(biggerGasTank, "Bigger gas tanks in vehicles (10 charges)");
+            //infiniteGas = GUILayout.Toggle(infiniteGas, "Inifinite gas in vehicles");
+            saveAnywhereAllowed = GUILayout.Toggle(saveAnywhereAllowed, "Save anywhere allowed (F7)");
+            //addBuoyancies = GUILayout.Toggle(addBuoyancies, "Add custom buoyancies");
+            fixRainReset = GUILayout.Toggle(fixRainReset, "Fix the rain not resetting bug");
+            biggerStackSizes = GUILayout.Toggle(biggerStackSizes, "4 x bigger stack sizes");
+
+            showDistances = GUILayout.Toggle(showDistances, "Show distances through spyglass");
+            harderbosses = GUILayout.Toggle(harderbosses, "Make the bosses harder (doubled HP, instant bleeding, Abaia poisons)");
+            hardcorebosses = GUILayout.Toggle(hardcorebosses, "Make the bosses hardcore (increased damage)");
+
+            IList<Beam.IPlayer> players = Beam.PlayerRegistry.AllPlayers;
+            // show only if ingame
+            if (players.Count > 0)
+            {
+                Beam.Crafting.CraftingCombination craftingCombination3 = PlayerRegistry.LocalPlayer.Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "AIRCRAFT ENGINE PART");
+                craftingCombination3.Unlocked = GUILayout.Toggle(craftingCombination3.Unlocked, "Unlock AIRCRAFT ENGINE PART for player 1 (cheat)");
+
+                Beam.Crafting.CraftingCombination craftingCombination6 = PlayerRegistry.LocalPlayer.Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "AIRCRAFT RUDDER PART");
+                craftingCombination6.Unlocked = GUILayout.Toggle(craftingCombination6.Unlocked, "Unlock AIRCRAFT RUDDER PART for player 1 (cheat)");
+
+                Beam.Crafting.CraftingCombination craftingCombination9 = PlayerRegistry.LocalPlayer.Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "AIRCRAFT PROPELLER PART");
+                craftingCombination9.Unlocked = GUILayout.Toggle(craftingCombination9.Unlocked, "Unlock AIRCRAFT PROPELLER PART for player 1 (cheat)");
+
+                // Seems enabled by default
+                //Beam.Crafting.CraftingCombination craftingCombination2 = players[0].Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "GYROCOPTER FRAME");
+                //craftingCombination2.Unlocked = GUILayout.Toggle(craftingCombination2.Unlocked, "Unlock GYROCOPTER FRAME for player 1 (cheat)");
+
+                //Beam.Crafting.CraftingCombination craftingCombination5 = players[0].Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "GYROCOPTER MOTOR");
+                //craftingCombination5.Unlocked = GUILayout.Toggle(craftingCombination5.Unlocked, "Unlock GYROCOPTER MOTOR for player 1 (cheat)");
+
+                //Beam.Crafting.CraftingCombination craftingCombination8 = players[0].Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "GYROCOPTER ROTORS");
+                //craftingCombination8.Unlocked = GUILayout.Toggle(craftingCombination8.Unlocked, "Unlock GYROCOPTER ROTORS for player 1 (cheat)");
+
+                //if (GUI.Button(new Rect(10, 70, 50, 30), "Give a paddle"))
+                //{
+                //    Debug.Log("Clicked the button with text = Give a paddle");
+                //}
+            }
+
+            // Give back coconut after consumable drink
+        }
+
+        static void OnHideGUI(UnityModManager.ModEntry modEntry)
+        {
+            WriteConfig();
+            if (biggerStackSizes)
+            {
+                IncreaseStackSizes(4);
+            }
+            else
+            {
+                IncreaseStackSizes(1);
+            }
+        }
+
+        static int flag = 0;
+        static bool audioResetDone = false;
+
+        static void OnUpdate(UnityModManager.ModEntry modEntry, float dt)
+        {
+            try
+            {
+                chrono.Reset();
+                chrono.Start();
+
+                if (flag > 2)
+                    flag = 0;
+
+                if (!audioResetDone)
+                {
+                    AudioManager am = fi_AudioManagerInstance.GetValue(null) as AudioManager;
+                    if (am != null)
+                    {
+                        am.LoadOptions();
+                        audioResetDone = true;
+                        Debug.Log("Stranded Deep Tweaks Mod : Audiosettings forced");
+                    }
+                }
+
+                if (alwaysSkipIntro
+                    && Beam.Game.State == GameState.INTRO)
+                {
+                    bool canSkipIntro = false;
+                    Beam.Intro.PrivateJet privateJet = Beam.Game.FindObjectOfType<Beam.Intro.PrivateJet>();
+                    if (privateJet != null)
+                    {
+                        FieldInfo fi = typeof(Beam.Intro.PrivateJet).GetField("_canSkipIntro", BindingFlags.NonPublic | BindingFlags.Instance);
+                        if (fi != null)
+                        {
+                            canSkipIntro = (bool)fi.GetValue(privateJet);
+                        }
+
+                        if (canSkipIntro)
+                        {
+                            MethodInfo mi = typeof(Beam.Intro.PrivateJet).GetMethod("LoadNewGame", BindingFlags.NonPublic | BindingFlags.Instance);
+                            if (mi != null)
+                            {
+                                mi.Invoke(privateJet, null);
+                                // performance
+                                //alwaysSkipIntro = false;
+                            }
+                        }
+                    }
+                }
+
+                //Debug.Log("Stranded Deep Tweaks Mod update step 1 (ms) = " + chrono.ElapsedMilliseconds);
+
+                if (Beam.Game.State == GameState.NEW_GAME || Beam.Game.State == GameState.LOAD_GAME)
+                {
+                    if (saveAnywhereAllowed)
+                    {
+                        Event currentevent = Event.current;
+                        if (currentevent.isKey)
+                        {
+                            if (currentevent.keyCode == KeyCode.F7 && !Game.Mode.IsMultiplayer())
+                            {
+                                if (Game.Mode.IsMaster())
+                                {
+                                    // Try and save the game
+                                    SaveManager.Save(Beam.Game.Mode, true);
+                                }
+                            }
+                        }
+                    }
+
+                    //Debug.Log("Stranded Deep Tweaks Mod update step 2 (ms) = " + chrono.ElapsedMilliseconds);
+
+                    if (fixRainReset)
+                    {
+                        if (AtmosphereStorm.Instance != null
+                            && (AtmosphereStorm.Instance.CurrentWeatherEvent == null
+                                || !Mathf.Approximately(AtmosphereStorm.Instance.CurrentWeatherEvent.Humidity, 100f))
+                            && AtmosphereStorm.Instance.Rain > 0)
+                        {
+                            Debug.Log("Stranded Deep Tweaks Mod : resetting rain");
+                            fi_rain.SetValue(AtmosphereStorm.Instance, 0);
+                        }
+                    }
+
+                    //Debug.Log("Stranded Deep Tweaks Mod update step 3 (ms) = " + chrono.ElapsedMilliseconds);
+
+                    //IPlayer player; player.Holder.CurrentObject is InteractiveObject_AIRTANK
+
+                    if ((biggerAirTank || infiniteAir) && flag == 0)
+                    {
+                        if (PlayerRegistry.LocalPlayer != null
+                            && PlayerRegistry.LocalPlayer.Holder != null
+                            && PlayerRegistry.LocalPlayer.Holder.CurrentObject != null
+                            && PlayerRegistry.LocalPlayer.Holder.CurrentObject is InteractiveObject_AIRTANK)
+                        {
+                            InteractiveObject_AIRTANK airtank = PlayerRegistry.LocalPlayer.Holder.CurrentObject as InteractiveObject_AIRTANK;
+
+                            //Beam.Crafting.InteractiveObject_AIRTANK[] airtanks = Beam.Game.FindObjectsOfType<Beam.Crafting.InteractiveObject_AIRTANK>();
+                            //if (airtanks != null)
+                            //{
+                            //    foreach (Beam.Crafting.InteractiveObject_AIRTANK airtank in airtanks)
+                            //    {
+                            if (infiniteAir)
+                            {
+                                if (airtank.DurabilityPoints != newCapacity)
+                                {
+                                    airtank.DurabilityPoints = newCapacity;
+                                    Debug.Log("Stranded Deep Tweaks Mod : refilling infinite airtank");
+                                }
+                            }
+                            else if (biggerAirTank && !handledAirtankReferences.Contains(airtank.ReferenceId))
+                            {
+                                //Debug.Log("Stranded Deep Tweaks Mod : on airtank load charges : " + airtank.DurabilityPoints);
+                                if (!airtank.name.Contains("Bigger"))
+                                {
+                                    float newCharges = newCapacity - (3 - airtank.DurabilityPoints);
+                                    Debug.Log("Stranded Deep Tweaks Mod : setting airtank max capacity to : " + newCharges + " for reference " + airtank.ReferenceId);
+                                    airtank.DurabilityPoints = newCharges;
+                                    var propertyInfo = typeof(InteractiveObject).GetProperty("OriginalDurabilityPoints", BindingFlags.Public | BindingFlags.Instance);
+                                    if (propertyInfo != null)
+                                    {
+                                        //Debug.Log("Stranded Deep Tweaks Mod : OriginalDurabilityPoints Property found");
+                                        MethodInfo mi = propertyInfo.GetSetMethod(true);
+                                        if (mi != null)
+                                        {
+                                            //Debug.Log("Stranded Deep Tweaks Mod : OriginalDurabilityPoints Property private setter found");
+                                            mi.Invoke(((InteractiveObject)airtank), new object[] { newCharges });
+                                        }
+                                    }
+                                    //Debug.Log("Stranded Deep Tweaks Mod : airtank OriginalDurabilityPoints : " + airtank.OriginalDurabilityPoints);
+                                    airtank.DisplayName = "Bigger air tank";
+                                }
+                                handledAirtankReferences.Add(airtank.ReferenceId);
+                            }
+                            //    }
+                            //}
+                        }
+                    }
+
+                    //Debug.Log("Stranded Deep Tweaks Mod update step 4 (ms) = " + chrono.ElapsedMilliseconds);
+
+                    if ((biggerGasTank || infiniteGas) && flag == 1)
+                    {
+                        MotorVehicleMovement[] vehicleMovements = Beam.Game.FindObjectsOfType<MotorVehicleMovement>();
+                        if (vehicleMovements != null)
+                        {
+                            foreach (MotorVehicleMovement vehicleMovement in vehicleMovements)
+                            {
+                                if (infiniteGas)
+                                {
+                                    if (vehicleMovement.Fuel != vehicleMovement.FuelCapacity)
+                                    {
+                                        FieldInfo fi = typeof(InteractiveObject).GetField("_fuel", BindingFlags.NonPublic | BindingFlags.Instance);
+                                        if (fi != null)
+                                        {
+                                            fi.SetValue(vehicleMovement, vehicleMovement.FuelCapacity);
+                                        }
+                                        Debug.Log("Stranded Deep Tweaks Mod : refilling infinite gas tank");
+                                    }
+                                }
+                                else if (biggerGasTank)// && !handledAirtankReferences.Contains(vehicleMovement.ReferenceId))
+                                {
+                                    Debug.Log("Stranded Deep Tweaks Mod : bigger gas tank not implemented yet");
+                                }
+                            }
+                        }
+                    }
+
+                    //Debug.Log("Stranded Deep Tweaks Mod update step 5 (ms) = " + chrono.ElapsedMilliseconds);
+
+                    if (showDistances)
+                    {
+                        if (PlayerRegistry.LocalPlayer != null
+                            && PlayerRegistry.LocalPlayer.Holder != null
+                            && PlayerRegistry.LocalPlayer.Holder.CurrentObject != null
+                            && PlayerRegistry.LocalPlayer.Holder.CurrentObject is InteractiveObject_SPYGLASS)
+                        {
+                            InteractiveObject_SPYGLASS spyglass = PlayerRegistry.LocalPlayer.Holder.CurrentObject as InteractiveObject_SPYGLASS;
+                            bool holding = (bool)fi_holding.GetValue(spyglass);
+                            //Debug.Log("Stranded Deep Tweaks Mod : is holding spyglass = " + holding);
+                            if (!holding)
+                            {
+                                if (distanceCanvasVisible)
+                                {
+                                    textCanvas.SetActive(false);
+                                }
+                                distanceCanvasVisible = false;
+                            }
+                            else
+                            {
+                                //IPlayer owner = fi_owner.GetValue(spyglass) as IPlayer;
+                                IPlayer owner = PlayerRegistry.LocalPlayer;
+                                if (owner != null && owner.Input.GetButton(8))
+                                {
+                                    //Debug.Log("Stranded Deep Tweaks Mod : spyglass in use");
+                                    // show distance
+                                    RefreshDistance();
+                                }
+                                else
+                                {
+                                    //Debug.Log("Stranded Deep Tweaks Mod : spyglass NOT in use");
+                                    // hide distance
+                                    if (distanceCanvasVisible)
+                                    {
+                                        textCanvas.SetActive(false);
+                                    }
+                                    distanceCanvasVisible = false;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            //Debug.Log("Stranded Deep Tweaks Mod : NO spyglasses hold");
+                            // hide distance
+                            if (distanceCanvasVisible)
+                            {
+                                textCanvas.SetActive(false);
+                            }
+                            distanceCanvasVisible = false;
+                        }
+
+                        //    Beam.Crafting.InteractiveObject_SPYGLASS[] spyglasses = Beam.Game.FindObjectsOfType<Beam.Crafting.InteractiveObject_SPYGLASS>();
+                        //    if (spyglasses != null)
+                        //    {
+                        //        //Debug.Log("Stranded Deep Tweaks Mod : spyglasses found");
+                        //        foreach (Beam.Crafting.InteractiveObject_SPYGLASS spyglass in spyglasses)
+                        //        {
+                        //            bool holding = (bool)fi_holding.GetValue(spyglass);
+                        //            //Debug.Log("Stranded Deep Tweaks Mod : is holding spyglass = " + holding);
+                        //            if (!holding)
+                        //            {
+                        //                if (distanceCanvasVisible)
+                        //                {
+                        //                    textCanvas.SetActive(false);
+                        //                }
+                        //                distanceCanvasVisible = false;
+                        //                continue;
+                        //            }
+
+                        //            IPlayer owner = fi_owner.GetValue(spyglass) as IPlayer;
+                        //            if (owner != null && owner.Input.GetButton(8))
+                        //            {
+                        //                //Debug.Log("Stranded Deep Tweaks Mod : spyglass in use");
+                        //                // afficher la distance
+                        //                RefreshDistance();
+                        //            }
+                        //            else
+                        //            {
+                        //                //Debug.Log("Stranded Deep Tweaks Mod : spyglass NOT in use");
+                        //                // cacher la distance
+                        //                if (distanceCanvasVisible)
+                        //                {
+                        //                    textCanvas.SetActive(false);
+                        //                }
+                        //                distanceCanvasVisible = false;
+                        //            }
+                        //        }
+                        //    }
+                        //    else
+                        //    {
+                        //        //Debug.Log("Stranded Deep Tweaks Mod : NO spyglasses found");
+                        //        // cacher la distance
+                        //        if (distanceCanvasVisible)
+                        //        {
+                        //            textCanvas.SetActive(false);
+                        //        }
+                        //        distanceCanvasVisible = false;
+                        //    }
+                        //}
+                        //else
+                        //{
+                        //    // cacher la distance
+                        //    if (distanceCanvasVisible)
+                        //    {
+                        //        textCanvas.SetActive(false);
+                        //    }
+                        //    distanceCanvasVisible = false;
+                    }
+
+                    //Debug.Log("Stranded Deep Tweaks Mod update step 6 (ms) = " + chrono.ElapsedMilliseconds);
+
+                    if ((harderbosses
+                        && StrandedWorld.Instance != null) && flag == 2)
+                    {
+                        foreach (IPlayer player in PlayerRegistry.AllPlayers)
+                        {
+                            Zone z = StrandedWorld.GetZone(player.transform.position, false);
+                            if (z != null
+                                && z.Id.Contains("MISSION"))
+                            {
+                                MakeBossesHarder();
+                            }
+                        }
+                    }
+
+                    //Debug.Log("Stranded Deep Tweaks Mod update step 7 (ms) = " + chrono.ElapsedMilliseconds);
+
+                    //BuoyancyTests();
+                    if (addBuoyancies)
+                    {
+                        InteractiveObject[] ios = Beam.Game.FindObjectsOfType<InteractiveObject>();
+                        foreach (InteractiveObject io in ios)
+                        {
+                            //Debug.Log("Stranded Deep Tweaks Mod : " + io.name);
+                            Buoyancy buoy = io.GetComponent<Buoyancy>();
+                            if (buoy == null
+                                && io.name.Contains("STICK"))
+                            {
+                                Debug.Log("Stranded Deep Tweaks Mod : adding buoyancy to " + io.name);
+                                Buoyancy newbuoy = io.gameObject.AddComponent<Buoyancy>();
+                                fi_buoyancyDensity.SetValue(newbuoy, 100.0f);
+                                //_bouyancyCollider 
+                                //_rigidbody
+                            }
+                        }
+                    }
+
+                    flag++;
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep Tweaks Mod : error on update : " + e);
+            }
+            finally
+            {
+                if (perfCheck && chrono.ElapsedMilliseconds >= 10)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod update time (ms) = " + chrono.ElapsedMilliseconds);
+                }
+            }
+        }
+
+        private static void MakeSharksHarder()
+        {
+            
+        }
+
+        //_normalAttackDamage
+        private static FieldInfo fi_normalAttackDamage = typeof(Piscus_Creature).GetField("_normalAttackDamage", BindingFlags.NonPublic | BindingFlags.Instance);
+        //_normalAttackCritDamage
+        private static FieldInfo fi_normalAttackCritDamage = typeof(Piscus_Creature).GetField("_normalAttackCritDamage", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        //_attackDamage
+        private static FieldInfo fi_attackDamage = typeof(Piscus_Creature).GetField("_attackDamage", BindingFlags.NonPublic | BindingFlags.Instance);
+        //_attackCritDamage
+        private static FieldInfo fi_attackCritDamage = typeof(Piscus_Creature).GetField("_attackCritDamage", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        //_minExploreDepth
+        private static FieldInfo fi_minExploreDepth = typeof(Piscus_Creature).GetField("_minExploreDepth", BindingFlags.NonPublic | BindingFlags.Instance);
+        //_maxExploreDepth
+        private static FieldInfo fi_maxExploreDepth = typeof(Piscus_Creature).GetField("_maxExploreDepth", BindingFlags.NonPublic | BindingFlags.Instance);
+        
+        //_fleeTimer
+        private static FieldInfo fi_fleetimer = typeof(Piscus_Creature).GetField("_fleeTimer", BindingFlags.NonPublic | BindingFlags.Instance);
+        //_avoidanceRayDistance
+        private static FieldInfo fi_avoidanceRayDistance = typeof(Piscus_Creature).GetField("_avoidanceRayDistance", BindingFlags.NonPublic | BindingFlags.Instance);
+        //_avoidanceRayWidth
+        private static FieldInfo fi_avoidanceRayWidth = typeof(Piscus_Creature).GetField("_avoidanceRayWidth", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        //_interactiveObject
+        private static FieldInfo fi_interactiveObject = typeof(Piscus_Creature).GetField("_interactiveObject", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        //OriginalHealthPoints
+        private static PropertyInfo pi_OriginalHealthPoints = typeof(BaseObject).GetProperty("OriginalHealthPoints", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static Piscus_Creature currentBoss = null;
+        private static Boss_Squid_Tentacle currentTentacle = null;
+
+        private static bool initEel = false;
+        private static bool initMeg = false;
+        private static bool initSquid = false;
+        private static bool initTentacle = false;
+        private static float newMinExploreDepth = -50;//-10
+        private static int newavoidanceRayDistance = 0;//6
+        private static int newavoidanceRayWidth = 0;//6
+
+        private static void MakeBossesHarder()
+        {
+            Boss_Eel[] eels = Beam.Game.FindObjectsOfType<Boss_Eel>();
+            if (eels != null)
+            {
+                foreach (Boss_Eel eel in eels)
+                {
+                    currentBoss = eel;
+                    UnFlee(eel);
+                    if (initEel)
+                        return;
+
+                    Debug.Log("Stranded Deep Tweaks Mod : eel BiomeSize : " + eel.BiomeSize);
+                    eel.BiomeSize = 300; //200
+                    Debug.Log("Stranded Deep Tweaks Mod : eel new BiomeSize : " + eel.BiomeSize);
+
+                    Debug.Log("Stranded Deep Tweaks Mod : eel _minExploreDepth : " + fi_minExploreDepth.GetValue(eel));
+                    fi_minExploreDepth.SetValue(eel, newMinExploreDepth); // -10
+                    Debug.Log("Stranded Deep Tweaks Mod : eel new _minExploreDepth : " + fi_minExploreDepth.GetValue(eel));
+
+                    Debug.Log("Stranded Deep Tweaks Mod : eel _avoidanceRayDistance : " + fi_avoidanceRayDistance.GetValue(eel));
+                    fi_avoidanceRayDistance.SetValue(eel, newavoidanceRayDistance); // 6
+                    Debug.Log("Stranded Deep Tweaks Mod : eel new_avoidanceRayDistance : " + fi_avoidanceRayDistance.GetValue(eel));
+
+                    Debug.Log("Stranded Deep Tweaks Mod : eel _avoidanceRayWidth : " + fi_avoidanceRayWidth.GetValue(eel));
+                    fi_avoidanceRayWidth.SetValue(eel, newavoidanceRayWidth); // 6
+                    Debug.Log("Stranded Deep Tweaks Mod : eel new_avoidanceRayWidth : " + fi_avoidanceRayWidth.GetValue(eel));
+
+                    if (hardcorebosses)
+                    {
+                        //200
+                        Debug.Log("Stranded Deep Tweaks Mod : eel _attackDamage : " + fi_attackDamage.GetValue(eel));
+                        fi_attackDamage.SetValue(eel, 350);
+                        Debug.Log("Stranded Deep Tweaks Mod : eel new _attackDamage : " + fi_attackDamage.GetValue(eel));
+
+                        //300
+                        Debug.Log("Stranded Deep Tweaks Mod : eel _attackCritDamage : " + fi_attackCritDamage.GetValue(eel));
+                        fi_attackCritDamage.SetValue(eel, 450);
+                        Debug.Log("Stranded Deep Tweaks Mod : eel new _attackCritDamage : " + fi_attackCritDamage.GetValue(eel));
+                    }
+                    InteractiveObject io = fi_interactiveObject.GetValue(eel) as InteractiveObject;
+                    if (io != null)
+                    {
+                        // 750
+                        Debug.Log("Stranded Deep Tweaks Mod : eel health : " + io.HealthPoints);
+                        float vanillaHP = 750;
+                        if ((float)pi_OriginalHealthPoints.GetValue(io) == vanillaHP)
+                        {
+                            pi_OriginalHealthPoints.SetValue(io, 2 * vanillaHP);
+                            io.HealthPoints = 2 * vanillaHP;
+                        }
+                        Debug.Log("Stranded Deep Tweaks Mod : eel new health : " + io.HealthPoints);
+                    }
+                    //eel.Attacked -= Boss_Attacked;
+                    //eel.Attacked += Boss_Attacked;
+                    //eel.Jumped -= Boss_Jumped;
+                    //eel.Jumped += Boss_Jumped;
+                    initEel = true;
+                }
+            }
+
+            Boss_Shark[] megalodons = Beam.Game.FindObjectsOfType<Boss_Shark>();
+            if (megalodons != null)
+            {
+                foreach (Boss_Shark megalodon in megalodons)
+                {
+                    currentBoss = megalodon;
+                    UnFlee(megalodon);
+                    if (initMeg)
+                        return;
+
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon BiomeSize : " + megalodon.BiomeSize);
+                    megalodon.BiomeSize = 300; //200
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon new BiomeSize : " + megalodon.BiomeSize);
+
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon _minExploreDepth : " + fi_minExploreDepth.GetValue(megalodon));
+                    fi_minExploreDepth.SetValue(megalodon, newMinExploreDepth); // -10
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon new _minExploreDepth : " + fi_minExploreDepth.GetValue(megalodon));
+
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon _avoidanceRayDistance : " + fi_avoidanceRayDistance.GetValue(megalodon));
+                    fi_avoidanceRayDistance.SetValue(megalodon, newavoidanceRayDistance); // 6
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon new_avoidanceRayDistance : " + fi_avoidanceRayDistance.GetValue(megalodon));
+
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon _avoidanceRayWidth : " + fi_avoidanceRayWidth.GetValue(megalodon));
+                    fi_avoidanceRayWidth.SetValue(megalodon, newavoidanceRayWidth); // 6
+                    Debug.Log("Stranded Deep Tweaks Mod : megalodon new_avoidanceRayWidth : " + fi_avoidanceRayWidth.GetValue(megalodon));
+
+                    if (hardcorebosses)
+                    {
+                        //100
+                        Debug.Log("Stranded Deep Tweaks Mod : megalodon _attackDamage : " + fi_attackDamage.GetValue(megalodon));
+                        fi_attackDamage.SetValue(megalodon, 250);
+                        Debug.Log("Stranded Deep Tweaks Mod : megalodon new _attackDamage : " + fi_attackDamage.GetValue(megalodon));
+                        //100
+                        Debug.Log("Stranded Deep Tweaks Mod : megalodon _attackCritDamage : " + fi_attackCritDamage.GetValue(megalodon));
+                        fi_attackCritDamage.SetValue(megalodon, 250);
+                        Debug.Log("Stranded Deep Tweaks Mod : megalodon new _attackCritDamage : " + fi_attackCritDamage.GetValue(megalodon));
+                    }
+                    InteractiveObject io = fi_interactiveObject.GetValue(megalodon) as InteractiveObject;
+                    if (io != null)
+                    {
+                        //500
+                        Debug.Log("Stranded Deep Tweaks Mod : megalodon health : " + io.HealthPoints);
+                        float vanillaHP = 500;
+                        if ((float)pi_OriginalHealthPoints.GetValue(io) == vanillaHP)
+                        {
+                            pi_OriginalHealthPoints.SetValue(io, 2 * vanillaHP);
+                            io.HealthPoints = 2 * vanillaHP;
+                        }
+                        Debug.Log("Stranded Deep Tweaks Mod : megalodon new health : " + io.HealthPoints);
+                    }
+                    //megalodon.Attacked -= Boss_Attacked;
+                    //megalodon.Attacked += Boss_Attacked;
+                    //megalodon.Jumped -= Boss_Jumped;
+                    //megalodon.Jumped += Boss_Jumped;
+                    initMeg = true;
+                }
+            }
+            Boss_Squid[] squids = Beam.Game.FindObjectsOfType<Boss_Squid>();
+            if (squids != null)
+            {
+                foreach (Boss_Squid squid in squids)
+                {
+                    currentBoss = squid;
+                    UnFlee(squid);
+                    if (initSquid)
+                        return;
+
+                    Debug.Log("Stranded Deep Tweaks Mod : squid BiomeSize : " + squid.BiomeSize);
+                    squid.BiomeSize = 300; //200
+                    Debug.Log("Stranded Deep Tweaks Mod : squid new BiomeSize : " + squid.BiomeSize);
+
+                    Debug.Log("Stranded Deep Tweaks Mod : squid _minExploreDepth : " + fi_minExploreDepth.GetValue(squid));
+                    fi_minExploreDepth.SetValue(squid, newMinExploreDepth); // -10
+                    Debug.Log("Stranded Deep Tweaks Mod : squid new _minExploreDepth : " + fi_minExploreDepth.GetValue(squid));
+
+                    Debug.Log("Stranded Deep Tweaks Mod : squid _avoidanceRayDistance : " + fi_avoidanceRayDistance.GetValue(squid));
+                    fi_avoidanceRayDistance.SetValue(squid, newavoidanceRayDistance); // 6
+                    Debug.Log("Stranded Deep Tweaks Mod : squid new_avoidanceRayDistance : " + fi_avoidanceRayDistance.GetValue(squid));
+
+                    Debug.Log("Stranded Deep Tweaks Mod : squid _avoidanceRayWidth : " + fi_avoidanceRayWidth.GetValue(squid));
+                    fi_avoidanceRayWidth.SetValue(squid, newavoidanceRayWidth); // 6
+                    Debug.Log("Stranded Deep Tweaks Mod : squid new_avoidanceRayWidth : " + fi_avoidanceRayWidth.GetValue(squid));
+
+                    if (hardcorebosses)
+                    {
+                        //100
+                        Debug.Log("Stranded Deep Tweaks Mod : squid _attackDamage : " + fi_attackDamage.GetValue(squid));
+                        fi_attackDamage.SetValue(squid, 250);
+                        Debug.Log("Stranded Deep Tweaks Mod : squid new _attackDamage : " + fi_attackDamage.GetValue(squid));
+                        //200
+                        Debug.Log("Stranded Deep Tweaks Mod : squid _attackCritDamage : " + fi_attackCritDamage.GetValue(squid));
+                        fi_attackCritDamage.SetValue(squid, 350);
+                        Debug.Log("Stranded Deep Tweaks Mod : squid new _attackCritDamage : " + fi_attackCritDamage.GetValue(squid));
+                    }
+                    InteractiveObject io = fi_interactiveObject.GetValue(squid) as InteractiveObject;
+                    if (io != null)
+                    {
+                        // 1000
+                        Debug.Log("Stranded Deep Tweaks Mod : squid health : " + io.HealthPoints);
+                        float vanillaHP = 1000;
+                        if ((float)pi_OriginalHealthPoints.GetValue(io) == vanillaHP)
+                        {
+                            pi_OriginalHealthPoints.SetValue(io, 2 * vanillaHP);
+                            io.HealthPoints = 2 * vanillaHP;
+                        }
+                        Debug.Log("Stranded Deep Tweaks Mod : squid new health : " + io.HealthPoints);
+                    }
+                    //squid.Attacked -= Boss_Attacked;
+                    //squid.Attacked += Boss_Attacked;
+                    //squid.EnteredTargetProximity.RemoveListener(squid_EnteredTargetProximity);
+                    //squid.EnteredTargetProximity.AddListener(squid_EnteredTargetProximity);
+                    initSquid = true;
+                }
+            }
+
+            Boss_Squid_Tentacle[] squidtentacles = Beam.Game.FindObjectsOfType<Boss_Squid_Tentacle>();
+            if (squidtentacles != null)
+            {
+                foreach (Boss_Squid_Tentacle squidtentacle in squidtentacles)
+                {
+                    currentTentacle = squidtentacle;
+                    if (initTentacle)
+                        break;
+
+                    squidtentacle.Attacked.RemoveListener(squidtentacle_Attacked);
+                    squidtentacle.Attacked.AddListener(squidtentacle_Attacked);
+
+                    if (hardcorebosses)
+                    {
+                        squidtentacle.AttackedGrabbed.RemoveListener(squidtentacle_AttackedGrabbed);
+                        squidtentacle.AttackedGrabbed.AddListener(squidtentacle_AttackedGrabbed);
+                    }
+
+                    initTentacle = true;
+                }
+            }
+        }
+
+        private static void UnFlee(Piscus_Creature currentCreature)
+        {
+            //Debug.Log("Stranded Deep Tweaks Mod : current boss behavior : " + currentCreature.CurrentState);
+
+            if (!hardcorebosses || currentCreature == null)
+                return;
+
+            float fleeTimer = (float)fi_fleetimer.GetValue(currentCreature);
+            Debug.Log("Stranded Deep Tweaks Mod : boss un-flee current timer = " + fleeTimer);
+            if (fleeTimer != 0)
+            {
+                // bosses don't flee
+                IPlayer currentTarget = fi_currentTarget.GetValue(currentCreature) as IPlayer;
+                if (currentTarget == null && random.Next(0, 100) > (hardcorebosses ? 70 : 90))
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : boss continue attack");
+                    fi_fleetimer.SetValue(currentCreature, 100f);
+                    Debug.Log("Stranded Deep Tweaks Mod : boss un-flee new timer value : " + fi_fleetimer.GetValue(currentCreature));
+                    currentCreature.CurrentState = Piscus_Creature.PiscusBehaviour.CircleTarget;
+                }
+                else
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : boss un-flee return explore");
+                    currentCreature.CurrentState = Piscus_Creature.PiscusBehaviour.Explore;
+                }
+            }
+        }
+
+        private static MethodInfo mi_Attempt_Tentacle_GrabAttack = typeof(Boss_Squid).GetMethod("Attempt_Tentacle_GrabAttack", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static void squid_EnteredTargetProximity()
+        {
+            if (currentBoss == null || !(currentBoss is Boss_Squid))
+                return;
+
+            mi_Attempt_Tentacle_GrabAttack.Invoke(currentBoss, null);
+        }
+
+        private static FieldInfo fi_bossSquid = typeof(Boss_Squid_Tentacle).GetField("_bossSquid", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static void squidtentacle_Attacked()
+        {
+            if (currentTentacle == null)
+                return;
+
+            Boss_Squid squid = fi_bossSquid.GetValue(currentTentacle) as Boss_Squid;
+            if (squid == null)
+                return;
+
+            IPlayer currentTarget = fi_currentTarget.GetValue(squid) as IPlayer;
+            if (currentTarget == null)
+                return;
+
+            bool bleed = (random.Next(0, 100) > (hardcorebosses ? 50 : 70));
+
+            if (bleed && !currentTarget.Statistics.HasStatusEffect(StatusEffect.BLEEDING))
+                currentTarget.Statistics.ApplyStatusEffect(StatusEffect.BLEEDING, false);
+        }
+
+        private static void squidtentacle_AttackedGrabbed()
+        {
+            if (currentTentacle == null)
+                return;
+
+            Boss_Squid squid = fi_bossSquid.GetValue(currentTentacle) as Boss_Squid;
+            if (squid == null)
+                return;
+
+            IPlayer currentTarget = fi_currentTarget.GetValue(squid) as IPlayer;
+            if (currentTarget == null)
+                return;
+
+            bool breakBones = (random.Next(0, 100) > (hardcorebosses ? 70 : 85));
+
+            if (breakBones && !currentTarget.Statistics.HasStatusEffect(StatusEffect.BROKEN_BONES))
+                currentTarget.Statistics.ApplyStatusEffect(StatusEffect.BROKEN_BONES, false);
+        }
+
+        private static FieldInfo fi_currentTarget = typeof(Piscus_Creature).GetField("_currentTarget", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static void Boss_Attacked()
+        {
+            if (currentBoss == null)
+                return;
+            IPlayer currentTarget = fi_currentTarget.GetValue(currentBoss) as IPlayer;
+            if (currentTarget == null)
+                return;
+
+            bool bleed = (random.Next(0, 100) > (hardcorebosses ? 50 : 70));
+
+            if (!currentTarget.Statistics.HasStatusEffect(StatusEffect.BLEEDING))
+                currentTarget.Statistics.ApplyStatusEffect(StatusEffect.BLEEDING, false);
+
+            if (currentBoss is Boss_Eel)
+            {
+                bool poison = (random.Next(0, 100) > (hardcorebosses ? 70 : 85));
+
+                if (poison && !currentTarget.Statistics.HasStatusEffect(StatusEffect.POISON))
+                    currentTarget.Statistics.ApplyStatusEffect(StatusEffect.POISON, false);
+            }
+        }
+
+        private static void Boss_Jumped()
+        {
+            if (currentBoss == null)
+                return;
+            IPlayer currentTarget = fi_currentTarget.GetValue(currentBoss) as IPlayer;
+            if (currentTarget == null)
+                return;
+
+            bool breakBones = (random.Next(0, 100) > (hardcorebosses ? 60 : 80));
+
+            if (breakBones && !currentTarget.Statistics.HasStatusEffect(StatusEffect.BROKEN_BONES))
+                currentTarget.Statistics.ApplyStatusEffect(StatusEffect.BROKEN_BONES, false);
+        }
+
+        private static FieldInfo fi_buoyancyDensity = typeof(Buoyancy).GetField("_density", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static void BuoyancyTests()
+        {
+            try
+            {
+                Buoyancy[] bos = Beam.Game.FindObjectsOfType<Buoyancy>();
+                foreach (Buoyancy bo in bos)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : Buoyancy tests : " + bo.gameObject.name);
+                    Debug.Log("Stranded Deep Tweaks Mod : Buoyancy tests parent : " + bo.gameObject.GetType().Name);
+                    Debug.Log("Stranded Deep Tweaks Mod : Buoyancy tests density : " + fi_buoyancyDensity.GetValue(bo));
+                }
+                InteractiveObject[] ios = Beam.Game.FindObjectsOfType<InteractiveObject>();
+                foreach (InteractiveObject io in ios)
+                {
+                    Buoyancy buoy = io.GetComponent<Buoyancy>();
+                    if (buoy != null)
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : Buoyancy tests : " + buoy.gameObject.name);
+                        Debug.Log("Stranded Deep Tweaks Mod : Buoyancy tests density : " + fi_buoyancyDensity.GetValue(buoy));
+                    }
+                    Debug.Log("Stranded Deep Tweaks Mod : Density tests : " + io.gameObject.name);
+                    Debug.Log("Stranded Deep Tweaks Mod : Density tests mass : " + io.rigidbody.useGravity);
+                    Debug.Log("Stranded Deep Tweaks Mod : Density tests mass : " + io.rigidbody.mass);
+                }
+
+                //Stranded Deep Tweaks Mod : Buoyancy tests : BARREL(Clone)
+                //Stranded Deep Tweaks Mod : Buoyancy tests density: 500
+                //Stranded Deep Tweaks Mod : Density tests : BARREL(Clone)
+                //Stranded Deep Tweaks Mod : Density tests mass: True
+                //Stranded Deep Tweaks Mod: Density tests mass: 4
+            }
+            catch(Exception e)
+            {
+                Debug.Log("Stranded Deep Tweaks Mod : BuoyancyTests error : " + e);
+            }
+        }
+
+        private static void ReadConfig()
+        {
+            string dataDirectory = FilePath.SAVE_FOLDER;//System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).Replace("Local", "LocalLow"), @"Beam Team Games\Stranded Deep\Data\");
+            if (System.IO.Directory.Exists(dataDirectory))
+            {
+                string configFilePath = System.IO.Path.Combine(dataDirectory, configFileName);
+                if (System.IO.File.Exists(configFilePath))
+                {
+                    string[] config = System.IO.File.ReadAllLines(configFilePath);
+                    foreach (string line in config)
+                    {
+                        string[] tokens = line.Split(new string[] { "=", ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (tokens.Length == 2)
+                        {
+                            if (tokens[0].Contains("biggerAirTank"))
+                            {
+                                biggerAirTank = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("infiniteAir"))
+                            {
+                                infiniteAir = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("biggerGasTank"))
+                            {
+                                biggerGasTank = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("infiniteGas"))
+                            {
+                                infiniteGas = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("showDistances"))
+                            {
+                                showDistances = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("alwaysSkipIntro"))
+                            {
+                                alwaysSkipIntro = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("harderbosses"))
+                            {
+                                harderbosses = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("hardcorebosses"))
+                            {
+                                hardcorebosses = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("fixRainReset"))
+                            {
+                                fixRainReset = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("biggerStackSizes"))
+                            {
+                                biggerStackSizes = bool.Parse(tokens[1]);
+                            }
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void WriteConfig()
+        {
+            string dataDirectory = FilePath.SAVE_FOLDER;//System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).Replace("Local", "LocalLow"), @"Beam Team Games\Stranded Deep\Data\");
+            if (System.IO.Directory.Exists(dataDirectory))
+            {
+                string configFilePath = System.IO.Path.Combine(dataDirectory, configFileName);
+                StringBuilder sb = new StringBuilder();
+                sb.AppendLine("biggerAirTank=" + biggerAirTank + ";");
+                sb.AppendLine("infiniteAir=" + infiniteAir + ";");
+                sb.AppendLine("biggerGasTank=" + biggerGasTank + ";");
+                sb.AppendLine("infiniteGas=" + infiniteGas + ";");
+                sb.AppendLine("showDistances=" + showDistances + ";");
+                sb.AppendLine("alwaysSkipIntro=" + alwaysSkipIntro + ";");
+                sb.AppendLine("harderbosses=" + harderbosses + ";");
+                sb.AppendLine("hardcorebosses=" + hardcorebosses + ";");
+                sb.AppendLine("fixRainReset=" + fixRainReset + ";");
+                sb.AppendLine("biggerStackSizes=" + biggerStackSizes + ";");
+
+                System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
+            }
+        }
+
+
+        #region debug
+
+        private static void RefreshDistance()
+        {
+            RefreshDistanceCanvas();
+
+            // MOST IMPORTANT SECTION : which object are we looking at
+            if (Beam.Game.State == GameState.NEW_GAME
+                || Beam.Game.State == GameState.LOAD_GAME)
+            {
+                if (Camera.main != null)
+                {
+                    //Debug.Log("Stranded Deep 2K Mod : debug objects loop");
+
+                    // Get the ray going through the GUI position
+                    Ray r = Camera.main.ViewportPointToRay(new Vector3(0.5F, 0.5F, 0));
+                    // Do a raycast
+                    RaycastHit hit;
+                    string text = null;
+                    if (Physics.Raycast(r, out hit))
+                    //if (Physics.RaycastAll(r, out hit))
+                    {
+                        if (hit.transform != null
+                            && hit.transform.gameObject != null
+                            && !String.IsNullOrEmpty(hit.transform.gameObject.name)
+                            && String.Compare(hit.transform.gameObject.name, "Terrain") == 0)
+                        {
+                            StringBuilder sb = new StringBuilder();
+                            sb.AppendLine(String.Format("Distance = {0:F1}m", hit.distance));
+                            //sb.AppendLine("I'm looking at " + hit.transform.name + " / distance = " + hit.distance);
+                            //sb.AppendLine(hit.transform.gameObject.name);
+                            text = sb.ToString();
+                        }
+                    }
+                    else
+                    {
+                        text = "";
+                    }
+
+                    //Debug.Log("Stranded Deep 2K Mod : debug text = " + text);
+
+                    if (!string.IsNullOrEmpty(text))
+                    {
+                        distanceText.text = text;
+                        distanceCanvasVisible = true;
+                    }
+                    else
+                    {
+                        distanceCanvasVisible = false;
+                    }
+                }
+            }
+            else
+            {
+                distanceCanvasVisible = false;
+            }
+        }
+
+        private static bool distanceCanvasVisible = false;
+        private static GameObject textCanvas;
+        private static Text distanceText;
+
+        private static void RefreshDistanceCanvas()
+        {
+            if (textCanvas == null)
+            {
+                //Debug.Log("Stranded Deep 2K Mod : debug canvas creation");
+
+                textCanvas = createCanvas(false, "DistanceCanvas");
+
+                Font defaultFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+                GameObject textDebugGO = new GameObject("TweaksMod_DistanceText_Sprite");
+                textDebugGO.transform.SetParent(textCanvas.transform);
+                distanceText = textDebugGO.AddComponent<Text>();
+                distanceText.horizontalOverflow = HorizontalWrapMode.Wrap;
+                distanceText.verticalOverflow = VerticalWrapMode.Overflow;
+                distanceText.alignment = TextAnchor.MiddleCenter;
+                distanceText.font = defaultFont;
+                distanceText.color = Color.white;
+                distanceText.fontSize = 20;
+                //distanceText.text = "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
+                distanceText.text = "";
+                distanceText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, 600);
+                distanceText.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 600);
+                distanceText.rectTransform.localPosition = new Vector3(0,250,0);
+
+                textCanvas.SetActive(true);
+            }
+            else
+            {
+                textCanvas.SetActive(distanceCanvasVisible);
+            }
+        }
+
+        #endregion
+
+        #region Canvas instanciation
+
+        //Creates Hidden GameObject and attaches Canvas component to it
+        private static GameObject createCanvas(bool hide, string name = "TweaksModCanvas")
+        {
+            //Create Canvas GameObject
+            GameObject tempCanvas = new GameObject(name);
+            if (hide)
+            {
+                tempCanvas.hideFlags = HideFlags.HideAndDontSave;
+            }
+
+            //Create and Add Canvas Component
+            Canvas cnvs = tempCanvas.AddComponent<Canvas>();
+            cnvs.renderMode = RenderMode.ScreenSpaceOverlay;
+            cnvs.pixelPerfect = false;
+
+            //Set Cavas sorting order to be above other Canvas sorting order
+            cnvs.sortingOrder = 12;
+
+            cnvs.targetDisplay = 0;
+
+            addCanvasScaler(tempCanvas);
+            addGraphicsRaycaster(tempCanvas);
+            return tempCanvas;
+        }
+
+        //Adds CanvasScaler component to the Canvas GameObject 
+        private static void addCanvasScaler(GameObject parentaCanvas)
+        {
+            CanvasScaler cvsl = parentaCanvas.AddComponent<CanvasScaler>();
+            cvsl.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
+            cvsl.referenceResolution = new Vector2(textCanvasDefaultScreenWitdh, textCanvasDefaultScreenHeight);
+            cvsl.matchWidthOrHeight = 0.5f;
+            cvsl.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
+            cvsl.referencePixelsPerUnit = 100f;
+        }
+
+        //Adds GraphicRaycaster component to the Canvas GameObject 
+        private static void addGraphicsRaycaster(GameObject parentaCanvas)
+        {
+            GraphicRaycaster grcter = parentaCanvas.AddComponent<GraphicRaycaster>();
+            grcter.ignoreReversedGraphics = true;
+            grcter.blockingObjects = GraphicRaycaster.BlockingObjects.None;
+        }
+
+        #endregion
+    }
+}

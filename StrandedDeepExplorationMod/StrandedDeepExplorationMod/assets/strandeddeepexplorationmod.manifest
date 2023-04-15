@@ -1,0 +1,83 @@
+ManifestFileVersion: 0
+CRC: 1578098587
+Hashes:
+  AssetFileHash:
+    serializedVersion: 2
+    Hash: 47a8b147aed0a20f01755b0a4b9ed230
+  TypeTreeHash:
+    serializedVersion: 2
+    Hash: be1f8f8eeb14edcd07359bcdd6fea225
+HashAppended: 0
+ClassTypes:
+- Class: 1
+  Script: {instanceID: 0}
+- Class: 4
+  Script: {instanceID: 0}
+- Class: 20
+  Script: {instanceID: 0}
+- Class: 21
+  Script: {instanceID: 0}
+- Class: 23
+  Script: {instanceID: 0}
+- Class: 28
+  Script: {instanceID: 0}
+- Class: 33
+  Script: {instanceID: 0}
+- Class: 43
+  Script: {instanceID: 0}
+- Class: 48
+  Script: {instanceID: 0}
+- Class: 64
+  Script: {instanceID: 0}
+- Class: 65
+  Script: {instanceID: 0}
+- Class: 108
+  Script: {instanceID: 0}
+Assets:
+- Assets/rapa_nui_turtle_statue.prefab
+- Assets/Materials/DefaultMaterial_albedo.mat
+- Assets/Materials/xochipilli.mat
+- Assets/SunGate.obj
+- Assets/limestonemarked2-normal-ogl.png
+- Assets/xochipilli_balanced_sharpen_enlarge.jpeg
+- Assets/lunar-rock-normal-u.png
+- Assets/SunGate_AO.png
+- Assets/Budhha Stone_BaseColor.png
+- Assets/limestonemarked2-ao.png
+- Assets/Moai3_light2_sharpen.jpeg
+- Assets/Materials/limestonemarked2-albedo.mat
+- Assets/Budhha Stone.prefab
+- Assets/Materials/SunGate_albedo.mat
+- Assets/rapa_nui_turtle_statue.obj
+- Assets/SunGate.prefab
+- Assets/limestonemarked2-albedo.png
+- Assets/whale_bones.prefab
+- Assets/FabConvert.com_poly.fbx
+- Assets/Materials/Budhha Stone_BaseColor.mat
+- Assets/Materials/detail_mask_generic.mat
+- Assets/xochipilli.prefab
+- Assets/Budhha Stone.obj
+- Assets/SunGate_normal4K_detail.png
+- Assets/Materials/gltf_embedded_0.mat
+- Assets/Moai3_light_MODEL.obj
+- Assets/mossy_rock_diff_4k.jpg
+- Assets/rock_0005_color_4k.jpg
+- Assets/gltf_embedded_2@channels=R.jpeg
+- Assets/Detail_Normal_Noise.png
+- Assets/SunGate_normal4K.png
+- Assets/detail_mask_generic.png
+- Assets/Budhha Stone_Normal.png
+- Assets/model.dae
+- Assets/SunGate_albedo.png
+- Assets/rock_0005_normal_directx_4k.png
+- Assets/xochipilli.obj
+- Assets/mossy_rock_nor_gl_4k.jpg
+- Assets/GlacierComposite.obj
+- Assets/gltf_embedded_0.jpeg
+- Assets/rock_0001_color_4k.jpg
+- Assets/SunGate_albedo4K.png
+- Assets/Moai3_light.prefab
+- Assets/mossy_rock_rough_4k.jpg
+- Assets/Materials/Moai3_light2.mat
+- Assets/lunar-rock-albedo.png
+Dependencies: []

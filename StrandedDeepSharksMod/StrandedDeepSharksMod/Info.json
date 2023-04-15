@@ -1,0 +1,9 @@
+﻿{
+  "Id": "StrandedDeepSharksMod",
+  "DisplayName": "Stranded Deep Sharks Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.2",
+  "AssemblyName": "StrandedDeepSharksMod.dll",
+  "EntryMethod": "StrandedDeepSharksMod.Main.Load",
+  "LoadAfter" : ["StrandedWideMod"]
+}

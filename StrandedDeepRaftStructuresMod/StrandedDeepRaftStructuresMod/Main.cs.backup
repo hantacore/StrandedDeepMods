@@ -1,0 +1,375 @@
+﻿using Beam;
+using Beam.Crafting;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Reflection;
+using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
+using UnityModManagerNet;
+using Funlabs;
+
+namespace StrandedDeepRaftStructuresMod
+{
+    static class Main
+    {
+        private static FieldInfo fi_crafterghost = typeof(Crafter).GetField("_ghost", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static FieldInfo fi_placingCraftable = typeof(Crafter).GetField("_placingCraftable", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static FieldInfo fi_activeCollider = typeof(Ghost).GetField("_activeCollider", BindingFlags.NonPublic | BindingFlags.Instance);
+        private static FieldInfo fi_ghostColliders = typeof(Ghost).GetField("_ghostColliders", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        private static FieldInfo fi_myConnector = typeof(Constructing).GetField("_myConnector", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static FieldInfo fi_connectorLayerMask = typeof(Constructing).GetField("_connectorLayerMask", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static FieldInfo fi_colliderType = typeof(Constructing).GetField("_colliderType", BindingFlags.Instance | BindingFlags.NonPublic);
+
+        private static FieldInfo fi_connectortype = typeof(Connector).GetField("_type", BindingFlags.Instance | BindingFlags.NonPublic);
+        private static FieldInfo fi_maximumTier = typeof(Connector).GetField("_maximumTier", BindingFlags.Instance | BindingFlags.NonPublic);
+
+
+        private static string configFileName = "StrandedDeepRaftStructuresMod.config";
+
+        //private static bool revealWorld = false;
+
+        static bool Load(UnityModManager.ModEntry modEntry)
+        {
+            modEntry.OnUpdate = OnUpdate;
+            modEntry.OnGUI = OnGUI;
+            modEntry.OnHideGUI = OnHideGUI;
+
+            ReadConfig();
+
+            Debug.Log("Stranded Deep RaftStructures Mod properly loaded");
+
+            return true;
+        }
+
+        static void OnGUI(UnityModManager.ModEntry modEntry)
+        {
+            //revealWorld = GUILayout.Toggle(revealWorld, "Reveal World");
+        }
+
+        static void OnHideGUI(UnityModManager.ModEntry modEntry)
+        {
+            WriteConfig();
+        }
+
+        static void OnUpdate(UnityModManager.ModEntry modEntry, float dt)
+        {
+            try
+            {
+                if (Beam.Game.State == GameState.NEW_GAME
+                    || Beam.Game.State == GameState.LOAD_GAME)
+                {
+                    UpdateCollisionBoxes();
+
+
+                    //Constructing[] css = Beam.Game.FindObjectsOfType<Constructing>();
+
+                    //css[0].ColliderType == GhostCollider.ColliderType.VEHICLE_SAIL
+
+                    //Ghost g;
+                    //Dictionary<GhostCollider.ColliderType, GhostCollider> _ghostColliders = new Dictionary<GhostCollider.ColliderType, GhostCollider>()
+
+                    IPlayer p = PlayerRegistry.LocalPlayer;
+                    if (p != null)
+                    {
+                        //Debug.Log("Stranded Deep RaftStructures Mod test : Crafter state : " + p.Crafter.State);
+
+                        //if (p.Crafter.IsPlacing)
+                        //{
+                        //    //Construction_CAMPFIRE
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter.IsPlacing");
+                        //}
+
+                        //if (p.Crafter.CurrentCraftable != null)
+                        //{
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter CurrentCraftable : " + p.Crafter.CurrentCraftable.DisplayName);
+                        //}
+
+                        Ghost crafterghost = fi_crafterghost.GetValue(p.Crafter) as Ghost;
+                        //Collider sailCollider = null;
+                        //GhostCollider sailGhostCollider = null;
+                        if (crafterghost != null)
+                        {
+                            //Dictionary<GhostCollider.ColliderType, GhostCollider> ghostColliders = fi_ghostColliders.GetValue(crafterghost) as Dictionary<GhostCollider.ColliderType, GhostCollider>;
+                            //foreach (GhostCollider.ColliderType gct in ghostColliders.Keys)
+                            //{
+                            //    //if (gct == GhostCollider.ColliderType.VEHICLE_SAIL)
+                            //    //{
+                            //    //    sailGhostCollider = ghostColliders[gct];
+                            //    //}
+
+                            //    Debug.Log("Stranded Deep RaftStructures Mod ghost : found ghost colliders for key : " + gct);
+                            //    foreach (Collider collider in ghostColliders[gct].Colliders)
+                            //    {
+                            //        Debug.Log("Stranded Deep RaftStructures Mod ghost collider : " + collider.name);
+                            //        //if (gct == GhostCollider.ColliderType.VEHICLE_SAIL)
+                            //        //{
+                            //        //    sailCollider = collider;
+                            //        //}
+                            //    }
+                            //}
+
+                            //GhostCollider activeC = fi_activeCollider.GetValue(crafterghost) as GhostCollider;
+                            //Debug.Log("Stranded Deep RaftStructures Mod ACTIVE ghost collider : " + activeC.name);
+
+                            //Layers.CONSTRUCTIONS_RAFTS;
+
+                            IPlaceable ipl = fi_placingCraftable.GetValue(p.Crafter) as IPlaceable;
+                            if (ipl != null)
+                            {
+                                Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable : " + ipl.GetType().FullName);
+
+                                if (ipl is Constructing)
+                                {
+                                    Constructing construct = ipl as Constructing;
+                                    LayerMask lm = (LayerMask)fi_connectorLayerMask.GetValue(construct);
+                                    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable ConnectorLayerMask : " + lm.value);
+
+
+                                    Connector myConnector = fi_myConnector.GetValue(construct) as Connector;
+                                    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : " + (myConnector == null ? "null" : myConnector.name));
+                                    if (myConnector != null)
+                                    {
+                                        try
+                                        {
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : " + myConnector.Type);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : " + myConnector.Constructing.DisplayName);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : " + myConnector.gameObject.name);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : " + myConnector.transform.position);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : " + myConnector.transform.localPosition);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector Checks.Count : " + myConnector.Checks.Count);
+                                            foreach (ConnectorCheck ccheck in construct.SnappedConnector.Checks)
+                                            {
+                                                Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector check : " + ccheck.name);
+                                            }
+                                            AttributeType at = (AttributeType)fi_maximumTier.GetValue(myConnector);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector maximumTier : " + at);
+                                        }
+                                        catch { }
+
+                                        //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable my connector : VEHICLE_SAIL(Clone)
+                                        //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable my connector : VEHICLE_MAST
+                                        //Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : INTERACTIVE_TYPE_BUILDING_RAFT_SAIL
+                                        //Stranded Deep RaftStructures Mod test : Crafter _placingCraftable my connector : VEHICLE_SAIL(Clone)
+                                        //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable my connector : (0.00, 0.00, 0.00)
+                                        //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable my connector : (0.00, 0.00, 0.00)
+                                        //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable my connector : 0
+                                        //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable my connector : null
+                                    }
+
+                                    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : " + (construct.SnappedConnector == null ? "null" : construct.SnappedConnector.name));
+                                    if (construct.SnappedConnector != null)
+                                    {
+                                        try
+                                        {
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : " + construct.SnappedConnector.Type);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : " + construct.SnappedConnector.Constructing.DisplayName);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : " + construct.SnappedConnector.gameObject.name);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : " + construct.SnappedConnector.transform.position);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : " + construct.SnappedConnector.transform.localPosition);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector Checks.Count : " + construct.SnappedConnector.Checks.Count);
+                                            foreach (ConnectorCheck ccheck in construct.SnappedConnector.Checks)
+                                            {
+                                                Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector check : " + ccheck.name);
+                                            }
+                                            AttributeType at = (AttributeType)fi_maximumTier.GetValue(myConnector);
+                                            Debug.Log("Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector maximumTier : " + at);
+
+                                            //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable snapped connector : VehicleConnector_Mast
+                                            //Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : VEHICLE_MAST
+                                            //Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : ATTRIBUTE_TYPE_WOOD INTERACTIVE_TYPE_BUILDING_RAFT_FLOOR
+                                            //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable snapped connector : VehicleConnector_Mast
+                                            //Stranded Deep RaftStructures Mod test : Crafter _placingCraftable snapped connector : (89.42, 2.39, 68.57)
+                                            //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable snapped connector : (0.00, 1.50, 0.00)
+                                            //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable snapped connector : 0
+                                            //Stranded Deep RaftStructures Mod test: Crafter _placingCraftable ConnectorLayerMask: 67108864
+                                        }
+                                        catch { }
+                                    }
+                                    //VehicleConnector_Mast
+
+                                    //if (ipl.GetType().FullName == "Beam.Crafting.Construction_CAMPFIRE")
+                                    if (ipl is Construction_CAMPFIRE)
+                                    {
+                                        fi_colliderType.SetValue(ipl, GhostCollider.ColliderType.VEHICLE_SAIL);
+                                        Debug.Log("Stranded Deep RaftStructures Mod test : changed ColliderType to " + GhostCollider.ColliderType.VEHICLE_SAIL);
+                                    }
+                                }
+
+                                //if (ipl.GetType().FullName == "Beam.Crafting.Construction_CAMPFIRE")
+                                if (ipl is Construction_CAMPFIRE)
+                                {
+                                    Constructing cons = ipl as Constructing;
+                                    if (fi_myConnector.GetValue(cons) == null || ((Connector)fi_myConnector.GetValue(cons)).Type != ConnectorType.VEHICLE_MAST)
+                                    {
+                                        Connector newConn = cons.gameObject.AddComponent<Connector>();
+                                        newConn.Constructing = cons;
+
+                                        FieldInfo fi_useTransformPositionForSnapping = typeof(Connector).GetField("_useTransformPositionForSnapping", BindingFlags.NonPublic | BindingFlags.Instance);
+                                        fi_useTransformPositionForSnapping.SetValue(newConn, true);
+
+#warning position wrong
+                                        newConn.transform.position = new Vector3(0, 0, 0);
+                                        newConn.transform.localPosition = new Vector3(0, 0, 0);
+                                        fi_connectortype.SetValue(newConn, ConnectorType.VEHICLE_MAST);
+                                        fi_myConnector.SetValue(cons, newConn);
+                                    }
+                                    //MethodInfo mi_DisableAllColliders = typeof(Ghost).GetMethod("DisableAllColliders", BindingFlags.NonPublic | BindingFlags.Instance);
+                                    //mi_DisableAllColliders.Invoke(crafterghost, null);
+
+                                    //MethodInfo mi_InitializeCollider = typeof(Ghost).GetMethod("InitializeCollider", BindingFlags.NonPublic | BindingFlags.Instance);
+                                    //mi_InitializeCollider.Invoke(crafterghost, new object[] { ipl as ICraftable });
+
+                                    crafterghost.Initialize(ipl as ICraftable);
+
+                                    //((ICraftable)(ipl)).ColliderType = GhostCollider.ColliderType.VEHICLE_SAIL;
+
+                                    //fi_activeCollider.SetValue(crafterghost, sailGhostCollider);
+                                    //sailGhostCollider.gameObject.tag = ((ICraftable)(ipl)).gameObject.tag;
+                                    //sailGhostCollider.gameObject.SetActive(true);
+
+                                    //GhostCollider gc = fi_activeCollider.GetValue(crafterghost) as GhostCollider;
+                                    //if (gc != null && !gc.Colliders.Contains(sailCollider))
+                                    //{
+                                    //    FieldInfo fi_colliders = typeof(GhostCollider).GetField("_colliders", BindingFlags.Instance | BindingFlags.NonPublic);
+                                    //    List<Collider> newColliders = new List<Collider>();
+                                    //    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter GhostCollider colliders count before : " + gc.Colliders.Length);
+                                    //    //newColliders.AddRange(gc.Colliders);
+                                    //    newColliders.Add(sailCollider);
+                                    //    fi_colliders.SetValue(gc, newColliders.ToArray());
+                                    //    Debug.Log("Stranded Deep RaftStructures Mod test : Crafter GhostCollider colliders count after : " + gc.Colliders.Length);
+                                    //}
+                                }
+                            }
+                        }
+
+                        //IPickupable pick = p.Crafter.CurrentCraftable;
+                        //if (pick != null)
+                        //{
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test DisplayName : " + pick.DisplayName);
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test PrefabId : " + pick.PrefabId);
+                        //    foreach (Collider coll in pick.AllColliders)
+                        //    {
+                        //        Debug.Log("Stranded Deep RaftStructures Mod test : collider " + coll.name);
+                        //    }
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test AttributeType : " + pick.CraftingType.AttributeType.GetType().Name);
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test InteractiveType : " + pick.CraftingType.InteractiveType.GetType().Name);
+                        //}
+                        //else
+                        //{
+                        //    Debug.Log("Stranded Deep RaftStructures Mod test IPickupable is null");
+                        //}
+
+                        IList<Ghost> ghosts = Game.FindObjectsOfType<Ghost>();
+                        foreach (Ghost g in ghosts)
+                        {
+                            Debug.Log("Stranded Deep RaftStructures Mod ghost name : " + g.name);
+                            Debug.Log("Stranded Deep RaftStructures Mod ghost Colliding : " + g.Colliding);
+                            Dictionary<GhostCollider.ColliderType, GhostCollider> ghostColliders = fi_ghostColliders.GetValue(g) as Dictionary<GhostCollider.ColliderType, GhostCollider>;
+                            //foreach (GhostCollider.ColliderType gct in ghostColliders.Keys)
+                            //{
+                            //    Debug.Log("Stranded Deep RaftStructures Mod ghost : found ghost colliders for key : " + gct);
+                            //    foreach(Collider collider in ghostColliders[gct].Colliders)
+                            //    {
+                            //        Debug.Log("Stranded Deep RaftStructures Mod ghost collider : " + collider.name);
+                            //    }
+                            //}
+
+                            GhostCollider activeC = fi_activeCollider.GetValue(g) as GhostCollider;
+                            Debug.Log("Stranded Deep RaftStructures Mod ACTIVE ghost collider : " + activeC.name);
+                        }
+                    }
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep RaftStructures Mod : error on update : " + e);
+            }
+        }
+
+        private static void UpdateCollisionBoxes()
+        {
+            Construction_CAMPFIRE[] campfires = Game.FindObjectsOfType<Construction_CAMPFIRE>();
+            foreach (Construction_CAMPFIRE campfire in campfires)
+            {
+                Debug.Log("Stranded Deep RaftStructures found campfire");
+                //if (campfire.TransformParent != null)
+                //{
+                //    Debug.Log("Stranded Deep RaftStructures campfire parent name 1 : " + campfire.TransformParent.gameObject.name);
+                //    if (campfire.TransformParent.gameObject.name.Contains("STRUCTURE_RAFT"))
+                //    {
+                //        Debug.Log("Stranded Deep RaftStructures found campfire on raft 1");
+                //        Collider[] cc = campfire.GetComponents<Collider>();
+                //        foreach(Collider c in cc)
+                //        {
+                //            Debug.Log("Stranded Deep RaftStructures campfire on raft collider name : " + c.name + " / " + c.GetType().Name);
+                //            //c.enabled = false;
+                //            Debug.Log("Stranded Deep RaftStructures campfire on raft collider contactoffset : " + c.contactOffset);
+                //            ((SphereCollider)c).contactOffset = 0.01f;//0.01
+                //            Debug.Log("Stranded Deep RaftStructures campfire on raft collider radius : " + ((SphereCollider)c).radius);
+                //            ((SphereCollider)c).radius = 0.1f;//0.6
+                //        }
+                //    }
+                //}
+                if (campfire.transform.parent != null)
+                {
+                    Debug.Log("Stranded Deep RaftStructures campfire parent name 2 : " + campfire.transform.parent.name);
+                    if (campfire.transform.parent.name.Contains("STRUCTURE_RAFT"))
+                    {
+                        Debug.Log("Stranded Deep RaftStructures found campfire on raft 2");
+                        Collider[] cc = campfire.GetComponents<Collider>();
+                        foreach (Collider c in cc)
+                        {
+                            Debug.Log("Stranded Deep RaftStructures campfire on raft collider name : " + c.name + " / " + c.GetType().Name);
+                            //c.enabled = false;
+                            Debug.Log("Stranded Deep RaftStructures campfire on raft collider contactoffset : " + c.contactOffset);
+                            ((SphereCollider)c).contactOffset = 0.01f;//0.01
+                            Debug.Log("Stranded Deep RaftStructures campfire on raft collider radius : " + ((SphereCollider)c).radius);
+                            ((SphereCollider)c).radius = 0.1f;//0.6
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void ReadConfig()
+        {
+            string dataDirectory = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).Replace("Local", "LocalLow"), @"Beam Team Games\Stranded Deep\Data\");
+            if (System.IO.Directory.Exists(dataDirectory))
+            {
+                string configFilePath = System.IO.Path.Combine(dataDirectory, configFileName);
+                if (System.IO.File.Exists(configFilePath))
+                {
+                    string[] config = System.IO.File.ReadAllLines(configFilePath);
+                    foreach (string line in config)
+                    {
+                        string[] tokens = line.Split(new string[] { "=", ";" }, StringSplitOptions.RemoveEmptyEntries);
+                        if (tokens.Length == 2)
+                        {
+                            //if (tokens[0].Contains("revealWorld"))
+                            //{
+                            //    revealWorld = bool.Parse(tokens[1]);
+                            //}
+                        }
+                    }
+                }
+            }
+        }
+
+        private static void WriteConfig()
+        {
+            string dataDirectory = System.IO.Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData).Replace("Local", "LocalLow"), @"Beam Team Games\Stranded Deep\Data\");
+            if (System.IO.Directory.Exists(dataDirectory))
+            {
+                string configFilePath = System.IO.Path.Combine(dataDirectory, configFileName);
+                StringBuilder sb = new StringBuilder();
+                //sb.AppendLine("revealWorld=" + revealWorld + ";");
+
+                System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
+            }
+        }
+    }
+}

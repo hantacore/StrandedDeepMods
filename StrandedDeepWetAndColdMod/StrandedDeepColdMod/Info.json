@@ -1,0 +1,8 @@
+﻿{
+  "Id": "StrandedDeepWetAndColdMod",
+  "DisplayName": "Stranded Deep Wet And Cold Mod for 1.0.6",
+  "Author": "Hantacore",
+  "Version": "1.0.1",
+  "AssemblyName": "StrandedDeepWetAndColdMod.dll",
+  "EntryMethod": "StrandedDeepWetAndColdMod.Main.Load"
+}

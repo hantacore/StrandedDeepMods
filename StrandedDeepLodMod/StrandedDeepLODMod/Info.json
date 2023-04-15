@@ -1,0 +1,9 @@
+﻿{
+  "Id": "StrandedDeepLODMod",
+  "DisplayName": "Stranded Deep LOD Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.11",
+  "AssemblyName": "StrandedDeepLODMod.dll",
+  "EntryMethod": "StrandedDeepLODMod.Main.Load",
+  "LoadAfter" : ["StrandedWideMod"]
+}

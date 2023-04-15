@@ -1,0 +1,8 @@
+﻿{
+  "Id": "StrandedDeepWhaleSharkMod",
+  "DisplayName": "Stranded Deep Realistic Whale Shark Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.2",
+  "AssemblyName": "StrandedDeepWhaleSharkMod.dll",
+  "EntryMethod": "StrandedDeepWhaleSharkMod.Main.Load"
+}

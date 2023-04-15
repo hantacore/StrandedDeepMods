@@ -1,0 +1,9 @@
+﻿{
+  "Id": "StrandedDeepTweaksMod",
+  "DisplayName": "Stranded Deep Tweaks Mod for 1.0",
+  "Author": "Hantacore",
+  "Version": "0.0.20",
+  "AssemblyName": "StrandedDeepTweaksMod.dll",
+  "EntryMethod": "StrandedDeepTweaksMod.Main.Load",
+  "LoadAfter" : ["StrandedWideMod"]
+}

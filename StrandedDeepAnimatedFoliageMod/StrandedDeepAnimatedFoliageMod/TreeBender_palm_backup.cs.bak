@@ -1,0 +1,171 @@
+﻿using SharpNeatLib.Maths;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using UnityEngine;
+
+namespace StrandedDeepRealStormsMod
+{
+    [RequireComponent(typeof(MeshFilter))]
+    public class TreeBender : MonoBehaviour
+    {
+        // simple rotation bending
+        public float xRotation = 90.0f;
+        public float xRotation1 = 0.0f;
+        public float RotationSpeed = 0.2f;
+        public Vector3 from = new Vector3(0f, 0f, -5f);
+        public Vector3 to = new Vector3(0f, 0f, 5f);
+
+        Mesh originalMesh;
+        Mesh clonedMesh;
+        MeshFilter meshFilter;
+        Vector3[] originalVertices, displacedVertices;
+
+        public int BendAngle { get; set; }
+        public int MinBendSpeed { get; set; }
+        public int MaxBendSpeed { get; set; }
+        public int MinOscillationSpeed { get; set; }
+        public int MaxOscillationSpeed { get; set; }
+
+        System.Random random = new System.Random();
+        Vector3[] delta;
+
+        void Start()
+        {
+            BendAngle = 1;
+            MinBendSpeed = 5;
+            MaxBendSpeed = 20;
+
+            MinOscillationSpeed = 1;
+            MaxOscillationSpeed = 5;
+
+            RotationBendInit();
+            DeformingInit();
+        }
+
+        void Update()
+        {
+            try
+            {
+                RotationBendUpdate();
+                DeformingUpdate();
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep RealStorms mod error on TreeBender update : " + e);
+            }
+        }
+
+        #region simple bending
+
+        private void RotationBendInit()
+        {
+            from = new Vector3(random.Next(-BendAngle, BendAngle), 0f, random.Next(-BendAngle, BendAngle));
+            to = new Vector3(random.Next(-BendAngle, BendAngle), 0f, random.Next(-BendAngle, BendAngle));
+            RotationSpeed = (float)random.Next(MinBendSpeed, MaxBendSpeed) / (float)100;
+        }
+
+        private void RotationBendUpdate()
+        {
+            float t = (Mathf.Sin(Time.time * RotationSpeed * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
+            if (Mathf.Approximately(transform.eulerAngles.x, 0)
+                && Mathf.Approximately(transform.eulerAngles.y, 0)
+                && Mathf.Approximately(transform.eulerAngles.z, 0))
+            {
+                // change angle or speed
+                RotationBendInit();
+            }
+            transform.eulerAngles = Vector3.Lerp(from, to, t);
+        }
+
+        #endregion
+
+        private void DeformingInit()
+        {
+            MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
+            foreach (MeshFilter mf in meshFilters)
+            {
+                // FICUS_2 - Trunk
+                // Palm_Top_LOD0
+                // Palm_Top_LOD1
+                if (mf.gameObject.name == "Palm_Top_LOD0")
+                {
+                    meshFilter = mf;
+                }
+            }
+
+            if (meshFilter == null)
+                return;
+
+            InitClonedMesh();
+
+            float oscillationPhase = 0.1f;
+            float oscillationDelta = 2.0f;
+            delta = new Vector3[originalVertices.Length];
+            for (int i = 0; i < originalVertices.Length; i++)
+            {
+                displacedVertices[i] = originalVertices[i];
+
+                // move more if far from center
+                float sqrMag = (originalVertices[i] - new Vector3(0, originalVertices[i].y, 0)).sqrMagnitude;
+                Debug.Log("Stranded Deep RealStorms mod TreeBender vertex sqrmag = " + sqrMag);
+                float ratio = sqrMag / 200f;//Mathf.Pow(sqrMag, 2) / 200f;
+                Debug.Log("Stranded Deep RealStorms mod TreeBender vertex ratio = " + ratio);
+                delta[i] = new Vector3((float)random.NextDouble() * Mathf.Sin(DateTime.Now.Second * oscillationPhase * Mathf.PI * 2.0f),
+                    (float)random.NextDouble() * Mathf.Sin(DateTime.Now.Second * oscillationPhase * Mathf.PI * 2.0f),
+                    (float)random.NextDouble() * Mathf.Sin(DateTime.Now.Second * oscillationPhase * Mathf.PI * 2.0f)) * ratio * oscillationDelta;
+                Debug.Log("Stranded Deep RealStorms mod TreeBender vertex delta = " + delta[i]);
+            }
+
+            Debug.Log("Stranded Deep RealStorms mod TreeBender vertex count = " + originalVertices.Length);
+        }
+
+        private void InitClonedMesh()
+        {
+            originalMesh = meshFilter.sharedMesh;
+
+            clonedMesh = new Mesh();
+
+            clonedMesh.name = "clone";
+            clonedMesh.vertices = originalMesh.vertices;
+            clonedMesh.triangles = originalMesh.triangles;
+            clonedMesh.normals = originalMesh.normals;
+            clonedMesh.uv = originalMesh.uv;
+            meshFilter.sharedMesh = clonedMesh;
+
+            originalVertices = originalMesh.vertices;
+            displacedVertices = new Vector3[originalVertices.Length];
+        }
+
+        private void DeformingUpdate()
+        {
+            if (meshFilter != null)
+            {
+                float t = (Mathf.Sin(Time.time * 0.2f * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
+                int startIndex = 0; //random.Next(0, displacedVertices.Length - 2);
+                int endIndex = displacedVertices.Length;//random.Next(startIndex, displacedVertices.Length);
+                for (int vertex = startIndex; vertex < endIndex; vertex++)
+                {
+                    float phase = 0.2f * (originalVertices[vertex] - new Vector3(0, originalVertices[vertex].y, 0)).magnitude;
+                    t = (Mathf.Sin(Time.time * phase * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
+
+                    //Vector3 randomOsc = new Vector3((float)random.Next(0, 5) * delta[vertex].x, (float)random.Next(0, 5) * delta[vertex].y, (float)random.Next(0, 5) * delta[vertex].z);
+                    Vector3 randomOsc = delta[vertex];
+                    displacedVertices[vertex] = Vector3.Lerp(originalVertices[vertex] - randomOsc, originalVertices[vertex] + randomOsc, t);
+                    //if (Mathf.Approximately(originalVertices[vertex].x, randomOsc.x)
+                    //&& Mathf.Approximately(originalVertices[vertex].y, randomOsc.y)
+                    //&& Mathf.Approximately(originalVertices[vertex].z, randomOsc.z))
+                    //{
+                    //    randomOsc = new Vector3((float)random.Next(0, 5) * delta[vertex].x, (float)random.Next(0, 5) * delta[vertex].y, (float)random.Next(0, 5) * delta[vertex].z);
+                    //    delta[vertex] = randomOsc;
+                    //}
+                }
+
+                clonedMesh.vertices = displacedVertices;
+                clonedMesh.RecalculateNormals();
+            }
+        }
+    }
+}

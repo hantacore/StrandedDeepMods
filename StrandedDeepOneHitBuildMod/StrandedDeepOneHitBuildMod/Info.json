@@ -1,0 +1,8 @@
+﻿{
+  "Id": "StrandedDeepOneHitBuildMod",
+  "DisplayName": "Stranded Deep One Hit Build Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.1",
+  "AssemblyName": "StrandedDeepOneHitBuildMod.dll",
+  "EntryMethod": "StrandedDeepOneHitBuildMod.Main.Load"
+}
