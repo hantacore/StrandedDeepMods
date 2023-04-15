@@ -139,9 +139,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\"
+    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\..\Stranded Deep 1.0.17.0.23\Mods\"
 if not exist %25path%25 mkdir %25path%25
-SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\StrandedWideMod\"
+SET path="$(ProjectDir)..\..\..\..\Stranded Deep 1.0.17.0.23\Mods\StrandedWideMod\"
 if not exist %25path%25 mkdir %25path%25
 copy /Y "$(TargetDir)Info.json" %25path%25\.
 copy /Y "$(TargetDir)$(ProjectName).dll" %25path%25\.

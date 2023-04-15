@@ -1,8 +1,0 @@
-﻿{
-  "Id": "StrandedWideMod",
-  "DisplayName": "Stranded Wide mod (Harmony edition)",
-  "Author": "Hantacore",
-  "Version": "0.0.11-beta",
-  "AssemblyName": "StrandedWideMod_Harmony.dll",
-  "EntryMethod": "StrandedWideMod_Harmony.Main.Load"
-}
