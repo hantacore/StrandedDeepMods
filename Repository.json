@@ -3,5 +3,6 @@
 	[
 		{"Id": "StrandedWideMod", "Version": "0.0.12", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/195" },
 		{"Id": "StrandedDeepTweaksMod", "Version": "0.0.20", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/169"}
+		{"Id": "StrandedDeepAlternativeEndgameMod", "Version": "0.0.6", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/205"}
 	]
 }
