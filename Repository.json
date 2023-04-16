@@ -1,8 +1,22 @@
 {
 	"Releases" :
 	[
-		{"Id": "StrandedWideMod", "Version": "0.0.12", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/195" },
+		{"Id": "StrandedWideMod", "Version": "0.0.12", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/195"},
 		{"Id": "StrandedDeepTweaksMod", "Version": "0.0.20", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/169"}
-		{"Id": "StrandedDeepAlternativeEndgameMod", "Version": "0.0.6", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/205"}
+		{"Id": "StrandedDeepAlternativeEndgameMod", "Version": "0.0.6", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/205"},
+		{"Id": "StrandedDeepRaftStructuresMod", "Version": "1.0.0", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/201"},
+		{"Id": "StrandedDeepSharksMod", "Version": "0", "Homepage": ""},
+		{"Id": "StrandedDeepMusicMod", "Version": "0.0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/165"},
+		{"Id": "StrandedDeepJusRobsMod", "Version": "0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/203"},
+		{"Id": "StrandedDeepOneHitBuildMod", "Version": "0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/199"},
+		{"Id": "StrandedDeepLODMod", "Version": "0.0.11", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/197"},
+		{"Id": "StrandedDeepAnimatedFoliageMod", "Version": "0.0.7", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/207"},
+		{"Id": "StrandedDeepExplorationMod", "Version": "0.0.2", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/227"},
+		{"Id": "StrandedDeep2KMod", "Version": "0.0.4", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/175"},
+		{"Id": "StrandedDeepMapMod", "Version": "1.0.2", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/164"},
+		{"Id": "StrandedDeepWhaleSharkMod", "Version": "0.0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/166"},
+		{"Id": "StrandedDeepWetAndColdMod", "Version": "1.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/172"},
+		{"Id": "StrandedDeepBetterGroundTextures", "Version": "1.0.0", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/219"},
+		{"Id": "StrandedDeepRpgMod", "Version": "0", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/219"}
 	]
 }
