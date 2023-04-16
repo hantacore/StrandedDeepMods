@@ -2,5 +2,6 @@
 	"Releases" :
 	[
 		{"Id": "StrandedWideMod", Version: "0.0.12"}
+		{"Id": "StrandedDeepTweaksMod", Version: "0.0.20"}
 	]
 }
