@@ -91,6 +91,8 @@
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="VersionChecker.cs" />
+    <Compile Include="WorldUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.json">
@@ -124,6 +126,9 @@
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="icons\cargo.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="icons\direction.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

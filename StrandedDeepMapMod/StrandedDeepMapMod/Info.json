@@ -2,8 +2,10 @@
   "Id": "StrandedDeepMapMod",
   "DisplayName": "Stranded Deep Map Mod",
   "Author": "Hantacore",
-  "Version": "1.0.2",
+  "Version": "1.0.3",
   "AssemblyName": "StrandedDeepMapMod.dll",
   "EntryMethod": "StrandedDeepMapMod.Main.Load",
-  "LoadAfter" : ["StrandedWideMod"]
+  "LoadAfter" : ["StrandedWideMod"],
+  "Homepage": "https://www.nexusmods.com/strandeddeep/mods/164",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
 }

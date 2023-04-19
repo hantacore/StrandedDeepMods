@@ -1,5 +1,6 @@
 ﻿using Beam;
 using Funlabs;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -36,20 +37,21 @@ namespace StrandedDeepMapMod
         private static bool lastRevealWorld = false;
         private static bool lastRevealMissions = false;
         private static bool lastDebugMode = false;
-        private static bool forceReloadPlayer = false;
+        private static bool _forceReloadPlayer = false;
 
         private static float screenRatioConversion = 1f;
 
         private static float mapScaleX = 1f;
         private static float mapScaleY = 1f;
 
-        public static bool enabled;
         public static bool visible;
         //public static UnityModManager.ModEntry mod;
         private static GameObject canvas;
         private static Image imgBackground;
         private static Dictionary<int, GameObject> goPlayers;
+        private static Dictionary<int, GameObject> goDirectionPlayers;
         private static Dictionary<int, Image> imgPlayers;
+        private static Dictionary<int, Image> imgDirectionPlayers;
         private static Dictionary<int, GameObject> goIslands;
         private static Dictionary<int, Image> imgIslands;
         private static Dictionary<int, Texture2D> islandSilhouetteTextures;
@@ -68,6 +70,8 @@ namespace StrandedDeepMapMod
 
         internal static System.Diagnostics.Stopwatch chrono = new System.Diagnostics.Stopwatch();
 
+        static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/StrandedDeepMapMod/StrandedDeepMapMod/Info.json";
+
         static bool Load(UnityModManager.ModEntry modEntry)
         {
             try
@@ -80,6 +84,8 @@ namespace StrandedDeepMapMod
 
                 goPlayers = new Dictionary<int, GameObject>();
                 imgPlayers = new Dictionary<int, Image>();
+                goDirectionPlayers = new Dictionary<int, GameObject>();
+                imgDirectionPlayers = new Dictionary<int, Image>();
                 goIslands = new Dictionary<int, GameObject>();
                 imgIslands = new Dictionary<int, Image>();
                 islandSilhouetteTextures = new Dictionary<int, Texture2D>();
@@ -88,6 +94,8 @@ namespace StrandedDeepMapMod
 
                 try
                 {
+                    VersionChecker.CheckVersion(modEntry, _infojsonlocation);
+
                     ReadConfig();
                     if (FilePath.SAVE_FOLDER.Contains("Wide"))
                     {
@@ -205,39 +213,8 @@ namespace StrandedDeepMapMod
                 }
                 //Debug.Log("Stranded Deep Map mod: clear all");
                 visible = false;
-                if (imgIslands.Count > 0)
-                {
-                    for (int i = 0; i < imgIslands.Count; i++)
-                    {
-                        Beam.Game.Destroy(imgIslands[i]);
-                    }
-                    imgIslands.Clear();
-                }
-                if (goIslands.Count > 0)
-                {
-                    for (int i = 0; i < goIslands.Count; i++)
-                    {
-                        Beam.Game.Destroy(goIslands[i]);
-                    }
-                    goIslands.Clear();
-                }
-                if (imgPlayers.Count > 0)
-                {
-                    for (int i = 0; i < imgPlayers.Count; i++)
-                    {
-                        Beam.Game.Destroy(imgPlayers[i]);
-                    }
-                    imgPlayers.Clear();
-                    forceReloadPlayer = true;
-                }
-                if (goPlayers.Count > 0)
-                {
-                    for (int i = 0; i < goPlayers.Count; i++)
-                    {
-                        Beam.Game.Destroy(goPlayers[i]);
-                    }
-                    goPlayers.Clear();
-                }
+                ClearIslandImages();
+                ClearPlayerImages(true);
                 if (islandSilhouetteTextures.Count > 0)
                 {
                     for (int i = 0; i < islandSilhouetteTextures.Count; i++)
@@ -256,9 +233,68 @@ namespace StrandedDeepMapMod
                 }
                 canvas = null;
             }
-            catch(Exception e)
+            catch (Exception e)
             {
                 Debug.Log("Stranded Deep Map mod: clear all failed : " + e);
+            }
+        }
+
+        private static void ClearIslandImages()
+        {
+            if (imgIslands.Count > 0)
+            {
+                for (int i = 0; i < imgIslands.Count; i++)
+                {
+                    Beam.Game.Destroy(imgIslands[i]);
+                }
+                imgIslands.Clear();
+            }
+            if (goIslands.Count > 0)
+            {
+                for (int i = 0; i < goIslands.Count; i++)
+                {
+                    Beam.Game.Destroy(goIslands[i]);
+                }
+                goIslands.Clear();
+            }
+        }
+
+        private static void ClearPlayerImages(bool forceReloadPlayer)
+        {
+            Debug.Log("Stranded Deep Map mod : clearing player sprites " + forceReloadPlayer);
+            _forceReloadPlayer = forceReloadPlayer;
+            if (imgPlayers.Count > 0)
+            {
+                for (int i = 0; i < imgPlayers.Count; i++)
+                {
+                    Beam.Game.Destroy(imgPlayers[i]);
+                }
+                imgPlayers.Clear();
+            }
+
+            if (imgDirectionPlayers.Count > 0)
+            {
+                for (int i = 0; i < imgDirectionPlayers.Count; i++)
+                {
+                    Beam.Game.Destroy(imgDirectionPlayers[i]);
+                }
+                imgDirectionPlayers.Clear();
+            }
+            if (goPlayers.Count > 0)
+            {
+                for (int i = 0; i < goPlayers.Count; i++)
+                {
+                    Beam.Game.Destroy(goPlayers[i]);
+                }
+                goPlayers.Clear();
+            }
+            if (goDirectionPlayers.Count > 0)
+            {
+                for (int i = 0; i < goDirectionPlayers.Count; i++)
+                {
+                    Beam.Game.Destroy(goDirectionPlayers[i]);
+                }
+                goDirectionPlayers.Clear();
             }
         }
 
@@ -312,7 +348,6 @@ namespace StrandedDeepMapMod
 
         static bool OnToggle(UnityModManager.ModEntry modEntry, bool value)
         {
-            enabled = value;
             return true;
         }
 
@@ -364,7 +399,7 @@ namespace StrandedDeepMapMod
                 ingameAreaSize = 6000f;
             }
 
-            forceReloadPlayer = true;
+            _forceReloadPlayer = true;
         }
 
         private static Vector3 TransformToScreenCoordinates(float x, float y)
@@ -385,42 +420,6 @@ namespace StrandedDeepMapMod
                 //Debug.Log("Stranded Deep Map mod : Beam.Game.State = " + Beam.Game.State);
                 bool mapNotActive = Beam.Game.State != Beam.GameState.NEW_GAME && Beam.Game.State != Beam.GameState.LOAD_GAME;
                 //Debug.Log("Stranded Deep Map mod : mapNotActive = " + mapNotActive);
-                //if (mapNotActive)
-                //{
-                //    Beam.UI.UCartographerMenuViewAdapter cartoview = Beam.Game.FindObjectOfType<Beam.UI.UCartographerMenuViewAdapter>();
-                //    if (cartoview != null)
-                //    {
-                //        //Debug.Log("Stranded Deep Map mod : cartoview.Visible = " + cartoview.Visible);
-                //        mapNotActive = mapNotActive && !cartoview.Visible;
-                //    }
-                //    Beam.UI.UOptionsMenuViewAdapter optionsview = Beam.Game.FindObjectOfType<Beam.UI.UOptionsMenuViewAdapter>();
-                //    if (optionsview != null)
-                //    {
-                //        //Debug.Log("Stranded Deep Map mod : optionsview.Visible = " + optionsview.Visible);
-                //        mapNotActive = mapNotActive && !optionsview.Visible;
-                //    }
-                //    Beam.UI.ULeaderboardsMenuViewAdapter leaderbview = Beam.Game.FindObjectOfType<Beam.UI.ULeaderboardsMenuViewAdapter>();
-                //    if (leaderbview != null)
-                //    {
-                //        //Debug.Log("Stranded Deep Map mod : leaderbview.Visible = " + leaderbview.Visible);
-                //        mapNotActive = mapNotActive && !leaderbview.Visible;
-                //    }
-                //    Beam.UI.NewGameMenuViewAdapterBase newGameView = Beam.Game.FindObjectOfType<Beam.UI.NewGameMenuViewAdapterBase>();
-                //    if (newGameView != null)
-                //    {
-                //        mapNotActive = mapNotActive && !newGameView.Visible;
-                //    }
-                //    Beam.UI.OptionsMenuViewAdapterBase optionsView = Beam.Game.FindObjectOfType<Beam.UI.OptionsMenuViewAdapterBase>();
-                //    if (optionsView != null)
-                //    {
-                //        mapNotActive = mapNotActive && !optionsView.Visible;
-                //    }
-                //    Beam.UI.LobbyMenuViewAdapterBase lobbyView = Beam.Game.FindObjectOfType<Beam.UI.LobbyMenuViewAdapterBase>();
-                //    if (lobbyView != null)
-                //    {
-                //        mapNotActive = mapNotActive && !lobbyView.Visible;
-                //    }
-                //}
 
                 if (mapNotActive)
                 {
@@ -428,6 +427,9 @@ namespace StrandedDeepMapMod
                     Reset();
                     return;
                 }
+
+                if (!WorldUtilities.IsWorldLoaded())
+                    return;
 
                 Event currentevent = Event.current;
                 if (currentevent.isKey)
@@ -441,21 +443,6 @@ namespace StrandedDeepMapMod
                         visible = false;
                     }
                 }
-
-                //if (Beam.Game.State == Beam.GameState.MAIN_MENU)
-                //{
-                    //if (needsReset)
-                    //{
-                    //    Debug.Log("Stranded Deep Map mod : context changed, resetting mod");
-                    //    ClearMainCanvas();
-                    //    needsReset = false;
-                    //}
-                //    return;
-                //}
-                //else
-                //{
-                //    needsReset = true;
-                //}
 
                 try
                 {
@@ -499,11 +486,10 @@ namespace StrandedDeepMapMod
         private static void Reset()
         {
             visible = false;
-            //needsReset = true;
+            // back to main menu bug fix
+            currentlyLoadedSlot = -1;
 
-            //Debug.Log("Stranded Deep Map mod : context changed, resetting mod");
             ClearMainCanvas();
-            //needsReset = false;
         }
 
         private static void RefreshMap()
@@ -568,7 +554,6 @@ namespace StrandedDeepMapMod
                                         Image imgIsland = imgIslands[islandIndex];
 
                                         // replace sprite
-                                        Beam.Game.Destroy(imgIsland.sprite);
                                         Beam.Terrain.Map map = maps[islandIndex];
                                         Sprite missionSprite = null;
                                         if (map.EditorData.Id.Contains("MISSION_0"))
@@ -576,6 +561,7 @@ namespace StrandedDeepMapMod
                                             Texture2D missionIcon = new Texture2D(350, 350, TextureFormat.ARGB32, false);
                                             missionIcon.LoadImage(ExtractResource("StrandedDeepMapMod.icons.eel.png"));
                                             missionSprite = Sprite.Create(missionIcon, new Rect(0, 0, 350, 350), new Vector2(170, 170));
+                                            Beam.Game.Destroy(imgIsland.sprite);
                                             imgIsland.sprite = missionSprite;
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, missionIconSize);
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, missionIconSize);
@@ -585,6 +571,7 @@ namespace StrandedDeepMapMod
                                             Texture2D missionIcon = new Texture2D(350, 350, TextureFormat.ARGB32, false);
                                             missionIcon.LoadImage(ExtractResource("StrandedDeepMapMod.icons.shark.png"));
                                             missionSprite = Sprite.Create(missionIcon, new Rect(0, 0, 350, 350), new Vector2(170, 170));
+                                            Beam.Game.Destroy(imgIsland.sprite);
                                             imgIsland.sprite = missionSprite;
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, missionIconSize);
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, missionIconSize);
@@ -594,6 +581,7 @@ namespace StrandedDeepMapMod
                                             Texture2D missionIcon = new Texture2D(350, 350, TextureFormat.ARGB32, false);
                                             missionIcon.LoadImage(ExtractResource("StrandedDeepMapMod.icons.squid.png"));
                                             missionSprite = Sprite.Create(missionIcon, new Rect(0, 0, 350, 350), new Vector2(170, 170));
+                                            Beam.Game.Destroy(imgIsland.sprite);
                                             imgIsland.sprite = missionSprite;
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, missionIconSize);
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, missionIconSize);
@@ -603,6 +591,7 @@ namespace StrandedDeepMapMod
                                             Texture2D missionIcon = new Texture2D(350, 350, TextureFormat.ARGB32, false);
                                             missionIcon.LoadImage(ExtractResource("StrandedDeepMapMod.icons.endgame.png"));
                                             missionSprite = Sprite.Create(missionIcon, new Rect(0, 0, 350, 350), new Vector2(170, 170));
+                                            Beam.Game.Destroy(imgIsland.sprite);
                                             imgIsland.sprite = missionSprite;
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, missionIconSize);
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, missionIconSize);
@@ -612,10 +601,12 @@ namespace StrandedDeepMapMod
                                             Debug.Log("Stranded Deep Map mod : skipping abyss");
                                             if (bigWorldMode)
                                             {
+                                                Beam.Game.Destroy(imgIsland.sprite);
                                                 imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
                                             }
                                             else
                                             {
+                                                Beam.Game.Destroy(imgIsland.sprite);
                                                 imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 257, 257), new Vector2(128, 128));
                                             }
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, islandSilhouetteSize);
@@ -625,26 +616,35 @@ namespace StrandedDeepMapMod
                                         {
                                             if (bigWorldMode)
                                             {
+                                                Beam.Game.Destroy(imgIsland.sprite);
                                                 imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
                                             }
                                             else
                                             {
+                                                Beam.Game.Destroy(imgIsland.sprite);
                                                 imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 257, 257), new Vector2(128, 128));
                                             }
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, islandSilhouetteSize);
                                             imgIsland.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, islandSilhouetteSize);
                                         }
-                                        forceReloadPlayer = true;
+                                        _forceReloadPlayer = true;
                                     }
                                 }
 
-                                Vector2 position = Beam.Terrain.World.GenerationZonePositons[islandIndex];
-                                bool inSight = IsNearEnough(position.x, position.y, islandDiscovered[islandIndex]);
-                                if (islandInSight[islandIndex] != inSight)
+                                try
                                 {
-                                    // make island visible
-                                    imgIslands[islandIndex].enabled = inSight || islandDiscovered[islandIndex] || revealWorld || debugMode;
-                                    islandInSight[islandIndex] = inSight;
+                                    Vector2 position = Beam.Terrain.World.GenerationZonePositons[islandIndex];
+                                    bool inSight = IsNearEnough(position.x, position.y, islandDiscovered[islandIndex]);
+                                    if (islandInSight[islandIndex] != inSight)
+                                    {
+                                        // make island visible
+                                        imgIslands[islandIndex].enabled = inSight || islandDiscovered[islandIndex] || revealWorld || debugMode;
+                                        islandInSight[islandIndex] = inSight;
+                                    }
+                                }
+                                catch (Exception e)
+                                {
+                                    Debug.Log("Stranded Deep Map mod : island discovered status check failed : " + e);
                                 }
                             }
                         }
@@ -652,7 +652,7 @@ namespace StrandedDeepMapMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep Map mod : island discovered status check failed : " + e);
+                    Debug.Log("Stranded Deep Map mod : refresh islands failed : " + e);
                 }
             }
         }
@@ -662,7 +662,7 @@ namespace StrandedDeepMapMod
             // Refresh player position
             try
             {
-                if (imgPlayers.Count > 0)
+                if (imgPlayers.Count > 0 && imgDirectionPlayers.Count > 0)
                 {
                     IList<Beam.IPlayer> players = Beam.PlayerRegistry.AllPlayers;
                     for (int playerIndex = 0; playerIndex < players.Count; playerIndex++)
@@ -672,6 +672,26 @@ namespace StrandedDeepMapMod
                         {
                             imgPlayers[playerIndex].rectTransform.localPosition = TransformToScreenCoordinates(playerPosition.x, playerPosition.z);
                             imgPlayers[playerIndex].enabled = showPlayers;
+
+                            try
+                            {
+                                if (imgDirectionPlayers[playerIndex] != null)
+                                {
+                                    imgDirectionPlayers[playerIndex].rectTransform.localPosition = TransformToScreenCoordinates(playerPosition.x, playerPosition.z);
+                                    imgDirectionPlayers[playerIndex].enabled = showPlayers;
+
+                                    Vector3 playerForward = players[playerIndex].transform.forward;
+                                    Vector3 trueUp = new Vector3(0f, 0f, 1f);
+
+                                    float angleToNorth = -Vector3.SignedAngle(trueUp, playerForward, players[playerIndex].transform.up);
+
+                                    imgDirectionPlayers[playerIndex].transform.rotation = Quaternion.Euler(0, 0, angleToNorth);
+                                }
+                            }
+                            catch(Exception ex)
+                            {
+                                Debug.Log("Stranded Deep Map mod : player direction drawing failed : " + ex);
+                            }
                         }
                     }
                 }
@@ -722,22 +742,7 @@ namespace StrandedDeepMapMod
                     {
                         // clear existing sprites
                         //Debug.Log("Stranded Deep Map mod : clear start");
-                        if (imgIslands.Count > 0)
-                        {
-                            for (int i = 0; i < imgIslands.Count; i++)
-                            {
-                                Beam.Game.Destroy(imgIslands[i]);
-                            }
-                            imgIslands.Clear();
-                        }
-                        if (goIslands.Count > 0)
-                        {
-                            for (int i = 0; i < goIslands.Count; i++)
-                            {
-                                Beam.Game.Destroy(goIslands[i]);
-                            }
-                            goIslands.Clear();
-                        }
+                        ClearIslandImages();
                         //Debug.Log("Stranded Deep Map mod : clear end");
                         for (int i = 0; i < islandDiscovered.Keys.Count; i++)
                         {
@@ -961,7 +966,7 @@ namespace StrandedDeepMapMod
                         lastRevealWorld = revealWorld;
                         lastRevealMissions = revealMissions;
                         lastDebugMode = debugMode;
-                        forceReloadPlayer = true;
+                        _forceReloadPlayer = true;
                         Debug.Log("Stranded Deep Map mod : reload zones completed");
                     }
                     catch (Exception e)
@@ -985,27 +990,12 @@ namespace StrandedDeepMapMod
                 if (players != null
                     && players.Count > 0
                     && (imgPlayers.Count == 0 || imgPlayers.Count != players.Count)
-                    || forceReloadPlayer)
+                    || _forceReloadPlayer)
                 {
                     Debug.Log("Stranded Deep Map mod : reload players");
-                    forceReloadPlayer = false;
+                    _forceReloadPlayer = false;
                     // clear existing sprites
-                    if (imgPlayers.Count > 0)
-                    {
-                        for (int i = 0; i < imgPlayers.Count; i++)
-                        {
-                            Beam.Game.Destroy(imgPlayers[i]);
-                        }
-                        imgPlayers.Clear();
-                    }
-                    if (goPlayers.Count > 0)
-                    {
-                        for (int i = 0; i < goPlayers.Count; i++)
-                        {
-                            Beam.Game.Destroy(goPlayers[i]);
-                        }
-                        goPlayers.Clear();
-                    }
+                    ClearPlayerImages(_forceReloadPlayer);
 
                     if (showPlayers)
                     {
@@ -1014,6 +1004,12 @@ namespace StrandedDeepMapMod
                         playerIcon.LoadImage(ExtractResource("StrandedDeepMapMod.icons.player.png"));
 
                         Sprite playerSprite = Sprite.Create(playerIcon, new Rect(0, 0, 200, 200), new Vector2(100, 100));
+
+                        // init player direction
+                        Texture2D playerDirectionIcon = new Texture2D(250, 250, TextureFormat.ARGB32, false);
+                        playerDirectionIcon.LoadImage(ExtractResource("StrandedDeepMapMod.icons.direction.png"));
+
+                        Sprite playerDirectionSprite = Sprite.Create(playerDirectionIcon, new Rect(0, 0, 250, 250), new Vector2(125, 125));
 
                         for (int playerIndex = 0; playerIndex < players.Count; playerIndex++)
                         {
@@ -1030,6 +1026,22 @@ namespace StrandedDeepMapMod
                             imgPlayer.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, playerIconSize);
                             imgPlayer.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerIconSize);
                             imgPlayer.rectTransform.localPosition = new Vector3(0, 0);
+
+                            //Debug.Log("Stranded Deep Map mod : spawned a player icon " + playerGO.name);
+
+                            GameObject playerDirectionGO = new GameObject("PlayerDirection" + playerIndex + "_Sprite");
+                            goDirectionPlayers.Add(playerIndex, playerDirectionGO);
+                            playerDirectionGO.transform.SetParent(canvas.transform);
+
+                            Image imgPlayerDirection = playerDirectionGO.AddComponent<Image>();
+                            // keep track of the images
+                            imgDirectionPlayers.Add(playerIndex, imgPlayerDirection);
+                            imgPlayerDirection.sprite = playerDirectionSprite;
+                            imgPlayerDirection.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, playerIconSize);
+                            imgPlayerDirection.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, playerIconSize);
+                            imgPlayerDirection.rectTransform.localPosition = new Vector3(0, 0);
+
+                            //Debug.Log("Stranded Deep Map mod : spawned a player direction icon " + playerDirectionGO.name);
                         }
                     }
                     Debug.Log("Stranded Deep Map mod : reload players completed");
@@ -1051,10 +1063,10 @@ namespace StrandedDeepMapMod
                     {
                         if (sp != null)
                         {
-                            if (new MiniGuid(new Guid("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")).ToString().CompareTo(sp.ReferenceId.ToString()) == 0)
-                            {
-                                Debug.Log("Stranded Deep Map Mod : cargo reference found");
-                            }
+                            //if (new MiniGuid(new Guid("AAAAAAAA-AAAA-AAAA-AAAA-AAAAAAAAAAAA")).ToString().CompareTo(sp.ReferenceId.ToString()) == 0)
+                            //{
+                            //    Debug.Log("Stranded Deep Map Mod : cargo reference found " + sp.name);
+                            //}
                             if (sp.name != null
                                 && sp.name.CompareTo(ENDGAME_CARGO_NAME) == 0)
                             {
