@@ -1,4 +1,5 @@
 ﻿using Beam;
+using Beam.UI;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -6,7 +7,7 @@ using System.Text;
 using UnityEngine;
 using UnityModManagerNet;
 
-namespace StrandedDeepAlternativeEndgameMod
+namespace StrandedDeepModsUtils
 {
     public static class WorldUtilities
     {
@@ -16,7 +17,7 @@ namespace StrandedDeepAlternativeEndgameMod
         public static bool IsStrandedWide()
         {
             UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-            return false;
+            return (mewide != null && mewide.Active && mewide.Loaded);
         }
 
         public static bool IsWorldLoaded()

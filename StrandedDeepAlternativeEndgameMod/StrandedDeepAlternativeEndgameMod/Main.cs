@@ -1,4 +1,5 @@
 ﻿using Beam;
+using Beam.Crafting;
 using Beam.Events;
 using Beam.Rendering;
 using Beam.Serialization;
@@ -9,6 +10,7 @@ using Beam.Utilities;
 using Funlabs;
 using MEC;
 using SharpNeatLib.Maths;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -41,6 +43,8 @@ namespace StrandedDeepAlternativeEndgameMod
         private static AudioClip cargoHornSound = null;
         private static AudioClip cargoEngineSound = null;
         private static AudioClip endingMusic = null;
+        private static AudioClip reporterSound = null;
+        private static AudioClip crowdSound = null;
 
         private static float alternativeEndingCanvasDefaultScreenWidth = 1024f;
         private static float alternativeEndingCanvasDefaultScreenHeight = 768f;
@@ -48,6 +52,7 @@ namespace StrandedDeepAlternativeEndgameMod
         private static GameObject modCanvas;
 
         internal static Dictionary<string, Texture2D> _indexedTextures = new Dictionary<string, Texture2D>();
+        private static string videoName = "AlternativeEndingVideo.webm";
         private static string videoFileName = "";
 
         private static string configFileName = "StrandedDeepAlternativeEndgameMod.config";
@@ -55,8 +60,6 @@ namespace StrandedDeepAlternativeEndgameMod
         private static List<Vector3> positions = new List<Vector3>();
         private static int currentOrigin = 0;
         private static SaveablePrefab cargoInstance = null;
-        private static StrandedWorld previousWorldInstance = null;
-        private static bool worldLoaded = false;
         private static InteractiveObject_FLAREGUN previousFlareGun = null;
         private static DateTime _lastMovementTick = DateTime.MinValue;
         private static float absoluteSpeed = 5.0f;
@@ -65,11 +68,14 @@ namespace StrandedDeepAlternativeEndgameMod
         private static bool perfCheck = true;
 
         public static bool isInEndgame = false;
-        private static bool showEndgameCreditsAndEndGame = false;
+        public static bool isInEndgameCredits = false;
+        private static bool showEndgameCreditsAndEndGame = true;
         private static bool debugModeImmediateCargoAndNoVideo = false;
 
         private static DateTime _playEndgame = DateTime.MaxValue;
         private static int secondsBeforeEndgameVideo = 10;
+
+        static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/StrandedDeepAlternativeEndgameMod/StrandedDeepAlternativeEndgameMod/Info.json";
 
         static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -80,6 +86,8 @@ namespace StrandedDeepAlternativeEndgameMod
                 modEntry.OnUpdate = OnUpdate;
                 modEntry.OnGUI = OnGUI;
                 modEntry.OnHideGUI = OnHideGUI;
+
+                VersionChecker.CheckVersion(modEntry, _infojsonlocation);
 
                 ReadConfig();
 
@@ -96,15 +104,30 @@ namespace StrandedDeepAlternativeEndgameMod
                 _indexedTextures.Add("StrandedDeepAlternativeEndgameMod.assets.textures.tile_wreck_ledge13 (Instance).png", tex);
 
                 cargoHornSound = WavUtility.ToAudioClip(ExtractResource("StrandedDeepAlternativeEndgameMod.assets.sounds.horn.wav"));
-                cargoEngineSound = WavUtility.ToAudioClip(ExtractResource("StrandedDeepAlternativeEndgameMod.assets.sounds.cargo_passing.wav"));
+                cargoEngineSound = WavUtility.ToAudioClip(ExtractResource("StrandedDeepAlternativeEndgameMod.assets.sounds.cargo_passing_low.wav"));
                 endingMusic = WavUtility.ToAudioClip(ExtractResource("StrandedDeepAlternativeEndgameMod.assets.sounds.outro.wav"));
+                reporterSound = WavUtility.ToAudioClip(ExtractResource("StrandedDeepAlternativeEndgameMod.assets.sounds.reporter2.wav"));
+                crowdSound = WavUtility.ToAudioClip(ExtractResource("StrandedDeepAlternativeEndgameMod.assets.sounds.confroom.wav"));
 
                 // write video file
                 string currentPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
                 string modPath = Path.GetDirectoryName(currentPath);
-                videoFileName = Path.Combine(modPath, "alternative_endgame.webm");
+                //videoFileName = Path.Combine(modPath, "alternative_endgame.webm");
+                videoFileName = Path.Combine(modPath, videoName);
                 Debug.Log("Stranded Deep AlternativeEndgame Mod writing down video in : " + videoFileName);
-                File.WriteAllBytes(videoFileName, ExtractResource("StrandedDeepAlternativeEndgameMod.assets.videos.alternative_endgame.webm"));
+                //File.WriteAllBytes(videoFileName, ExtractResource("StrandedDeepAlternativeEndgameMod.assets.videos.alternative_endgame.webm"));
+                File.WriteAllBytes(videoFileName, ExtractResource("StrandedDeepAlternativeEndgameMod.assets.videos." + videoName));
+
+                try
+                {
+                    // delete old video
+                    string oldVideoPath = Path.Combine(modPath, "alternative_endgame.webm");
+                    if (File.Exists(oldVideoPath))
+                    {
+                        File.Delete(oldVideoPath);
+                    }
+                }
+                catch { }
 
                 Debug.Log("Stranded Deep AlternativeEndgame Mod properly loaded");
 
@@ -133,9 +156,7 @@ namespace StrandedDeepAlternativeEndgameMod
             absoluteSpeed = 5.0f;
             try
             {
-                UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-                if (Game.FindObjectOfType<UMainMenuViewAdapter>().VersionNumberLabel.Text.Contains("Wide")
-                    || mewide != null && mewide.Active && mewide.Loaded)
+                if (WorldUtilities.IsStrandedWide())
                 {
                     Debug.Log("Stranded Deep AlternativeEndgame Mod ComputeWaypoints : Stranded Wide detected");
                     zoneSize = 1000f;
@@ -203,6 +224,7 @@ namespace StrandedDeepAlternativeEndgameMod
             if (Game.State == GameState.NEW_GAME || Game.State == GameState.LOAD_GAME)
             {
                 debugModeImmediateCargoAndNoVideo = GUILayout.Toggle(debugModeImmediateCargoAndNoVideo, "Debug mode : immediately spawns cargo and skips ending video");
+                showEndgameCreditsAndEndGame = GUILayout.Toggle(showEndgameCreditsAndEndGame, "Debug mode : uncheck to skip ending credits");
 
                 if (GUILayout.Button("Force spawn cargo"))
                 {
@@ -311,26 +333,7 @@ namespace StrandedDeepAlternativeEndgameMod
 
                 if (Game.State == GameState.NEW_GAME || Game.State == GameState.LOAD_GAME)
                 {
-                    // anti memory leak
-                    //if (previousWorldInstance != null
-                    //    && !System.Object.ReferenceEquals(previousWorldInstance, StrandedWorld.Instance))
-                    //{
-                    //    Debug.Log("Stranded Deep AlternativeEndgame Mod : world instance changed, clearing events");
-                    //    previousWorldInstance.WorldGenerated -= Instance_WorldGenerated;
-                    //    previousWorldInstance = null;
-                    //    worldLoaded = false;
-                    //}
-                    //// to reattach at the right moment
-                    //if (StrandedWorld.Instance != null
-                    //    && !System.Object.ReferenceEquals(StrandedWorld.Instance, previousWorldInstance))
-                    //{
-                    //    Debug.Log("Stranded Deep AlternativeEndgame Mod : world instance found, registering events");
-                    //    previousWorldInstance = StrandedWorld.Instance;
-                    //    StrandedWorld.Instance.WorldGenerated -= Instance_WorldGenerated;
-                    //    StrandedWorld.Instance.WorldGenerated += Instance_WorldGenerated;
-                    //}
-
-                    if (worldLoaded && CheckCargoAppearConditionsMet())
+                    if (WorldUtilities.IsWorldLoaded() && CheckCargoAppearConditionsMet())
                     {
                         // search
                         if (cargoInstance == null)
@@ -508,6 +511,23 @@ namespace StrandedDeepAlternativeEndgameMod
                 else
                 {
                     Reset();
+                }
+                Event currentevent = Event.current;
+                if (currentevent.keyCode == KeyCode.Escape)
+                {
+                    // exit credits
+                    if (isInEndgame && isInEndgameCredits)
+                    {
+                        EndGameCreditsController ecc = Game.FindObjectOfType<EndGameCreditsController>();
+                        if (ecc != null)
+                        {
+                            MethodInfo mi_endCredits = typeof(EndGameCreditsController).GetMethod("View_Finished", BindingFlags.Instance | BindingFlags.NonPublic);
+                            if (mi_endCredits != null)
+                            {
+                                mi_endCredits.Invoke(ecc, new object[] { });
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception e)
@@ -759,7 +779,6 @@ namespace StrandedDeepAlternativeEndgameMod
         private static void Reset()
         {
             currentOrigin = 0;
-            worldLoaded = false;
             _lastMovementTick = DateTime.MinValue;
             _playEndgame = DateTime.MaxValue;
             cargoInstance = null;
@@ -770,6 +789,7 @@ namespace StrandedDeepAlternativeEndgameMod
             }
             previousFlareGun = null;
             isInEndgame = false;
+            isInEndgameCredits = false;
         }
 
         private static void ShootFlareCallback(IBase arg0, IBaseActionEventData arg1)
@@ -790,7 +810,7 @@ namespace StrandedDeepAlternativeEndgameMod
                     isInEndgame = true;
                     _playEndgame = DateTime.Now.AddSeconds(secondsBeforeEndgameVideo);
                 }
-                ShowSubtitles(PlayerRegistry.AllPlayers[0], "They have seen me ! I'm getting out of this hell !", secondsBeforeEndgameVideo);
+                ShowSubtitles(PlayerRegistry.AllPlayers[0], "They have seen me ! I'm getting out of this hell !", secondsBeforeEndgameVideo * 1000);
 
                 ShootFlareBack();
                 Task.Delay(2000).ContinueWith(t => ShootFlareBack());
@@ -826,15 +846,8 @@ namespace StrandedDeepAlternativeEndgameMod
             }
         }
         
-        private static void Instance_WorldGenerated()
-        {
-            Debug.Log("Stranded Deep AlternativeEndgame Mod : World Loaded event");
-            worldLoaded = true;
-        }
-        
         private static void PlayEngameVideo()
         {
-#warning TODO : finish video
             try
             {
                 if (Camera.main == null)
@@ -850,73 +863,102 @@ namespace StrandedDeepAlternativeEndgameMod
 
                     foreach (IPlayer player in PlayerRegistry.AllPlayers)
                     {
-                        if (player.IsOwner)
+                        try
                         {
-                            player.Input.SetAndCacheMapsEnabled(false, 0);
-                            player.Input.SetAndCacheMapsEnabled(true, 10);
+                            // underwater bug
+                            player.transform.position = new Vector3(player.transform.position.x, 1, player.transform.position.z);
+                            // spyglass bug
+                            player.Character.HideCurrentItem();
+                            if (PlayerRegistry.LocalPlayer != null
+                                && PlayerRegistry.LocalPlayer.Holder != null
+                                && PlayerRegistry.LocalPlayer.Holder.CurrentObject != null
+                                && PlayerRegistry.LocalPlayer.Holder.CurrentObject is InteractiveObject_SPYGLASS)
+                            {
+                                InteractiveObject_SPYGLASS spyglass = PlayerRegistry.LocalPlayer.Holder.CurrentObject as InteractiveObject_SPYGLASS;
+                                spyglass.Hold(false);
+                            }
                         }
-                        player.Character.HideCurrentItem();
-                        FreezePlayer(player);
-                        player.PlayerCamera.CameraMovement.SetRotation(player.Character.CharacterFirstPerson.CameraRigPosition);
-                        player.PlayerCamera.CameraMovement.SetCameraTarget(player.Character.CharacterFirstPerson.CameraRigPosition);
-                        player.PlayerCamera.MouseLook.enabled = false;
+                        catch (Exception ex)
+                        {
+                            Debug.Log("Stranded Deep AlternativeEndgame Mod : could not fix bugs " + ex);
+                        }
+
+                        try
+                        {
+                            if (player.IsOwner)
+                            {
+                                player.Input.SetAndCacheMapsEnabled(false, 0);
+                                player.Input.SetAndCacheMapsEnabled(true, 10);
+                            }
+                            FreezePlayer(player);
+                            player.PlayerCamera.CameraMovement.SetRotation(player.Character.CharacterFirstPerson.CameraRigPosition);
+                            player.PlayerCamera.CameraMovement.SetCameraTarget(player.Character.CharacterFirstPerson.CameraRigPosition);
+                            player.PlayerCamera.MouseLook.enabled = false;
+                        }
+                        catch (Exception ex)
+                        {
+                            Debug.Log("Stranded Deep AlternativeEndgame Mod : could not freeze player for game ending " + ex);
+                        }
                     }
 
                     Singleton<GameTime>.Instance.MilitaryTime_NoEvents = 16f;
                     Singleton<GameTime>.Instance.Paused = true;
                     Timing.WaitForSeconds(0.5f);
+
+
+                    // Will attach a VideoPlayer to the main camera.
+                    //GameObject camera = GameObject.Find("Main Camera");
+                    GameObject camera = Camera.main.gameObject;
+
+                    // VideoPlayer automatically targets the camera backplane when it is added
+                    // to a camera object, no need to change videoPlayer.targetCamera.
+                    VideoPlayer videoPlayer = camera.GetComponent<VideoPlayer>();
+                    if (videoPlayer == null)
+                    {
+                        videoPlayer = camera.AddComponent<VideoPlayer>();
+                    }
+                    videoPlayer.loopPointReached -= EndReached;
+
+                    // Play on awake defaults to true. Set it to false to avoid the url set
+                    // below to auto-start playback since we're in Start().
+                    videoPlayer.playOnAwake = false;
+
+                    // By default, VideoPlayers added to a camera will use the far plane.
+                    // Let's target the near plane instead.
+                    videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
+
+                    videoPlayer.aspectRatio = VideoAspectRatio.FitHorizontally;
+
+                    videoPlayer.playbackSpeed = 0.8f;
+
+                    // This will cause our Scene to be visible through the video being played.
+                    videoPlayer.targetCameraAlpha = 1.0f;// 0.5F;
+
+                    // Set the video to play. URL supports local absolute or relative paths.
+                    // Here, using absolute.
+                    videoPlayer.url = @"file://" + videoFileName;
+                    Debug.Log("Stranded Deep AlternativeEndgame Mod : PlayEngameVideo video url = " + videoPlayer.url);
+
+                    // Skip the first 100 frames.
+                    //videoPlayer.frame = 100;
+
+                    // Restart from beginning when done.
+                    videoPlayer.isLooping = false;
+
+                    // Each time we reach the end, we slow down the playback by a factor of 10.
+                    videoPlayer.loopPointReached += EndReached;
+
+                    // Start playback. This means the VideoPlayer may have to prepare (reserve
+                    // resources, pre-load a few frames, etc.). To better control the delays
+                    // associated with this preparation one can use videoPlayer.Prepare() along with
+                    // its prepareCompleted event.
+                    Debug.Log("Stranded Deep AlternativeEndgame Mod : PlayEngameVideo start play");
+                    videoPlayer.Play();
+                    AudioManager.GetAudioPlayer().Play2D(cargoEngineSound, AudioMixerChannel.FX, AudioPlayMode.Single);
+                    AudioManager.GetAudioPlayer().Play2D(endingMusic, AudioMixerChannel.FX, AudioPlayMode.Single);
+                    Task.Delay(6500).ContinueWith(t => AudioManager.GetAudioPlayer().Play2D(reporterSound, AudioMixerChannel.FX, AudioPlayMode.Single));
+                    Task.Delay(30000).ContinueWith(t => AudioManager.GetAudioPlayer().Play2D(crowdSound, AudioMixerChannel.FX, AudioPlayMode.Single));
                 }
-
-                // Will attach a VideoPlayer to the main camera.
-                //GameObject camera = GameObject.Find("Main Camera");
-                GameObject camera = Camera.main.gameObject;
-
-                // VideoPlayer automatically targets the camera backplane when it is added
-                // to a camera object, no need to change videoPlayer.targetCamera.
-                VideoPlayer videoPlayer = camera.GetComponent<VideoPlayer>();
-                if (videoPlayer == null)
-                {
-                    videoPlayer = camera.AddComponent<VideoPlayer>();
-                }
-                videoPlayer.loopPointReached -= EndReached;
-
-                // Play on awake defaults to true. Set it to false to avoid the url set
-                // below to auto-start playback since we're in Start().
-                videoPlayer.playOnAwake = false;
-
-                // By default, VideoPlayers added to a camera will use the far plane.
-                // Let's target the near plane instead.
-                videoPlayer.renderMode = VideoRenderMode.CameraNearPlane;
-
-                videoPlayer.aspectRatio = VideoAspectRatio.Stretch;
-
-                videoPlayer.playbackSpeed = 0.8f;
-
-                // This will cause our Scene to be visible through the video being played.
-                videoPlayer.targetCameraAlpha = 1.0f;// 0.5F;
-
-                // Set the video to play. URL supports local absolute or relative paths.
-                // Here, using absolute.
-                videoPlayer.url = @"file://" + videoFileName;
-                Debug.Log("Stranded Deep AlternativeEndgame Mod : PlayEngameVideo video url = " + videoPlayer.url);
-
-                // Skip the first 100 frames.
-                //videoPlayer.frame = 100;
-
-                // Restart from beginning when done.
-                videoPlayer.isLooping = false;
-
-                // Each time we reach the end, we slow down the playback by a factor of 10.
-                videoPlayer.loopPointReached += EndReached;
-
-                // Start playback. This means the VideoPlayer may have to prepare (reserve
-                // resources, pre-load a few frames, etc.). To better control the delays
-                // associated with this preparation one can use videoPlayer.Prepare() along with
-                // its prepareCompleted event.
-                Debug.Log("Stranded Deep AlternativeEndgame Mod : PlayEngameVideo start play");
-                videoPlayer.Play();
-                AudioManager.GetAudioPlayer().Play2D(cargoEngineSound, AudioMixerChannel.FX, AudioPlayMode.Single);
-                AudioManager.GetAudioPlayer().Play2D(endingMusic, AudioMixerChannel.FX, AudioPlayMode.Single);
                 ShowSubtitles(PlayerRegistry.AllPlayers[0], "I'm here ! I'm here !", 10000);
             }
             catch (Exception e)
@@ -929,7 +971,7 @@ namespace StrandedDeepAlternativeEndgameMod
         {
             Debug.Log("Stranded Deep AlternativeEndgame Mod : PlayEngameVideo video ended");
 
-            //vp.playbackSpeed = vp.playbackSpeed / 10.0F;
+            vp.loopPointReached -= EndReached;
             // show credits
             if (showEndgameCreditsAndEndGame)
             {
@@ -937,6 +979,9 @@ namespace StrandedDeepAlternativeEndgameMod
                 if (ecc != null)
                 {
                     ecc.Show();
+                    // we got our own music
+                    ecc.StopTrack(TrackType.MainMenu);
+                    isInEndgameCredits = true;
                 }
             }
             else
@@ -946,6 +991,7 @@ namespace StrandedDeepAlternativeEndgameMod
                 player.Stop();
                 player.enabled = false;
                 isInEndgame = false;
+                isInEndgameCredits = false;
             }
         }
 

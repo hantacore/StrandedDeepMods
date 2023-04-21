@@ -333,7 +333,7 @@ namespace StrandedDeepAlternativeEndgameMod
             //ps.View
             ps.View.SubtitlesLabel.Text = text;
             ps.View.Show();
-            Task.Delay(3000).ContinueWith(t => HideSubtitles(p));
+            Task.Delay(delayInMs).ContinueWith(t => HideSubtitles(p));
         }
 
         static void HideSubtitles(IPlayer p)
