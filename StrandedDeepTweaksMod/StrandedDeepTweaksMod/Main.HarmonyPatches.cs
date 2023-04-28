@@ -17,6 +17,7 @@ using System.IO;
 using Beam.Serialization;
 using HarmonyLib;
 using System.Runtime.CompilerServices;
+using Beam.Utilities;
 
 namespace StrandedDeepTweaksMod
 {
@@ -387,6 +388,187 @@ namespace StrandedDeepTweaksMod
             }
         }
 
+        static FieldInfo fi_particles = typeof(ParticlesWeatherEventEffect).GetField("_particles", BindingFlags.Instance | BindingFlags.NonPublic);
+        static Vector3 _positionBuffer = new Vector3();
+
+        // RAIN PATCH
+        [HarmonyPatch(typeof(ParticlesWeatherEventEffect), "InitializeEffect")]
+        class ParticlesWeatherEventEffect_InitializeEffect_Patch
+        {
+            static bool Prefix(WeatherEvent weather, ParticlesWeatherEventEffect __instance)
+            {
+                try
+                {
+                    if (!fixRainStart)
+                        return true;
+
+                    Debug.Log("Stranded Deep Tweaks Mod : rain start fix ParticlesWeatherEventEffect_InitializeEffect_Patch");
+
+                    //__instance.gameObject.SetLayerRecursively(Layers.WATER);
+
+                    ParticlesWeatherEventEffect.Particles[] particlesArray = fi_particles.GetValue(__instance) as ParticlesWeatherEventEffect.Particles[];
+                    if (particlesArray.Length == 0)
+                    {
+                        return true;
+                    }
+
+                    for (int i = 0; i < particlesArray.Length; i++)
+                    {
+                        ParticlesWeatherEventEffect.Particles particles = particlesArray[i];
+
+                        if (betterRainTextures)
+                        {
+                            try
+                            {
+                                Debug.Log("Stranded Deep Tweaks Mod : loading new rain textures");
+                                Material mat = new Material(Shader.Find("Standard (Specular setup)"));
+                                Texture2D texRain = null;
+                                if (i % 2 == 0)
+                                {
+                                    texRain = new Texture2D(998, 998, TextureFormat.ARGB32, false);
+                                    texRain.LoadImage(ExtractResource("StrandedDeepTweaksMod.assets.Textures.rain2.png"));
+                                }
+                                else
+                                {
+                                    texRain = new Texture2D(512, 512, TextureFormat.ARGB32, false);
+                                    texRain.LoadImage(ExtractResource("StrandedDeepTweaksMod.assets.Textures.rain1.png"));
+                                }
+                                mat.SetTexture("_MainTex", texRain);
+
+                                mat.SetFloat("_Mode", 2);
+                                mat.SetInt("_SrcBlend", (int)UnityEngine.Rendering.BlendMode.SrcAlpha);
+                                mat.SetInt("_DstBlend", (int)UnityEngine.Rendering.BlendMode.OneMinusSrcAlpha);
+                                mat.SetInt("_ZWrite", 0);
+                                mat.DisableKeyword("_ALPHATEST_ON");
+                                mat.EnableKeyword("_ALPHABLEND_ON");
+                                mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
+                                mat.renderQueue = 3000;
+
+                                ParticleSystemRenderer r = particles.ParticleSystem.GetComponent<ParticleSystemRenderer>();
+                                r.material = mat;
+                            }
+                            catch (Exception e)
+                            {
+                                Debug.Log("Stranded Deep Tweaks Mod : rain particle texture replace failed : " + e);
+                            }
+                        }
+
+                        ParticleSystem.MainModule mm = particles.ParticleSystem.main;
+                        
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain cullingMode " + mm.cullingMode);
+                        mm.cullingMode = ParticleSystemCullingMode.AlwaysSimulate;
+                        Debug.Log("Stranded Deep Tweaks Mod : rain new cullingMode " + mm.cullingMode);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain maxParticles " + mm.maxParticles);
+                        mm.maxParticles = 1500;
+                        Debug.Log("Stranded Deep Tweaks Mod : rain new maxParticles " + mm.maxParticles);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain duration " + mm.duration);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain startLifetime " + mm.startLifetime);
+                        mm.prewarm = true;
+
+                        ParticleSystem.ShapeModule sm = particles.ParticleSystem.shape;
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain shapeType " + sm.shapeType);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain new shapeType " + sm.shapeType);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain boxThickness " + sm.boxThickness);
+
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain radius " + sm.radius);
+                        sm.radius = 12.0f;
+                        Debug.Log("Stranded Deep Tweaks Mod : rain new radius " + sm.radius);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain radiusThickness " + sm.radiusThickness);
+
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain position " + sm.position);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain rotation " + sm.rotation);
+                        //Debug.Log("Stranded Deep Tweaks Mod : rain scale " + sm.scale);
+                        sm.scale = new Vector3(3.0f, 0.10f, 3.0f);
+                        Debug.Log("Stranded Deep Tweaks Mod : rain new box scale " + sm.scale);
+
+                        /*
+                        Stranded Deep Tweaks Mod : rain start fix ParticlesWeatherEventEffect_InitializeEffect_Patch
+                        Stranded Deep Tweaks Mod : rain cullingMode PauseAndCatchup
+                        Stranded Deep Tweaks Mod : rain new cullingMode AlwaysSimulate
+                        Stranded Deep Tweaks Mod : rain maxParticles 1000
+                        Stranded Deep Tweaks Mod : rain duration 3
+                        Stranded Deep Tweaks Mod : rain startLifetime UnityEngine.ParticleSystem+MinMaxCurve
+                        Stranded Deep Tweaks Mod : rain shapeType Box
+                        Stranded Deep Tweaks Mod : rain boxThickness (0.00, 0.00, 0.00)
+                        Stranded Deep Tweaks Mod : rain radius 6
+                        Stranded Deep Tweaks Mod : rain new radius 12
+                        Stranded Deep Tweaks Mod : rain radiusThickness 1
+                        Stranded Deep Tweaks Mod : rain position (0.00, 0.00, 0.00)
+                        Stranded Deep Tweaks Mod : rain scale (2.00, 0.10, 2.00)
+                        */
+                    }
+
+                    //_positionBuffer = __instance.transform.position;
+                    //__instance.transform.position = PlayerRegistry.LocalPlayer.transform.position + new Vector3(0, 2, 0) + PlayerRegistry.LocalPlayer.transform.forward * 4;//new Vector3(__instance.transform.position.x, PlayerRegistry.LocalPlayer.transform.position.y + 1.4f, __instance.transform.position.z);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching ParticlesWeatherEventEffect_InitializeEffect_Patch : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(ParticlesWeatherEventEffect), "UpdateEffect")]
+        class ParticlesWeatherEventEffect_UpdateEffect_Patch
+        {
+            static bool Prefix(float normalizedFade, ParticlesWeatherEventEffect __instance)
+            {
+                try
+                {
+                    if (!fixRainStart)
+                        return true;
+
+                    //Debug.Log("Stranded Deep Tweaks Mod : rain start fix ParticlesWeatherEventEffect_UpdateEffect_Patch");
+
+                    //default
+                    //__instance.transform.position = new Vector3(__instance.transform.position.x, PlayerRegistry.LocalPlayer.transform.position.y + 1.4f, __instance.transform.position.z);
+                    // better
+                    __instance.transform.position = new Vector3(__instance.transform.position.x, PlayerRegistry.LocalPlayer.transform.position.y + 2f, __instance.transform.position.z);
+                    __instance.transform.rotation = PlayerRegistry.LocalPlayer.transform.rotation * Quaternion.Euler(0, 180f, 0);
+
+                    //__instance.transform.position = PlayerRegistry.LocalPlayer.transform.position + PlayerRegistry.LocalPlayer.transform.forward + new Vector3(0, 2f, 0);
+
+                    ParticlesWeatherEventEffect.Particles[] particlesArray = fi_particles.GetValue(__instance) as ParticlesWeatherEventEffect.Particles[];
+                    if (particlesArray.Length == 0)
+                    {
+                        return false;
+                    }
+                    for (int i = 0; i < particlesArray.Length; i++)
+                    {
+                        ParticlesWeatherEventEffect.Particles particles = particlesArray[i];
+                        float constant = normalizedFade * particles.OriginalEmission;
+                        ParticleSystem.EmissionModule em = particles.ParticleSystem.emission;
+                        em.rateOverTime = constant;
+                        ParticleSystem.MainModule mm = particles.ParticleSystem.main;
+                        mm.prewarm = true;
+
+                        ParticleSystemRenderer component = particles.ParticleSystem.gameObject.GetComponent<ParticleSystemRenderer>();
+                        if (component != null)
+                        {
+                            if (PlayerRegistry.LocalPlayer.Movement.InWater
+                                && !PlayerRegistry.LocalPlayer.Movement.isFloating)
+                            {
+                                component.enabled = false;
+                            }
+                            else
+                            {
+                                component.enabled = true;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching ParticlesWeatherEventEffect_UpdateEffect_Patch : " + e);
+                }
+                return false;
+            }
+        }
+
+
+
+        // BIRD FLOCKS PATCH
 
         [HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
         class FlockController_StrandedWorld_ZoneLoader_LoadedZone_Patch
@@ -396,28 +578,65 @@ namespace StrandedDeepTweaksMod
             {
                 try
                 {
+                    if (!fixBirdsEverywhere)
+                        return;
+
                     Debug.Log("Stranded Deep Tweaks Mod : ZoneLoader_LoadedZone " + zone.name);
                     typeof(StrandedWorld).GetMethod("OnZoneEntered", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(StrandedWorld.Instance, new object[] { zone });
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep Tweaks Mod : error while patching FlockController.StrandedWorld_ZoneEntered : " + e);
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
                 }
             }
         }
 
         [HarmonyPatch(typeof(FlockController), "StrandedWorld_ZoneEntered")]
-        class FlockController_StrandedWorld_ZoneEntered_Patch
+        class FlockController_StrandedWorld_ZoneEntered__Prefix_Patch
+        {
+            static bool Prefix(Zone zone, FlockController __instance)
+            {
+                try
+                {
+                    if (!fixBirdsEverywhere)
+                        return true;
+
+                    //Debug.Log("Stranded Deep Tweaks Mod : FLOCK CONTROLLER zone entered prefix " + zone.name);
+                    if (zone.ZoneName.CompareTo(StrandedWorld.Instance.NmlZone.ZoneName) == 0)
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : Birds everywhere fix : bypassing NML zone");
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching FlockController.StrandedWorld_ZoneEntered prefix : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(FlockController), "StrandedWorld_ZoneEntered")]
+        class FlockController_StrandedWorld_ZoneEntered_Postfix_Patch
         {
             static void Postfix(Zone zone, FlockController __instance)
             {
                 try
                 {
-                    Debug.Log("Stranded Deep Tweaks Mod : FLOCK CONTROLLER zone entered " + zone.name);
+                    if (!fixBirdsEverywhere)
+                        return;
+
+                    if (zone.ZoneName.CompareTo(StrandedWorld.Instance.NmlZone.ZoneName) == 0)
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : Birds everywhere fix : bypassing NML zone");
+                        return;
+                    }
+                    //Debug.Log("Stranded Deep Tweaks Mod : FLOCK CONTROLLER zone entered postfix " + zone.name);
+                    FixFlocks();
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep Tweaks Mod : error while patching FlockController.StrandedWorld_ZoneEntered : " + e);
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching FlockController.StrandedWorld_ZoneEntered postfix : " + e);
                 }
             }
         }

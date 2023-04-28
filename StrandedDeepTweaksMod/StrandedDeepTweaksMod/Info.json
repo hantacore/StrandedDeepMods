@@ -1,9 +1,11 @@
 ﻿{
   "Id": "StrandedDeepTweaksMod",
-  "DisplayName": "Stranded Deep Tweaks Mod for 1.0",
+  "DisplayName": "Stranded Deep Tweaks Mod",
   "Author": "Hantacore",
   "Version": "0.0.20",
   "AssemblyName": "StrandedDeepTweaksMod.dll",
   "EntryMethod": "StrandedDeepTweaksMod.Main.Load",
-  "LoadAfter" : ["StrandedWideMod"]
+  "LoadAfter" : ["StrandedWideMod"],
+  "Homepage": "https://www.nexusmods.com/strandeddeep/mods/169",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
 }

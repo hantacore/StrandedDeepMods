@@ -17,6 +17,7 @@ using System.IO;
 using Beam.Serialization;
 using HarmonyLib;
 using System.Runtime.CompilerServices;
+using StrandedDeepModsUtils;
 
 namespace StrandedDeepTweaksMod
 {
@@ -43,6 +44,10 @@ namespace StrandedDeepTweaksMod
 
         private static bool fixItemWeigths = false;
         private static bool fixRainReset = true;
+        private static bool fixRainStart = true;
+        private static bool betterRainTextures = true;
+        private static bool fixBirdsEverywhere = true;
+
         private static bool fixAudioReset = true;
 
         private static bool biggerStackSizes = false;
@@ -106,6 +111,13 @@ namespace StrandedDeepTweaksMod
 
         private static FieldInfo fi_buoyancyDensity = typeof(Buoyancy).GetField("_density", BindingFlags.NonPublic | BindingFlags.Instance);
         internal static FieldInfo fi_stackSizes = typeof(SlotStorage).GetField("STACK_SIZES", BindingFlags.NonPublic | BindingFlags.Static);
+
+        internal static FieldInfo fi_cookingLevel = typeof(PlayerSkills).GetField("_cookingLevel", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static FieldInfo fi_physicalLevel = typeof(PlayerSkills).GetField("_physicalLevel", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static FieldInfo fi_huntingLevel = typeof(PlayerSkills).GetField("_huntingLevel", BindingFlags.NonPublic | BindingFlags.Instance);
+        internal static FieldInfo fi_harvestingLevel = typeof(PlayerSkills).GetField("_harvestingLevel", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/StrandedDeepTweaksMod/StrandedDeepTweaksMod/Info.json";
 
         static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -321,6 +333,8 @@ namespace StrandedDeepTweaksMod
                 harmony = new Harmony(modEntry.Info.Id);
                 harmony.PatchAll(Assembly.GetExecutingAssembly());
 
+                VersionChecker.CheckVersion(modEntry, _infojsonlocation);
+
                 Debug.Log("Stranded Deep Tweaks Mod properly loaded");
 
                 return true;
@@ -425,13 +439,15 @@ namespace StrandedDeepTweaksMod
         static void OnGUI(UnityModManager.ModEntry modEntry)
         {
             GUILayout.Label("Tweaks mod by Hantacore");
-            GUILayout.Label("Various fixes");
+            GUILayout.Label("<b>Various fixes</b>");
             fixRainReset = GUILayout.Toggle(fixRainReset, "Fix the rain not resetting bug");
+            fixRainStart = GUILayout.Toggle(fixRainStart, "Fix the rain not starting bug");
             fixAudioReset = GUILayout.Toggle(fixAudioReset, "Fix audio parameters resetting bug");
-            GUILayout.Label("QoL options");
+            fixBirdsEverywhere = GUILayout.Toggle(fixBirdsEverywhere, "Fix birds and bats only showing on starting island");
+            GUILayout.Label("<b>QoL options</b>");
             alwaysSkipIntro = GUILayout.Toggle(alwaysSkipIntro, "Always skip the private jet intro");
             saveAnywhereAllowed = GUILayout.Toggle(saveAnywhereAllowed, "Save anywhere allowed (F7)");
-            GUILayout.Label("Gameplay options");
+            GUILayout.Label("<b>Gameplay options</b>");
             biggerStackSizes = GUILayout.Toggle(biggerStackSizes, stackSizeRatio + " x bigger stack sizes");
             stackSizeRatio = (int)GUILayout.HorizontalSlider(stackSizeRatio, 2, 10);
             showDistances = GUILayout.Toggle(showDistances, "Show distances through spyglass");
@@ -445,9 +461,10 @@ namespace StrandedDeepTweaksMod
             hardcorebosses = GUILayout.Toggle(hardcorebosses, "Make the bosses hardcore (increased damage)");
             permaCompassEnabled = GUILayout.Toggle(permaCompassEnabled, "Show compass when item is in inventory");// (toggle with XX)");
             permaCompassAlwaysVisible = GUILayout.Toggle(permaCompassAlwaysVisible, "Always show compass");// (toggle with XX)");
-            GUILayout.Label("Realism options");
+            GUILayout.Label("<b>Realism options</b>");
             addBuoyancies = GUILayout.Toggle(addBuoyancies, "Add floatability to some objects (performance impact)");
             fixItemWeigths = GUILayout.Toggle(fixItemWeigths, "More realistic item weights on raft (WIP)");
+            betterRainTextures = GUILayout.Toggle(betterRainTextures, "Better rain textures");
 
             //if (Atmosphere.Instance != null)
             //{
@@ -459,6 +476,8 @@ namespace StrandedDeepTweaksMod
             // show only if ingame
             if (players.Count > 0)
             {
+                GUILayout.Label("<b><color=orange>Trainer/cheats</color></b>");
+
                 Beam.Crafting.CraftingCombination craftingCombination3 = PlayerRegistry.LocalPlayer.Crafter.CraftingCombinations.Combinations.FirstOrDefault((Beam.Crafting.CraftingCombination combo) => combo.Name == "AIRCRAFT ENGINE PART");
                 craftingCombination3.Unlocked = GUILayout.Toggle(craftingCombination3.Unlocked, "Unlock AIRCRAFT ENGINE PART for player 1 (cheat)");
 
@@ -482,6 +501,31 @@ namespace StrandedDeepTweaksMod
                 //{
                 //    Debug.Log("Clicked the button with text = Give a paddle");
                 //}
+
+                GUILayout.Label("Crafting level");
+                int craftmanshipLevel = PlayerRegistry.LocalPlayer.PlayerSkills.CraftsmanshipLevel;
+                craftmanshipLevel = (int)GUILayout.HorizontalSlider(craftmanshipLevel, 0, 7);
+                PlayerRegistry.LocalPlayer.PlayerSkills.DebugSetCraftsmanshipLevel(craftmanshipLevel);
+
+                GUILayout.Label("Cooking level");
+                int cookingLevel = (int)fi_cookingLevel.GetValue(PlayerRegistry.LocalPlayer.PlayerSkills);
+                cookingLevel = (int)GUILayout.HorizontalSlider(cookingLevel, 0, 7);
+                PlayerRegistry.LocalPlayer.PlayerSkills.DebugSetCookingLevel(cookingLevel);
+
+                GUILayout.Label("Physical level");
+                int physicalLevel = (int)fi_physicalLevel.GetValue(PlayerRegistry.LocalPlayer.PlayerSkills);
+                physicalLevel = (int)GUILayout.HorizontalSlider(physicalLevel, 0, 7);
+                PlayerRegistry.LocalPlayer.PlayerSkills.DebugSetPhysicalLevel(physicalLevel);
+
+                GUILayout.Label("Hunting level");
+                int huntingLevel = (int)fi_huntingLevel.GetValue(PlayerRegistry.LocalPlayer.PlayerSkills);
+                huntingLevel = (int)GUILayout.HorizontalSlider(huntingLevel, 0, 7);
+                PlayerRegistry.LocalPlayer.PlayerSkills.DebugSetHuntingLevel(huntingLevel);
+
+                GUILayout.Label("Harvesting level");
+                int harvestingLevel = (int)fi_harvestingLevel.GetValue(PlayerRegistry.LocalPlayer.PlayerSkills);
+                harvestingLevel = (int)GUILayout.HorizontalSlider(harvestingLevel, 0, 7);
+                PlayerRegistry.LocalPlayer.PlayerSkills.DebugSetHarvestingLevel(harvestingLevel);
             }
 
             // Give back coconut after consumable drink
@@ -867,6 +911,9 @@ namespace StrandedDeepTweaksMod
                                     }
                                 }
 
+                                // hide compass if in endgame
+                                showCompass = !player.Movement.IsInCutscene;
+
                                 if (showCompass)
                                 {
                                     compassCanvasVisible = true;
@@ -897,7 +944,28 @@ namespace StrandedDeepTweaksMod
                     if (flag > 5)
                         flag = 0;
 
-                    FlockTests();
+                    //Event tempcurrentevent = Event.current;
+                    //if (tempcurrentevent.isKey)
+                    //{
+                    //    if (tempcurrentevent.keyCode == KeyCode.KeypadMinus)
+                    //    {
+                    //        try
+                    //        {
+                    //            Vector3 playerPosition = PlayerRegistry.LocalPlayer.transform.position;
+                    //            Debug.Log("Stranded Deep Tweaks Mod : FLOCK POSITION TEST playerPosition " + playerPosition);
+                    //            Vector3 playerLocalPosition = PlayerRegistry.LocalPlayer.transform.localPosition;
+                    //            Debug.Log("Stranded Deep Tweaks Mod : FLOCK POSITION TEST localPosition " + playerLocalPosition);
+                    //            int index = 0;
+                    //            Zone zone = FindClosestZone(playerPosition, out index);
+                    //            Debug.Log("Stranded Deep Tweaks Mod : FLOCK POSITION TEST zone.gameObject.transform.position " + zone.gameObject.transform.position);
+                    //            Debug.Log("Stranded Deep Tweaks Mod : FLOCK POSITION TEST delta = " + (playerPosition - zone.gameObject.transform.position));
+                    //        }
+                    //        catch
+                    //        {
+                    //            Debug.Log("Stranded Deep Tweaks Mod : error on FLOCK POSITION TEST");
+                    //        }
+                    //    }
+                    //}
                 }
                 else
                 {
@@ -917,27 +985,66 @@ namespace StrandedDeepTweaksMod
             }
         }
 
-        private static void FlockTests()
+        private static Zone FindClosestZone(Vector3 position, out int index)
+        {
+            Zone[] zones = StrandedWorld.Instance.Zones;
+            index = -1;
+            Zone result = null;
+            float num = float.PositiveInfinity;
+            for (int i = 0; i < zones.Length; i++)
+            {
+                float num2 = Vector3.Distance(position, zones[i].transform.position);
+                if (num2 < num)
+                {
+                    num = num2;
+                    result = zones[i];
+                    index = i;
+                }
+            }
+            return result;
+        }
+
+        private static void FixFlocks()
         {
             try
             {
+                /*
+                 Stranded Deep Tweaks Mod FLOCK : parent = Manager - Animals
+                Stranded Deep Tweaks Mod FLOCK : position = (1064.90, 0.00, -139.50)
+                Stranded Deep Tweaks Mod FLOCK : _center = (0.00, 7.00, 0.00)
+                Stranded Deep Tweaks Mod FLOCK : ControllerPosition = (1064.90, 7.00, -139.50)
+                Stranded Deep Tweaks Mod FLOCK : fixed position = (1192.90, 0.00, -11.50)
+                Stranded Deep Tweaks Mod FLOCK : fixed ControllerPosition = (1192.90, 7.00, -11.50)
+                Stranded Deep Tweaks Mod FLOCK : MaxLandingSpotDistance = 30
+                Stranded Deep Tweaks Mod FLOCK : Species Seagull
+                Stranded Deep Tweaks Mod FLOCK : Population 15
+                Stranded Deep Tweaks Mod FLOCK : Percentage 70
+                Stranded Deep Tweaks Mod FLOCK : Species Bat
+                Stranded Deep Tweaks Mod FLOCK : Population 15
+                Stranded Deep Tweaks Mod FLOCK : Percentage 70
+                 */
+
                 foreach (FlockController fc in Game.FindObjectsOfType<FlockController>())
                 {
-                    Debug.Log("Stranded Deep FLOCK Mod : parent = " + fc.transform.parent.name);
-                    Debug.Log("Stranded Deep FLOCK Mod : ControllerPosition = " + fc.ControllerPosition);
-                    Debug.Log("Stranded Deep FLOCK Mod : position = " + fc.transform.position);
-                    if (fc.transform.position.x == 0 && fc.transform.position.z == 0)
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : parent = " + fc.transform.parent.name);
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : position = " + fc.transform.position);
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : _center = " + typeof(FlockController).GetField("_center", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(fc));
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : ControllerPosition = " + fc.ControllerPosition);
+                    if (WorldUtilities.IsStrandedWide())
                     {
+                        Debug.Log("Stranded Deep Tweaks Mod : Birds everywhere fix : adding Stranded Wide offset");
                         fc.transform.position = fc.transform.position + new Vector3(128, 0, 128);
                     }
-                    Debug.Log("Stranded Deep FLOCK Mod : _center = " + typeof(FlockController).GetField("_center", BindingFlags.Instance | BindingFlags.NonPublic).GetValue(fc));
-                    Debug.Log("Stranded Deep FLOCK Mod : MaxLandingSpotDistance = " + fc.MaxLandingSpotDistance);
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : fixed position = " + fc.transform.position);
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : fixed ControllerPosition = " + fc.ControllerPosition);
+
+                    //Debug.Log("Stranded Deep Tweaks Mod FLOCK : MaxLandingSpotDistance = " + fc.MaxLandingSpotDistance);
                     foreach (FlockSpecies fs in fc.AvailableFlocks.Keys)
                     {
                         FlockData fd = fc.AvailableFlocks[fs];
-                        Debug.Log("Stranded Deep FLOCK Mod : Species " + fd.Species);
-                        Debug.Log("Stranded Deep FLOCK Mod : Population " + fd.Population);
-                        Debug.Log("Stranded Deep FLOCK Mod : Percentage " + fd.Percentage);
+                        //Debug.Log("Stranded Deep Tweaks Mod FLOCK : Species " + fd.Species);
+                        //Debug.Log("Stranded Deep Tweaks Mod FLOCK : Population " + fd.Population);
+                        //Debug.Log("Stranded Deep Tweaks Mod FLOCK : Percentage " + fd.Percentage);
                     }
                 }
             }
@@ -1705,6 +1812,18 @@ namespace StrandedDeepTweaksMod
                             {
                                 betterSpyglass = bool.Parse(tokens[1]);
                             }
+                            else if (tokens[0].Contains("fixRainStart"))
+                            {
+                                fixRainStart = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("betterRainTextures"))
+                            {
+                                betterRainTextures = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("fixBirdsEverywhere"))
+                            {
+                                fixBirdsEverywhere = bool.Parse(tokens[1]);
+                            }
                         }
                     }
                 }
@@ -1737,6 +1856,9 @@ namespace StrandedDeepTweaksMod
                 sb.AppendLine("permaCompassAlwaysVisible=" + permaCompassAlwaysVisible + ";");
                 sb.AppendLine("saveAnywhereAllowed=" + saveAnywhereAllowed + ";");
                 sb.AppendLine("betterSpyglass=" + betterSpyglass + ";");
+                sb.AppendLine("fixRainStart=" + fixRainStart + ";");
+                sb.AppendLine("betterRainTextures=" + betterRainTextures + ";");
+                sb.AppendLine("fixBirdsEverywhere=" + fixBirdsEverywhere + ";");
 
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
@@ -1778,22 +1900,6 @@ namespace StrandedDeepTweaksMod
                 imgNeedle.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, 100);
                 imgNeedle.rectTransform.localPosition = new Vector3(-450, 250, 0);
 
-                try
-                {
-#warning to test
-                    // add transparency for immersion
-                    SpriteRenderer sr = imgCompass.GetComponent<SpriteRenderer>();
-                    if (sr != null)
-                    {
-                        Color c = sr.color;
-                        c.a = 0.5f;
-                        sr.color = c;
-                    }
-                }
-                catch(Exception e)
-                {
-                    Debug.Log("Stranded Deep Tweaks Mod : perma compass transparency error");
-                }
                 compassCanvas.SetActive(compassCanvasVisible);
             }
             else
@@ -1924,6 +2030,10 @@ namespace StrandedDeepTweaksMod
 
             addCanvasScaler(tempCanvas);
             addGraphicsRaycaster(tempCanvas);
+
+            CanvasGroup cg = tempCanvas.AddComponent<CanvasGroup>();
+            cg.alpha = 0.35f;
+
             return tempCanvas;
         }
 

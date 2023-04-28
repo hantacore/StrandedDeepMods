@@ -88,6 +88,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
+    <Reference Include="UnityEngine.ParticleSystemModule">
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.ParticleSystemModule.dll</HintPath>
+    </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
@@ -115,6 +118,8 @@
     <Compile Include="Main.HarmonyPatches.cs" />
     <Compile Include="Main.Spyglass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="VersionChecker.cs" />
+    <Compile Include="WorldUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Info.json">
@@ -124,6 +129,12 @@
   <ItemGroup>
     <EmbeddedResource Include="assets\Textures\compass2.png" />
     <EmbeddedResource Include="assets\Textures\needle.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\Textures\rain.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\Textures\rain2.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
