@@ -354,6 +354,7 @@ namespace StrandedDeepBetterGroundTexturesMod
                                 if (tex is Texture2D)
                                 {
                                     Debug.Log("Stranded Deep Better Ground Textures Mod : Zone " + z.Id + " Updating terrain layer textures " + tex.name);
+                                    _indexedTextures[key].name = tex.name;
                                     z.Terrain.materialTemplate.SetTexture(textureName, _indexedTextures[key]);
                                 }
                                 else
@@ -524,111 +525,111 @@ namespace StrandedDeepBetterGroundTexturesMod
         //    }
         //}
 
-        private static void TerrainTestShit()
-        {
-            try
-            {
-                if (false
-                            && (Beam.Game.State == GameState.NEW_GAME
-                            || Beam.Game.State == GameState.LOAD_GAME))
-                {
-                    Debug.Log("Stranded Deep Better Ground Textures Mod : Test terrain layer Zones");
-                    if (StrandedWorld.Instance != null
-                        && StrandedWorld.Instance.Zones != null)
-                    {
-                        if (StrandedWorld.Instance.Zones.Length == 0)
-                        {
-                            Debug.Log("Stranded Deep Better Ground Textures Mod :Test terrain layer : zones empty");
-                        }
-                        else
-                        {
-                            foreach (Zone z in StrandedWorld.Instance.Zones)
-                            {
-                                //TerrainData td = z.Terrain.terrainData;
-                                //if (td != null)
-                                //{
-                                //    //td.
+//        private static void TerrainTestShit()
+//        {
+//            try
+//            {
+//                if (false
+//                            && (Beam.Game.State == GameState.NEW_GAME
+//                            || Beam.Game.State == GameState.LOAD_GAME))
+//                {
+//                    Debug.Log("Stranded Deep Better Ground Textures Mod : Test terrain layer Zones");
+//                    if (StrandedWorld.Instance != null
+//                        && StrandedWorld.Instance.Zones != null)
+//                    {
+//                        if (StrandedWorld.Instance.Zones.Length == 0)
+//                        {
+//                            Debug.Log("Stranded Deep Better Ground Textures Mod :Test terrain layer : zones empty");
+//                        }
+//                        else
+//                        {
+//                            foreach (Zone z in StrandedWorld.Instance.Zones)
+//                            {
+//                                //TerrainData td = z.Terrain.terrainData;
+//                                //if (td != null)
+//                                //{
+//                                //    //td.
 
-                                //    foreach (TerrainLayer layer in td.terrainLayers)
-                                //    {
-                                //        Debug.Log("Stranded Deep 2K Mod :Test terrain layer texture name : " + layer.diffuseTexture.name);
-                                //        Debug.Log("Stranded Deep 2K Mod :Test terrain layer mask name : " + layer.maskMapTexture.name);
-                                //    }
-                                //}
-                                //else
-                                //{
-                                //    Debug.Log("Stranded Deep 2K Mod :Test terrain layer null");
-                                //}
-                                Debug.Log("Stranded Deep Better Ground Textures Mod :Test terrain layer texture name : " + String.Join(" ", z.Terrain.materialTemplate.GetTexturePropertyNames()));
-                                string[] textureIds = z.Terrain.materialTemplate.GetTexturePropertyNames();
-                                foreach (string textureName in textureIds)
-                                {
-                                    Texture tex = z.Terrain.materialTemplate.GetTexture(textureName);
-                                    if (tex is Texture2D)
-                                    {
-#warning they are herrrrrrrrrreeeeeee
-                                        //string targetFile = "e:\\" + tex.name + ".png";
-                                        //if (!File.Exists(targetFile))
-                                        //{
-                                        //    Texture2D t = duplicateTexture(tex as Texture2D);
-                                        //    byte[] bytes = t.EncodeToPNG();
-                                        //    File.WriteAllBytes(targetFile, bytes);
-                                        //}
-                                    }
-                                    else
-                                    {
-                                        Debug.Log("Stranded Deep Better Ground Textures Mod :Test terrain layer : TEXTURE IS NOT TEXTURE2D");
-                                    }
-                                }
-                            }
-                        }
-                    }
+//                                //    foreach (TerrainLayer layer in td.terrainLayers)
+//                                //    {
+//                                //        Debug.Log("Stranded Deep 2K Mod :Test terrain layer texture name : " + layer.diffuseTexture.name);
+//                                //        Debug.Log("Stranded Deep 2K Mod :Test terrain layer mask name : " + layer.maskMapTexture.name);
+//                                //    }
+//                                //}
+//                                //else
+//                                //{
+//                                //    Debug.Log("Stranded Deep 2K Mod :Test terrain layer null");
+//                                //}
+//                                Debug.Log("Stranded Deep Better Ground Textures Mod :Test terrain layer texture name : " + String.Join(" ", z.Terrain.materialTemplate.GetTexturePropertyNames()));
+//                                string[] textureIds = z.Terrain.materialTemplate.GetTexturePropertyNames();
+//                                foreach (string textureName in textureIds)
+//                                {
+//                                    Texture tex = z.Terrain.materialTemplate.GetTexture(textureName);
+//                                    if (tex is Texture2D)
+//                                    {
+//#warning they are herrrrrrrrrreeeeeee
+//                                        //string targetFile = "e:\\" + tex.name + ".png";
+//                                        //if (!File.Exists(targetFile))
+//                                        //{
+//                                        //    Texture2D t = duplicateTexture(tex as Texture2D);
+//                                        //    byte[] bytes = t.EncodeToPNG();
+//                                        //    File.WriteAllBytes(targetFile, bytes);
+//                                        //}
+//                                    }
+//                                    else
+//                                    {
+//                                        Debug.Log("Stranded Deep Better Ground Textures Mod :Test terrain layer : TEXTURE IS NOT TEXTURE2D");
+//                                    }
+//                                }
+//                            }
+//                        }
+//                    }
 
-                    //Debug.Log("Stranded Deep 2K Mod : Test terrain layer StrandedWorld");
-                    //TerrainData[] tds = typeof(StrandedWorld).GetField("_terrainDatas", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(StrandedWorld.Instance) as TerrainData[];
-                    //if (tds != null)
-                    //{
-                    //    foreach (TerrainData td in tds)
-                    //    {
-                    //        foreach (TerrainLayer layer in td.terrainLayers)
-                    //        {
-                    //            Debug.Log("Stranded Deep 2K Mod : Test terrain layer texture name : " + layer.diffuseTexture.name);
-                    //            Debug.Log("Stranded Deep 2K Mod : Test terrain layer mask name : " + layer.maskMapTexture.name);
-                    //        }
-                    //    }
-                    //}
-                    //else
-                    //{
-                    //    Debug.Log("Stranded Deep 2K Mod : Test terrain layer null");
-                    //}
-                    ////StrandedWorld.Instance
-                    ////_terrainDatas
-                    ////TerrainData td;
-                    ////td.terrainLayers
-                }
-            }
-            catch (Exception e)
-            {
-                Debug.Log("Stranded Deep Better Ground Textures Mod : Test terrain layer error : " + e);
-            }
+//                    //Debug.Log("Stranded Deep 2K Mod : Test terrain layer StrandedWorld");
+//                    //TerrainData[] tds = typeof(StrandedWorld).GetField("_terrainDatas", BindingFlags.NonPublic | BindingFlags.Instance).GetValue(StrandedWorld.Instance) as TerrainData[];
+//                    //if (tds != null)
+//                    //{
+//                    //    foreach (TerrainData td in tds)
+//                    //    {
+//                    //        foreach (TerrainLayer layer in td.terrainLayers)
+//                    //        {
+//                    //            Debug.Log("Stranded Deep 2K Mod : Test terrain layer texture name : " + layer.diffuseTexture.name);
+//                    //            Debug.Log("Stranded Deep 2K Mod : Test terrain layer mask name : " + layer.maskMapTexture.name);
+//                    //        }
+//                    //    }
+//                    //}
+//                    //else
+//                    //{
+//                    //    Debug.Log("Stranded Deep 2K Mod : Test terrain layer null");
+//                    //}
+//                    ////StrandedWorld.Instance
+//                    ////_terrainDatas
+//                    ////TerrainData td;
+//                    ////td.terrainLayers
+//                }
+//            }
+//            catch (Exception e)
+//            {
+//                Debug.Log("Stranded Deep Better Ground Textures Mod : Test terrain layer error : " + e);
+//            }
 
-            //if (true)
-            //{
-            //    Debug.Log("Stranded Deep 2K Mod : terrain test");
+//            //if (true)
+//            //{
+//            //    Debug.Log("Stranded Deep 2K Mod : terrain test");
 
-            //    FieldInfo fi_terrainDatas = typeof(StrandedWorld).GetField("_terrainDatas", BindingFlags.NonPublic | BindingFlags.Instance);
+//            //    FieldInfo fi_terrainDatas = typeof(StrandedWorld).GetField("_terrainDatas", BindingFlags.NonPublic | BindingFlags.Instance);
 
-            //    TerrainData[] tds = fi_terrainDatas.GetValue(StrandedWorld.Instance) as TerrainData[];
-            //    foreach (TerrainData td in tds)
-            //    {
-            //        foreach (TerrainLayer tl in td.terrainLayers)
-            //        {
-            //            Debug.Log("Stranded Deep 2K Mod : terrain layer found " + tl.name);
-            //            Debug.Log("Stranded Deep 2K Mod : terrain layer found " + (tl.diffuseTexture != null ? "Texture found" : "Null texture"));
-            //        }
-            //    }
-            //}
-        }
+//            //    TerrainData[] tds = fi_terrainDatas.GetValue(StrandedWorld.Instance) as TerrainData[];
+//            //    foreach (TerrainData td in tds)
+//            //    {
+//            //        foreach (TerrainLayer tl in td.terrainLayers)
+//            //        {
+//            //            Debug.Log("Stranded Deep 2K Mod : terrain layer found " + tl.name);
+//            //            Debug.Log("Stranded Deep 2K Mod : terrain layer found " + (tl.diffuseTexture != null ? "Texture found" : "Null texture"));
+//            //        }
+//            //    }
+//            //}
+//        }
 
         public enum BlendMode
         {

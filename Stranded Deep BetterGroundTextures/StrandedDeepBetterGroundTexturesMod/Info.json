@@ -2,7 +2,10 @@
   "Id": "StrandedDeepBetterGroundTexturesMod",
   "DisplayName": "Stranded Deep Better Ground Textures Mod",
   "Author": "Hantacore",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "AssemblyName": "StrandedDeepBetterGroundTexturesMod.dll",
-  "EntryMethod": "StrandedDeepBetterGroundTexturesMod.Main.Load"
+  "EntryMethod": "StrandedDeepBetterGroundTexturesMod.Main.Load",
+  "LoadAfter" : ["StrandedWideMod"],
+   "Homepage": "https://www.nexusmods.com/strandeddeep/mods/219",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
 }
