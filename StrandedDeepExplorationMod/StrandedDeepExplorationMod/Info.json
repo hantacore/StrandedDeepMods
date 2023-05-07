@@ -2,8 +2,10 @@
   "Id": "StrandedDeepExplorationMod",
   "DisplayName": "Stranded Deep Exploration Mod",
   "Author": "Hantacore",
-  "Version": "0.0.2",
+  "Version": "0.0.3",
   "AssemblyName": "StrandedDeepExplorationMod.dll",
   "EntryMethod": "StrandedDeepExplorationMod.Main.Load",
-  "LoadAfter" : ["StrandedWideMod"]
+  "LoadAfter" : ["StrandedWideMod"],
+  "Homepage" : "https://www.nexusmods.com/strandeddeep/mods/227",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
 }

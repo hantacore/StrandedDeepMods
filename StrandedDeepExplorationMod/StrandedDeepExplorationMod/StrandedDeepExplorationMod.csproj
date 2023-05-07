@@ -92,13 +92,21 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\VersionChecker.cs">
+      <Link>VersionChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WorldUtilities.cs">
+      <Link>WorldUtilities.cs</Link>
+    </Compile>
     <Compile Include="ExplorationObjectProperties.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShaderScript.cs" />
-    <Compile Include="WorldUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="assets\strandeddeepexplorationmod">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

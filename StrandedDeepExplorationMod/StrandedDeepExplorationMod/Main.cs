@@ -3,6 +3,7 @@ using Beam.Terrain;
 using Beam.UI;
 using Beam.Utilities;
 using SharpNeatLib.Maths;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -33,6 +34,8 @@ namespace StrandedDeepExplorationMod
         private static GameObject gatePrefab = null;
         //private static float _targetValue = 100f;
 
+        static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/StrandedDeepExplorationMod/StrandedDeepExplorationMod/Info.json";
+
         private static Dictionary<PrefabType, ExplorationObjectProperties> prefabs = new Dictionary<PrefabType, ExplorationObjectProperties>();
 
         internal static bool debugMode = false;
@@ -53,6 +56,8 @@ namespace StrandedDeepExplorationMod
             modEntry.OnUpdate = OnUpdate;
             modEntry.OnGUI = OnGUI;
             modEntry.OnHideGUI = OnHideGUI;
+
+            VersionChecker.CheckVersion(modEntry, _infojsonlocation);
 
             ReadConfig();
 
@@ -187,7 +192,7 @@ namespace StrandedDeepExplorationMod
                         && maps != null
                         && maps.Length >= 48)
                     {
-                        int islandSize = 256;
+                        int islandSize = StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1;
                         try
                         {
                             UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
@@ -209,7 +214,7 @@ namespace StrandedDeepExplorationMod
                                 int prefabValue = fr.Next(0, 1000) / 100;
 
                                 if (zone.IsUserMap)
-                                    return;
+                                    continue;
                                 Debug.Log("Stranded Deep " + _modName + " Mod : Generating exploration new objects for " + zone.name + "/" + StrandedWorld.WORLD_SEED);
                                 map = maps[islandIndex];
 
