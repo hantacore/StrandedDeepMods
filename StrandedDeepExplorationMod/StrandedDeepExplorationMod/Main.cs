@@ -188,24 +188,23 @@ namespace StrandedDeepExplorationMod
 
                     if (StrandedWorld.Instance != null
                         && StrandedWorld.Instance.Zones != null
-                        && StrandedWorld.Instance.Zones.Length >= 48
+                        && StrandedWorld.Instance.Zones.Length >= WorldUtilities.IslandsCount
                         && maps != null
-                        && maps.Length >= 48)
+                        && maps.Length >= WorldUtilities.IslandsCount)
                     {
                         int islandSize = StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1;
                         try
                         {
-                            UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-                            if (Game.FindObjectOfType<UMainMenuViewAdapter>().VersionNumberLabel.Text.Contains("Wide")
-                                || mewide != null && mewide.Active && mewide.Loaded)
+                            if (WorldUtilities.IsStrandedWide())
                             {
                                 Debug.Log("Stranded Deep " + _modName + " Mod : Stranded Wide detected");
-                                islandSize = 512;
+                                //islandSize = 512;
+                                islandSize = WorldUtilities.IslandSize;
                             }
                         }
                         catch { }
                         FastRandom fr = new FastRandom(StrandedWorld.WORLD_SEED);
-                        for (int islandIndex = 0; islandIndex < maps.Length; islandIndex++)
+                        for (int islandIndex = 0; islandIndex < WorldUtilities.IslandsCount; islandIndex++)
                         {
                             Zone zone = StrandedWorld.Instance.Zones[islandIndex];
                             try
@@ -259,9 +258,9 @@ namespace StrandedDeepExplorationMod
 
                 if (StrandedWorld.Instance == null
                     || StrandedWorld.Instance.Zones == null
-                    || StrandedWorld.Instance.Zones.Length < 48
+                    || StrandedWorld.Instance.Zones.Length < WorldUtilities.IslandsCount
                     || maps == null
-                    || maps.Length < 48)
+                    || maps.Length < WorldUtilities.IslandsCount)
                 {
                     return;
                 }
@@ -269,15 +268,14 @@ namespace StrandedDeepExplorationMod
                 Event currentevent = Event.current;
                 if (currentevent.isKey)
                 {
-                    int islandSize = 256;
+                    int islandSize = StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1;
                     try
                     {
-                        UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-                        if (Game.FindObjectOfType<UMainMenuViewAdapter>().VersionNumberLabel.Text.Contains("Wide")
-                            || mewide != null && mewide.Active && mewide.Loaded)
+                        if (WorldUtilities.IsStrandedWide())
                         {
-                            //Debug.Log("Stranded Deep " + _modName + " Mod : Stranded Wide detected");
-                            islandSize = 512;
+                            Debug.Log("Stranded Deep " + _modName + " Mod : Stranded Wide detected");
+                            //islandSize = 512;
+                            islandSize = WorldUtilities.IslandSize;
                         }
                     }
                     catch { }
@@ -285,7 +283,7 @@ namespace StrandedDeepExplorationMod
                     Zone debugZone = StrandedWorld.GetZone(PlayerRegistry.LocalPlayer.transform.position, false);
                     if (debugZone != null)
                     {
-                        for (int islandIndex = 0; islandIndex < StrandedWorld.Instance.Zones.Length; islandIndex++)
+                        for (int islandIndex = 0; islandIndex < WorldUtilities.IslandsCount; islandIndex++)
                         {
                             if (String.Compare(StrandedWorld.Instance.Zones[islandIndex].name, debugZone.name) == 0)
                             {
