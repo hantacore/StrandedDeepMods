@@ -113,6 +113,12 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\VersionChecker.cs">
+      <Link>VersionChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WorldUtilities.cs">
+      <Link>WorldUtilities.cs</Link>
+    </Compile>
     <Compile Include="AudioSourceExtensions.cs" />
     <Compile Include="BridgeSpotlight.cs" />
     <Compile Include="Main.utilities.cs" />
@@ -123,15 +129,14 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SmokeParticleSystem.cs" />
     <Compile Include="WavUtility.cs" />
-    <Compile Include="WorldUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="Info.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="assets\videos\alternative_endgame.webm" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="assets\textures\smoke.png" />
@@ -144,8 +149,19 @@
     <EmbeddedResource Include="assets\textures\tile_wreck_metal1 %28Instance%29.png" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="assets\sounds\cargo_passing.wav" />
     <EmbeddedResource Include="assets\sounds\outro.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\sounds\cargo_passing_low.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\sounds\confroom.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\sounds\reporter2.wav" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\videos\AlternativeEndingVideo.webm" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

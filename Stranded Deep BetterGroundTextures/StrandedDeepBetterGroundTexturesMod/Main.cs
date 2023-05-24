@@ -355,6 +355,7 @@ namespace StrandedDeepBetterGroundTexturesMod
                                 {
                                     Debug.Log("Stranded Deep Better Ground Textures Mod : Zone " + z.Id + " Updating terrain layer textures " + tex.name);
                                     _indexedTextures[key].name = tex.name;
+#warning fix tiling according to island size
                                     z.Terrain.materialTemplate.SetTexture(textureName, _indexedTextures[key]);
                                 }
                                 else

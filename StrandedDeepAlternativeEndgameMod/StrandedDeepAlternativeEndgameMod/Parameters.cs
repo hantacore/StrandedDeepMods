@@ -8,8 +8,6 @@ namespace StrandedDeepAlternativeEndgameMod
 {
     static class Parameters
     {
-        public static float CARGO_ORBIT_RADIUS = 250.0f;
-        public static float CARGO_ORBIT_OFFSET = 0.0f;
         public static float NUMBER_OF_WAYPOINTS = 24;
         public static float SHIP_WATERLINE = -5;
         public static string ENDGAME_CARGO_NAME = "EVERGREEN";

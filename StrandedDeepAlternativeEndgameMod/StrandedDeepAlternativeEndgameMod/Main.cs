@@ -150,8 +150,8 @@ namespace StrandedDeepAlternativeEndgameMod
             positions.Clear();
             FastRandom r = new FastRandom(StrandedWorld.WORLD_SEED);
 
-            float zoneSize = 500f;
-            float zoneSpacing = 1.25f;
+            float zoneSize = StrandedWorld.ZONE_SIZE;
+            float zoneSpacing = StrandedWorld.ZONE_SPACING;
             float numberOfIslandsOnDiameter = 8f;
             absoluteSpeed = 5.0f;
             try
@@ -159,11 +159,16 @@ namespace StrandedDeepAlternativeEndgameMod
                 if (WorldUtilities.IsStrandedWide())
                 {
                     Debug.Log("Stranded Deep AlternativeEndgame Mod ComputeWaypoints : Stranded Wide detected");
-                    zoneSize = 1000f;
-                    absoluteSpeed = 10.0f;
+                    zoneSize = WorldUtilities.ZoneSize;
+                    absoluteSpeed = absoluteSpeed * WorldUtilities.IslandSizeRatio;//10.0f; // must add calculation
+                    zoneSpacing = WorldUtilities.ZoneSpacing;
                 }
             }
-            catch { }
+            catch (Exception ex)
+            {
+                Debug.Log("Stranded Deep AlternativeEndgame Mod ComputeWaypoints : exception " + ex);
+            }
+
             Debug.Log("Stranded Deep AlternativeEndgame Mod ComputeWaypoints zoneSize = " + zoneSize);
 
             // farthest island position = _zoneSize * _zoneSpacing * 7f
@@ -294,10 +299,10 @@ namespace StrandedDeepAlternativeEndgameMod
                         float zoneSize = 500f;
                         try
                         {
-                            if (Game.FindObjectOfType<UMainMenuViewAdapter>().VersionNumberLabel.Text.Contains("Wide"))
+                            if (WorldUtilities.IsStrandedWide())
                             {
                                 Debug.Log("Stranded Deep AlternativeEndgame Mod ComputeWaypoints : Stranded Wide detected");
-                                zoneSize = 1000f;
+                                zoneSize = WorldUtilities.ZoneSize;//1000f;
                             }
                         }
                         catch { }
