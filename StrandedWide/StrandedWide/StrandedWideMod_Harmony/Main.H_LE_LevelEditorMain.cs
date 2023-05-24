@@ -74,16 +74,13 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-#warning boundary size change
+                    // boundary size change
                     EnlargeBoundaries(__instance);
-                    // skip original method
-                    //return false;
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Wide (Harmony edition) : error while patching LE_LevelEditorMain.Initialize_InSecondUpdate : " + e);
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching postfix LE_LevelEditorMain.Initialize_InSecondUpdate : " + e);
                 }
-                //return true;
             }
         }
 
@@ -101,7 +98,7 @@ namespace StrandedWideMod_Harmony
                     Camera cam = Camera.main;
                     if (cam != null)
                     {
-                        cam.transform.position = new Vector3(Mathf.Clamp(cam.transform.position.x, -Main._editorCameraBoxWidth, Main._editorCameraBoxWidth * (Main._islandSize / 256)), Mathf.Clamp(cam.transform.position.y, -100f, 150f), Mathf.Clamp(cam.transform.position.z, -Main._editorCameraBoxWidth, Main._editorCameraBoxWidth * (Main._islandSize / 256)));
+                        cam.transform.position = new Vector3(Mathf.Clamp(cam.transform.position.x, -Main._editorCameraBoxWidth, Main._editorCameraBoxWidth * (float)IslandSizeRatio), Mathf.Clamp(cam.transform.position.y, -100f, 150f), Mathf.Clamp(cam.transform.position.z, -Main._editorCameraBoxWidth, Main._editorCameraBoxWidth * (float)IslandSizeRatio));
                     }
                     return;
                 }

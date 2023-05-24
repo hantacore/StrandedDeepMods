@@ -33,7 +33,7 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    __instance.CurrentMap.HeightmapData = Singleton<LE_ZoneTileGenerator>.Instance.terrain.terrainData.GetHeights(0, 0, _islandSize + 1, _islandSize + 1);
+                    __instance.CurrentMap.HeightmapData = Singleton<LE_ZoneTileGenerator>.Instance.terrain.terrainData.GetHeights(0, 0, IslandSize + 1, IslandSize + 1);
                     JObject jobject = new JObject();
                     foreach (LE_Object le_Object in Singleton<LE_LevelEditorMain>.Instance.ObjectDumpContainer.GetComponentsInChildren<LE_Object>(true))
                     {

@@ -15,37 +15,124 @@ namespace StrandedDeepModsUtils
         private static bool worldLoaded = false;
         private static StrandedWorld previousInstance = null;
 
+        private static UnityModManager.ModEntry mewide = null;
+        private static PropertyInfo pi_islandSize = null;
+        private static PropertyInfo pi_islandSizeRatio = null;
+        private static PropertyInfo pi_zoneSize = null;
+        private static PropertyInfo pi_zoneSpacing = null;
+        private static PropertyInfo pi_islandsCount = null;
+        private static Type strandedWideMainType = null;
+
         public static bool IsStrandedWide()
         {
-            UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
+            mewide = UnityModManager.FindMod("StrandedWideMod");
             return (mewide != null && mewide.Active && mewide.Loaded);
+        }
+
+        public static int IslandSize
+        {
+            get
+            {
+                if (IsStrandedWide())
+                {
+                    if (pi_islandSize == null)
+                    {
+                        if (strandedWideMainType == null)
+                        {
+                            strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
+                        }
+                        if (strandedWideMainType != null)
+                        {
+                            pi_islandSize = strandedWideMainType.GetProperty("IslandSize", BindingFlags.Static | BindingFlags.Public);
+                        }
+                        else
+                        {
+                            Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
+                        }
+                    }
+                    if (pi_islandSize != null)
+                    {
+                        int swideIslandSize = (int)pi_islandSize.GetValue(null);
+                        //Debug.Log("Stranded Deep World Utilities : Stranded Wide island size retrieved : " + swideIslandSize);
+                        return swideIslandSize;
+                    }
+                    else
+                    {
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandSize null");
+                    }
+                }
+
+                return StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1;
+            }
+        }
+
+        public static int IslandSizeRatio
+        {
+            get
+            {
+                if (IsStrandedWide())
+                {
+                    if (pi_islandSizeRatio == null)
+                    {
+                        if (strandedWideMainType == null)
+                        {
+                            strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
+                        }
+                        if (strandedWideMainType != null)
+                        {
+                            pi_islandSizeRatio = strandedWideMainType.GetProperty("IslandSizeRatio", BindingFlags.Static | BindingFlags.Public);
+                        }
+                        else
+                        {
+                            Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
+                        }
+                    }
+                    if (pi_islandSizeRatio != null)
+                    {
+                        int swideIslandSizeRatio = (int)pi_islandSizeRatio.GetValue(null);
+                        //Debug.Log("Stranded Deep World Utilities : Stranded Wide island size ratio retrieved : " + swideIslandSizeRatio);
+                        return swideIslandSizeRatio;
+                    }
+                    else
+                    {
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandSizeRatio null");
+                    }
+                }
+
+                return 1;
+            }
         }
 
         public static float ZoneSize
         {
             get
             {
-                UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-                if (mewide != null && mewide.Active && mewide.Loaded)
+                if (IsStrandedWide())
                 {
-                    Type strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
-                    if (strandedWideMainType != null)
+                    if (pi_zoneSize == null)
                     {
-                        PropertyInfo pi_zoneSize = strandedWideMainType.GetProperty("ZoneSize", BindingFlags.Static);
-                        if (pi_zoneSize != null)
+                        if (strandedWideMainType == null)
                         {
-                            float swideZoneSize = (float)pi_zoneSize.GetValue(null);
-                            Debug.Log("Stranded Deep World Utilities : Stranded Wide zone size retrieved : " + swideZoneSize);
-                            return swideZoneSize;
+                            strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
+                        }
+                        if (strandedWideMainType != null)
+                        {
+                            pi_zoneSize = strandedWideMainType.GetProperty("ZoneSize", BindingFlags.Static | BindingFlags.Public);
                         }
                         else
                         {
-                            Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSize null");
+                            Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
                         }
+                    }
+                    if (pi_zoneSize != null)
+                    {
+                        float swideZoneSize = (float)pi_zoneSize.GetValue(null);
+                        //Debug.Log("Stranded Deep World Utilities : Stranded Wide zone size retrieved : " + swideZoneSize);
+                        return swideZoneSize;
                     }
                     else
                     {
-                        Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSize null");
                     }
                 }
 
@@ -57,27 +144,32 @@ namespace StrandedDeepModsUtils
         {
             get
             {
-                UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-                if (mewide != null && mewide.Active && mewide.Loaded)
+                if (IsStrandedWide())
                 {
-                    Type strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
-                    if (strandedWideMainType != null)
+                    if (pi_zoneSpacing == null)
                     {
-                        PropertyInfo pi_zoneSpacing = strandedWideMainType.GetProperty("ZoneSpacing", BindingFlags.Static);
-                        if (pi_zoneSpacing != null)
+                        if (strandedWideMainType == null)
                         {
-                            float swideZoneSpacing = (float)pi_zoneSpacing.GetValue(null);
-                            Debug.Log("Stranded Deep World Utilities : Stranded Wide zone spacing retrieved : " + swideZoneSpacing);
-                            return swideZoneSpacing;
+                            strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
+                        }
+                        if (strandedWideMainType != null)
+                        {
+                            pi_zoneSpacing = strandedWideMainType.GetProperty("ZoneSpacing", BindingFlags.Static | BindingFlags.Public);
                         }
                         else
                         {
-                            Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSpacing null");
+                            Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
                         }
+                    }
+                    if (pi_zoneSpacing != null)
+                    {
+                        float swideZoneSpacing = (float)pi_zoneSpacing.GetValue(null);
+                        //Debug.Log("Stranded Deep World Utilities : Stranded Wide zone spacing retrieved : " + swideZoneSpacing);
+                        return swideZoneSpacing;
                     }
                     else
                     {
-                        Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSpacing null");
                     }
                 }
 
@@ -86,31 +178,36 @@ namespace StrandedDeepModsUtils
         }
 
 
-        public static int IslandCount
+        public static int IslandsCount
         {
             get
             {
-                UnityModManager.ModEntry mewide = UnityModManager.FindMod("StrandedWideMod");
-                if (mewide != null && mewide.Active && mewide.Loaded)
+                if (IsStrandedWide())
                 {
-                    Type strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
-                    if (strandedWideMainType != null)
+                    if (pi_islandsCount == null)
                     {
-                        FieldInfo pi_zoneSpacing = strandedWideMainType.GetField("IslandCount", BindingFlags.Static);
-                        if (pi_zoneSpacing != null)
+                        if (strandedWideMainType == null)
                         {
-                            int swideIslandCount = (int)pi_zoneSpacing.GetValue(null);
-                            Debug.Log("Stranded Deep World Utilities : Stranded Wide island count retrieved : " + swideIslandCount);
-                            return swideIslandCount;
+                            strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
+                        }
+                        if (strandedWideMainType != null)
+                        {
+                            pi_islandsCount = strandedWideMainType.GetProperty("IslandsCount", BindingFlags.Static | BindingFlags.Public);
                         }
                         else
                         {
-                            Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSpacing null");
+                            Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
                         }
+                    }
+                    if (pi_islandsCount != null)
+                    {
+                        int swideIslandCount = (int)pi_islandsCount.GetValue(null);
+                        //Debug.Log("Stranded Deep World Utilities : Stranded Wide island count retrieved : " + swideIslandCount);
+                        return swideIslandCount;
                     }
                     else
                     {
-                        Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandsCount null");
                     }
                 }
 

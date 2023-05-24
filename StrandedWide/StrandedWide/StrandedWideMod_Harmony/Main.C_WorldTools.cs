@@ -18,19 +18,25 @@ namespace StrandedWideMod_Harmony
         private static Texture2D GetBiggerIslandStitch()
         {
             if (_bigIslandStitch != null)
-                return _bigIslandStitch;
+            {
+                if (_bigIslandStitch.height == IslandSize + 1
+                    && _bigIslandStitch.width == IslandSize + 1)
+                {
+                    return _bigIslandStitch;
+                }
+            }
 
             Texture2D tex = (Resources.Load("Terrain/Mask_Island_Stitch") as Texture2D);
-            //StrandedWorld.ExportTexture(tex, "smallstitch");
+            //ExportTexture(tex, "smallstitch");
             //Texture2D bigTex = StrandedWorld.Blur(StrandedWorld.ResizeTexture(tex, _islandSize+1, _islandSize+1), 5);
             //Texture2D bigTex = StrandedWorld.ResizeTexture(tex, _islandSize + 1, _islandSize + 1);
             //_bigIslandStitch = StrandedWorld.Blur(StrandedWorld.ResizeTexture(tex, _islandSize + 1, _islandSize + 1), 5);
 
-            _bigIslandStitch = new Texture2D(_islandSize + 1, _islandSize + 1);
+            _bigIslandStitch = new Texture2D(IslandSize + 1, IslandSize + 1);
 
             float ratio = 0.95f;
 
-            Texture2D largertex = Main.ResizeTexture(tex, (int)Math.Round(ratio * _islandSize), (int)Math.Round(ratio * _islandSize));
+            Texture2D largertex = Main.ResizeTexture(tex, (int)Math.Round(ratio * IslandSize), (int)Math.Round(ratio * IslandSize));
 
             for (int i = 0; i < _bigIslandStitch.width; i++)
             {
@@ -48,7 +54,7 @@ namespace StrandedWideMod_Harmony
                     Color c = largertex.GetPixel(i, j);
                     //c = new Color(c.r * 1.5f, c.g * 1.5f, c.b * 1.5f);
                     //_bigIslandStitch.SetPixel(i + ((_islandSize - largertex.width) / 2) + _stitchBlurRadius / 2, j + ((_islandSize - largertex.height) / 2) + _stitchBlurRadius / 2, c);
-                    _bigIslandStitch.SetPixel(i + ((_islandSize - largertex.width) / 2), j + ((_islandSize - largertex.height) / 2), c);
+                    _bigIslandStitch.SetPixel(i + ((IslandSize - largertex.width) / 2), j + ((IslandSize - largertex.height) / 2), c);
                 }
             }
 
@@ -64,7 +70,7 @@ namespace StrandedWideMod_Harmony
             _bigIslandStitch.Apply();
             _bigIslandStitch = Main.Blur(_bigIslandStitch, 10);
 
-            //StrandedWorld.ExportTexture(_bigIslandStitch, "bigstitch");
+            ExportTexture(_bigIslandStitch, "bigstitch");
 
             return _bigIslandStitch;
         }
@@ -74,7 +80,7 @@ namespace StrandedWideMod_Harmony
             FastRandom fr = new FastRandom();
             fr.Reinitialise(StrandedWorld.WORLD_SEED);
 
-            int num = _islandSize + 1;
+            int num = IslandSize + 1;
             //Texture2D tex = (Resources.Load("Terrain/Mask_Island_Stitch") as Texture2D);
             //Texture2D bigTex = StrandedWorld.ResizeTexture(tex, _islandSize + 1, _islandSize + 1);
             Texture2D tex = GetBiggerIslandStitch();
@@ -97,8 +103,8 @@ namespace StrandedWideMod_Harmony
             {
                 for (int j = 0; j < num; j++)
                 {
-                    float relativeX = (_islandSize / 2) - i;
-                    float relativeY = (_islandSize / 2) - j;
+                    float relativeX = (IslandSize / 2) - i;
+                    float relativeY = (IslandSize / 2) - j;
                     float distanceToCenter = Mathf.Sqrt(relativeX * relativeX + relativeY * relativeY);
                     //Debug.Log("ISLAND GENERATION : distanceToCenter = " + distanceToCenter); // 0 -> 256
                     float depth = heightmap[i, j];
@@ -129,7 +135,7 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    float[,] array = new float[_islandSize + 1, _islandSize + 1];
+                    float[,] array = new float[IslandSize + 1, IslandSize + 1];
                     switch (biomeType)
                     {
                         case Zone.BiomeType.DEEP_SEA:
@@ -174,8 +180,8 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     System.Random random = new System.Random(seed);
-                    int smallIslandSize = _smallIslandGroundSize;
-                    int bigIslandSize = _bigIslandGroundSize;
+                    int smallIslandSize = SmallIslandGroundSize;
+                    int bigIslandSize = BigIslandGroundSize;
                     int newIslandGroundSize = bigIslandSize;
                     if (biome == Zone.BiomeType.ISLAND_SMALL)
                     {
@@ -203,11 +209,11 @@ namespace StrandedWideMod_Harmony
                         islandType = Island.IslandTypes.Perlin;
                     island.NewIsland(islandType, Island.PointTypes.Random, numPoints, seed, (float)newIslandGroundSize);
                     //island.NewIsland(Island.IslandTypes.Radial, Island.PointTypes.Random, numPoints, seed, (float)newIslandGroundSize);
-                    int newHeightMapResolution = _islandSize + 1;
-                    float heightmapOffset = (float)((int)((float)(_zoneHalfSize - newIslandGroundSize) * 0.5f));
+                    int newHeightMapResolution = IslandSize + 1;
+                    float heightmapOffset = (float)((int)((float)(ZoneHalfSize - newIslandGroundSize) * 0.5f));
                     float[,] array = new float[newHeightMapResolution, newHeightMapResolution];
 
-#warning false by default
+                    // false by default
                     if (!soilMapGeneration)
                     {
                         for (int i = 0; i < newHeightMapResolution; i++)
@@ -256,7 +262,7 @@ namespace StrandedWideMod_Harmony
                     {
                         array = Main.StitchTerrainEdges(array);
 
-#warning attempt to make slopes more smooth
+                        // attempt to make slopes more smooth
                         //array = WorldTools.SmoothTerrain(array, _iterations * _iterationsFactor, _blend, biome);
 
                         array = WorldTools.PerlinGenerator(array, seed, 24, 1f, 6, _perlinblend);
@@ -277,7 +283,7 @@ namespace StrandedWideMod_Harmony
 
                         //array = WorldTools.SmoothTerrain(array, 2, 0.7f, biome);
                         array = WorldTools.SmoothTerrain(array, 6, 0.7f, biome);
-#warning attempt to make slopes more smooth
+                        // attempt to make slopes more smooth
                         //array = WorldTools.SmoothTerrain(array, _iterations, _blend, biome);
                     }
                     island = null;
@@ -306,7 +312,7 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    int num = _islandSize + 1;
+                    int num = IslandSize + 1;
                     int num2 = num;
                     float[,] array = (float[,])heightmap.Clone();
                     float[,] array2 = (float[,])heightmap.Clone();

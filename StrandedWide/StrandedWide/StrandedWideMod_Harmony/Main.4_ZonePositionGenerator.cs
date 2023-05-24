@@ -68,8 +68,8 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    float num = radius / Mathf.Sqrt(2f);
-                    int[,] array = new int[Mathf.CeilToInt(sampleRegionSize.x / num), Mathf.CeilToInt(sampleRegionSize.y / num)];
+                    float fullMapSquareToCircle = radius / Mathf.Sqrt(2f);
+                    int[,] array = new int[Mathf.CeilToInt(sampleRegionSize.x / fullMapSquareToCircle), Mathf.CeilToInt(sampleRegionSize.y / fullMapSquareToCircle)];
                     List<Vector2> list = new List<Vector2>();
                     List<Vector2> list2 = new List<Vector2>();
                     list2.Add(sampleRegionSize / 2f);
@@ -77,25 +77,28 @@ namespace StrandedWideMod_Harmony
                     while (list2.Count > 0)
                     {
                         int index = fastRandom.Next(0, list2.Count);
-                        Vector2 vector = list2[index];
+                        Vector2 previousPosition = list2[index];
                         bool flag = false;
                         for (int i = 0; i < numSamplesBeforeRejection; i++)
                         {
                             float f = (float)fastRandom.NextDouble() * 3.1415927f * 2f;
-                            Vector2 a = new Vector2(Mathf.Sin(f), Mathf.Cos(f));
-                            Vector2 vector2 = vector + a * (float)(fastRandom.Next((int)(radius * 100f), (int)(_zoneSpacing * radius * 100f)) / 100);
+                            Vector2 direction = new Vector2(Mathf.Sin(f), Mathf.Cos(f));
+
+                            float minDistanceBewteenIslands = radius;
+
+                            Vector2 nextPosition = previousPosition + direction * (float)(fastRandom.Next((int)(minDistanceBewteenIslands * 100f), (int)(ZoneSpacing * minDistanceBewteenIslands * 100f)) / 100);
                             if (i == 0)
                             {
-                                vector2 = vector;
+                                nextPosition = previousPosition;
                             }
                             //if (ZonePositionGenerator.IsValid(vector2, sampleRegionSize, num, radius, list, array))
-                            bool isValid = (bool)mi_IsValid.Invoke(null, new object[] { vector2, sampleRegionSize, num, radius, list, array });
+                            bool isValid = (bool)mi_IsValid.Invoke(null, new object[] { nextPosition, sampleRegionSize, fullMapSquareToCircle, minDistanceBewteenIslands, list, array });
 
                             if (isValid)
                             {
-                                list.Add(vector2);
-                                list2.Add(vector2);
-                                array[(int)(vector2.x / num), (int)(vector2.y / num)] = list.Count;
+                                list.Add(nextPosition);
+                                list2.Add(nextPosition);
+                                array[(int)(nextPosition.x / fullMapSquareToCircle), (int)(nextPosition.y / fullMapSquareToCircle)] = list.Count;
                                 flag = true;
                                 break;
                             }

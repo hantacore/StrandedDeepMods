@@ -27,7 +27,6 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-#warning scale randomization
                     _scaleRandomizer.Reinitialise(StrandedWorld.WORLD_SEED - zone.Seed);
                     return true;
                 }
@@ -46,7 +45,6 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-#warning scale randomization
                     _scaleRandomizer.Reinitialise(StrandedWorld.WORLD_SEED - zone.Seed);
                     return true;
                 }
@@ -71,7 +69,6 @@ namespace StrandedWideMod_Harmony
                         return false;
                     }
                     __instance.Random.Reinitialise(StrandedWorld.WORLD_SEED - zone.Seed);
-#warning scale randomization
                     _scaleRandomizer.Reinitialise(StrandedWorld.WORLD_SEED - zone.Seed);
 
                     //bool hasSnakes = _scaleRandomizer.Next(0, 10) > 5;
@@ -94,9 +91,9 @@ namespace StrandedWideMod_Harmony
                     }
                     int detailAmountFactor = zoneObjects.detailAmountFactor;
                     int num2 = 0;
-                    for (int j = 0; j < _islandSize - detailAmountFactor; j += detailAmountFactor)
+                    for (int j = 0; j < IslandSize - detailAmountFactor; j += detailAmountFactor)
                     {
-                        for (int k = 0; k < _islandSize - detailAmountFactor; k += detailAmountFactor)
+                        for (int k = 0; k < IslandSize - detailAmountFactor; k += detailAmountFactor)
                         {
                             //if (zone.Biome == Zone.BiomeType.ISLAND_SMALL
                             //    && (zoneObjects.name == "GEN_SNAKE"
@@ -193,7 +190,7 @@ namespace StrandedWideMod_Harmony
                         int detailAmountFactor = zoneObjects.detailAmountFactor;
                         int num = 0;
                         int num2 = (shelterType == 7) ? 8 : ((int)Mathf.Sqrt((float)zoneObjects.detailAmountFactor));
-                        int num3 = _islandSize + 1;
+                        int num3 = IslandSize + 1;
                         int num4 = 100;
                         int num5 = num3 * num3 % num4;
                         int num6 = 0;
@@ -385,7 +382,7 @@ namespace StrandedWideMod_Harmony
                     {
                         uint prefabId = component.PrefabId;
 
-#warning cat patch
+                        // cat's items compatibility patch
                         if (prefabId > 399)
                             return false;
 
@@ -407,7 +404,6 @@ namespace StrandedWideMod_Harmony
                     else
                     {
                         //UnityEngine.Debug.Log("StrandedWorld::CreateWorld:: Stranded Wide World CreateGeneratedPrefab Name : " + objectData.Prefab.name);
-#warning shark spawners
                         if (objectData.Prefab.name != "GENERATOR_ISLAND_SHARKS")
                         {
                             gameObject = UnityEngine.Object.Instantiate<GameObject>(objectData.Prefab, objectData.Position, objectData.Rotation);
@@ -577,7 +573,7 @@ namespace StrandedWideMod_Harmony
                         __result = 1;
                         return false;
                     }
-                    float num = (position - closestPlayer.position).magnitude - Main._zoneTerrainHalfSize;
+                    float num = (position - closestPlayer.position).magnitude - Main.ZoneTerrainHalfSize;
 
                     int processes = (int)fi_processes.GetValue(__instance);
                     num /= (float)processes;

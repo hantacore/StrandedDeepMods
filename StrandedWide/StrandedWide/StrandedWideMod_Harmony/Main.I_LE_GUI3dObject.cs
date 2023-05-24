@@ -31,7 +31,7 @@ namespace StrandedWideMod_Harmony
                             if (array[i].Id == p_object.Id)
                             {
                                 num++;
-                                if (p_object.MaxInstancesInLevel * Main._increaseMaxObjectsRatio < num)
+                                if (p_object.MaxInstancesInLevel * Main.IncreaseMaxObjectsRatio < num)
                                 {
                                     __result = false;
                                     return false;
@@ -75,6 +75,8 @@ namespace StrandedWideMod_Harmony
 
                     if (m_object != null)
                     {
+                        float _objectPlacementBounds = 150f * (Main.IslandSize / (StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1));
+
                         bool m_isObjectPlaceable = (bool)fi_m_isObjectPlaceable.GetValue(__instance);
                         LE_Object m_previewInstance = fi_m_previewInstance.GetValue(__instance) as LE_Object;
                         RaycastHit m_cursorHitInfo = (RaycastHit)fi_m_cursorHitInfo.GetValue(__instance);

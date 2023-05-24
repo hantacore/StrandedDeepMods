@@ -2,7 +2,9 @@
   "Id": "StrandedWideMod",
   "DisplayName": "Stranded Wide mod (Harmony edition)",
   "Author": "Hantacore",
-  "Version": "0.0.11-beta",
+  "Version": "0.1.1",
   "AssemblyName": "StrandedWideMod_Harmony.dll",
-  "EntryMethod": "StrandedWideMod_Harmony.Main.Load"
+  "EntryMethod": "StrandedWideMod_Harmony.Main.Load",
+  "Homepage" : "https://www.nexusmods.com/strandeddeep/mods/195",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
 }

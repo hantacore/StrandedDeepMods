@@ -19,7 +19,7 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     float num = 20f;
-                    float num2 = Main._islandSize + 1;
+                    float num2 = Main.IslandSize + 1;
                     if (((float)x <= num || (float)x >= num2 - num || (float)y <= num || (float)y >= num2 - num) && heightToClamp > 0.65f)
                     {
                         heightToClamp = 0.65f;

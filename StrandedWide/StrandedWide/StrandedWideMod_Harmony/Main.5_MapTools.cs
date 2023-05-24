@@ -18,16 +18,16 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    Texture2D texture2D = new Texture2D(_islandSize + 1, _islandSize + 1, TextureFormat.ARGB32, false, false);
+                    Texture2D texture2D = new Texture2D(IslandSize + 1, IslandSize + 1, TextureFormat.ARGB32, false, false);
 
-#warning missions and old maps test
-                    if (heightData.GetLength(0) < _islandSize + 1)
+                    // convert missions and old maps
+                    if (heightData.GetLength(0) < IslandSize + 1)
                     {
                         float minimum = heightData[0, 0];
                         // init all with base value
-                        for (int i = 0; i < _islandSize + 1; i++)
+                        for (int i = 0; i < IslandSize + 1; i++)
                         {
-                            for (int j = 0; j < _islandSize + 1; j++)
+                            for (int j = 0; j < IslandSize + 1; j++)
                             {
                                 float num = minimum;
                                 float a = 1f;
@@ -57,14 +57,14 @@ namespace StrandedWideMod_Harmony
                                 texture2D.SetPixel(j, i, color);
                             }
                         }
-#warning end missions and old maps test
+                        // end missions and old maps conversion
                     }
                     else
                     {
                         // original code
-                        for (int i = 0; i < _islandSize + 1; i++)
+                        for (int i = 0; i < IslandSize + 1; i++)
                         {
-                            for (int j = 0; j < _islandSize + 1; j++)
+                            for (int j = 0; j < IslandSize + 1; j++)
                             {
                                 float num = heightData[i, j];
                                 float a = 1f;
@@ -98,16 +98,16 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    float[,] array = new float[_islandSize + 1, _islandSize + 1];
+                    float[,] array = new float[IslandSize + 1, IslandSize + 1];
                     Color[] pixels = heightmap.GetPixels();
 
-#warning missions and old maps test
+                    // missions and old maps conversion
                     if (heightmap.width < array.GetLength(0))
                     {
                         // init all with base value
-                        for (int i = 0; i < _islandSize + 1; i++)
+                        for (int i = 0; i < IslandSize + 1; i++)
                         {
-                            for (int j = 0; j < _islandSize + 1; j++)
+                            for (int j = 0; j < IslandSize + 1; j++)
                             {
                                 Color color = pixels[0];
                                 array[j, i] = color.grayscale;
@@ -119,7 +119,7 @@ namespace StrandedWideMod_Harmony
                         {
                             for (int j = 0; j < heightmap.width; j++)
                             {
-                                Color color = pixels[j * _islandSize + 1 + i];
+                                Color color = pixels[j * IslandSize + 1 + i];
                                 array[j, i] = color.grayscale;
                             }
                         }
@@ -127,16 +127,16 @@ namespace StrandedWideMod_Harmony
                     else
                     {
                         // original code
-                        for (int i = 0; i < _islandSize + 1; i++)
+                        for (int i = 0; i < IslandSize + 1; i++)
                         {
-                            for (int j = 0; j < _islandSize + 1; j++)
+                            for (int j = 0; j < IslandSize + 1; j++)
                             {
-                                Color color = pixels[j * _islandSize + 1 + i];
+                                Color color = pixels[j * IslandSize + 1 + i];
                                 array[j, i] = color.grayscale;
                             }
                         }
                     }
-#warning end missions and old maps test
+                    // end missions and old maps conversion
 
                     __result = array;
                     // skip original method

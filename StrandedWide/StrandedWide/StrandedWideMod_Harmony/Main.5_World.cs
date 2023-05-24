@@ -1,4 +1,5 @@
 ﻿using Beam.Terrain;
+using Beam.Utilities;
 using HarmonyLib;
 using SharpNeatLib.Maths;
 using System;
@@ -12,8 +13,6 @@ using UnityEngine;
 
 namespace StrandedWideMod_Harmony
 {
-#warning if we plan to change the number of islands, need to patch a lot more here
-
     public static partial class Main
     {
         static PropertyInfo pi_generatedZonePoints = AccessTools.Property(typeof(World), "_generatedZonePoints");
@@ -29,20 +28,21 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    //Debug.LogError("Stranded Wide (Harmony edition) : CreateWorldZonePoints " + seed);
+                    Debug.LogError("Stranded Wide (Harmony edition) : CreateWorldZonePoints " + seed + " / zone size " + ZoneSize + " / spacing " + ZoneSpacing + " / count " + IslandsCount);
 
-                    int num = _islandsCount + 1;
-                    float num2 = _zoneSize;
-                    float num3 = num2 * _zoneSpacing * 7f;
+                    int num = IslandsCount;
+                    float islandZoneSize = ZoneSize;
+                    float fullMapSize = islandZoneSize * ZoneSpacing * 7f;
                     int numSamplesBeforeRejection = 30;
 
-                    Vector2[] generatedPoints = ZonePositionGenerator.GeneratePoints(seed, num2, new Vector2(num3, num3), numSamplesBeforeRejection);
+                    Vector2[] generatedPoints = ZonePositionGenerator.GeneratePoints(seed, islandZoneSize, new Vector2(fullMapSize, fullMapSize), numSamplesBeforeRejection);
                     //World._generatedZonePoints = generatedPoints;
                     pi_generatedZonePoints.SetValue(null, generatedPoints);
                     //if (!System.Object.ReferenceEquals(generatedPoints, World.GeneratedZonePoints))
                     //{
                     //    Debug.LogError("Stranded Wide (Harmony edition) : _generatedZonePoints instances are different");
                     //}
+                    Debug.LogError("Stranded Wide (Harmony edition) : World.GeneratedZonePoints.Length : " + World.GeneratedZonePoints.Length);
 
                     Vector2[] generatedPositions = new Vector2[num];
                     //World._generationZonePositons = generatedPositions;
@@ -51,10 +51,12 @@ namespace StrandedWideMod_Harmony
                     //{
                     //    Debug.LogError("Stranded Wide (Harmony edition) : _generationZonePositons instances are different");
                     //}
+                    Debug.LogError("Stranded Wide (Harmony edition) : World.GenerationZonePositons.Length : " + World.GenerationZonePositons.Length);
 
                     FastRandom fastRandom = new FastRandom(seed);
                     List<int> list = new List<int>();
                     int upperBound = generatedPoints.Length;
+                    Debug.LogError("Stranded Wide (Harmony edition) : start picking positions");
                     for (int i = 0; i < num; i++)
                     {
                         int num4 = fastRandom.Next(0, upperBound);
@@ -67,9 +69,12 @@ namespace StrandedWideMod_Harmony
                             num4 = 0;
                         }
                         list.Add(num4);
+                        //Debug.Log("Stranded Wide (Harmony edition) : adding generated position " + i);
                         generatedPositions[i] = generatedPoints[num4];
                         //World.GenerationZonePositons[i] = World.GeneratedZonePoints[num4];
                     }
+                    Debug.LogError("Stranded Wide (Harmony edition) : end picking positions");
+
                     // should never happen !
                     if (generatedPositions.Length < num - 1)
                     {
@@ -93,20 +98,18 @@ namespace StrandedWideMod_Harmony
             }
         }
 
-#warning this might not work
         [HarmonyPatch(typeof(World), "LoadWorldMaps")]
-        class World_LoadWorldMaps_Patch
+        class World_LoadWorldMaps_PostFix_Patch
         {
             static void Postfix(ref LoadingResult __result, bool legacy)
             {
                 try
                 {
-#warning Seems like the right spot
                     Main.IncreaseObjectsNumberForProceduralGeneration();
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Wide (Harmony edition) : error while patching World.LoadWorldMaps : " + e);
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching World.LoadWorldMaps PostFix : " + e);
                 }
             }
         }
@@ -118,7 +121,7 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    float[,] array = new float[_islandSize + 1, _islandSize + 1];
+                    float[,] array = new float[IslandSize + 1, IslandSize + 1];
                     int num = 66049;
                     num *= 2;
                     byte[] array2 = new byte[num];
@@ -143,12 +146,12 @@ namespace StrandedWideMod_Harmony
                         return false;
                     }
                     int num2 = 0;
-                    for (int i = 0; i < _islandSize + 1; i++)
+                    for (int i = 0; i < IslandSize + 1; i++)
                     {
-                        for (int j = 0; j < _islandSize + 1; j++)
+                        for (int j = 0; j < IslandSize + 1; j++)
                         {
-                            float num3 = (float)array2[num2++] + (float)array2[num2++] * _islandSize;
-                            array[_islandSize + 1 - i - 1, j] = num3 / 65535f;
+                            float num3 = (float)array2[num2++] + (float)array2[num2++] * IslandSize;
+                            array[IslandSize + 1 - i - 1, j] = num3 / 65535f;
                         }
                     }
                     __result = array;

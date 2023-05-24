@@ -19,19 +19,19 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     float num = 0.9765625f;
-                    GenerationPoints[,] array = new GenerationPoints[_islandSize, _islandSize];
+                    GenerationPoints[,] array = new GenerationPoints[IslandSize, IslandSize];
                     UnityEngine.Terrain terrain = zone.Terrain;
                     TerrainData terrainData = zone.Terrain.terrainData;
-                    float[,] heights = terrainData.GetHeights(0, 0, _islandSize + 1, _islandSize + 1);
+                    float[,] heights = terrainData.GetHeights(0, 0, IslandSize + 1, IslandSize + 1);
                     float[,] array2 = WorldTools.GENERATE_ISLAND_HEIGHTMAP(StrandedWorld.WORLD_SEED - seed, zone.Biome, true);
-                    for (int i = 0; i < _islandSize; i++)
+                    for (int i = 0; i < IslandSize; i++)
                     {
-                        for (int j = 0; j < _islandSize; j++)
+                        for (int j = 0; j < IslandSize; j++)
                         {
                             float y = 150f * heights[i, j] + -100f;
                             Vector3 vector = new Vector3(terrain.transform.position.x + num * (float)j, y, terrain.transform.position.z + num * (float)i);
-                            float x = (vector.x - terrain.transform.position.x) / _zoneHalfSize;
-                            float y2 = (vector.z - terrain.transform.position.z) / _zoneHalfSize;
+                            float x = (vector.x - terrain.transform.position.x) / ZoneHalfSize;
+                            float y2 = (vector.z - terrain.transform.position.z) / ZoneHalfSize;
                             Quaternion rot = Quaternion.LookRotation(Vector3.forward, terrainData.GetInterpolatedNormal(x, y2));
                             float steepness = terrainData.GetSteepness(x, y2);
                             array[i, j] = new GenerationPoints(vector, rot, false, steepness, array2[i, j]);
@@ -62,7 +62,7 @@ namespace StrandedWideMod_Harmony
                     gameObject.transform.position = zone.transform.position + Vector3.up * 50f;
                     gameObject.transform.localRotation = Quaternion.Euler(new Vector3(0f, -90f, 0f));
                     gameObject.transform.localScale = new Vector3(-25f, 1f, 25f);
-                    Texture2D texture2D = IslandDebugTexture.RenderSoilMapImageIcon(soilMap, _islandSize + 1);
+                    Texture2D texture2D = IslandDebugTexture.RenderSoilMapImageIcon(soilMap, IslandSize + 1);
                     texture2D.wrapMode = TextureWrapMode.Clamp;
                     texture2D.Apply();
                     gameObject.GetComponent<Renderer>().material.mainTexture = texture2D;

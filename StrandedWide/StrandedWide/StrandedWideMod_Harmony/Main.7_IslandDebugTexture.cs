@@ -21,10 +21,10 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    int num = _islandSize;
-                    int num2 = _islandSize;
+                    int num = IslandSize;
+                    int num2 = IslandSize;
 
-                    int num3 = (int)((_zoneHalfSize - island.Size) * 0.5f);
+                    int num3 = (int)((ZoneHalfSize - island.Size) * 0.5f);
                     Texture2D texture2D = new Texture2D(num, num2);
                     texture2D.SetPixels(Enumerable.Repeat<Color>(Color.magenta, num * num2).ToArray<Color>());
                     foreach (Center center in island.Centers)
@@ -80,7 +80,7 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    Texture2D texture2D = new Texture2D(_islandSize, _islandSize);
+                    Texture2D texture2D = new Texture2D(IslandSize, IslandSize);
                     for (int i = 0; i < heightmapRes - 1; i++)
                     {
                         for (int j = 0; j < heightmapRes - 1; j++)

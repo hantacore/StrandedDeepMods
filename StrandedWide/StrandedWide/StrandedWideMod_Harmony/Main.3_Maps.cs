@@ -55,13 +55,12 @@ namespace StrandedWideMod_Harmony
                     {
                         using (BinaryWriter binaryWriter = new BinaryWriter(streamHeight))
                         {
-#warning convert standard map format
-
-                            if (map.HeightmapData.GetLength(0) < _islandSize + 1)
+                            //convert standard map format
+                            if (map.HeightmapData.GetLength(0) < IslandSize + 1)
                             {
-                                for (int i = 0; i < _islandSize + 1; i++)
+                                for (int i = 0; i < IslandSize + 1; i++)
                                 {
-                                    for (int j = 0; j < _islandSize + 1; j++)
+                                    for (int j = 0; j < IslandSize + 1; j++)
                                     {
                                         if (i >= map.HeightmapData.GetLength(0) || j >= map.HeightmapData.GetLength(0))
                                             binaryWriter.Write(map.HeightmapData[0, 0].Compress());
@@ -72,15 +71,15 @@ namespace StrandedWideMod_Harmony
                             }
                             else
                             {
-                                for (int i = 0; i < _islandSize + 1; i++)
+                                for (int i = 0; i < IslandSize + 1; i++)
                                 {
-                                    for (int j = 0; j < _islandSize + 1; j++)
+                                    for (int j = 0; j < IslandSize + 1; j++)
                                     {
                                         binaryWriter.Write(map.HeightmapData[i, j].Compress());
                                     }
                                 }
                             }
-#warning end convert
+                            // end convert
                         }
                     }
                     catch (Exception ex3)
@@ -174,15 +173,15 @@ namespace StrandedWideMod_Harmony
                         {
                             float[,] array = null;
 
-#warning handle the case of smaller islands
+                            // handle the case of smaller islands ?
                             try
                             {
                                 // original code
                                 binaryReader.BaseStream.Seek(0L, SeekOrigin.Begin);
-                                array = new float[_islandSize + 1, _islandSize + 1];
-                                for (int i = 0; i < _islandSize + 1; i++)
+                                array = new float[IslandSize + 1, IslandSize + 1];
+                                for (int i = 0; i < IslandSize + 1; i++)
                                 {
-                                    for (int j = 0; j < _islandSize + 1; j++)
+                                    for (int j = 0; j < IslandSize + 1; j++)
                                     {
                                         ushort value = binaryReader.ReadUInt16().ToCompressStable();
                                         array[i, j] = value.Decompress();

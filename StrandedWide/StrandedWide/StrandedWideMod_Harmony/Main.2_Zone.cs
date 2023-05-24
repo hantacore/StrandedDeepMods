@@ -19,7 +19,7 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    __result = Vector3Tools.SqrDistanceOnAxis(__instance.transform.position, position, Vector3Tools.xz) < BeamMath.Sqr(Main._zoneHalfSize);
+                    __result = Vector3Tools.SqrDistanceOnAxis(__instance.transform.position, position, Vector3Tools.xz) < BeamMath.Sqr(Main.ZoneHalfSize);
                     // skip original method
                     return false;
                 }

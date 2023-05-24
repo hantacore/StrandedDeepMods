@@ -2,6 +2,7 @@
 using Beam.UI;
 using Beam.Utilities;
 using HarmonyLib;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -27,8 +28,12 @@ namespace StrandedWideMod_Harmony
         public static bool optionsReloaded = false;
         public static bool worldReloaded = false;
         public static string modEditionName = "Wide";
-        public static string modName = "Stranded Wide(Harmony edition)";
+        public static string modName = "Stranded Wide (Harmony edition)";
         public static string sdeepOptionsFileOriginalPath = "";
+        public static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/StrandedWide/StrandedWide/StrandedWideMod_Harmony/Info.json";
+
+        public static bool mixProceduralAndCustom = true;
+        public static float customIslandsRatio = 0.25f;
 
         public static string ModEditionName
         {
@@ -75,6 +80,7 @@ namespace StrandedWideMod_Harmony
 
                 modEntry.OnUpdate = new Action<UnityModManager.ModEntry, float>(Main.OnUpdate);
                 modEntry.OnGUI = Main.OnGUI;
+                modEntry.OnHideGUI = OnHideGUI;
                 modEntry.OnUnload = Main.Unload;
                 modEntry.OnToggle = Main.OnToggle;
 
@@ -114,6 +120,10 @@ namespace StrandedWideMod_Harmony
                         }
                     }
                 }
+
+                VersionChecker.CheckVersion(modEntry, _infojsonlocation);
+
+                ReadConfig();
 
                 Debug.Log(modName + " Successfully started. ");
 
@@ -224,13 +234,42 @@ namespace StrandedWideMod_Harmony
 
         private static void OnGUI(UnityModManager.ModEntry modEntry)
         {
+            GUILayout.Label("<b>Stranded Wide mod by Hantacore and Stranded Wide Team</b>");
+            GUILayout.Label("Team Discord : https://discord.gg/UKwtkzZgEU");
+            if (Game.State != GameState.LOAD_GAME 
+                && Game.State != GameState.NEW_GAME
+                && Game.State != GameState.INTRO)
+            {
+                bool mustRegenerate = (IslandSizeBuffer != IslandSize || ZoneSpacing != ZoneSpacingBuffer || IslandsCount != IslandsCountBuffer);
 
+                GUILayout.Label("<color=orange>Changing these values demand a new world generation</color>" + (mustRegenerate ? " <color=red>Regeneration needed !</color>" : ""));
+                mixProceduralAndCustom = GUILayout.Toggle(mixProceduralAndCustom, "Mix procedural islands and custom islands");
+                GUILayout.Label("Custom islands density = " + customIslandsRatio);
+                customIslandsRatio = GUILayout.HorizontalSlider(customIslandsRatio, 0.1f, 1.0f);
+                GUILayout.Label("<b><color=orange>Don't change those values mid-game, I mean : really DON'T.</color></b>");
+
+                GUILayout.Label("Island size = " + IslandSizeBuffer.ToString() + " (vanilla is " + (StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1) + ")");
+                IslandSizeBuffer = (int)Math.Pow(2, (int)GUILayout.HorizontalSlider((float)(Math.Log(IslandSizeBuffer / (StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1)) / Math.Log(2)), 0, 2)) * (StrandedWorld.ZONE_HEIGHTMAP_SIZE - 1);
+
+                GUILayout.Label("Island spacing = " + ZoneSpacingBuffer.ToString() + " (vanilla is " + StrandedWorld.ZONE_SPACING + ")");
+                ZoneSpacingBuffer = GUILayout.HorizontalSlider(ZoneSpacingBuffer, IslandSizeBuffer >= 1024 ? 1.25f : 1.0f, 2.0f);
+
+                GUILayout.Label("Island count = " + IslandsCountBuffer.ToString() + " (vanilla is " + StrandedWorld.WORLD_ZONES_SQUARED + ")");
+                IslandsCountBuffer = (int)GUILayout.HorizontalSlider(IslandsCountBuffer, 10, 49);
+            }
+        }
+
+        static void OnHideGUI(UnityModManager.ModEntry modEntry)
+        {
+            WriteConfig();
         }
 
         public static void OnUpdate(UnityModManager.ModEntry modEntry, float dt)
         {
             try
             {
+                UpdateSplashCanvas();
+
                 if (!optionsReloaded
                     && FilePath.OPTIONS_FILE.Contains(modEditionName))
                 {
@@ -271,9 +310,11 @@ namespace StrandedWideMod_Harmony
                 if (Beam.Game.State == GameState.NEW_GAME
                     || Beam.Game.State == GameState.LOAD_GAME)
                 {
+                    labelIsDone = false;
                     //if (WorldUtilities.IsWorldLoaded())
                     //{
-
+                    //    Debug.Log("Stranded Wide (Harmony edition) : Update StrandedWorld Zones count : " + StrandedWorld.Instance.Zones.Length);
+                    //    Debug.Log("Stranded Wide (Harmony edition) : Update World.MapList count : " + Beam.Terrain.World.MapList.Length);
                     //}
                 }
                 else

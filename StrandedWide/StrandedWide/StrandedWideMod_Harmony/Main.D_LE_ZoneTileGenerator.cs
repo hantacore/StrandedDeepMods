@@ -53,7 +53,7 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     Debug.LogError("LE_ZoneTileGenerator::GenerateRandomIsland terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
-                    __instance.terrain.terrainData.heightmapResolution = _islandSize + 1;
+                    __instance.terrain.terrainData.heightmapResolution = IslandSize + 1;
                     Debug.LogError("LE_ZoneTileGenerator::GenerateRandomIsland new terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
 
                     // skip original method
@@ -75,11 +75,11 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     Debug.LogError("LE_ZoneTileGenerator::GenerateAdvancedPerlin terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
-                    __instance.terrain.terrainData.heightmapResolution = _islandSize + 1;
+                    __instance.terrain.terrainData.heightmapResolution = IslandSize + 1;
                     Debug.LogError("LE_ZoneTileGenerator::GenerateAdvancedPerlin new terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
 
                     //this.terrain.terrainData.SetHeights(0, 0, WorldTools.PerlinGenerator(this.terrain.terrainData.GetHeights(0, 0, _islandSize+1, _islandSize+1), UnityEngine.Random.Range(1, 99999999), freq, amplitude, octaves, blend));
-                    __instance.terrain.terrainData.SetHeights(0, 0, Main.StitchTerrainEdges(WorldTools.PerlinGenerator(__instance.terrain.terrainData.GetHeights(0, 0, _islandSize + 1, _islandSize + 1), UnityEngine.Random.Range(1, 99999999), freq, amplitude, octaves, blend)));
+                    __instance.terrain.terrainData.SetHeights(0, 0, Main.StitchTerrainEdges(WorldTools.PerlinGenerator(__instance.terrain.terrainData.GetHeights(0, 0, IslandSize + 1, IslandSize + 1), UnityEngine.Random.Range(1, 99999999), freq, amplitude, octaves, blend)));
 
                     // skip original method
                     return false;
@@ -100,10 +100,10 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     Debug.LogError("LE_ZoneTileGenerator::GenerateAdvancedNormalise terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
-                    __instance.terrain.terrainData.heightmapResolution = _islandSize + 1;
+                    __instance.terrain.terrainData.heightmapResolution = IslandSize + 1;
                     Debug.LogError("LE_ZoneTileGenerator::GenerateAdvancedNormalise new LE_ZoneTileGenerator.terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
 
-                    __instance.terrain.terrainData.SetHeights(0, 0, WorldTools.NormalizeHeightmap(__instance.terrain.terrainData.GetHeights(0, 0, _islandSize + 1, _islandSize + 1), min, max, blend, Zone.BiomeType.RANDOM));
+                    __instance.terrain.terrainData.SetHeights(0, 0, WorldTools.NormalizeHeightmap(__instance.terrain.terrainData.GetHeights(0, 0, IslandSize + 1, IslandSize + 1), min, max, blend, Zone.BiomeType.RANDOM));
 
                     // skip original method
                     return false;
@@ -124,10 +124,10 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     Debug.LogError("LE_ZoneTileGenerator::GenerateSmooth terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
-                    __instance.terrain.terrainData.heightmapResolution = _islandSize + 1;
+                    __instance.terrain.terrainData.heightmapResolution = IslandSize + 1;
                     Debug.LogError("LE_ZoneTileGenerator::GenerateSmooth new terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
 
-                    __instance.terrain.terrainData.SetHeights(0, 0, WorldTools.SmoothTerrain(__instance.terrain.terrainData.GetHeights(0, 0, _islandSize + 1, _islandSize + 1), _iterations, _blend, Zone.BiomeType.ISLAND));
+                    __instance.terrain.terrainData.SetHeights(0, 0, WorldTools.SmoothTerrain(__instance.terrain.terrainData.GetHeights(0, 0, IslandSize + 1, IslandSize + 1), _iterations, _blend, Zone.BiomeType.ISLAND));
 
                     // skip original method
                     return false;
@@ -166,12 +166,12 @@ namespace StrandedWideMod_Harmony
                         transform =
                         {
                             parent = zone.transform,
-                            position = new Vector3(_zoneTerrainSize / 4, 0, _zoneTerrainSize / 4)//new Vector3(0, 0, 0)
+                            position = new Vector3(WaveOverlayPosition, 0, WaveOverlayPosition)//new Vector3(0, 0, 0)
                             //position = new Vector3(0, 0, 0)
                         }
                     }.AddComponent<AddWaveOverlay>();
-                    newWaveOverlay.width = _zoneTerrainSize;
-                    newWaveOverlay.height = _zoneTerrainSize;
+                    newWaveOverlay.width = ZoneTerrainSize;
+                    newWaveOverlay.height = ZoneTerrainSize;
                     newWaveOverlay.heightTexture = new OverlayHeightTexture();
                     newWaveOverlay.heightTexture.tex = shore;
                     newWaveOverlay.heightTexture.mask = height;
@@ -209,12 +209,12 @@ namespace StrandedWideMod_Harmony
                 try
                 {
                     Singleton<LE_LevelEditorMain>.Instance.ClearLevel();
-#warning TODO Debug
-                    Debug.LogError("LE_ZoneTileGenerator::LoadMap terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
-                    __instance.terrain.terrainData.heightmapResolution = _islandSize + 1;
-                    Debug.LogError("LE_ZoneTileGenerator::LoadMap new terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
+
+                    //Debug.LogError("LE_ZoneTileGenerator::LoadMap terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
+                    __instance.terrain.terrainData.heightmapResolution = IslandSize + 1;
+                    //Debug.LogError("LE_ZoneTileGenerator::LoadMap new terrain.terrainData.heightmapResolution : " + __instance.terrain.terrainData.heightmapResolution);
                     __instance.terrain.terrainData.SetHeights(0, 0, map.HeightmapData);
-                    // play original method
+                    // skip original method
                     return false;
                 }
                 catch (Exception e)

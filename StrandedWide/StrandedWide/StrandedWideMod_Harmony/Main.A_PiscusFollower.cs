@@ -108,7 +108,7 @@ namespace StrandedWideMod_Harmony
                                     //Debug.Log("Stranded Wide (Harmony edition) : PiscusFollower.MoveGrid 14");
                                     Vector3 position2 = tkl.position;
                                     //Debug.Log("Stranded Wide (Harmony edition) : PiscusFollower.MoveGrid 15");
-                                    if (position.x >= position2.x - _zoneTerrainHalfSize && position.x <= position2.x + _zoneTerrainHalfSize && position.z >= position2.z - _zoneTerrainHalfSize && position.z <= position2.z + _zoneTerrainHalfSize)
+                                    if (position.x >= position2.x - ZoneTerrainHalfSize && position.x <= position2.x + ZoneTerrainHalfSize && position.z >= position2.z - ZoneTerrainHalfSize && position.z <= position2.z + ZoneTerrainHalfSize)
                                     {
                                         //Debug.Log("Stranded Wide (Harmony edition) : PiscusFollower.MoveGrid 16");
                                         //spawnGrid = playerGridGroup2.SpawnGrids[k, l];
@@ -239,35 +239,35 @@ namespace StrandedWideMod_Harmony
                             //Debug.Log("Stranded Wide (Harmony edition) : PiscusFollower.UpdateGridPositions 7");
                             //playerGridGroup.SpawnGrids[0, 0].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x - _zoneTerrainSize, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z + _zoneTerrainSize);
                             Transform t00 = fi_Grid.GetValue(spawnGrids[0, 0]) as Transform;
-                            t00.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t00.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[0, 1].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x - _zoneTerrainSize, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z);
                             Transform t01 = fi_Grid.GetValue(spawnGrids[0, 1]) as Transform;
-                            t01.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t01.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[0, 2].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x - _zoneTerrainSize, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z - _zoneTerrainSize);
                             Transform t02 = fi_Grid.GetValue(spawnGrids[0, 2]) as Transform;
-                            t02.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t02.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[1, 0].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z + _zoneTerrainSize);
                             Transform t10 = fi_Grid.GetValue(spawnGrids[1, 0]) as Transform;
-                            t10.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t10.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[1, 2].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z - _zoneTerrainSize);
                             Transform t12 = fi_Grid.GetValue(spawnGrids[1, 2]) as Transform;
-                            t12.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t12.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[2, 0].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x + _zoneTerrainSize, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z + _zoneTerrainSize);
                             Transform t20 = fi_Grid.GetValue(spawnGrids[2, 0]) as Transform;
-                            t20.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t20.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[2, 1].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x + _zoneTerrainSize, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z);
                             Transform t21 = fi_Grid.GetValue(spawnGrids[2, 1]) as Transform;
-                            t21.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t21.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //playerGridGroup.SpawnGrids[2, 2].Grid.position = new Vector3(playerGridGroup.SpawnGrids[1, 1].Grid.position.x + _zoneTerrainSize, __instance.transform.position.y, playerGridGroup.SpawnGrids[1, 1].Grid.position.z - _zoneTerrainSize);
                             Transform t22 = fi_Grid.GetValue(spawnGrids[2, 2]) as Transform;
-                            t22.position = new Vector3(t11.position.x - _zoneTerrainSize, __instance.transform.position.y, t11.position.z + _zoneTerrainSize);
+                            t22.position = new Vector3(t11.position.x - ZoneTerrainSize, __instance.transform.position.y, t11.position.z + ZoneTerrainSize);
 
                             //Debug.Log("Stranded Wide (Harmony edition) : PiscusFollower.UpdateGridPositions 8");
                             if ((bool)fi_removedWildlifeSetting.GetValue(__instance))
