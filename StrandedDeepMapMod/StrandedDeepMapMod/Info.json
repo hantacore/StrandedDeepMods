@@ -2,7 +2,7 @@
   "Id": "StrandedDeepMapMod",
   "DisplayName": "Stranded Deep Map Mod",
   "Author": "Hantacore",
-  "Version": "1.0.3",
+  "Version": "1.0.4",
   "AssemblyName": "StrandedDeepMapMod.dll",
   "EntryMethod": "StrandedDeepMapMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"],

@@ -59,6 +59,7 @@ namespace StrandedDeepModsUtils
                     else
                     {
                         Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandSize null");
+                        return 512;
                     }
                 }
 
@@ -96,6 +97,7 @@ namespace StrandedDeepModsUtils
                     else
                     {
                         Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandSizeRatio null");
+                        return 2;
                     }
                 }
 
@@ -133,6 +135,7 @@ namespace StrandedDeepModsUtils
                     else
                     {
                         Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSize null");
+                        return 1000;
                     }
                 }
 
@@ -170,6 +173,7 @@ namespace StrandedDeepModsUtils
                     else
                     {
                         Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_zoneSpacing null");
+                        return 1.25f;
                     }
                 }
 
@@ -208,6 +212,7 @@ namespace StrandedDeepModsUtils
                     else
                     {
                         Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandsCount null");
+                        return 49;
                     }
                 }
 

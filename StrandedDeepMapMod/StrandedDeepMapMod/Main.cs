@@ -31,7 +31,6 @@ namespace StrandedDeepMapMod
         private static bool revealWorld = false;
         private static bool revealMissions = false;
         private static bool debugMode = false;
-        private static bool bigWorldMode = false;
         private static bool showAlternativeEndingCargo = false;
         private static bool isAlternativeEndingModLoaded = false;
         private static bool lastRevealWorld = false;
@@ -97,16 +96,12 @@ namespace StrandedDeepMapMod
                     VersionChecker.CheckVersion(modEntry, _infojsonlocation);
 
                     ReadConfig();
-                    if (FilePath.SAVE_FOLDER.Contains("Wide"))
-                    {
-                        bigWorldMode = true;
-                    }
                 }
                 catch { }
 
-                if (bigWorldMode)
+                if (WorldUtilities.IsStrandedWide())
                 {
-                    ingameAreaSize = 6000f;
+                    ComputeGameAreaSize();
                 }
 
                 InitMainCanvas();
@@ -128,6 +123,17 @@ namespace StrandedDeepMapMod
             }
 
             return false;
+        }
+
+        private static void ComputeGameAreaSize()
+        {
+            float zoneSize = WorldUtilities.ZoneSize;
+            Debug.Log("Stranded Deep Map mod zone size = " + WorldUtilities.ZoneSize);
+            float zoneSpacing = WorldUtilities.ZoneSpacing;
+            float numberOfIslandsOnDiameter = 8f;
+            Debug.Log("Stranded Deep Map mod size ratio = " + WorldUtilities.IslandSizeRatio);
+            ingameAreaSize = (zoneSize * zoneSpacing * (numberOfIslandsOnDiameter + 1)) / (WorldUtilities.ZoneSize == 256 ? 2 : (WorldUtilities.ZoneSize == 512 ? 1 : 2));
+            Debug.Log("Stranded Deep Map mod ingameAreaSize = " + ingameAreaSize);
         }
 
         private static void InitMainCanvas()
@@ -193,8 +199,10 @@ namespace StrandedDeepMapMod
             imgCompass.sprite = compassSprite;
             imgCompass.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Vertical, missionIconSize);
             imgCompass.rectTransform.SetSizeWithCurrentAnchors(RectTransform.Axis.Horizontal, missionIconSize);
-            if (bigWorldMode)
-                imgCompass.rectTransform.localPosition = TransformToScreenCoordinates(3300, 3200);
+            if (WorldUtilities.IsStrandedWide())
+            {
+                imgCompass.rectTransform.localPosition = TransformToScreenCoordinates((ingameAreaSize/2) + 300, (ingameAreaSize / 2) + 200);
+            }
             else
                 imgCompass.rectTransform.localPosition = TransformToScreenCoordinates(2300, 2200);
 
@@ -256,6 +264,14 @@ namespace StrandedDeepMapMod
                     Beam.Game.Destroy(goIslands[i]);
                 }
                 goIslands.Clear();
+            }
+            if (islandSilhouetteTextures.Count > 0)
+            {
+                for (int i = 0; i < islandSilhouetteTextures.Count; i++)
+                {
+                    Beam.Game.Destroy(islandSilhouetteTextures[i]);
+                }
+                islandSilhouetteTextures.Clear();
             }
         }
 
@@ -322,6 +338,10 @@ namespace StrandedDeepMapMod
 
             addCanvasScaler(tempCanvas);
             addGraphicsRaycaster(tempCanvas);
+
+            //CanvasGroup cg = tempCanvas.AddComponent<CanvasGroup>();
+            //cg.alpha = 0.75f;
+
             return tempCanvas;
         }
 
@@ -360,7 +380,7 @@ namespace StrandedDeepMapMod
             showPlayers = GUILayout.Toggle(showPlayers, "Show players positions");
             revealWorld = GUILayout.Toggle(revealWorld, "Reveal world (cheat)");
             revealMissions = GUILayout.Toggle(revealMissions, "Reveal missions (cheat)");
-            bigWorldMode = GUILayout.Toggle(bigWorldMode, "Stranded Wide World mode (only use with Stranded Wide Mod and restart if changed) - value is now autodetected");
+            GUILayout.Label("Stranded Wide World mode : " + WorldUtilities.IsStrandedWide() + " (restart if changed)");
             showAlternativeEndingCargo = GUILayout.Toggle(showAlternativeEndingCargo, "Show endgame cargo (cheat - only use with Stranded Deep Alternative Ending)");
             GUILayout.Label("Player icon size");
             playerIconSize = GUILayout.HorizontalSlider(playerIconSize, 10f, 100f);
@@ -394,9 +414,9 @@ namespace StrandedDeepMapMod
         {
             WriteConfig();
 
-            if (bigWorldMode)
+            if (WorldUtilities.IsStrandedWide())
             {
-                ingameAreaSize = 6000f;
+                ComputeGameAreaSize();
             }
 
             _forceReloadPlayer = true;
@@ -437,6 +457,10 @@ namespace StrandedDeepMapMod
                     if (currentevent.keyCode == KeyCode.F8)
                     {
                         visible = true;
+                        if (WorldUtilities.IsStrandedWide())
+                        {
+                            ComputeGameAreaSize();
+                        }
                     }
                     if (currentevent.keyCode == KeyCode.F9)
                     {
@@ -533,13 +557,14 @@ namespace StrandedDeepMapMod
 
                     // Check if island newly discovered
                     if (Beam.Terrain.World.MapList != null
-                        && Beam.Terrain.World.MapList.Length >= 48
-                        && islandDiscovered.Count >= 48
-                        && islandInSight.Count >= 48
-                        && imgIslands.Count >= 48
-                        && islandSilhouetteTextures.Count >= 48)
+                        && Beam.Terrain.World.MapList.Length >= WorldUtilities.IslandsCount
+                        && islandDiscovered.Count >= WorldUtilities.IslandsCount
+                        && islandInSight.Count >= WorldUtilities.IslandsCount
+                        && imgIslands.Count >= WorldUtilities.IslandsCount
+                        && islandSilhouetteTextures.Count >= WorldUtilities.IslandsCount)
                     {
                         Beam.Terrain.Map[] maps = Beam.Terrain.World.MapList;
+#warning IslandsCount to check here ?
                         for (int islandIndex = 0; islandIndex < maps.Length; islandIndex++)
                         {
                             if (StrandedWorld.Instance.Zones.Length > islandIndex)
@@ -599,10 +624,10 @@ namespace StrandedDeepMapMod
                                         else if (map.EditorData.Id.Contains("b314cf21-7374-4dd7-9ed9-b0c74846c293"))
                                         {
                                             Debug.Log("Stranded Deep Map mod : skipping abyss");
-                                            if (bigWorldMode)
+                                            if (WorldUtilities.IsStrandedWide())
                                             {
                                                 Beam.Game.Destroy(imgIsland.sprite);
-                                                imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
+                                                imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, WorldUtilities.IslandSize + 1, WorldUtilities.IslandSize + 1), new Vector2(WorldUtilities.IslandSize / 2, WorldUtilities.IslandSize / 2));
                                             }
                                             else
                                             {
@@ -614,10 +639,10 @@ namespace StrandedDeepMapMod
                                         }
                                         else
                                         {
-                                            if (bigWorldMode)
+                                            if (WorldUtilities.IsStrandedWide())
                                             {
                                                 Beam.Game.Destroy(imgIsland.sprite);
-                                                imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
+                                                imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, WorldUtilities.IslandSize + 1, WorldUtilities.IslandSize + 1), new Vector2(WorldUtilities.IslandSize / 2, WorldUtilities.IslandSize / 2));
                                             }
                                             else
                                             {
@@ -704,22 +729,16 @@ namespace StrandedDeepMapMod
 
         private static void RefreshMapIconsIfNeeded()
         {
-            if (currentlyLoadedSlot != Options.GeneralSettings.LastSaveSlotUsed
-                && Beam.Terrain.World.MapList != null
-                && Beam.Terrain.World.MapList.Length >= 48 // perf
-                && Beam.Terrain.World.GenerationZonePositons != null
-                ||
-                Beam.Terrain.World.MapList != null
-                && Beam.Terrain.World.MapList.Length >= 48 // perf
-                && Beam.Terrain.World.GenerationZonePositons != null
-                && imgIslands.Count != Beam.Terrain.World.MapList.Length
-                ||
-                Beam.Terrain.World.MapList != null
-                && Beam.Terrain.World.MapList.Length >= 48
-                && imgIslands.Count == Beam.Terrain.World.MapList.Length
-                && (lastRevealWorld != revealWorld
-                    || lastRevealMissions != revealMissions
-                    || lastDebugMode != debugMode))
+            if (Beam.Terrain.World.MapList == null || Beam.Terrain.World.MapList.Length < WorldUtilities.IslandsCount || Beam.Terrain.World.GenerationZonePositons == null)
+            {
+                return;
+            }
+
+            if (currentlyLoadedSlot != Options.GeneralSettings.LastSaveSlotUsed 
+                || imgIslands.Count != Beam.Terrain.World.MapList.Length 
+                || imgIslands.Count == Beam.Terrain.World.MapList.Length && (lastRevealWorld != revealWorld || lastRevealMissions != revealMissions || lastDebugMode != debugMode)
+                || islandSilhouetteTextures.Count == 0 
+                || islandSilhouetteTextures.Count > 0 && islandSilhouetteTextures[0].width != WorldUtilities.IslandSize + 1) // new with Swide configurable size
             {
                 try
                 {
@@ -732,11 +751,9 @@ namespace StrandedDeepMapMod
                 }
                 catch { }
 
-                if (StrandedWorld.Instance != null
-                        && StrandedWorld.Instance.Zones != null
-                        && StrandedWorld.Instance.Zones.Length >= 48)
+                if (StrandedWorld.Instance != null && StrandedWorld.Instance.Zones != null && StrandedWorld.Instance.Zones.Length >= WorldUtilities.IslandsCount)
                 {
-                    Debug.Log("Stranded Deep Map mod : reload zones");
+                    Debug.Log("Stranded Deep Map mod : reload zones " + (islandSilhouetteTextures.Count > 0 ? islandSilhouetteTextures[0].width.ToString() : "other") );
                     // Reload zones
                     try
                     {
@@ -855,9 +872,9 @@ namespace StrandedDeepMapMod
                                     }
                                     else
                                     {
-                                        if (bigWorldMode)
+                                        if (WorldUtilities.IsStrandedWide())
                                         {
-                                            imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
+                                            imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, WorldUtilities.IslandSize + 1, WorldUtilities.IslandSize + 1), new Vector2(WorldUtilities.IslandSize / 2, WorldUtilities.IslandSize / 2));
                                         }
                                         else
                                         {
@@ -894,9 +911,9 @@ namespace StrandedDeepMapMod
                             }
                             else if (debugMode)
                             {
-                                if (bigWorldMode)
+                                if (WorldUtilities.IsStrandedWide())
                                 {
-                                    imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
+                                    imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, WorldUtilities.IslandSize + 1, WorldUtilities.IslandSize + 1), new Vector2(WorldUtilities.IslandSize / 2, WorldUtilities.IslandSize / 2));
                                 }
                                 else
                                 {
@@ -909,9 +926,9 @@ namespace StrandedDeepMapMod
                             else if (map.EditorData.Id.Contains("b314cf21-7374-4dd7-9ed9-b0c74846c293"))
                             {
                                 // Empty silhouette for abysses
-                                if (bigWorldMode)
+                                if (WorldUtilities.IsStrandedWide())
                                 {
-                                    imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, 513, 513), new Vector2(256, 256));
+                                    imgIsland.sprite = Sprite.Create(islandSilhouetteTextures[islandIndex], new Rect(0, 0, WorldUtilities.IslandSize + 1, WorldUtilities.IslandSize + 1), new Vector2(WorldUtilities.IslandSize / 2, WorldUtilities.IslandSize / 2));
                                 }
                                 else
                                 {
@@ -1144,8 +1161,10 @@ namespace StrandedDeepMapMod
                 //Debug.Log("Stranded Deep Map mod : read island silhouette");
                 Texture2D islandSilhouette = null;
 
-                if (bigWorldMode)
-                    islandSilhouette = new Texture2D(513, 513, TextureFormat.ARGB32, false);
+                if (WorldUtilities.IsStrandedWide())
+                {
+                    islandSilhouette = new Texture2D(WorldUtilities.IslandSize + 1, WorldUtilities.IslandSize + 1, TextureFormat.ARGB32, false);
+                }
                 else
                     islandSilhouette = new Texture2D(257, 257, TextureFormat.ARGB32, false);
 
@@ -1203,10 +1222,6 @@ namespace StrandedDeepMapMod
                             {
                                 revealMissions = bool.Parse(tokens[1]);
                             }
-                            else if (tokens[0].Contains("bigWorldMode"))
-                            {
-                                bigWorldMode = bool.Parse(tokens[1]);
-                            }
                             else if (tokens[0].Contains("showPlayers"))
                             {
                                 showPlayers = bool.Parse(tokens[1]);
@@ -1247,7 +1262,6 @@ namespace StrandedDeepMapMod
                 sb.AppendLine("viewDistance=" + viewDistance + ";");
                 sb.AppendLine("revealWorld=" + revealWorld + ";");
                 sb.AppendLine("revealMissions=" + revealMissions + ";");
-                sb.AppendLine("bigWorldMode=" + bigWorldMode + ";");
                 sb.AppendLine("playerIconSize=" + playerIconSize + ";");
                 sb.AppendLine("showPlayers=" + showPlayers + ";");
                 sb.AppendLine("showAlternativeEndingCargo=" + showAlternativeEndingCargo + ";");
