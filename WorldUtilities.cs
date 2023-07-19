@@ -21,6 +21,7 @@ namespace StrandedDeepModsUtils
         private static PropertyInfo pi_zoneSize = null;
         private static PropertyInfo pi_zoneSpacing = null;
         private static PropertyInfo pi_islandsCount = null;
+        private static PropertyInfo pi_overlayPosition = null;
         private static Type strandedWideMainType = null;
 
         public static bool IsStrandedWide()
@@ -219,6 +220,45 @@ namespace StrandedDeepModsUtils
                 return StrandedWorld.WORLD_ZONES_SQUARED;
             }
         }
+
+        public static float WaveOverlayPosition
+        {
+            get
+            {
+                if (IsStrandedWide())
+                {
+                    if (pi_overlayPosition == null)
+                    {
+                        if (strandedWideMainType == null)
+                        {
+                            strandedWideMainType = mewide.Assembly.GetType("StrandedWideMod_Harmony.Main");
+                        }
+                        if (strandedWideMainType != null)
+                        {
+                            pi_overlayPosition = strandedWideMainType.GetProperty("WaveOverlayPosition", BindingFlags.Static | BindingFlags.Public);
+                        }
+                        else
+                        {
+                            Debug.Log("Stranded Deep World Utilities : Stranded Wide type null");
+                        }
+                    }
+                    if (pi_overlayPosition != null)
+                    {
+                        float waveOverlayPosition = (float)pi_overlayPosition.GetValue(null);
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide overlay position retrieved : " + waveOverlayPosition);
+                        return waveOverlayPosition;
+                    }
+                    else
+                    {
+                        Debug.Log("Stranded Deep World Utilities : Stranded Wide pi_islandsCount null");
+                        return 110f;
+                    }
+                }
+
+                return StrandedWorld.WORLD_ZONES_SQUARED;
+            }
+        }
+
         public static bool IsWorldLoaded()
         {
             if (Beam.Game.State == GameState.NEW_GAME
