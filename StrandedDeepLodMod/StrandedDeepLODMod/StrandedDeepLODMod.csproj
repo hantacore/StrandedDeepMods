@@ -107,6 +107,13 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\VersionChecker.cs">
+      <Link>VersionChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WorldUtilities.cs">
+      <Link>WorldUtilities.cs</Link>
+    </Compile>
+    <Compile Include="FollowPlayerParticleSystem.cs" />
     <Compile Include="JellyfishParticleSystem.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Main.FishDrawingDistance.cs" />
@@ -115,9 +122,11 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShrimpParticleSystem.cs" />
     <Compile Include="SmallfishesParticleSystem.cs" />
-    <Compile Include="WorldUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="Info.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

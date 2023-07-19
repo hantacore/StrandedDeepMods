@@ -71,7 +71,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep AnimatedFoliage mod : error while patching LodController.Start : " + e);
+                    Debug.Log("Stranded Deep LOD mod : error while patching LodController.Start : " + e);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep AnimatedFoliage mod : error while patching LodController.ValidateLodGroup : " + e);
+                    Debug.Log("Stranded Deep LOD mod : error while patching LodController.ValidateLodGroup : " + e);
                 }
                 return true;
             }
@@ -123,7 +123,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep AnimatedFoliage mod : error while patching SingleFishRenderer.Awake : " + e);
+                    Debug.Log("Stranded Deep LOD mod : error while patching SingleFishRenderer.Awake : " + e);
                 }
             }
         }
@@ -140,7 +140,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep AnimatedFoliage mod : error while patching FlockFishRenderer.Start : " + e);
+                    Debug.Log("Stranded Deep LOD mod : error while patching FlockFishRenderer.Start : " + e);
                 }
             }
         }
@@ -183,12 +183,12 @@ namespace StrandedDeepLODMod
                     return;
                 }
 
-                if (String.IsNullOrEmpty(go.name) || go.GetComponent<ParticleSystem>() != null)
+                if (fr == null || String.IsNullOrEmpty(go.name) || go.GetComponent<ParticleSystem>() != null)
                     return;
 
                 if (addJellyFishes)
                 {
-                    if (go.name.Contains("Table_Coral") && fr.Next(0, 100) >= 50)
+                    if (go.name.Contains("Table_Coral") && fr.Next(0, 100) >= 80)
                     {
                         //Debug.Log("Stranded Deep LOD Mod : adding jellyfish particle system to table coral");
                         ParticleSystem ps = go.AddComponent<ParticleSystem>();
@@ -210,9 +210,9 @@ namespace StrandedDeepLODMod
 
                 if (addSmallFishes)
                 {
-                    if (go.name.Contains("Coral_Pink")
+                    if ((go.name.Contains("Coral_Pink")
                         || go.name.Contains("Coral_White")
-                        || go.name.Contains("Staghorn"))
+                        || go.name.Contains("Staghorn")) && fr.Next(0, 100) >= 50)
                     {
                         //Debug.Log("Stranded Deep LOD Mod : adding smallfishes particle system to coral");
                         ParticleSystem ps = go.AddComponent<ParticleSystem>();
@@ -224,6 +224,12 @@ namespace StrandedDeepLODMod
             catch (Exception e)
             {
                 Debug.Log("Stranded Deep LOD Mod : AddParticleSpawners failed for " + (go.name == null ? "null" : go.name) + " : " + e);
+                try
+                {
+                    ParticleSystem ps = go.GetComponent<ParticleSystem>();
+                    Game.Destroy(ps);
+                }
+                catch { }
             }
         }
 
@@ -231,6 +237,92 @@ namespace StrandedDeepLODMod
         {
             harmony.UnpatchAll(modEntry.Info.Id);
             return true;
+        }
+
+        [HarmonyPatch(typeof(FollowSpawn), "LoadOptions")]
+        class FollowSpawn_LoadOptions_Patch
+        {
+            static void Postfix(FollowSpawn __instance)
+            {
+                try
+                {
+                    if (!ultraUnderwaterDetail)
+                        return;
+
+                    FieldInfo fi_GridObjects2 = typeof(FollowSpawn).GetField("GridObjects2", BindingFlags.NonPublic | BindingFlags.Instance);
+                    FollowSpawn.BiomeGrid[] GridObjects2 = fi_GridObjects2.GetValue(__instance) as FollowSpawn.BiomeGrid[];
+
+                    foreach (FollowSpawn.BiomeGrid biomeGrids in GridObjects2)
+                    {
+                        Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : biomeGrids.name = " + biomeGrids.name);
+                        foreach (FollowSpawn.GridObject gridObject in biomeGrids.biomeParameters)
+                        {
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : objectsToSpawn[0].name = " + gridObject.objectsToSpawn[0].name);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : maxObjects = " + gridObject.maxObjects);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : rarity = " + gridObject.rarity);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : maxHeight = " + gridObject.maxHeight);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : minHeight = " + gridObject.minHeight);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : randomYRotation = " + gridObject.randomYRotation);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : maxslope = " + gridObject.maxslope);
+                            Debug.Log("Stranded Deep LOD mod : biomeGrid tweaking : minslope = " + gridObject.minslope);
+
+                            if (gridObject.objectsToSpawn[0].name == "Kelp_1")
+                            {
+                                gridObject.rarity = 30;
+                                gridObject.maxObjects = 50;
+                                gridObject.minHeight = -50;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "PARTICLE_BUBBLE_STREAM")
+                            {
+                                gridObject.maxObjects = 10;
+                                gridObject.minHeight = -50;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "SHORELINE_ROCK_2")
+                            {
+                                gridObject.rarity = 5;
+                                gridObject.maxObjects = 30;
+                                gridObject.minHeight = -50;
+                                gridObject.maxslope = 90;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "Shoreline_Seaweed")
+                            {
+                                gridObject.rarity = 70;
+                                gridObject.maxObjects = 300;
+                                gridObject.minHeight = -50;
+                                gridObject.maxslope = 90;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "CORAL_ROCK_1")
+                            {
+                                gridObject.maxObjects = 10;
+                                gridObject.minHeight = -50;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "Table_Coral" || gridObject.objectsToSpawn[0].name == "Table_Coral_Brown_1")
+                            {
+                                gridObject.rarity = 30;
+                                gridObject.maxObjects = 30;
+                                gridObject.minHeight = -50;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "StagHorn_Coral")
+                            {
+                                gridObject.maxslope = 50;
+                                gridObject.maxObjects = 40;
+                                gridObject.minHeight = -50;
+                                gridObject.maxslope = 90;
+                            }
+                            if (gridObject.objectsToSpawn[0].name == "Coral_Group_White")
+                            {
+                                gridObject.maxslope = 50;
+                                gridObject.maxObjects = 40;
+                                gridObject.minHeight = -50;
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching FlockFishRenderer.Start : " + e);
+                }
+            }
         }
     }
 }

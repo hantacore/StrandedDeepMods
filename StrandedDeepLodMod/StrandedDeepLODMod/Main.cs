@@ -10,6 +10,8 @@ using UnityModManagerNet;
 using Beam.Utilities;
 using SharpNeatLib.Maths;
 using HarmonyLib;
+using Ceto;
+using StrandedDeepModsUtils;
 
 namespace StrandedDeepLODMod
 {
@@ -29,6 +31,8 @@ namespace StrandedDeepLODMod
         internal static bool addSmallFishes = false;
         internal static bool addShrimps = false;
         internal static bool addJellyFishes = false;
+
+        internal static bool ultraUnderwaterDetail = false;
 
         internal static Dictionary<string, Texture2D> _indexedTextures = new Dictionary<string, Texture2D>();
 
@@ -107,6 +111,7 @@ namespace StrandedDeepLODMod
             ultraMFBBQDistance = GUILayout.Toggle(ultraMFBBQDistance, "Ultra MF BBQ drawing distance (x1000, active only if \"Increase drawing distances\" is active)");
             increaseTerrainLOD = GUILayout.Toggle(increaseTerrainLOD, "Improve terrain smoothness");
             increaseShadowsQuality = GUILayout.Toggle(increaseShadowsQuality, "Improve shadows quality (experimental)");
+            ultraUnderwaterDetail = GUILayout.Toggle(ultraUnderwaterDetail, "Ultra underwater details");
             GUILayout.Label("Fishes options");
             moreFishes = GUILayout.Toggle(moreFishes, "More fishes in flocks");
             increaseFishDrawingDistance = GUILayout.Toggle(increaseFishDrawingDistance, "Increase fishes drawing distance");
@@ -274,6 +279,10 @@ namespace StrandedDeepLODMod
                 // round robin
                 if (flag > 5)
                     flag = 0;
+
+                //OceanTest();
+
+                //ParticlesTest();
             }
             catch (Exception e)
             {
@@ -285,6 +294,89 @@ namespace StrandedDeepLODMod
                 {
                     Debug.Log("Stranded Deep LOD Mod update time (ms) = " + chrono.ElapsedMilliseconds);
                 }
+            }
+        }
+
+        private static void ParticlesTest()
+        {
+            try
+            {
+                if (((Player)PlayerRegistry.LocalPlayer).gameObject.GetComponent<FollowPlayerParticleSystem>() == null)
+                {
+                    ParticleSystem ps = ((Player)PlayerRegistry.LocalPlayer).gameObject.AddComponent<ParticleSystem>();
+                    ((Player)PlayerRegistry.LocalPlayer).gameObject.AddComponent<FollowPlayerParticleSystem>();
+                    ps.Play();
+                }
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep LOD Mod : error on ParticlesTest : " + e);
+            }
+        }
+
+        private static void OceanTest()
+        {
+            //Shader.SetGlobalMatrix("Ceto_T2S", identity);
+            //Shader.SetGlobalTexture("Ceto_Overlay_NormalMap", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_Overlay_HeightMap", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_Overlay_FoamMap", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_Overlay_ClipMap", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture(Ocean.REFRACTION_GRAB_TEXTURE_NAME, Texture2D.blackTexture);
+            //Shader.SetGlobalTexture(Ocean.DEPTH_GRAB_TEXTURE_NAME, Texture2D.whiteTexture);
+            //Shader.SetGlobalTexture(Ocean.OCEAN_MASK_TEXTURE_NAME0, Texture2D.blackTexture);
+            //Shader.SetGlobalTexture(Ocean.OCEAN_MASK_TEXTURE_NAME1, Texture2D.blackTexture);
+            //Shader.SetGlobalTexture(Ocean.OCEAN_DEPTH_TEXTURE_NAME0, Texture2D.blackTexture);
+            //Shader.SetGlobalTexture(Ocean.OCEAN_DEPTH_TEXTURE_NAME1, Texture2D.blackTexture);
+            //Shader.SetGlobalTexture(Ocean.NORMAL_FADE_TEXTURE_NAME, Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_SlopeMap0", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_SlopeMap1", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_DisplacementMap0", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_DisplacementMap1", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_DisplacementMap2", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_DisplacementMap3", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_FoamMap0", Texture2D.blackTexture);
+            //Shader.SetGlobalTexture("Ceto_FoamMap1", Texture2D.blackTexture);
+            //Shader.SetGlobalVector("Ceto_GridSizes", Vector4.one);
+            //Shader.SetGlobalVector("Ceto_GridScale", Vector4.one);
+            //Shader.SetGlobalVector("Ceto_Choppyness", Vector4.one);
+            //Shader.SetGlobalFloat("Ceto_MapSize", 1f);
+            //Shader.SetGlobalColor("Ceto_FoamTint", Color.white);
+            Shader.SetGlobalTexture("Ceto_FoamTexture0", Texture2D.redTexture);
+            Shader.SetGlobalTexture("Ceto_FoamTexture1", Texture2D.redTexture);
+            //Shader.SetGlobalVector("Ceto_FoamTextureScale0", Vector4.one);
+            //Shader.SetGlobalVector("Ceto_FoamTextureScale1", Vector4.one);
+            //Shader.SetGlobalFloat("Ceto_MaxWaveHeight", 40f);
+            //Shader.SetGlobalVector("Ceto_PosOffset", Vector3.zero);
+            //Shader.SetGlobalTexture("Ceto_CausticTexture", Texture2D.blackTexture);
+            //Shader.SetGlobalVector("Ceto_CausticTextureScale", new Vector4(1f, 1f, 0f, 0f));
+            //Shader.SetGlobalColor("Ceto_CausticTint", Color.white);
+            //Shader.SetGlobalFloat("Ceto_Stero_Enabled", 0f);
+
+            //Camera c = Ocean.Instance.GetComponent<Camera>();
+            //CameraData cd = Ocean.Instance.FindCameraData(c);
+            if (Ocean.Instance != null)
+            {
+                FieldInfo fi_m_cameraData = typeof(Ocean).GetField("m_cameraData", BindingFlags.NonPublic | BindingFlags.Instance);
+                //FieldInfo fi_foamTint = typeof(Ocean).GetField("foamTint", BindingFlags.NonPublic | BindingFlags.Instance);
+                Shader.SetGlobalColor("Ceto_FoamTint", Color.red);
+
+                Debug.Log("Stranded Deep LOD Mod : Ocean instance found");
+                //Dictionary <Camera, CameraData> cds = fi_m_cameraData.GetValue(Ocean.Instance) as Dictionary<Camera, CameraData>;
+                //Debug.Log("Stranded Deep LOD Mod : Ocean fi_m_cameraData null ? " + (fi_m_cameraData == null ? "true" : "false"));
+                //if (cds != null)
+                //{
+                //    Debug.Log("Stranded Deep LOD Mod : Ocean cds null ? " + (cds == null ? "true" : "false" + cds.Keys.Count));
+                //    foreach (CameraData cd in cds.Values)
+                //    {
+                //        Debug.Log("Stranded Deep LOD Mod : Ocean cd null ? " + (cd == null ? "true" : "false"));
+                //        Debug.Log("Stranded Deep LOD Mod : Ocean cd.settings null ? " + (cd == null ? "cd is null" : (cd.settings == null ? "true" : "false")));
+                //        if (cd == null || cd.settings == null)
+                //            continue;
+                //        cd.settings.reflectionResolution = REFLECTION_RESOLUTION.FULL;
+                //        cd.settings.foamOverlaySize = OVERLAY_MAP_SIZE.FULL;
+                //        Debug.Log("Stranded Deep LOD Mod : Ocean Camera data found : " + cd.ToString());
+                //    }
+                //}
             }
         }
 
@@ -383,6 +475,7 @@ namespace StrandedDeepLODMod
 
             Zone zone = StrandedWorld.GetZone(PlayerRegistry.LocalPlayer.transform.position, false);
             if (zone == null 
+                || !zone.isActiveAndEnabled
                 || _handledZones.Contains(zone)
                 || grid_object_green_grass_03 == null
                 || grid_object_green_grass_01 == null 
@@ -618,6 +711,10 @@ namespace StrandedDeepLODMod
                                 // A higher value reduces the number of polygons drawn.
                                 z.Terrain.heightmapPixelError = 5;
                                 Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : Zone" + z.name + "terrain heightmapMaximumLOD : " + z.Terrain.heightmapMaximumLOD);
+
+                                Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : testing");
+                                //z.Terrain.terrainData.SetDetailResolution(1024, 32);
+                                z.Terrain.terrainData.SetDetailResolution(2048, 64);
                             }
                             catch (Exception ex)
                             {
@@ -1294,6 +1391,10 @@ namespace StrandedDeepLODMod
                             {
                                 increaseTerrainLOD = bool.Parse(tokens[1]);
                             }
+                            else if (tokens[0].Contains("ultraUnderwaterDetail"))
+                            {
+                                ultraUnderwaterDetail = bool.Parse(tokens[1]);
+                            }
                         }
                     }
                 }
@@ -1318,6 +1419,7 @@ namespace StrandedDeepLODMod
                 sb.AppendLine("addJellyFishes=" + addJellyFishes + ";");
                 sb.AppendLine("permanentGroundCover=" + permanentGroundCover + ";");
                 sb.AppendLine("increaseTerrainLOD=" + increaseTerrainLOD + ";");
+                sb.AppendLine("ultraUnderwaterDetail=" + ultraUnderwaterDetail + ";");
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
             }

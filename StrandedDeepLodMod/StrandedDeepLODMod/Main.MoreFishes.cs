@@ -70,6 +70,10 @@ namespace StrandedDeepLODMod
                     if (fs.CellObjectsSettings[i].MaximumInstances > 25)
                         continue;
                     typeof(CellObjectSettings<FishBase>).GetField("_maximumInstances", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(fs.CellObjectsSettings[i], fs.CellObjectsSettings[i].MaximumInstances * fishGroups[fs.CellObjectsSettings[i].Prefab.name]);
+                    if (ultraUnderwaterDetail)
+                    {
+                        typeof(CellObjectSettings<FishBase>).GetField("_minimumWorldHeight", BindingFlags.NonPublic | BindingFlags.Instance).SetValue(fs.CellObjectsSettings[i], -50f);
+                    }
                     Debug.Log("Stranded Deep LOD Mod : multiplying fishes new MaximumInstances : " + fs.CellObjectsSettings[i].MaximumInstances);
                 }
                 else

@@ -9,7 +9,7 @@ namespace StrandedDeepLODMod
 {
     public class SmallfishesParticleSystem : MonoBehaviour
     {
-        private ParticleSystem ps;
+        protected ParticleSystem ps;
         public bool enter;
         public bool exit;
         public bool inside;
@@ -17,7 +17,7 @@ namespace StrandedDeepLODMod
 
         private int maxParticles = 100;
 
-        void Start()
+        protected virtual void Start()
         {
             try
             {
@@ -148,7 +148,7 @@ namespace StrandedDeepLODMod
             }
         }
 
-        void Update()
+        protected void Update()
         {
             if (!gameObject.activeSelf)
             {
