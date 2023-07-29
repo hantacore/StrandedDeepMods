@@ -119,6 +119,7 @@
     <Compile Include="Main.FishDrawingDistance.cs" />
     <Compile Include="Main.HarmonyPatches.cs" />
     <Compile Include="Main.MoreFishes.cs" />
+    <Compile Include="Main.OceanTextures.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="ShrimpParticleSystem.cs" />
     <Compile Include="SmallfishesParticleSystem.cs" />
@@ -135,6 +136,21 @@
     <EmbeddedResource Include="assets\Textures\fish.png" />
     <EmbeddedResource Include="assets\Textures\jellyfish.png" />
     <EmbeddedResource Include="assets\Textures\shrimp2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\Textures\foam.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\Textures\random_mask.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="assets\Textures\debris.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\Textures\foam2.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Include="assets\Textures\particles.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

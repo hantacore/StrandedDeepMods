@@ -12,6 +12,7 @@ using SharpNeatLib.Maths;
 using HarmonyLib;
 using Ceto;
 using StrandedDeepModsUtils;
+using System.IO;
 
 namespace StrandedDeepLODMod
 {
@@ -34,12 +35,17 @@ namespace StrandedDeepLODMod
 
         internal static bool ultraUnderwaterDetail = false;
 
+        internal static bool betterFoam = false;
+        internal static bool underwaterParticles = false;
+
         internal static Dictionary<string, Texture2D> _indexedTextures = new Dictionary<string, Texture2D>();
 
         internal static System.Diagnostics.Stopwatch chrono = new System.Diagnostics.Stopwatch();
         internal static bool perfCheck = true;
 
         private static Harmony harmony;
+
+        static FieldInfo fi_lodControllers = typeof(LodManager).GetField("_lodControllers", BindingFlags.NonPublic | BindingFlags.Instance);
 
         static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -67,6 +73,22 @@ namespace StrandedDeepLODMod
                 tex = new Texture2D(1280, 1280, TextureFormat.ARGB32, false, false);
                 tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.shrimp2.png"));
                 _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.shrimp2.png", tex);
+
+                tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.foam.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.foam.png", tex);
+
+                tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.foam2.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.foam2.png", tex);
+
+                tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.random_mask.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.random_mask.png", tex);
+
+                tex = new Texture2D(1024, 1024, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.particles.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.particles.png", tex);
 
                 harmony = new Harmony(modEntry.Info.Id);
                 harmony.PatchAll(Assembly.GetExecutingAssembly());
@@ -112,6 +134,8 @@ namespace StrandedDeepLODMod
             increaseTerrainLOD = GUILayout.Toggle(increaseTerrainLOD, "Improve terrain smoothness");
             increaseShadowsQuality = GUILayout.Toggle(increaseShadowsQuality, "Improve shadows quality (experimental)");
             ultraUnderwaterDetail = GUILayout.Toggle(ultraUnderwaterDetail, "Ultra underwater details");
+            betterFoam = GUILayout.Toggle(betterFoam, "Better foam textures");
+            underwaterParticles = GUILayout.Toggle(underwaterParticles, "Underwater particles");
             GUILayout.Label("Fishes options");
             moreFishes = GUILayout.Toggle(moreFishes, "More fishes in flocks");
             increaseFishDrawingDistance = GUILayout.Toggle(increaseFishDrawingDistance, "Increase fishes drawing distance");
@@ -155,28 +179,14 @@ namespace StrandedDeepLODMod
 
                 if (moreFishes && flag == 0)
                 {
-                    //FillFishSpawnersQueue();
-                    //MultiplyFishes();
-
                     if (!multiplyFishesDone)
                     {
                         MultiplyFishesNew();
                     }
                 }
 
-                //Debug.Log("Stranded Deep LOD Mod update step 2 (ms) = " + chrono.ElapsedMilliseconds);
-
-                //if (increaseFishDrawingDistance && flag == 1)
-                //{
-                //    FillFishRenderersQueue();
-                //    IncreaseFishDrawingDistance();
-                //}
-
-                //Debug.Log("Stranded Deep LOD Mod update step 3 (ms) = " + chrono.ElapsedMilliseconds);
-
                 if (false && increasLODs && flag == 2)
                 {
-                    //IncreaseLODs();
 
                     if (PlayerRegistry.LocalPlayer == null)
                         return;
@@ -191,16 +201,6 @@ namespace StrandedDeepLODMod
                         zone.CreateImpostors();
                     }
                 }
-
-                //Debug.Log("Stranded Deep LOD Mod update step 4 (ms) = " + chrono.ElapsedMilliseconds);
-
-                //if ((addJellyFishes || addSmallFishes || addShrimps) && flag == 3)
-                //{
-                //    FillParticleSpawnersQueue();
-                //    AddParticleSpawners();
-                //}
-
-                //Debug.Log("Stranded Deep LOD Mod update step 5 (ms) = " + chrono.ElapsedMilliseconds);
 
                 if (permanentGroundCover && flag == 4)
                 {
@@ -280,9 +280,10 @@ namespace StrandedDeepLODMod
                 if (flag > 5)
                     flag = 0;
 
-                //OceanTest();
-
-                //ParticlesTest();
+                if (underwaterParticles)
+                {
+                    AddUnderwaterParticles();
+                }
             }
             catch (Exception e)
             {
@@ -297,13 +298,22 @@ namespace StrandedDeepLODMod
             }
         }
 
-        private static void ParticlesTest()
+        private static bool particlesAdded = false;
+        private static void AddUnderwaterParticles()
         {
             try
             {
                 if (((Player)PlayerRegistry.LocalPlayer).gameObject.GetComponent<FollowPlayerParticleSystem>() == null)
                 {
+                    ParticleSystem psorig = ((Player)PlayerRegistry.LocalPlayer).gameObject.GetComponent<ParticleSystem>();
+                    if (psorig != null)
+                    {
+                        Debug.Log("Stranded Deep LOD Mod : player already has particle system");
+                        return;
+                    }
+
                     ParticleSystem ps = ((Player)PlayerRegistry.LocalPlayer).gameObject.AddComponent<ParticleSystem>();
+                    ps.name = FollowPlayerParticleSystem.ParticleSystemName;
                     ((Player)PlayerRegistry.LocalPlayer).gameObject.AddComponent<FollowPlayerParticleSystem>();
                     ps.Play();
                 }
@@ -311,72 +321,6 @@ namespace StrandedDeepLODMod
             catch (Exception e)
             {
                 Debug.Log("Stranded Deep LOD Mod : error on ParticlesTest : " + e);
-            }
-        }
-
-        private static void OceanTest()
-        {
-            //Shader.SetGlobalMatrix("Ceto_T2S", identity);
-            //Shader.SetGlobalTexture("Ceto_Overlay_NormalMap", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_Overlay_HeightMap", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_Overlay_FoamMap", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_Overlay_ClipMap", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture(Ocean.REFRACTION_GRAB_TEXTURE_NAME, Texture2D.blackTexture);
-            //Shader.SetGlobalTexture(Ocean.DEPTH_GRAB_TEXTURE_NAME, Texture2D.whiteTexture);
-            //Shader.SetGlobalTexture(Ocean.OCEAN_MASK_TEXTURE_NAME0, Texture2D.blackTexture);
-            //Shader.SetGlobalTexture(Ocean.OCEAN_MASK_TEXTURE_NAME1, Texture2D.blackTexture);
-            //Shader.SetGlobalTexture(Ocean.OCEAN_DEPTH_TEXTURE_NAME0, Texture2D.blackTexture);
-            //Shader.SetGlobalTexture(Ocean.OCEAN_DEPTH_TEXTURE_NAME1, Texture2D.blackTexture);
-            //Shader.SetGlobalTexture(Ocean.NORMAL_FADE_TEXTURE_NAME, Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_SlopeMap0", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_SlopeMap1", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_DisplacementMap0", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_DisplacementMap1", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_DisplacementMap2", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_DisplacementMap3", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_FoamMap0", Texture2D.blackTexture);
-            //Shader.SetGlobalTexture("Ceto_FoamMap1", Texture2D.blackTexture);
-            //Shader.SetGlobalVector("Ceto_GridSizes", Vector4.one);
-            //Shader.SetGlobalVector("Ceto_GridScale", Vector4.one);
-            //Shader.SetGlobalVector("Ceto_Choppyness", Vector4.one);
-            //Shader.SetGlobalFloat("Ceto_MapSize", 1f);
-            //Shader.SetGlobalColor("Ceto_FoamTint", Color.white);
-            Shader.SetGlobalTexture("Ceto_FoamTexture0", Texture2D.redTexture);
-            Shader.SetGlobalTexture("Ceto_FoamTexture1", Texture2D.redTexture);
-            //Shader.SetGlobalVector("Ceto_FoamTextureScale0", Vector4.one);
-            //Shader.SetGlobalVector("Ceto_FoamTextureScale1", Vector4.one);
-            //Shader.SetGlobalFloat("Ceto_MaxWaveHeight", 40f);
-            //Shader.SetGlobalVector("Ceto_PosOffset", Vector3.zero);
-            //Shader.SetGlobalTexture("Ceto_CausticTexture", Texture2D.blackTexture);
-            //Shader.SetGlobalVector("Ceto_CausticTextureScale", new Vector4(1f, 1f, 0f, 0f));
-            //Shader.SetGlobalColor("Ceto_CausticTint", Color.white);
-            //Shader.SetGlobalFloat("Ceto_Stero_Enabled", 0f);
-
-            //Camera c = Ocean.Instance.GetComponent<Camera>();
-            //CameraData cd = Ocean.Instance.FindCameraData(c);
-            if (Ocean.Instance != null)
-            {
-                FieldInfo fi_m_cameraData = typeof(Ocean).GetField("m_cameraData", BindingFlags.NonPublic | BindingFlags.Instance);
-                //FieldInfo fi_foamTint = typeof(Ocean).GetField("foamTint", BindingFlags.NonPublic | BindingFlags.Instance);
-                Shader.SetGlobalColor("Ceto_FoamTint", Color.red);
-
-                Debug.Log("Stranded Deep LOD Mod : Ocean instance found");
-                //Dictionary <Camera, CameraData> cds = fi_m_cameraData.GetValue(Ocean.Instance) as Dictionary<Camera, CameraData>;
-                //Debug.Log("Stranded Deep LOD Mod : Ocean fi_m_cameraData null ? " + (fi_m_cameraData == null ? "true" : "false"));
-                //if (cds != null)
-                //{
-                //    Debug.Log("Stranded Deep LOD Mod : Ocean cds null ? " + (cds == null ? "true" : "false" + cds.Keys.Count));
-                //    foreach (CameraData cd in cds.Values)
-                //    {
-                //        Debug.Log("Stranded Deep LOD Mod : Ocean cd null ? " + (cd == null ? "true" : "false"));
-                //        Debug.Log("Stranded Deep LOD Mod : Ocean cd.settings null ? " + (cd == null ? "cd is null" : (cd.settings == null ? "true" : "false")));
-                //        if (cd == null || cd.settings == null)
-                //            continue;
-                //        cd.settings.reflectionResolution = REFLECTION_RESOLUTION.FULL;
-                //        cd.settings.foamOverlaySize = OVERLAY_MAP_SIZE.FULL;
-                //        Debug.Log("Stranded Deep LOD Mod : Ocean Camera data found : " + cd.ToString());
-                //    }
-                //}
             }
         }
 
@@ -736,38 +680,13 @@ namespace StrandedDeepLODMod
 
         #endregion
 
-        //public static bool isMeshInCameraView(Mesh mesh, Camera camera)
-        //{
-        //    Plane[] frustumPlanes = GeometryUtility.CalculateFrustumPlanes(camera);
-        //    foreach(Plane plane in frustumPlanes)
-        //    {
-        //        Debug.Log("Stranded Deep LOD Mod : plane distance " + plane);
-        //    }
-        //    return GeometryUtility.TestPlanesAABB(frustumPlanes, mesh.bounds);
-        //}
-
         private static void Reset()
         {
             try
             {
                 fr = null;
 
-                //if (_LODhandler != null)
-                //    _LODhandler.Reset();
-                //if (_handledLodControllers != null)
-                //    _handledLodControllers.Clear();
-
-                //FishSpawnersToHandle = null;
-                //lastPassFishSpawnersCount = 0;
-                //currentFishSpawnerIndex = -1;
-                //if (multipliedFishes != null)
-                //    multipliedFishes.Clear();
-                //if (_handledFishRenderers != null)
-                //    _handledFishRenderers.Clear();
-
                 multiplyFishesDone = false;
-
-                //ResetParticles();
 
                 grid_object_green_grass_01 = null;
                 grid_object_green_grass_03 = null;
@@ -781,6 +700,9 @@ namespace StrandedDeepLODMod
 
                 _handledShadows = false;
 
+                foamTexturesUpdated = false;
+                particlesAdded = false;
+
                 flag = 0;
             }
             catch (Exception e)
@@ -788,554 +710,6 @@ namespace StrandedDeepLODMod
                 Debug.Log("Stranded Deep LOD Mod : Reset error : " + e);
             }
         }
-
-        static FieldInfo fi_lodControllers = typeof(LodManager).GetField("_lodControllers", BindingFlags.NonPublic | BindingFlags.Instance);
-        //private static List<LodController> _handledLodControllers = new List<LodController>();
-        //private static List<Lod> _handledLods = new List<Lod>();
-
-//        internal static LODHandler _LODhandler = new LODHandler();
-
-//        private static void IncreaseLODs()
-//        {
-//            try
-//            {
-//                if (fi_lodControllers == null || LodManager.Instance == null)
-//                    return;
-
-//                if (PlayerRegistry.LocalPlayer == null)
-//                    return;
-
-//                Zone zone = StrandedWorld.GetZone(PlayerRegistry.LocalPlayer.transform.position, false);
-//                if (zone == null)
-//                {
-//                    Debug.Log("Stranded Deep LOD Mod : IncreaseLODs : no zone found for impostor creation");
-//                }
-//                else
-//                {
-//                    zone.CreateImpostors();
-//                }
-
-//                if (_LODhandler.MustFillQueue)
-//                {
-//                    List<LodController> _lodControllers = fi_lodControllers.GetValue(LodManager.Instance) as List<LodController>;
-//                    _LODhandler.FillQueue(_lodControllers.ToArray());
-//                }
-//                else
-//                {
-//                    _LODhandler.Handle();
-//                }
-
-//                return;
-//                //LodManager.LOD_BIAS = (ultraDistance ? 10 : 5);
-
-//                List<LodController> lodControllers = fi_lodControllers.GetValue(LodManager.Instance) as List<LodController>;
-
-//                Debug.Log("Stranded Deep LOD Mod IncreaseLODs step 1 (ms) = " + chrono.ElapsedMilliseconds);
-
-//                if (lodControllers == null)
-//                    return;
-
-//                Debug.Log("Stranded Deep LOD Mod : number of LODs = " + lodControllers.Count);
-
-//                foreach (LodController lc in lodControllers)
-//                {
-//                    try
-//                    {
-//                        if (_handledLodControllers.Contains(lc))
-//                            continue;
-
-//                        Debug.Log("Stranded Deep LOD Mod IncreaseLODs step 2.1 (ms) = " + chrono.ElapsedMilliseconds);
-
-//                        //Debug.Log("Stranded Deep LOD Mod : lod info : " + lc.gameObject.name);
-
-//                        int bestLOD = 3;
-//                        for (int i = 0; i < lc.LodGroup.Lods.Count; i++)
-//                        {
-//                            Lod lod = lc.LodGroup.Lods[i];
-//                            if (lod.Renderers[0].name.Contains("LOD0") && bestLOD > 0)
-//                            {
-//                                bestLOD = 0;
-//                            }
-//                            else if (lod.Renderers[0].name.Contains("LOD1") && bestLOD > 1)
-//                            {
-//                                bestLOD = 1;
-//                            }
-//                            else if (lod.Renderers[0].name.Contains("LOD2") && bestLOD > 2)
-//                            {
-//                                bestLOD = 2;
-//                            }
-//                        }
-//                        Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : best LOD found : " + bestLOD);
-
-//                        //for (int i = 0; i < lc.LodGroup.Lods.Count; i++)
-//                        for (int i = lc.LodGroup.Lods.Count - 1; i >= 0; i--)
-//                        {
-//                            Lod lod = lc.LodGroup.Lods[i];
-//                            Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name);
-//                            Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name + " / cull distance " + lod.CullingDistance);
-//                            Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name + " / IsImpostor " + lod.IsImpostor);
-
-//                            if (!lod.Renderers[0].name.Contains("LOD" + bestLOD) && !lod.IsImpostor)
-//                            {
-//                                // remove
-//                                Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name + " / cull distance " + lod.CullingDistance);
-//                                //Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name + " / removing LOD at " + i);
-//                                //lc.LodGroup.Lods.RemoveAt(i);
-//                            }
-//                            else
-//                            {
-//                                Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name + " old cull distance " + lod.CullingDistance);
-//                                if (!lod.IsImpostor)
-//                                {
-//                                    lod.CullingDistance = lod.CullingDistance * (ultraMFBBQDistance ? 1000 : (ultraDistance ? 10 : 5));
-//                                    Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod info : " + lod.Renderers[0].name + " new cull distance " + lod.CullingDistance);
-//                                }
-//                            }
-//                        }
-
-//                        FieldInfo fiCull = typeof(LodController).GetField("_localImpostorCullingDistance", BindingFlags.NonPublic | BindingFlags.Instance);
-//#warning perf ?
-//                        //fiCull.SetValue(lc, 2000);
-
-//                        Debug.Log("Stranded Deep LOD Mod IncreaseLODs step 2.2 (ms) = " + chrono.ElapsedMilliseconds);
-
-//                        Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller : " + (lc.Impostor != null ? " has impostor " : "has no impostor"));
-//                        Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller : _localImpostorCullingDistance " + fiCull.GetValue(lc));
-//                        if ((lc.gameObject.name.Contains("PINE_SMALL")
-//                            || lc.gameObject.name.Contains("PALM_")
-//                            || lc.gameObject.name.Contains("YUCCA")
-//                            || lc.gameObject.name.Contains("ROCK"))
-//                            && lc.Impostor == null)
-//                        {
-//                            FieldInfo fiScope = typeof(LodController).GetField("_scope", BindingFlags.NonPublic | BindingFlags.Instance);
-//                            fiScope.SetValue(lc, ImposterScope.All);
-
-//                            Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller position : " + lc.transform.position);
-//                            Zone z = StrandedWorld.GetZone(lc.transform.position, false);
-//                            if (z == null)
-//                            {
-//                                Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller : no zone found for impostor creation");
-//                            }
-//                            else
-//                            {
-//#warning perf ?
-//                                //MethodInfo mi = typeof(LodController).GetMethod("CreateImpostor", BindingFlags.NonPublic | BindingFlags.Instance);
-//                                //mi.Invoke(lc, new object[] { });
-//                            }
-//                        }
-
-//                        Debug.Log("Stranded Deep LOD Mod IncreaseLODs step 2.3 (ms) = " + chrono.ElapsedMilliseconds);
-
-//                        Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller : Scope " + lc.Scope);
-//                        Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller : Mode " + lc.Mode);
-//                        if (lc.Impostor != null
-//                            && lc.Impostor.Lod != null)
-//                        {
-//                            Debug.Log("Stranded Deep LOD Mod : " + lc.gameObject.name + " : lod controller : lc.Impostor.Lod.CullingDistance " + lc.Impostor.Lod.CullingDistance);
-//                        }
-
-//                        //lc.Impostor.Lod.CullingDistance = 2000;
-//                    }
-//                    catch (Exception ex)
-//                    {
-//                        Debug.Log("Stranded Deep LOD Mod : error while handling LodController for " + lc.gameObject.name + " : " + ex);
-//                    }
-//                    finally
-//                    {
-//                        _handledLodControllers.Add(lc);
-//                    }
-//                }
-
-//                Debug.Log("Stranded Deep LOD Mod IncreaseLODs step 3 (ms) = " + chrono.ElapsedMilliseconds);
-
-//                // 20
-//                //FollowSpawn.GRID_DIMENSION = 80;
-
-//                //IList<SetupAdvancedFoliageShader> foliageShaders = Beam.Game.FindObjectsOfType<SetupAdvancedFoliageShader>();
-//                //if (foliageShaders != null && foliageShaders.Count > 0)
-//                //{
-//                //    foreach (SetupAdvancedFoliageShader setupShader in foliageShaders)
-//                //    {
-//                //        Debug.Log("Stranded Deep LOD Mod : foliageShader DetailDistanceForGrassShader " + setupShader.DetailDistanceForGrassShader);
-//                //        setupShader.DetailDistanceForGrassShader = 160;
-//                //        Debug.Log("Stranded Deep LOD Mod : foliageShader new DetailDistanceForGrassShader " + setupShader.DetailDistanceForGrassShader);
-
-//                //        Debug.Log("Stranded Deep LOD Mod : foliageShader SmallDetailsDistance " + setupShader.SmallDetailsDistance);
-//                //        setupShader.SmallDetailsDistance = 140;
-//                //        Debug.Log("Stranded Deep LOD Mod : foliageShader new SmallDetailsDistance " + setupShader.SmallDetailsDistance);
-
-//                //        Debug.Log("Stranded Deep LOD Mod : foliageShader MediumDetailsDistance " + setupShader.MediumDetailsDistance);
-//                //        setupShader.MediumDetailsDistance = 180;
-//                //        Debug.Log("Stranded Deep LOD Mod : foliageShader new MediumDetailsDistance " + setupShader.MediumDetailsDistance);
-//                //    }
-//                //}
-
-//                //// 20
-//                //FollowSpawn.GRID_DIMENSION = 40;
-
-//                //FollowSpawn[] followSpawns = Beam.Game.FindObjectsOfType<FollowSpawn>();
-//                //foreach (FollowSpawn fs in followSpawns)
-//                //{
-//                //    FieldInfo fi_grass = typeof(FollowSpawn).GetField("_grass", BindingFlags.NonPublic | BindingFlags.Instance);
-//                //    if (fi_grass != null && (bool)fi_grass.GetValue(fs))
-//                //    {
-//                //        Debug.Log("Stranded Deep LOD Mod : grass spawner found");
-//                //        FieldInfo fiGridObjects2 = typeof(FollowSpawn).GetField("GridObjects2", BindingFlags.NonPublic | BindingFlags.Instance);
-//                //        FollowSpawn.BiomeGrid[] biomeGrid = fiGridObjects2.GetValue(fs) as FollowSpawn.BiomeGrid[];
-//                //        foreach (FollowSpawn.BiomeGrid bg in biomeGrid)
-//                //        {
-//                //            Debug.Log("Stranded Deep LOD Mod : grass biome " + bg.name);
-//                //            foreach (FollowSpawn.GridObject gridObject in bg.biomeParameters)
-//                //            {
-//                //                if (gridObject.grass)
-//                //                {
-//                //                    Debug.Log("Stranded Deep LOD Mod : grass grid object " + gridObject.objectsToSpawn[0].name + " / rarity : " + gridObject.rarity);
-//                //                    Debug.Log("Stranded Deep LOD Mod : grass grid object " + gridObject.objectsToSpawn[0].name + " / maxObjects : " + gridObject.maxObjects);
-//                //                    Debug.Log("Stranded Deep LOD Mod : grass grid object " + gridObject.objectsToSpawn[0].name + " / gridCheckDensity : " + gridObject.gridCheckDensity);
-
-//                //                    foreach (GameObject go in gridObject.objectsToSpawn)
-//                //                    {
-//                //                        LODGroup[] lgs = go.GetComponents<LODGroup>();
-//                //                        foreach (LODGroup lg in lgs)
-//                //                        {
-//                //                            Debug.Log("Stranded Deep LOD Mod : grass grid object LodGroup found");
-//                //                            LOD[] lods = lg.GetLODs();
-//                //                            for (int i = 0; i < lods.Length; i++)
-//                //                            {
-//                //                                LOD lod = lods[i];
-
-//                //                                //if (_handledLods.Contains(lod))
-//                //                                //    continue;
-
-//                //                                Debug.Log("Stranded Deep LOD Mod : lod info : " + lod.renderers[0].name);
-//                //                                //lod.CullingDistance = lod.CullingDistance * (ultraDistance ? 10 : 5);
-//                //                                //Debug.Log("Stranded Deep LOD Mod : new lod info : " + lod.Renderers[0].name + " / cull distance " + lod.CullingDistance);
-
-//                //                                //_handledLods.Add(lod);
-//                //                            }
-//                //                        }
-
-//                //                        //LODGroup[] lgs = go.GetComponents<LODGroup>();
-//                //                        //foreach (LODGroup lg in lgs)
-//                //                        //{
-//                //                        //    LOD[] lods = lg.GetLODs();
-//                //                        //    foreach (LOD lod in lods)
-//                //                        //    {
-//                //                        //    }
-//                //                        //}
-//                //                    }
-//                //                }
-
-//                //                if (gridObject.grass)
-//                //                {
-//                //                    //gridObject.
-//                //                }
-//                //            }
-//                //        }
-//                //    }
-//                //    else
-//                //    {
-//                //        // FollowSpawn FollowSpawn.BiomeGrid[] GridObjects2; <- increase some densities
-//                //        FieldInfo fiGridObjects2 = typeof(FollowSpawn).GetField("GridObjects2", BindingFlags.NonPublic | BindingFlags.Instance);
-//                //        FollowSpawn.BiomeGrid[] biomeGrid = fiGridObjects2.GetValue(fs) as FollowSpawn.BiomeGrid[];
-//                //        foreach (FollowSpawn.BiomeGrid bg in biomeGrid)
-//                //        {
-//                //            Debug.Log("Stranded Deep LOD Mod : biome " + bg.name);
-//                //            foreach (FollowSpawn.GridObject go in bg.biomeParameters)
-//                //            {
-//                //                Debug.Log("Stranded Deep LOD Mod : grid object " + go.objectsToSpawn[0].name + " / rarity : " + go.rarity);
-//                //                Debug.Log("Stranded Deep LOD Mod : grid object " + go.objectsToSpawn[0].name + " / maxObjects : " + go.maxObjects);
-//                //                //if (indexedMaxObjects.ContainsKey(go.objectsToSpawn[0].name))
-//                //                //    go.maxObjects = indexedMaxObjects[go.objectsToSpawn[0].name];
-//                //                //else
-//                //                //    go.maxObjects = 50;
-//                //            }
-//                //        }
-//                //    }
-//                //}
-
-
-
-//                ////CullingSettings
-//                //float[] array = new float[32];
-//                //array[Layers.INTERACTIVE_OBJECTS] = 200f;
-//                //array[Layers.PARTICLES] = 200f;
-//                //array[Layers.TERRAIN_OBJECTS] = 200f;
-//                //array[Layers.TERRAIN_DETAILS] = 200f;
-//                //foreach (IGameCamera gameCamera in Cameras.AllCameras)
-//                //{
-//                //    gameCamera.Camera.layerCullDistances = array;
-//                //    gameCamera.Camera.layerCullSpherical = true;
-//                //}
-
-//                //Debug.Log("Stranded Deep LOD Mod : layer  PLAYER " + Layers.PLAYER);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  INTERACTIVE_TREES " + Layers.INTERACTIVE_TREES);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  CONNECTOR_FOUNDATION " + Layers.CONNECTOR_FOUNDATION);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  CONNECTOR_PANEL " + Layers.CONNECTOR_PANEL);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  CONSTRUCTIONS_RAFTS " + Layers.CONSTRUCTIONS_RAFTS);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  CONSTRUCTIONS_SMALL " + Layers.CONSTRUCTIONS_SMALL);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  CONSTRUCTIONS " + Layers.CONSTRUCTIONS);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  PARTICLES " + Layers.PARTICLES);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  INTERACTIVE_OBJECTS " + Layers.INTERACTIVE_OBJECTS);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  PROJECTILE_HITBOXES " + Layers.PROJECTILE_HITBOXES);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  PROJECTILES " + Layers.PROJECTILES);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  TERRAIN_DETAILS " + Layers.TERRAIN_DETAILS);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  TERRAIN_OBJECTS " + Layers.TERRAIN_OBJECTS);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  TERRAIN " + Layers.TERRAIN);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  WATER " + Layers.WATER);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  IGNORE_RAYCAST " + Layers.IGNORE_RAYCAST);
-//                //Debug.Log("Stranded Deep LOD Mod : layer  UI_MAIN_MENU " + Layers.UI_MAIN_MENU);
-
-//                ////CullingSettings
-//                //float[] array = new float[32];
-//                //array[Layers.INTERACTIVE_OBJECTS] = 0;
-//                //array[Layers.PARTICLES] = 0;
-//                //array[Layers.TERRAIN_OBJECTS] = 0;
-//                //array[Layers.TERRAIN_DETAILS] = 0;
-//                //foreach (IGameCamera gameCamera in Cameras.AllCameras)
-//                //{
-//                //    gameCamera.Camera.layerCullDistances = array;
-//                //    //gameCamera.Camera.layerCullSpherical = true;
-
-//                //    for (int layer = 0; layer < gameCamera.Camera.layerCullDistances.Length; layer++)
-//                //    {
-//                //        Debug.Log("Stranded Deep LOD Mod : " + gameCamera.Camera.name + " layer " + layer + " cull distance " + gameCamera.Camera.layerCullDistances[layer]);
-//                //        gameCamera.Camera.layerCullDistances[layer] = 0;
-//                //        Debug.Log("Stranded Deep LOD Mod : " + gameCamera.Camera.name + " layer " + layer + " new cull distance " + gameCamera.Camera.layerCullDistances[layer]);
-//                //    }
-//                //}
-
-//                //for (int i = 0; i < Camera.allCameras.Length; i++)
-//                //{
-//                //    float[] array = new float[32];
-//                //    array = Camera.allCameras[i].layerCullDistances;
-//                //    array[8] = (float)this.SmallDetailsDistance;
-//                //    array[9] = (float)this.MediumDetailsDistance;
-//                //    Camera.allCameras[i].layerCullDistances = array;
-//                //}
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log("Stranded Deep LOD Mod : error in IncreaseLODs : " + e);
-//            }
-//        }
-
-//        private static void IncreaseUnderwaterObjects()
-//        {
-//            // 20
-//            FollowSpawn.GRID_DIMENSION = 20;
-
-//            try
-//            {
-//                if (false)
-//                {
-//                    int ratio = FollowSpawn.GRID_DIMENSION / 20;
-//                    Dictionary<string, int> indexedMaxObjects = new Dictionary<string, int>();
-//                    indexedMaxObjects.Add("SHORELINE_ROCK_2", 5 * ratio * 10);
-//                    indexedMaxObjects.Add("CORAL_ROCK_1", 4 * ratio * 5);
-//                    indexedMaxObjects.Add("Brain_Coral", 6 * ratio);
-//                    indexedMaxObjects.Add("Coral_Group_White", 20 * ratio);
-//                    indexedMaxObjects.Add("StagHorn_Coral", 15 * ratio * 5);
-//                    indexedMaxObjects.Add("Seaweed", 150 * ratio * 10);
-//                    indexedMaxObjects.Add("Table_Coral", 5 * ratio * 10);
-//                    indexedMaxObjects.Add("SEA_URCHIN", 5 * ratio);
-//                    indexedMaxObjects.Add("PARTICLE_BUBBLE_STREAM", 4 * ratio);
-//                    indexedMaxObjects.Add("Kelp_1", 10 * ratio * 5);
-//                    indexedMaxObjects.Add("Shoreline_Seaweed", 100 * ratio * 10);
-//                    indexedMaxObjects.Add("Tube_Coral_Blue", 20 * ratio);
-//                    indexedMaxObjects.Add("Table_Coral_Brown_1", 20 * ratio * 10);
-//                    indexedMaxObjects.Add("Starfish_Blue", 5 * ratio);
-//                    indexedMaxObjects.Add("Broken_Barrel", 1 * ratio);
-
-//                    indexedMaxObjects.Add("green_grass_01", 600 * ratio);
-//                    indexedMaxObjects.Add("green_grass_03", 600 * ratio);
-//                    indexedMaxObjects.Add("ground_cover_a", 100 * ratio);
-//                    indexedMaxObjects.Add("ground_cover_c", 100 * ratio);
-//                    indexedMaxObjects.Add("Grass_Dry", 400 * ratio);
-
-
-//                    //LodManager.LOD_BIAS = 200;
-//                    FollowSpawn[] followSpawns = Beam.Game.FindObjectsOfType<FollowSpawn>();
-//                    foreach (FollowSpawn fs in followSpawns)
-//                    {
-//                        // FollowSpawn FollowSpawn.BiomeGrid[] GridObjects2; <- increase some densities
-//                        FieldInfo fiGridObjects2 = typeof(FollowSpawn).GetField("GridObjects2", BindingFlags.NonPublic | BindingFlags.Instance);
-//                        FollowSpawn.BiomeGrid[] biomeGrid = fiGridObjects2.GetValue(fs) as FollowSpawn.BiomeGrid[];
-//                        foreach (FollowSpawn.BiomeGrid bg in biomeGrid)
-//                        {
-//                            Debug.Log("Stranded Deep LOD Mod : biome " + bg.name);
-//                            foreach (FollowSpawn.GridObject go in bg.biomeParameters)
-//                            {
-//                                //Debug.Log("Stranded Deep LOD Mod : grid object " + go.objectsToSpawn[0].name + " / rarity : " + go.rarity);
-//                                //Debug.Log("Stranded Deep LOD Mod : grid object " + go.objectsToSpawn[0].name + " / maxObjects : " + go.maxObjects);
-//                                if (indexedMaxObjects.ContainsKey(go.objectsToSpawn[0].name))
-//                                    go.maxObjects = indexedMaxObjects[go.objectsToSpawn[0].name];
-//                                else
-//                                    go.maxObjects = 50;
-//                            }
-//                        }
-//                    }
-//                }
-
-//                SetupAdvancedFoliageShader[] foliageShaders = Beam.Game.FindObjectsOfType<SetupAdvancedFoliageShader>();
-//                foreach (SetupAdvancedFoliageShader fs in foliageShaders)
-//                {
-//                    //Debug.Log("Stranded Deep LOD Mod : increase grass drawing distance");
-//                    //fs.DetailDistanceForGrassShader = 500f;
-//                }
-
-//                //TreeManager.Instance.Wind = new Vector4(5, 0, 5);
-//                //TreeManager.Instance.WindFrequency = 1.6f;
-//                //TreeManager.Instance.
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log("Stranded Deep LOD Mod : initial tests failed : " + e);
-//            }
-//        }
-
-//        private static void IncreaseDrawingDistanceUpdate()
-//        {
-//            IncreaseUnderwaterObjects();
-
-//            // 1
-//            try
-//            {
-//                float[] array = new float[32];
-//                array[Layers.INTERACTIVE_OBJECTS] = 1000f;
-//                array[Layers.PARTICLES] = 1000f;
-//                array[Layers.TERRAIN_OBJECTS] = 1000f;
-//                array[Layers.TERRAIN_DETAILS] = 1000f;
-//                foreach (IGameCamera gameCamera in Cameras.AllCameras)
-//                {
-//#warning TODO : add anti-infinite loop
-//                    Debug.Log("Stranded Deep LOD Mod : increase camera drawing distance");
-//                    gameCamera.Camera.layerCullDistances = array;
-//                    gameCamera.Camera.layerCullSpherical = true;
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log("Stranded Deep LOD Mod : increase camera drawing distance failed : " + e);
-//            }
-
-//            // 2
-
-//            try
-//            {
-//                //Debug.Log("Stranded Deep LOD Mod : increasing impostor culling distance");
-//                // int
-//                FieldInfo fiCull = typeof(LodController).GetField("_localImpostorCullingDistance", BindingFlags.NonPublic | BindingFlags.Instance);
-//                FieldInfo fiLodGroup = typeof(LodController).GetField("_lodGroup", BindingFlags.NonPublic | BindingFlags.Instance);
-
-//                LodController[] lcs = Beam.Game.FindObjectsOfType<LodController>();
-//                foreach (LodController lc in lcs)
-//                {
-//                    //Debug.Log("Stranded Deep LOD Mod : current culling distance for " + lc.GetType().Name + " : " + fiCull.GetValue(lc));
-//#warning TODO : add anti-infinite loop
-//                    //Debug.Log("Stranded Deep LOD Mod : increasing impostor culling distance to 1000 for " + lc.GetType().Name);
-//                    //fiCull.SetValue(lc, 1000);
-
-//                    //int i = 1000;
-//                    //foreach(Lod lod in lc.LodGroup.Lods)
-//                    //{
-//                    //    Debug.Log("Stranded Deep LOD Mod : increasing Lod culling distance for : " + lod.GetType().Name);
-//                    //    lod.CullingDistance = i;
-//                    //    i += 1000;
-//                    //}
-
-//                    LodGroup lg = fiLodGroup.GetValue(lc) as LodGroup;
-//                    if (lg != null)
-//                    {
-//                        foreach (Lod lod in lg.Lods)
-//                        {
-//                            //Debug.Log("Stranded Deep LOD Mod : current culling distance for " + lod.GetType().Name + " : " + lod.CullingDistance);
-//                            // 7 12
-//                            //if (lod.CullingDistance == 10)
-//                            //{
-//                            //    lod.CullingDistance = 1;
-//                            //}
-//                            //if (lod.CullingDistance == 25)
-//                            //{
-//                            //    lod.CullingDistance = 997;
-//                            //}
-//                            //if (lod.CullingDistance == 40)
-//                            //{
-//                            //    lod.CullingDistance = 998;
-//                            //}
-//                            //if (lod.CullingDistance == 60)
-//                            //{
-//                            //    lod.CullingDistance = 999;
-//                            //}
-//                            //if (lod.CullingDistance == 100)
-//                            //{
-//                            //    lod.CullingDistance = 1000;
-//                            //}
-//                            //Debug.Log("Stranded Deep LOD Mod : new culling distance for " + lod.GetType().Name + " : " + lod.CullingDistance);
-//                        }
-//                    }
-
-//                    //dynamic impostor DISTANCE BiAS (static)
-//                }
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log("Stranded Deep LOD Mod : increase impostor culling distance failed : " + e);
-//            }
-
-
-//            try
-//            {
-//                //Debug.Log("Stranded Deep LOD Mod : increasing impostor culling distance");
-//                // int
-//                //FieldInfo fi = typeof(LodController).GetField("_localImpostorCullingDistance", BindingFlags.NonPublic | BindingFlags.Instance);
-
-//                //                LODGroup[] lgs = Beam.Game.FindObjectsOfType<LODGroup>();
-//                //                foreach (LODGroup lg in lgs)
-//                //                {
-//                //#warning TODO : add anti-infinite loop
-//                //                    Debug.Log("Stranded Deep LOD Mod : force LOD group 0 for : " + lg.GetType().Name);
-//                //                    //fi.SetValue(lc, 1000);
-//                //                    lg.ForceLOD(0);
-//                //                }
-
-//                //LodGroup lg;
-//                //lg.Lods[0].
-//            }
-//            catch (Exception e)
-//            {
-//                Debug.Log("Stranded Deep LOD Mod : force LOD group 0 failed : " + e);
-//            }
-
-//            //Beam.Rendering.LodController lc;
-//            //private int _localImpostorCullingDistance = 200;
-
-//            //FieldInfo fi = typeof(LodController).GetField("_localImpostorCullingDistance", BindingFlags.NonPublic);
-//            //LodController[] lodControllers = Game.FindObjectsOfType<LodController>();
-//            //foreach (LodController lc in lodControllers)
-//            //{
-//            //    // 200 : make higher ?
-//            //    if (fi != null)
-//            //        fi.SetValue(lc, 2000);
-//            //    //lc._localImpostorCullingDistance
-//            //}
-
-//            // 3
-//            /// 80 : make higher
-//            //TreeManager.Instance._detailDistanceForGrassShader
-
-//            // 4 
-//            //SetupAdvancedFoliageShader.DetailDistanceForGrassShader
-
-//            // 5
-//            // FishRendererBase._cullingDistance
-
-//            //6 object
-//            // CullingSettings
-
-//            // 7
-//            // Lod.CullingDistance
-//        }
 
         private static void ReadConfig()
         {
@@ -1395,6 +769,14 @@ namespace StrandedDeepLODMod
                             {
                                 ultraUnderwaterDetail = bool.Parse(tokens[1]);
                             }
+                            else if (tokens[0].Contains("betterFoam"))
+                            {
+                                betterFoam = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("underwaterParticles"))
+                            {
+                                underwaterParticles = bool.Parse(tokens[1]);
+                            }
                         }
                     }
                 }
@@ -1420,9 +802,162 @@ namespace StrandedDeepLODMod
                 sb.AppendLine("permanentGroundCover=" + permanentGroundCover + ";");
                 sb.AppendLine("increaseTerrainLOD=" + increaseTerrainLOD + ";");
                 sb.AppendLine("ultraUnderwaterDetail=" + ultraUnderwaterDetail + ";");
+                sb.AppendLine("betterFoam=" + betterFoam + ";");
+                sb.AppendLine("underwaterParticles=" + underwaterParticles + ";");
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
             }
+        }
+
+        public static Texture2D duplicateTexture(Texture2D source)
+        {
+            RenderTexture renderTex = RenderTexture.GetTemporary(
+                        source.width,
+                        source.height,
+                        0,
+                        RenderTextureFormat.Default,
+                        RenderTextureReadWrite.Linear);
+
+            Graphics.Blit(source, renderTex);
+            RenderTexture previous = RenderTexture.active;
+            RenderTexture.active = renderTex;
+            Texture2D readableText = new Texture2D(source.width, source.height);
+            readableText.ReadPixels(new Rect(0, 0, renderTex.width, renderTex.height), 0, 0);
+            readableText.Apply();
+            RenderTexture.active = previous;
+            RenderTexture.ReleaseTemporary(renderTex);
+            return readableText;
+        }
+
+        public static void ExportTexture(Texture2D tex, string name)
+        {
+            try
+            {
+                Texture2D t = duplicateTexture(tex) as Texture2D;
+                byte[] bytes = t.EncodeToPNG();
+                File.WriteAllBytes("e:\\" + name + ".png", bytes);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep LOD mod : error ExportTexture " + e);
+            }
+        }
+
+        public static Texture2D ResizeTexture(Texture2D source, int newWidth, int newHeight)
+        {
+            source.filterMode = FilterMode.Point;
+            RenderTexture rt = RenderTexture.GetTemporary(newWidth, newHeight);
+            rt.filterMode = FilterMode.Point;
+            RenderTexture.active = rt;
+            Graphics.Blit(source, rt);
+            Texture2D nTex = new Texture2D(newWidth, newHeight);
+            nTex.ReadPixels(new Rect(0, 0, newWidth, newHeight), 0, 0);
+            nTex.Apply();
+            RenderTexture.active = null;
+            RenderTexture.ReleaseTemporary(rt);
+            return nTex;
+        }
+
+        public static Texture2D MergeShorelines(Texture2D shore, Texture2D shoreHeightmap,  Texture2D mask)
+        {
+            Texture2D result = new Texture2D(shore.width, shore.height);
+
+            for (int i = 0; i < result.width; i++)
+            {
+                for (int j = 0; j < result.height; j++)
+                {
+                    result.SetPixel(i, j, shore.GetPixel(i, j));
+                }
+            }
+            result.Apply();
+
+            //Main.ExportTexture(result, @"MergeShorelines result");
+
+            Texture2D resizedshoreHeightmap = null;
+            if (mask != null)
+            {
+                resizedshoreHeightmap = Main.ResizeTexture(shoreHeightmap, result.width, result.height);
+                //Main.ExportTexture(resizedshoreHeightmap, @"MergeShorelines resizedshoreHeightmap");
+            }
+
+            Texture2D resizedMask = null;
+            if (mask != null)
+            {
+                resizedMask = Main.ResizeTexture(mask, result.width, result.height);
+                //Main.ExportTexture(resizedMask, @"MergeShorelines resizedMask");
+            }
+
+            Color[] pixels = result.GetPixels();
+            for (int i = 0; i < result.width; i++)
+            {
+                for (int j = 0; j < result.height; j++)
+                {
+                    Color c = result.GetPixel(i, j);
+                    Color resultColor = c;
+                    if (resizedshoreHeightmap != null)
+                    {
+                        Color shoreC = resizedshoreHeightmap.GetPixel(i, j);
+                        resultColor = new Color(1, 1, 1, Mathf.Max(resultColor.a, shoreC.a));
+                    }
+                    result.SetPixel(i, j, resultColor);
+                }
+            }
+            result.Apply();
+            //Main.ExportTexture(result, @"MergeShorelines result height-shore");
+
+            pixels = result.GetPixels();
+            for (int i = 0; i < result.width; i++)
+            {
+                for (int j = 0; j < result.height; j++)
+                {
+                    Color c = result.GetPixel(i, j);
+                    Color resultColor = c;
+                    if (resizedMask != null)
+                    {
+                        Color maskC = resizedMask.GetPixel(i, j);
+                        resultColor = new Color(1, 1, 1, Mathf.Min(c.a, maskC.a));
+                    }
+                    result.SetPixel(i, j, resultColor);
+                }
+            }
+            result.Apply();
+
+            //Main.ExportTexture(result, @"MergeShorelines result");
+
+            return result;
+        }
+
+        public static Texture2D EnlargeTexture(Texture2D source, int newWidth, int newHeight, float ratio = 0.95f)
+        {
+            Texture2D result = new Texture2D(newWidth, newHeight);
+
+            Texture2D largertex = Main.ResizeTexture(source, (int)Math.Round(ratio * newWidth), (int)Math.Round(ratio * newHeight));
+
+            // fill the background with the first pixel in the original texture
+            for (int i = 0; i < result.width; i++)
+            {
+                for (int j = 0; j < result.height; j++)
+                {
+                    result.SetPixel(i, j, source.GetPixel(0, 0));
+                }
+            }
+            result.Apply();
+
+            // put the resized texture in the center of the target
+            Color[] pixels = largertex.GetPixels();
+            for (int i = 0; i < largertex.width; i++)
+            {
+                for (int j = 0; j < largertex.height; j++)
+                {
+                    Color c = largertex.GetPixel(i, j);
+                    Color resultColor = c;
+                    result.SetPixel(i + ((newWidth - largertex.width) / 2), j + ((newHeight - largertex.height) / 2), resultColor);
+                }
+            }
+
+            result.Apply();
+
+            return result;
         }
     }
 }

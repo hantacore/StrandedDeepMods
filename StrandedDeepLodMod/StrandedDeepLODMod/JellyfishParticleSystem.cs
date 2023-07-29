@@ -95,7 +95,7 @@ namespace StrandedDeepLODMod
                     mat.DisableKeyword("_ALPHATEST_ON");
                     mat.EnableKeyword("_ALPHABLEND_ON");
                     mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
-                    mat.renderQueue = 3000;
+                    mat.renderQueue = 3200;
 
                     sphere.GetComponent<MeshRenderer>().material = mat; //AssetDatabase.GetBuiltinExtraResource<Material>("Default-Particle.mat");
 
