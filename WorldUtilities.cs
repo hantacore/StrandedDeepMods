@@ -68,6 +68,14 @@ namespace StrandedDeepModsUtils
             }
         }
 
+        public static float ZoneTerrainSize
+        {
+            get
+            {
+                return IslandSize - IslandSizeRatio * 6;//500f//250f;
+            }
+        }
+
         public static int IslandSizeRatio
         {
             get
