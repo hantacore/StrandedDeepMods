@@ -1,4 +1,5 @@
 ﻿using Beam;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -18,6 +19,8 @@ namespace StrandedDeepBetterGroundTexturesMod
 
         //public static AssetBundle myAssets;
 
+        static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Stranded%20Deep%20BetterGroundTextures/StrandedDeepBetterGroundTexturesMod/Info.json";
+
         static bool Load(UnityModManager.ModEntry modEntry)
         {
             try
@@ -30,88 +33,7 @@ namespace StrandedDeepBetterGroundTexturesMod
 
                 bool result = PreLoadTextures();
 
-                //List<string> textures = new List<string>();
-                //textures.Add("Assets/Textures/Terrain_Sand_Underwater4K.png");
-                //textures.Add("Assets/Textures/Terrain_Sand_Underwater2K_PACK.png");
-
-                //textures.Add("Assets/Textures/Terrain_Dirt_Sticks_DIFF4K.png");
-                ////textures.Add("Assets/Textures/Terrain_Dirt_Sticks_PACK4K.png");
-
-                ////textures.Add("Assets/Textures/Terrain_Dirt_Sticks_DIFF4K.psd");
-                //textures.Add("Assets/Textures/Terrain_Dirt_Sticks_PACK4K.psd");
-
-                //textures.Add("Assets/Textures/Terrain_Grass_Dirt_DIFF4K.png");
-                //textures.Add("Assets/Textures/Terrain_Grass_Dirt_PACK4K.png");
-                ////textures.Add("Assets/Textures/Terrain_Grass_Dirt_PACK4K.jpg");
-                ////textures.Add("Assets/Textures/Terrain_Grass_Dirt_DIFF2K.png");
-                ////textures.Add("Assets/Textures/Terrain_Grass_Dirt_PACK2K.png");
-
-                //textures.Add("Assets/Textures/Terrain_Sand_Clean_DIFF4K.png");
-                //textures.Add("Assets/Textures/Terrain_Sand_Clean_PACK1K.png");
-
-                //textures.Add("Assets/Textures/Terrain_Sand_Dirty_DIFF4K.png");
-                //textures.Add("Assets/Textures/Terrain_Sand_Dirty_PACK4K.png");
-
-                ////textures.Add("Assets/Textures/Terrain_Sand_Dirty_PACK4K.psd");
-
-                //textures.Add("Assets/Textures/Terrain_Sand_Wet_DIFF4K.png");
-                //textures.Add("Assets/Textures/Terrain_Sand_Wet_NRM4K.png");
-
-                //foreach (string texturepath in textures)
-                //{
-                //    Texture2D texture = myAssets.LoadAsset<Texture2D>(texturepath);
-
-
-
-                //    if (texture != null)
-                //    {
-                //        Debug.Log("Stranded Deep Better Ground Textures Mod : successfully loaded texture asset " + texture);
-
-                //        //try
-                //        //{
-                //        //    Debug.Log("Stranded Deep Better Ground Textures Mod : texture name " + texture.name);
-                //        //    foreach (var prop in texture.GetType().GetProperties())
-                //        //    {
-                //        //        Console.WriteLine("Stranded Deep Better Ground Textures Mod : TEXTURE PROPERTY = {0}={1}", prop.Name, prop.GetValue(texture, null));
-                //        //    }
-                //        //}
-                //        //catch { }
-                //    }
-                //    else
-                //    {
-                //        Debug.Log("Stranded Deep Better Ground Textures Mod : NOT loaded texture asset " + texture);
-                //    }
-
-                //    string texKey = texturepath.Replace("Assets/Textures/", "");
-                //    texKey = texKey.Replace("4K", "").Replace("2K", "").Replace("1K", "").Replace(".psd", ".png");
-
-                //    string fullKey = "StrandedDeepBetterGroundTexturesMod.assets.Textures." + texKey;
-                //    Debug.Log("Stranded Deep Better Ground Textures Mod : preloaded " + fullKey);
-                //    _indexedTextures.Add(fullKey, texture);
-                //}
-
-                //Mesh mesh = myAssets.LoadAsset<Mesh>("Assets/Meshes/Low Grass.obj");
-
-                //Texture2D Terrain_Sand_Underwater4K = myAssets.LoadAsset<Texture2D>("Assets/Textures/Terrain_Sand_Underwater4K.png");
-                //if (Terrain_Sand_Underwater4K != null)
-                //{
-                //    Debug.Log("Stranded Deep Better Ground Textures Mod : successfully loaded texture asset Terrain_Sand_Underwater4K.png");
-                //}
-                //else
-                //{
-                //    Debug.Log("Stranded Deep Better Ground Textures Mod : NOT loaded texture asset Terrain_Sand_Underwater4K.png");
-                //}
-                //_indexedTextures.Add("StrandedDeepBetterGroundTexturesMod.assets.Textures.Terrain_Sand_Underwater.png", Terrain_Sand_Underwater4K);
-                //Texture2D Terrain_Sand_Underwater2K_PACK = myAssets.LoadAsset<Texture2D>("Assets/Textures/Terrain_Sand_Underwater2K_PACK.png");
-                //if (Terrain_Sand_Underwater4K != null)
-                //{
-                //    Debug.Log("Stranded Deep Better Ground Textures Mod : successfully loaded texture asset Terrain_Sand_Underwater2K_PACK.png");
-                //}
-                //else
-                //{
-                //    Debug.Log("Stranded Deep Better Ground Textures Mod : NOT loaded texture asset Terrain_Sand_Underwater2K_PACK");
-                //}
-                //_indexedTextures.Add("StrandedDeepBetterGroundTexturesMod.assets.Textures.Terrain_Sand_Underwater_PACK.png", Terrain_Sand_Underwater2K_PACK);
+                VersionChecker.CheckVersion(modEntry, _infojsonlocation);
 
                 if (result)
                 {
@@ -130,7 +52,7 @@ namespace StrandedDeepBetterGroundTexturesMod
         static void OnGUI(UnityModManager.ModEntry modEntry)
         {
             //GUILayout.Label("Blending ratio");
-            //_blendingRatio = GUILayout.HorizontalSlider(_blendingRatio, 0.1f, 10f);
+            //_blendingRatio = GUILayout.HorizontalSlider(_blendingRatio, -15, 15f);
             //GUILayout.Label("Height ratio");
             //_heightRatio = GUILayout.HorizontalSlider(_heightRatio, 0.1f, 10f);
             //GUILayout.Label("Contrast ratio");
@@ -142,7 +64,7 @@ namespace StrandedDeepBetterGroundTexturesMod
             WriteConfig();
         }
 
-        static float _blendingRatio = 1.0f;
+        static float _blendingRatio = -11f;
         static float _heightRatio = 1.0f;
         static float _contrastRatio = 1.0f;
 
@@ -191,14 +113,14 @@ namespace StrandedDeepBetterGroundTexturesMod
 
                             //}
 
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height1 = " + z.Terrain.materialTemplate.GetFloat("_Height1"));
-                            z.Terrain.materialTemplate.SetFloat("_Height1", _heightRatio);// 0.08f * _heightRatio);
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height2 = " + z.Terrain.materialTemplate.GetFloat("_Height2"));
-                            z.Terrain.materialTemplate.SetFloat("_Height2", _heightRatio);// 0.05f * _heightRatio);
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height3 = " + z.Terrain.materialTemplate.GetFloat("_Height3"));
-                            z.Terrain.materialTemplate.SetFloat("_Height3", _heightRatio);// 0f + (1.0f - _heightRatio));
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height4 = " + z.Terrain.materialTemplate.GetFloat("_Height4"));
-                            z.Terrain.materialTemplate.SetFloat("_Height4", _heightRatio);// 0f + (1.0f - _heightRatio));
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height1 = " + z.Terrain.materialTemplate.GetFloat("_Height1"));
+                            //z.Terrain.materialTemplate.SetFloat("_Height1", _heightRatio);// 0.08f * _heightRatio);
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height2 = " + z.Terrain.materialTemplate.GetFloat("_Height2"));
+                            //z.Terrain.materialTemplate.SetFloat("_Height2", _heightRatio);// 0.05f * _heightRatio);
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height3 = " + z.Terrain.materialTemplate.GetFloat("_Height3"));
+                            //z.Terrain.materialTemplate.SetFloat("_Height3", _heightRatio);// 0f + (1.0f - _heightRatio));
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height4 = " + z.Terrain.materialTemplate.GetFloat("_Height4"));
+                            //z.Terrain.materialTemplate.SetFloat("_Height4", _heightRatio);// 0f + (1.0f - _heightRatio));
 
                             Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Blend1 = " + z.Terrain.materialTemplate.GetFloat("_Blend1"));
                             z.Terrain.materialTemplate.SetFloat("_Blend1", _blendingRatio);// -11 * _blendingRatio);
@@ -232,14 +154,14 @@ namespace StrandedDeepBetterGroundTexturesMod
                             //Material 'Terrain_MAT' with Shader 'Beam Team/Standard/Terrain/Bumped Specular - Procedural' doesn't have a float or range property '_Height6'
                             //Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Height6 = 0
 
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast1 = " + z.Terrain.materialTemplate.GetFloat("_Contrast1"));
-                            z.Terrain.materialTemplate.SetFloat("_Contrast1", _contrastRatio);// 0f + (1.0f - _contrastRatio));
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast2 = " + z.Terrain.materialTemplate.GetFloat("_Contrast2"));
-                            z.Terrain.materialTemplate.SetFloat("_Contrast2", _contrastRatio);//7f * _contrastRatio);
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast3 = " + z.Terrain.materialTemplate.GetFloat("_Contrast3"));
-                            z.Terrain.materialTemplate.SetFloat("_Contrast3", _contrastRatio);//1f * _contrastRatio);
-                            Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast4 = " + z.Terrain.materialTemplate.GetFloat("_Contrast4"));
-                            z.Terrain.materialTemplate.SetFloat("_Contrast4", _contrastRatio);//0.7f * _contrastRatio);
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast1 = " + z.Terrain.materialTemplate.GetFloat("_Contrast1"));
+                            //z.Terrain.materialTemplate.SetFloat("_Contrast1", _contrastRatio);// 0f + (1.0f - _contrastRatio));
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast2 = " + z.Terrain.materialTemplate.GetFloat("_Contrast2"));
+                            //z.Terrain.materialTemplate.SetFloat("_Contrast2", _contrastRatio);//7f * _contrastRatio);
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast3 = " + z.Terrain.materialTemplate.GetFloat("_Contrast3"));
+                            //z.Terrain.materialTemplate.SetFloat("_Contrast3", _contrastRatio);//1f * _contrastRatio);
+                            //Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Contrast4 = " + z.Terrain.materialTemplate.GetFloat("_Contrast4"));
+                            //z.Terrain.materialTemplate.SetFloat("_Contrast4", _contrastRatio);//0.7f * _contrastRatio);
 
                         }
                         catch { }
@@ -357,6 +279,10 @@ namespace StrandedDeepBetterGroundTexturesMod
                                     _indexedTextures[key].name = tex.name;
 #warning fix tiling according to island size
                                     z.Terrain.materialTemplate.SetTexture(textureName, _indexedTextures[key]);
+
+                                    Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY _Blend2 = " + z.Terrain.materialTemplate.GetFloat("_Blend2"));
+                                    z.Terrain.materialTemplate.SetFloat("_Blend2", -2.7422f);
+                                    Debug.Log("Stranded Deep Better Ground Textures Mod : SHADER PROPERTY new _Blend2 = " + z.Terrain.materialTemplate.GetFloat("_Blend2"));
                                 }
                                 else
                                 {

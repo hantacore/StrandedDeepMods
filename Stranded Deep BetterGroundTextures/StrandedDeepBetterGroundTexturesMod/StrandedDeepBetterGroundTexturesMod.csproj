@@ -92,10 +92,16 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\VersionChecker.cs">
+      <Link>VersionChecker.cs</Link>
+    </Compile>
     <Compile Include="Main.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="assets\strandeddeepbettergroundtextures">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
