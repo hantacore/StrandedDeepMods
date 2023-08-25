@@ -2,7 +2,7 @@
   "Id": "StrandedDeepTweaksMod",
   "DisplayName": "Stranded Deep Tweaks Mod",
   "Author": "Hantacore",
-  "Version": "0.0.20",
+  "Version": "0.0.21",
   "AssemblyName": "StrandedDeepTweaksMod.dll",
   "EntryMethod": "StrandedDeepTweaksMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"],

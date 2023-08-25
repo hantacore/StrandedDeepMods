@@ -640,5 +640,23 @@ namespace StrandedDeepTweaksMod
                 }
             }
         }
+
+        [HarmonyPatch(typeof(Achievements), "NotifyMissedAchievement")]
+        class Achievements_NotifyMissedAchievement_Prefix_Patch
+        {
+            static bool Prefix(Beam.AccountServices.EAchievement ach, Achievements __instance)
+            {
+                try
+                {
+                    if (stopMissedAchievementsSpam)
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching Achievements_NotifyMissedAchievement_Prefix_Patch : " + e);
+                }
+                return true;
+            }
+        }
     }
 }

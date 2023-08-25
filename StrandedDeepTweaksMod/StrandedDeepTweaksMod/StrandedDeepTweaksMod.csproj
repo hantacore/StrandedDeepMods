@@ -122,6 +122,9 @@
     <Compile Include="WorldUtilities.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="Info.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>

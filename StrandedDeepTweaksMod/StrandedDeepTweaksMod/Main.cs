@@ -71,6 +71,8 @@ namespace StrandedDeepTweaksMod
         private static bool biggerGasTank = false;
         //private static List<string> handledGastankReferences;
 
+        private static bool stopMissedAchievementsSpam = false;
+
         private static float textCanvasDefaultScreenWitdh = 1024f;
         private static float textCanvasDefaultScreenHeight = 768f;
 
@@ -447,6 +449,7 @@ namespace StrandedDeepTweaksMod
             GUILayout.Label("<b>QoL options</b>");
             alwaysSkipIntro = GUILayout.Toggle(alwaysSkipIntro, "Always skip the private jet intro");
             saveAnywhereAllowed = GUILayout.Toggle(saveAnywhereAllowed, "Save anywhere allowed (F7)");
+            stopMissedAchievementsSpam = GUILayout.Toggle(stopMissedAchievementsSpam, "No more missed achievement notifications");
             GUILayout.Label("<b>Gameplay options</b>");
             biggerStackSizes = GUILayout.Toggle(biggerStackSizes, stackSizeRatio + " x bigger stack sizes");
             stackSizeRatio = (int)GUILayout.HorizontalSlider(stackSizeRatio, 2, 10);
@@ -912,7 +915,8 @@ namespace StrandedDeepTweaksMod
                                 }
 
                                 // hide compass if in endgame
-                                showCompass = !player.Movement.IsInCutscene;
+                                // bug fix : compass always visible
+                                showCompass = showCompass && !player.Movement.IsInCutscene;
 
                                 if (showCompass)
                                 {
@@ -1824,6 +1828,10 @@ namespace StrandedDeepTweaksMod
                             {
                                 fixBirdsEverywhere = bool.Parse(tokens[1]);
                             }
+                            else if (tokens[0].Contains("stopMissedAchievementsSpam"))
+                            {
+                                stopMissedAchievementsSpam = bool.Parse(tokens[1]);
+                            }
                         }
                     }
                 }
@@ -1859,6 +1867,7 @@ namespace StrandedDeepTweaksMod
                 sb.AppendLine("fixRainStart=" + fixRainStart + ";");
                 sb.AppendLine("betterRainTextures=" + betterRainTextures + ";");
                 sb.AppendLine("fixBirdsEverywhere=" + fixBirdsEverywhere + ";");
+                sb.AppendLine("stopMissedAchievementsSpam=" + stopMissedAchievementsSpam + ";");
 
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
