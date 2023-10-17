@@ -581,9 +581,14 @@ namespace StrandedDeepTweaksMod
                     if (am != null
                         && !System.Object.ReferenceEquals(am, audioManagerInstance))
                     {
-                        am.LoadOptions();
-                        Debug.Log("Stranded Deep Tweaks Mod : Audiosettings forced");
-                        audioManagerInstance = am;
+                        MethodInfo mi_LoadOptions = typeof(AudioManager).GetMethod("LoadOptions");
+                        if (mi_LoadOptions != null)
+                        {
+                            //am.LoadOptions();
+                            mi_LoadOptions.Invoke(am, null);
+                            Debug.Log("Stranded Deep Tweaks Mod : Audiosettings forced");
+                            audioManagerInstance = am;
+                        }
                     }
                 }
 
@@ -636,7 +641,8 @@ namespace StrandedDeepTweaksMod
                                 if (Game.Mode.IsMaster())
                                 {
                                     // Try and save the game
-                                    SaveManager.Save(Beam.Game.Mode, true);
+                                    //SaveManager.Save(Beam.Game.Mode, true);
+                                    SaveManager.SaveGame(PlayerRegistry.LocalPlayer);
                                 }
                             }
                         }
@@ -644,17 +650,17 @@ namespace StrandedDeepTweaksMod
 
                     //Debug.Log("Stranded Deep Tweaks Mod update step 2 (ms) = " + chrono.ElapsedMilliseconds);
 
-                    if (fixRainReset)
-                    {
-                        if (AtmosphereStorm.Instance != null
-                            && (AtmosphereStorm.Instance.CurrentWeatherEvent == null
-                                || !Mathf.Approximately(AtmosphereStorm.Instance.CurrentWeatherEvent.Humidity, 100f))
-                            && AtmosphereStorm.Instance.Rain > 0)
-                        {
-                            Debug.Log("Stranded Deep Tweaks Mod : resetting rain");
-                            fi_rain.SetValue(AtmosphereStorm.Instance, 0);
-                        }
-                    }
+                    //if (fixRainReset)
+                    //{
+                    //    if (AtmosphereStorm.Instance != null
+                    //        && (AtmosphereStorm.Instance.CurrentWeatherEvent == null
+                    //            || !Mathf.Approximately(AtmosphereStorm.Instance.CurrentWeatherEvent.Humidity, 100f))
+                    //        && AtmosphereStorm.Instance.Rain > 0)
+                    //    {
+                    //        Debug.Log("Stranded Deep Tweaks Mod : resetting rain");
+                    //        fi_rain.SetValue(AtmosphereStorm.Instance, 0);
+                    //    }
+                    //}
 
                     //Debug.Log("Stranded Deep Tweaks Mod update step 3 (ms) = " + chrono.ElapsedMilliseconds);
 

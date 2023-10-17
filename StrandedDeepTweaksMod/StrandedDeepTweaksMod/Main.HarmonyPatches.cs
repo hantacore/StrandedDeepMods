@@ -658,5 +658,100 @@ namespace StrandedDeepTweaksMod
                 return true;
             }
         }
+
+        [HarmonyPatch(typeof(AtmosphereStorm), "CheckWeather")]
+        class AtmosphereStorm_CheckWeather_Postfix_Patch
+        {
+            static void Postfix(AtmosphereStorm __instance, int calendarDay, float rainRatio, float eventRatio, float startTimeRatio)
+            {
+                try
+                {
+                    if (!fixRainReset)
+                        return;
+
+                    if (__instance.CurrentWeatherEvent != null && __instance.CurrentWeatherEvent.IsActive && Mathf.Approximately(__instance.CurrentWeatherEvent.Humidity, 100f))
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : CheckWeather fixing rain value 1");
+                        fi_rain.SetValue(__instance, 1);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching AtmosphereStorm_CheckWeather_Postfix_Patch : " + e);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(AtmosphereStorm), "StartWeatherEvent")]
+        class AtmosphereStorm_StartWeatherEvent_Postfix_Patch
+        {
+            static void Postfix(AtmosphereStorm __instance)
+            {
+                try
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : StartWeatherEvent");
+                    if (!fixRainReset)
+                        return;
+
+                    if (__instance.CurrentWeatherEvent != null && __instance.CurrentWeatherEvent.IsActive && Mathf.Approximately(__instance.CurrentWeatherEvent.Humidity, 100f))
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : StartWeatherEvent fixing rain value 1");
+                        fi_rain.SetValue(__instance, 1);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching AtmosphereStorm_StartWeatherEvent_Postfix_Patch : " + e);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(AtmosphereStorm), "ClearWeatherEvent")]
+        class AtmosphereStorm_ClearWeatherEvent_Prefix_Patch
+        {
+            static bool Prefix(AtmosphereStorm __instance)
+            {
+                try
+                {
+                    if (!fixRainReset)
+                        return true;
+
+                    if (__instance.CurrentWeatherEvent != null && !__instance.CurrentWeatherEvent.IsActive || __instance.Rain > 0)
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : ClearWeatherEvent resetting rain 0");
+                        fi_rain.SetValue(__instance, 0);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching AtmosphereStorm_ClearWeatherEvent_Prefix_Patch : " + e);
+                }
+
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(AtmosphereStorm), "Load")]
+        class AtmosphereStorm_Load_Postfix_Patch
+        {
+            static void Postfix(AtmosphereStorm __instance, JObject data)
+            {
+                try
+                {
+                    if (!fixRainReset)
+                        return;
+
+                    if (__instance.CurrentWeatherEvent != null && __instance.CurrentWeatherEvent.IsActive && Mathf.Approximately(__instance.CurrentWeatherEvent.Humidity, 100f))
+                    {
+                        Debug.Log("Stranded Deep Tweaks Mod : Load fixing rain value 1");
+                        fi_rain.SetValue(__instance, 1);
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching AtmosphereStorm_Load_Postfix_Patch postfix : " + e);
+                }
+            }
+        }
     }
 }
