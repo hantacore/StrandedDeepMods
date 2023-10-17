@@ -39,19 +39,19 @@
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
-    <Reference Include="bolt, Version=1.2.14.0, Culture=neutral, processorArchitecture=MSIL">
+    <Reference Include="bolt, Version=1.3.1.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
     </Reference>
     <Reference Include="bolt.user, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -62,27 +62,27 @@
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityModManager">
       <HintPath>..\..\UnityModManager\UnityModManager.dll</HintPath>
@@ -143,9 +143,9 @@
     </PreBuildEvent>
   </PropertyGroup>
   <PropertyGroup>
-    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\"
+    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.31.0.25\Mods\"
 if not exist %25path%25 mkdir %25path%25
-SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\$(ProjectName)\"
+SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.31.0.25\Mods\$(ProjectName)\"
 if not exist %25path%25 mkdir %25path%25
 copy /Y "$(TargetDir)Info.json" %25path%25\.
 copy /Y "$(TargetDir)$(ProjectName).dll" %25path%25\.</PostBuildEvent>
