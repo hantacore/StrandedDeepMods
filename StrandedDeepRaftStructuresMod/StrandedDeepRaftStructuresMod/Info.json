@@ -2,7 +2,7 @@
   "Id": "StrandedDeepRaftStructuresMod",
   "DisplayName": "Stranded Deep Raft Structures Mod",
   "Author": "Hantacore",
-  "Version": "1.0.0",
+  "Version": "1.0.1",
   "AssemblyName": "StrandedDeepRaftStructuresMod.dll",
   "EntryMethod": "StrandedDeepRaftStructuresMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"]
