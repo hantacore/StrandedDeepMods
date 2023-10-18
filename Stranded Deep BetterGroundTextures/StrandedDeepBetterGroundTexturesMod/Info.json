@@ -2,7 +2,7 @@
   "Id": "StrandedDeepBetterGroundTexturesMod",
   "DisplayName": "Stranded Deep Better Ground Textures Mod",
   "Author": "Hantacore",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "AssemblyName": "StrandedDeepBetterGroundTexturesMod.dll",
   "EntryMethod": "StrandedDeepBetterGroundTexturesMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"],

@@ -31,7 +31,7 @@ namespace StrandedDeepBetterGroundTexturesMod
 
                 ReadConfig();
 
-                bool result = PreLoadTextures();
+                bool result = PreLoadTextures(modEntry.Path);
 
                 VersionChecker.CheckVersion(modEntry, _infojsonlocation);
 
@@ -394,19 +394,19 @@ namespace StrandedDeepBetterGroundTexturesMod
             }
         }
 
-        private static bool PreLoadTextures()
+        private static bool PreLoadTextures(string path)
         {
             try
             {
-                string assetBundleFile = Path.Combine(Directory.GetCurrentDirectory(), @"Mods\StrandedDeepBetterGroundTexturesMod\assets\strandeddeepbettergroundtextures");
+                string assetBundleFile = Path.Combine(path, @"assets\strandeddeepbettergroundtextures");
                 AssetBundle myAssets = AssetBundle.LoadFromFile(assetBundleFile);
                 if (myAssets != null)
                 {
-                    Debug.Log("Stranded Deep Better Ground Textures Mod : successfully loaded AssetBundle");
+                    Debug.Log("Stranded Deep Better Ground Textures Mod : successfully loaded AssetBundle " + assetBundleFile);
                 }
                 else
                 {
-                    Debug.Log("Stranded Deep Better Ground Textures Mod : NOT loaded AssetBundle");
+                    Debug.Log("Stranded Deep Better Ground Textures Mod : NOT loaded AssetBundle" + assetBundleFile);
                 }
 
                 foreach (string assetName in myAssets.GetAllAssetNames())
