@@ -61,11 +61,11 @@ namespace StrandedDeepExplorationMod
 
             ReadConfig();
 
-            string assetBundleFile = Path.Combine(Directory.GetCurrentDirectory(), @"Mods\StrandedDeepExplorationMod\assets\strandeddeepexplorationmod");
+            string assetBundleFile = Path.Combine(modEntry.Path, @"assets\strandeddeepexplorationmod");
             AssetBundle myAssets = AssetBundle.LoadFromFile(assetBundleFile);
             if (myAssets != null)
             {
-                Debug.Log("Stranded Deep " + _modName + " Mod : successfully loaded AssetBundle");
+                Debug.Log("Stranded Deep " + _modName + " Mod : successfully loaded AssetBundle " + assetBundleFile);
                 moaiPrefab = myAssets.LoadAsset<GameObject>(assetName_moai); // scale = 5
                 if (moaiPrefab != null)
                 {
@@ -139,7 +139,7 @@ namespace StrandedDeepExplorationMod
             }
             else
             {
-                Debug.Log("Stranded Deep " + _modName + " : NOT loaded AssetBundle");
+                Debug.Log("Stranded Deep " + _modName + " : NOT loaded AssetBundle  " + assetBundleFile);
                 return false;
             }
 

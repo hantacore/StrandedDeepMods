@@ -2,7 +2,7 @@
   "Id": "StrandedDeepExplorationMod",
   "DisplayName": "Stranded Deep Exploration Mod",
   "Author": "Hantacore",
-  "Version": "0.0.4",
+  "Version": "1.0.0",
   "AssemblyName": "StrandedDeepExplorationMod.dll",
   "EntryMethod": "StrandedDeepExplorationMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"],

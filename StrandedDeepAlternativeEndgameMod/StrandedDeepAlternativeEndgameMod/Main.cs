@@ -306,7 +306,7 @@ namespace StrandedDeepAlternativeEndgameMod
                             }
                         }
                         catch { }
-                        audioSource.maxDistance = 2.5f * zoneSize;
+                        audioSource.maxDistance = 2.5f * zoneSize * 2;
                         Debug.Log("Stranded Deep AlternativeEndgame Mod computed maxdistance = " + audioSource.maxDistance);
                     }
                     else
@@ -959,10 +959,10 @@ namespace StrandedDeepAlternativeEndgameMod
                     // its prepareCompleted event.
                     Debug.Log("Stranded Deep AlternativeEndgame Mod : PlayEngameVideo start play");
                     videoPlayer.Play();
-                    AudioManager.GetAudioPlayer().Play2D(cargoEngineSound, AudioMixerChannel.FX, AudioPlayMode.Single);
-                    AudioManager.GetAudioPlayer().Play2D(endingMusic, AudioMixerChannel.FX, AudioPlayMode.Single);
-                    Task.Delay(6500).ContinueWith(t => AudioManager.GetAudioPlayer().Play2D(reporterSound, AudioMixerChannel.FX, AudioPlayMode.Single));
-                    Task.Delay(30000).ContinueWith(t => AudioManager.GetAudioPlayer().Play2D(crowdSound, AudioMixerChannel.FX, AudioPlayMode.Single));
+                    AudioManager.GetAudioPlayer().Play2D(cargoEngineSound, AudioMixerChannels.FX, AudioPlayMode.Single);
+                    AudioManager.GetAudioPlayer().Play2D(endingMusic, AudioMixerChannels.FX, AudioPlayMode.Single);
+                    Task.Delay(6500).ContinueWith(t => AudioManager.GetAudioPlayer().Play2D(reporterSound, AudioMixerChannels.FX, AudioPlayMode.Single));
+                    Task.Delay(30000).ContinueWith(t => AudioManager.GetAudioPlayer().Play2D(crowdSound, AudioMixerChannels.FX, AudioPlayMode.Single));
                 }
                 ShowSubtitles(PlayerRegistry.AllPlayers[0], "I'm here ! I'm here !", 10000);
             }

@@ -2,7 +2,7 @@
   "Id": "StrandedDeepAlternativeEndgameMod",
   "DisplayName": "Stranded Deep Alternative Endgame Mod",
   "Author": "Hantacore",
-  "Version": "1.0.1",
+  "Version": "1.0.2",
   "AssemblyName": "StrandedDeepAlternativeEndgameMod.dll",
   "EntryMethod": "StrandedDeepAlternativeEndgameMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"]
