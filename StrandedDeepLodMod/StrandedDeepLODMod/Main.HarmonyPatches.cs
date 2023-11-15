@@ -124,21 +124,32 @@ namespace StrandedDeepLODMod
                             if (lod.IsImpostor)
                             {
                                 //lod.CullingDistance = impostorCullDistance;
-                                Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : impostor culling distance = " + lod.CullingDistance);
+                                //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : impostor culling distance = " + lod.CullingDistance);
                                 continue;
                             }
 
                             //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " culling distance = " + lod.CullingDistance);
                             lod.CullingDistance = cullDistances[i];
-                            Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " new culling distance = " + lod.CullingDistance);
+                            //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " new culling distance = " + lod.CullingDistance);
                         }
                     }
                     else if (increaseLODs && ultraDistance)
                     {
+                        List<int> cullDistances = new List<int>();
+                        cullDistances.Add(500);
+                        cullDistances.Add(600);
+                        cullDistances.Add(700);
+                        cullDistances.Add(1000);
                         for (int i = 0; i < __instance.LodGroup.Lods.Count; i++)
                         {
                             Lod lod = __instance.LodGroup.Lods[i];
-                            //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " culling distance = " + lod.CullingDistance);
+                            if (lod.IsImpostor)
+                            {
+                                //lod.CullingDistance = impostorCullDistance;
+                                //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : impostor culling distance = " + lod.CullingDistance);
+                                continue;
+                            }
+                            //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : ultra LOD " + i + " culling distance = " + lod.CullingDistance);
                             if (i == __instance.LodGroup.Lods.Count - 1)
                             {
                                 // max LOD, should always be visible
@@ -146,16 +157,9 @@ namespace StrandedDeepLODMod
                             }
                             else
                             {
-                                lod.CullingDistance = 100 + (int)Math.Pow(100, i);
+                                lod.CullingDistance = cullDistances[i];
                             }
-                            Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : ultra LOD " + i + " new culling distance = " + lod.CullingDistance);
-
-                            if (lod.IsImpostor)
-                            {
-                                //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : impostor culling distance = " + lod.CullingDistance);
-                                lod.CullingDistance = 1001;
-                                Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : ultra LOD: new impostor culling distance = " + lod.CullingDistance);
-                            }
+                            //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : ultra LOD " + i + " new culling distance = " + lod.CullingDistance);
                         }
                     }
                 }
@@ -263,6 +267,26 @@ namespace StrandedDeepLODMod
                 catch (Exception e)
                 {
                     Debug.Log("Stranded Deep LOD mod : error while patching LodController.ValidateLodGroup : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(LodController), "AdoptImpostor")]
+        class LodController_AdoptImpostor_Postfix
+        {
+            static bool Prefix(LodController __instance, ImpostorBase impostor)
+            {
+                try
+                {
+                    if (!ultraDistance)
+                        return true;
+
+                    fi_Scope.SetValue(__instance, ImposterScope.Terrain);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching LodController_AdoptImpostor_Postfix : " + e);
                 }
                 return true;
             }

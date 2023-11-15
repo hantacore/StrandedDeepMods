@@ -2,7 +2,7 @@
   "Id": "StrandedDeepLODMod",
   "DisplayName": "Stranded Deep LOD Mod",
   "Author": "Hantacore",
-  "Version": "0.0.14",
+  "Version": "0.0.15",
   "AssemblyName": "StrandedDeepLODMod.dll",
   "EntryMethod": "StrandedDeepLODMod.Main.Load",
   "LoadAfter" : ["StrandedWideMod"]
