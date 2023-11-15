@@ -72,17 +72,6 @@ namespace StrandedDeepLODMod
 
                 try
                 {
-                    sphere.transform.parent = ps.transform;
-                    sphere.transform.localPosition = new Vector3(0.0f, 0.0f, 3.0f);
-                    //sphere.transform.localScale = new Vector3(3.0f, 3.0f, 3.0f);
-                    sphere.transform.localScale = new Vector3(1.0f, 1.0f, 1.0f);
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 1 failed : " + e);
-                }
-                try
-                {
                     Material mat = new Material(Shader.Find("Standard (Specular setup)"));
                     //Material mat = new Material(Shader.Find("Beam Team/ Particles / Alpha Blended"));
                     //mat.SetColor("_Color", new Color(1f, 1f, 1f, 1.000f));
@@ -96,8 +85,6 @@ namespace StrandedDeepLODMod
                     mat.EnableKeyword("_ALPHABLEND_ON");
                     mat.DisableKeyword("_ALPHAPREMULTIPLY_ON");
                     mat.renderQueue = 3200;
-
-                    sphere.GetComponent<MeshRenderer>().material = mat; //AssetDatabase.GetBuiltinExtraResource<Material>("Default-Particle.mat");
 
 
                     ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();

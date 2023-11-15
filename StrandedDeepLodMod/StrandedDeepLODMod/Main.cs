@@ -22,11 +22,11 @@ namespace StrandedDeepLODMod
 
         internal static bool moreFishes = false;
         internal static bool increaseFishDrawingDistance = false;
-        internal static bool increasLODs = false;
+        internal static bool increaseLODs = false;
         internal static bool ultraDistance = false;
-        internal static bool ultraMFBBQDistance = false;
         internal static bool permanentGroundCover = false;
         internal static bool increaseTerrainLOD = false;
+        internal static bool increaseOceanLOD = false;
         internal static bool increaseShadowsQuality = false;
 
         internal static bool addSmallFishes = false;
@@ -128,10 +128,10 @@ namespace StrandedDeepLODMod
         {
             GUILayout.Label("Stranded Deep LOD mod by Hantacore");
             GUILayout.Label("LOD options");
-            increasLODs = GUILayout.Toggle(increasLODs, "Increase drawing distances (x5)");
-            ultraDistance = GUILayout.Toggle(ultraDistance, "Ultra drawing distance (x10, active only if \"Increase drawing distances\" is active)");
-            ultraMFBBQDistance = GUILayout.Toggle(ultraMFBBQDistance, "Ultra MF BBQ drawing distance (x1000, active only if \"Increase drawing distances\" is active)");
+            increaseLODs = GUILayout.Toggle(increaseLODs, "Increase drawing distances");
+            ultraDistance = GUILayout.Toggle(ultraDistance, "Ultra drawing distance (remove impostors, active only if \"Increase drawing distances\" is active, performance heavy)");
             increaseTerrainLOD = GUILayout.Toggle(increaseTerrainLOD, "Improve terrain smoothness");
+            increaseOceanLOD = GUILayout.Toggle(increaseTerrainLOD, "Improve ocean smoothness");
             increaseShadowsQuality = GUILayout.Toggle(increaseShadowsQuality, "Improve shadows quality (experimental)");
             ultraUnderwaterDetail = GUILayout.Toggle(ultraUnderwaterDetail, "Ultra underwater details");
             betterFoam = GUILayout.Toggle(betterFoam, "Better foam textures");
@@ -175,104 +175,20 @@ namespace StrandedDeepLODMod
                     fr = new FastRandom(StrandedWorld.WORLD_SEED);
                 }
 
-                //Debug.Log("Stranded Deep LOD Mod update step 1 (ms) = " + chrono.ElapsedMilliseconds);
-
-                if (moreFishes && flag == 0)
-                {
-                    if (!multiplyFishesDone)
-                    {
-                        MultiplyFishesNew();
-                    }
-                }
-
-                if (false && increasLODs && flag == 2)
-                {
-
-                    if (PlayerRegistry.LocalPlayer == null)
-                        return;
-
-                    Zone zone = StrandedWorld.GetZone(PlayerRegistry.LocalPlayer.transform.position, false);
-                    if (zone == null)
-                    {
-                        Debug.Log("Stranded Deep LOD Mod : IncreaseLODs : no zone found for impostor creation");
-                    }
-                    else
-                    {
-                        zone.CreateImpostors();
-                    }
-                }
-
                 if (permanentGroundCover && flag == 4)
                 {
                     AddPermanentGroundCover();
                 }
-
-                //Debug.Log("Stranded Deep LOD Mod update step 6 (ms) = " + chrono.ElapsedMilliseconds);
 
                 if (increaseTerrainLOD && flag == 5)
                 {
                     IncreaseTerrainLOD();
                 }
 
-                //Debug.Log("Stranded Deep LOD Mod update step 7 (ms) = " + chrono.ElapsedMilliseconds);
-
                 if (increaseShadowsQuality && flag == 5)
                 {
                     IncreaseShadowsQuality();
                 }
-
-                //Debug.Log("Stranded Deep LOD Mod update step 8 (ms) = " + chrono.ElapsedMilliseconds);
-
-                //foreach (IGameCamera gameCamera in Cameras.AllCameras)
-                //{
-                //    //public static readonly int PLAYER;
-                //    //public static readonly int INTERACTIVE_TREES;
-                //    //public static readonly int CONNECTOR_FOUNDATION;
-                //    //public static readonly int CONNECTOR_PANEL;
-                //    //public static readonly int CONSTRUCTIONS_RAFTS;
-                //    //public static readonly int CONSTRUCTIONS_SMALL;
-                //    //public static readonly int CONSTRUCTIONS;
-                //    //public static readonly int PARTICLES;
-                //    //public static readonly int INTERACTIVE_OBJECTS;
-                //    //public static readonly int PROJECTILE_HITBOXES;
-                //    //public static readonly int PROJECTILES;
-                //    //public static readonly int TERRAIN_DETAILS;
-                //    //public static readonly int TERRAIN_OBJECTS;
-                //    //public static readonly int TERRAIN;
-                //    //public static readonly int WATER;
-                //    //public static readonly int IGNORE_RAYCAST;
-                //    //public static readonly int UI_MAIN_MENU;
-
-                //    Debug.Log("Stranded Deep LOD Mod : layer INTERACTIVE_TREES " + Layers.INTERACTIVE_TREES + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.INTERACTIVE_TREES]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer CONSTRUCTIONS_RAFTS " + Layers.CONSTRUCTIONS_RAFTS + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.CONSTRUCTIONS_RAFTS]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer CONSTRUCTIONS_SMALL " + Layers.CONSTRUCTIONS_SMALL + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.CONSTRUCTIONS_SMALL]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer CONSTRUCTIONS " + Layers.CONSTRUCTIONS + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.CONSTRUCTIONS]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer PARTICLES " + Layers.PARTICLES + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.PARTICLES]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer INTERACTIVE_OBJECTS " + Layers.INTERACTIVE_OBJECTS + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.INTERACTIVE_OBJECTS]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer TERRAIN_DETAILS " + Layers.TERRAIN_DETAILS + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.TERRAIN_DETAILS]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer TERRAIN_OBJECTS " + Layers.TERRAIN_OBJECTS + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.TERRAIN_OBJECTS]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer TERRAIN " + Layers.TERRAIN + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.TERRAIN]);
-                //    Debug.Log("Stranded Deep LOD Mod : layer WATER " + Layers.WATER + " cull distance for camera " + gameCamera.Id + " : " + gameCamera.Camera.layerCullDistances[Layers.WATER]);
-                //}
-
-                foreach (IGameCamera gameCamera in Cameras.AllCameras)
-                {
-                    float[] array = new float[32];
-                    Array.Copy(gameCamera.Camera.layerCullDistances, array, 32);
-                    array[Layers.INTERACTIVE_OBJECTS] = 500f;
-                    array[Layers.PARTICLES] = 500f;
-                    array[Layers.TERRAIN_OBJECTS] = 500f;
-                    array[Layers.TERRAIN_DETAILS] = 500f;
-
-                    //for(int layer = 0; layer < array.Length; layer++)
-                    //{
-                    //    Debug.Log("Stranded Deep LOD Mod : layer " + layer + " cull distance for camera " + gameCamera.Id + " : " + array[layer]);
-                    //}
-
-                    gameCamera.Camera.layerCullDistances = array;
-                }
-
-                //Debug.Log("Stranded Deep LOD Mod update step 9 (ms) = " + chrono.ElapsedMilliseconds);
 
                 flag++;
 
@@ -298,24 +214,67 @@ namespace StrandedDeepLODMod
             }
         }
 
+        private static void SetUltraQuality()
+        {
+            if (!ultraDistance)
+                return;
+
+            Debug.Log("Stranded Deep LOD Mod : better quality setting " + (ultraDistance ? "Ultra" : "Increased"));
+            float cullDistance = 999f;
+            //LodManager.LOD_BIAS = 25f;
+
+            float[] layerCullDistances = new float[32];
+            foreach (IGameCamera gameCamera in Cameras.AllCameras)
+            {
+                Array.Copy(gameCamera.Camera.layerCullDistances, layerCullDistances, 32);
+                layerCullDistances[Layers.INTERACTIVE_OBJECTS] = 300;
+                layerCullDistances[Layers.PARTICLES] = cullDistance;
+                layerCullDistances[Layers.TERRAIN_OBJECTS] = cullDistance;
+                layerCullDistances[Layers.TERRAIN_DETAILS] = cullDistance; // IMPOSTORS ?
+
+                gameCamera.Camera.layerCullDistances = layerCullDistances;
+            }
+        }
+
+        private static void SetUltraOceanQuality()
+        {
+            ProjectedGrid projectedGrid = UnityEngine.Object.FindObjectOfType<ProjectedGrid>();
+            if (projectedGrid != null)
+            {
+                projectedGrid.resolution = MESH_RESOLUTION.ULTRA;
+            }
+            WaveSpectrum waveSpectrum = UnityEngine.Object.FindObjectOfType<WaveSpectrum>();
+            if (waveSpectrum != null)
+            {
+                waveSpectrum.fourierSize = FOURIER_SIZE.HIGH_128_CPU;
+            }
+        }
+
         private static bool particlesAdded = false;
         private static void AddUnderwaterParticles()
         {
             try
             {
-                if (((Player)PlayerRegistry.LocalPlayer).gameObject.GetComponent<FollowPlayerParticleSystem>() == null)
+                if (PlayerRegistry.LocalPlayer == null || ((Player)PlayerRegistry.LocalPlayer).gameObject == null)
+                    return;
+
+                GameObject playerGO = ((Player)PlayerRegistry.LocalPlayer).gameObject;
+                if (!particlesAdded && playerGO.GetComponent<FollowPlayerParticleSystem>() == null)
                 {
-                    ParticleSystem psorig = ((Player)PlayerRegistry.LocalPlayer).gameObject.GetComponent<ParticleSystem>();
+                    ParticleSystem psorig = playerGO.GetComponent<ParticleSystem>();
                     if (psorig != null)
                     {
                         Debug.Log("Stranded Deep LOD Mod : player already has particle system");
                         return;
                     }
 
-                    ParticleSystem ps = ((Player)PlayerRegistry.LocalPlayer).gameObject.AddComponent<ParticleSystem>();
+                    Debug.Log("Stranded Deep LOD Mod : adding player underwater particle system");
+                    ParticleSystem ps = playerGO.AddComponent<ParticleSystem>();
                     ps.name = FollowPlayerParticleSystem.ParticleSystemName;
-                    ((Player)PlayerRegistry.LocalPlayer).gameObject.AddComponent<FollowPlayerParticleSystem>();
+                    playerGO.AddComponent<FollowPlayerParticleSystem>();
                     ps.Play();
+
+                    particlesAdded = true;
                 }
             }
             catch (Exception e)
@@ -634,7 +593,9 @@ namespace StrandedDeepLODMod
                         {
                             if (!z.Loaded)
                                 continue;
-
+                            if (_handledZones.Contains(z))
+                                continue;
+                                 
                             try
                             {
                                 //Stranded Deep Better LOD Mod : Zone terrain basemapDistance: 180
@@ -656,9 +617,11 @@ namespace StrandedDeepLODMod
                                 z.Terrain.heightmapPixelError = 5;
                                 Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : Zone" + z.name + "terrain heightmapMaximumLOD : " + z.Terrain.heightmapMaximumLOD);
 
-                                Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : testing");
+                                // detailResolution Specifies the number of pixels in the detail resolution map. A larger detailResolution, leads to more accurate detail object painting.
+                                // resolutionPerPatch Specifies the size in pixels of each individually rendered detail patch. A larger number reduces draw calls, but might increase triangle count since detail patches are culled on a per batch basis. A recommended value is 16. If you use a very large detail object distance and your grass is very sparse, it makes sense to increase the value.
                                 //z.Terrain.terrainData.SetDetailResolution(1024, 32);
                                 z.Terrain.terrainData.SetDetailResolution(2048, 64);
+                                Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : SetDetailResolution : " + z.Terrain.terrainData.detailResolution);
                             }
                             catch (Exception ex)
                             {
@@ -687,6 +650,7 @@ namespace StrandedDeepLODMod
                 fr = null;
 
                 multiplyFishesDone = false;
+                particlesAdded = false;
 
                 grid_object_green_grass_01 = null;
                 grid_object_green_grass_03 = null;
@@ -697,6 +661,8 @@ namespace StrandedDeepLODMod
                     _handledZones.Clear();
                 if (_handledLODZones != null)
                     _handledLODZones.Clear();
+                if (_preloadedZones != null)
+                    _preloadedZones.Clear();
 
                 _handledShadows = false;
 
@@ -735,15 +701,15 @@ namespace StrandedDeepLODMod
                             }
                             else if (tokens[0].Contains("increasLODs"))
                             {
-                                increasLODs = bool.Parse(tokens[1]);
+                                increaseLODs = bool.Parse(tokens[1]);
                             }
                             else if (tokens[0].Contains("ultraDistance"))
                             {
                                 ultraDistance = bool.Parse(tokens[1]);
                             }
-                            else if (tokens[0].Contains("ultraMFBBQDistance"))
+                            else if (tokens[0].Contains("increaseOceanLOD"))
                             {
-                                ultraMFBBQDistance = bool.Parse(tokens[1]);
+                                increaseOceanLOD = bool.Parse(tokens[1]);
                             }
                             else if (tokens[0].Contains("addSmallFishes"))
                             {
@@ -792,9 +758,9 @@ namespace StrandedDeepLODMod
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("moreFishes=" + moreFishes + ";");
                 sb.AppendLine("increaseFishDrawingDistance=" + increaseFishDrawingDistance + ";");
-                sb.AppendLine("increasLODs=" + increasLODs + ";");
+                sb.AppendLine("increasLODs=" + increaseLODs + ";");
                 sb.AppendLine("ultraDistance=" + ultraDistance + ";");
-                sb.AppendLine("ultraMFBBQDistance=" + ultraMFBBQDistance + ";");
+                sb.AppendLine("increaseOceanLOD=" + increaseOceanLOD + ";");
 
                 sb.AppendLine("addSmallFishes=" + addSmallFishes + ";");
                 sb.AppendLine("addShrimps=" + addShrimps + ";");

@@ -1,8 +1,11 @@
 ﻿using Beam;
 using Beam.Rendering;
+using Beam.Utilities;
 using Beam.Serialization;
+using Beam.UI;
 using HarmonyLib;
 using SharpNeatLib.Maths;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,67 +14,154 @@ using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
 using UnityModManagerNet;
+using Beam.Serialization.Json;
+using Beam.Terrain;
 
 namespace StrandedDeepLODMod
 {
     static partial class Main
     {
-        public static FieldInfo fi_Cull = typeof(LodController).GetField("_localImpostorCullingDistance", BindingFlags.NonPublic | BindingFlags.Instance);
+        public static FieldInfo fi_localImpostorCullingDistance = typeof(LodController).GetField("_localImpostorCullingDistance", BindingFlags.NonPublic | BindingFlags.Instance);
         public static FieldInfo fi_Scope = typeof(LodController).GetField("_scope", BindingFlags.NonPublic | BindingFlags.Instance);
         public static MethodInfo mi_CreateImpostor = typeof(LodController).GetMethod("CreateImpostor", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        [HarmonyPatch(typeof(LodController), "Start")]
-        class LodController_Start_Patch
+        [HarmonyPatch(typeof(LodManager), "LoadOptions")]
+        class LodManager_LoadOptions_PostFix
         {
             static void Postfix(LodController __instance)
             {
                 try
                 {
-                    if (increasLODs)
+                    if (increaseLODs)
                     {
-                        fi_Scope.SetValue(__instance, ImposterScope.Manual);
+                        SetUltraQuality();
+                    }
+                    if (increaseOceanLOD)
+                    {
+                        SetUltraOceanQuality();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching LodManager_LoadOptions_PostFix : " + e);
+                }
+            }
+        }
 
-                        int dist = (int)fi_Cull.GetValue(__instance);
-                        fi_Cull.SetValue(__instance, 2000);
+        static bool isPreLoading = false;
 
-                        int bestLOD = 3;
+        [HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
+        class StrandedWorld_ZoneLoader_LoadedZone_PreFix
+        {
+            static bool Prefix(StrandedWorld __instance, Zone zone)
+            {
+                try
+                {
+                    if (isPreLoading)
+                    {
+                        zone.HasVisited = hasVisited;
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching StrandedWorld_ZoneLoader_LoadedZone_PreFix : " + e);
+                }
+                return true;
+            }
+        }
+#warning for debug
+        //[HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
+        //class FlockController_StrandedWorld_ZoneLoader_LoadedZone_Patch
+        //{
+
+        //    static void Postfix(Zone zone, StrandedWorld __instance)
+        //    {
+        //        try
+        //        {
+        //            LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
+        //            localizedNotification.Priority = NotificationPriority.Immediate;
+        //            localizedNotification.Duration = 8f;
+        //            localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") +" loaded");
+        //            if (zone == StrandedWorld.Instance.NmlZone)
+        //            {
+        //                localizedNotification.MessageText.SetTerm("Zone NML loaded");
+        //            }
+        //            else
+        //            {
+        //                localizedNotification.MessageText.SetTerm("Zone " + zone.ZoneName + (isPreLoading ? "pre" : "") + " loaded");
+        //            }
+        //            localizedNotification.Raise();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Stranded Deep LOD Mod : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
+        //        }
+        //    }
+        //}
+
+        [HarmonyPatch(typeof(LodController), "Start")]
+        class LodController_Start_Postfix
+        {
+            static void Postfix(LodController __instance)
+            {
+                try
+                {
+                    if (increaseLODs && !ultraDistance)
+                    {
+                        // WARNING : the zone unload distance must be greater than the farthest LOD cull distance, or the impostor won't show up
+
+                        //int impostorCullDistance = 501;
+                        //fi_localImpostorCullingDistance.SetValue(__instance, 501);
+                        List<int> cullDistances = new List<int>();
+                        cullDistances.Add(196);
+                        cullDistances.Add(197);
+                        cullDistances.Add(198);
+                        cullDistances.Add(199);
                         for (int i = 0; i < __instance.LodGroup.Lods.Count; i++)
                         {
                             Lod lod = __instance.LodGroup.Lods[i];
-                            if (lod.Renderers[0].name.Contains("LOD0") && bestLOD > 0)
+                            if (lod.IsImpostor)
                             {
-                                bestLOD = 0;
+                                //lod.CullingDistance = impostorCullDistance;
+                                Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : impostor culling distance = " + lod.CullingDistance);
+                                continue;
                             }
-                            else if (lod.Renderers[0].name.Contains("LOD1") && bestLOD > 1)
-                            {
-                                bestLOD = 1;
-                            }
-                            else if (lod.Renderers[0].name.Contains("LOD2") && bestLOD > 2)
-                            {
-                                bestLOD = 2;
-                            }
+
+                            //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " culling distance = " + lod.CullingDistance);
+                            lod.CullingDistance = cullDistances[i];
+                            Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " new culling distance = " + lod.CullingDistance);
                         }
-
-                        int farthest = int.MinValue;
-
-                        for (int i = __instance.LodGroup.Lods.Count - 1; i >= 0; i--)
+                    }
+                    else if (increaseLODs && ultraDistance)
+                    {
+                        for (int i = 0; i < __instance.LodGroup.Lods.Count; i++)
                         {
                             Lod lod = __instance.LodGroup.Lods[i];
-
-                            if (!lod.IsImpostor)
+                            //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : LOD " + i + " culling distance = " + lod.CullingDistance);
+                            if (i == __instance.LodGroup.Lods.Count - 1)
                             {
-                                lod.CullingDistance = lod.CullingDistance * (Main.ultraMFBBQDistance ? 1000 : (Main.ultraDistance ? 10 : 5));
-                                if (lod.CullingDistance > farthest)
-                                {
-                                    farthest = lod.CullingDistance + 1;
-                                }
+                                // max LOD, should always be visible
+                                lod.CullingDistance = 1500;
+                            }
+                            else
+                            {
+                                lod.CullingDistance = 100 + (int)Math.Pow(100, i);
+                            }
+                            Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : ultra LOD " + i + " new culling distance = " + lod.CullingDistance);
+
+                            if (lod.IsImpostor)
+                            {
+                                //Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : impostor culling distance = " + lod.CullingDistance);
+                                lod.CullingDistance = 1001;
+                                Debug.Log("Stranded Deep LOD mod LodController_Start_Postfix : ultra LOD: new impostor culling distance = " + lod.CullingDistance);
                             }
                         }
                     }
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD mod : error while patching LodController.Start : " + e);
+                    Debug.Log("Stranded Deep LOD mod : error while patching LodController_Start_Postfix : " + e);
                 }
             }
         }
@@ -83,9 +173,9 @@ namespace StrandedDeepLODMod
             {
                 try
                 {
-                    if (increasLODs)
+                    if (increaseLODs)
                     {
-                        int maxCullingDistance = 1000;
+                        int maxCullingDistance = 1499;
                         if (__instance.Scope.HasFlag(ImposterScope.Manual))
                         {
                             __result = true;
@@ -111,6 +201,95 @@ namespace StrandedDeepLODMod
             }
         }
 
+        static FieldInfo fi_dither = typeof(LodController).GetField("_dither", BindingFlags.NonPublic | BindingFlags.Instance);
+        [HarmonyPatch(typeof(LodController), "UpdateLodGroup")]
+        class LodController_UpdateLodGroup_Prefix
+        {
+            static bool Prefix(LodController __instance, Camera camera)
+            {
+                try
+                {
+                    float magnitude = (camera.transform.position - __instance.transform.position).magnitude;
+                    Lod previousLod = null;
+                    bool gotActiveLod = false;
+                    for (int i = 0; i < __instance.LodGroup.Lods.Count; i++)
+                    {
+                        Lod currentLod = __instance.LodGroup.Lods[i];
+                        if (gotActiveLod && !currentLod.IsImpostor)
+                        {
+                            currentLod.SetActive(false);
+                            continue;
+                        }
+                        int? previousLodCullingDistance = (previousLod != null) ? new int?(previousLod.CullingDistance) : null;
+                        float biasedPreviousLodCullingDistance = ((previousLodCullingDistance != null) ? ((float)previousLodCullingDistance.GetValueOrDefault()) : 0f) * LodManager.LOD_BIAS;
+                        float biasedCurrentLodCullingDistance = (float)currentLod.CullingDistance * LodManager.LOD_BIAS;
+                        bool positionFartherThanBiasedPreviousLodCullingDistance = magnitude > biasedPreviousLodCullingDistance;
+                        //Debug.Log("Stranded Deep LOD mod : " + __instance.gameObject.name + " LOD " + i + " isImpostor " + lod2.IsImpostor + " magnitude > biasedPreviousLodCullingDistance " + positionFartherThanBiasedPreviousLodCullingDistance);
+                        bool positionNearerThanBiasedCurrentLodCullingDistance = magnitude < biasedCurrentLodCullingDistance;
+                        //Debug.Log("Stranded Deep LOD mod : " + __instance.gameObject.name + " LOD " + i + " isImpostor " + lod2.IsImpostor + " magnitude < biasedCurrentLodCullingDistance " + positionNearerThanBiasedCurrentLodCullingDistance);
+                        bool active = positionFartherThanBiasedPreviousLodCullingDistance && positionNearerThanBiasedCurrentLodCullingDistance;
+                        currentLod.SetActive(active);
+                        if (currentLod.Active)
+                        {
+                            gotActiveLod = true;
+                            //Debug.Log("Stranded Deep LOD mod : " + __instance.gameObject.name + " LOD " + i + " adopted");
+                        }
+                        if ((bool)fi_dither.GetValue(__instance) && currentLod.Active && __instance.LodGroup.Lods.IsLast(i))
+                        {
+                            float num4 = Mathf.Min(7f, biasedCurrentLodCullingDistance); // private float _ditherFadeWidth = 7f;
+                            float num5 = biasedCurrentLodCullingDistance - num4;
+                            float value = Mathf.Clamp01((magnitude - num5) / num4);
+                            currentLod.Crossfade(value);
+                        }
+                        previousLod = currentLod;
+                    }
+
+                    return false;
+
+                    //for (int i = 0; i < __instance.LodGroup.Lods.Count; i++)
+                    //{
+                    //    Lod lod = __instance.LodGroup.Lods[i];
+                    //    if (lod.IsImpostor && lod.Active)
+                    //    {
+                    //        float magnitude = (camera.transform.position - __instance.transform.position).magnitude;
+                    //        if (magnitude <= 200)
+                    //        {
+                    //            Debug.Log("Stranded Deep LOD mod : unintentionally active impostor " + __instance.gameObject.name);
+                    //            lod.SetActive(false);
+                    //        }
+                    //    }
+                    //}
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching LodController.ValidateLodGroup : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(PlayerDetailSpawnerManager), "StrandedWorld_WorldGenerated")]
+        class PlayerDetailSpawnerManager_StrandedWorld_WorldGenerated_Patch
+        {
+            static void Postfix(PlayerDetailSpawnerManager __instance)
+            {
+                try
+                {
+                    if (!moreFishes)
+                        return;
+
+                    if (!multiplyFishesDone)
+                    {
+                        MultiplyFishesNew();
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching SingleFishRenderer.Awake : " + e);
+                }
+            }
+        }
+
         [HarmonyPatch(typeof(SingleFishRenderer), "Awake")]
         class SingleFishRenderer_Awake_Patch
         {
@@ -129,7 +308,7 @@ namespace StrandedDeepLODMod
         }
 
         [HarmonyPatch(typeof(FlockFishRenderer), "Start")]
-        class FlockFishRenderer_Awake_Patch
+        class FlockFishRenderer_Start_Patch
         {
             static void Postfix(FishRendererBase __instance)
             {
@@ -320,7 +499,200 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD mod : error while patching FlockFishRenderer.Start : " + e);
+                    Debug.Log("Stranded Deep LOD mod : error while patching FollowSpawn_LoadOptions_Patch : " + e);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(StrandedWorld), "InZoneUnLoadingBounds")]
+        class StrandedWorld_InZoneUnLoadingBounds_PreFix
+        {
+            static bool Prefix(StrandedWorld __instance, ref bool __result, IPlayer player, Zone zone)
+            {
+                try
+                {
+                    if (!increaseLODs && !ultraDistance)
+                        return true;
+
+                    if (!WorldUtilities.IsStrandedWide())
+                    {
+                        float buffedUnloadDistance = 260f * 4;
+                        __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedUnloadDistance;
+
+                        if (!__result)
+                        {
+                            _preloadedZones.Remove(zone);
+                        }
+
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching StrandedWorld_InZoneUnLoadingBounds_PreFix : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(LandAnimalSpawner), "PollSpawn")]
+        class LandAnimalSpawner_PollSpawn_PreFix
+        {
+            static bool Prefix(LandAnimalSpawner __instance)
+            {
+                try
+                {
+                    if (!increaseLODs || !ultraDistance)
+                        return true;
+
+                    Zone zone = StrandedWorld.GetZone(__instance.transform.position, false);
+                    if (_preloadedZones.Contains(zone))
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching LandAnimalSpawner_PollSpawn_PreFix : " + e);
+                }
+
+                return true;
+            }
+        }
+
+        static List<Zone> _preloadedZones = new List<Zone>();
+        static bool hasVisited = false;
+
+        [HarmonyPatch(typeof(StrandedWorld), "PollLoad")]
+        class StrandedWorld_PollLoad_PreFix
+        {
+            static FieldInfo fi_zoneSavedObjectsLookup = typeof(StrandedWorld).GetField("_zoneSavedObjectsLookup", BindingFlags.NonPublic | BindingFlags.Instance);
+            static MethodInfo mi_LoadZone = typeof(StrandedWorld).GetMethod("LoadZone", BindingFlags.NonPublic | BindingFlags.Instance);
+            static FieldInfo fi_currentZone = typeof(ZoneLoader).GetField("_currentZone", BindingFlags.NonPublic | BindingFlags.Instance);
+            static MethodInfo mi_CreateLoadedPrefab = typeof(ZoneLoader).GetMethod("CreateLoadedPrefab", BindingFlags.NonPublic | BindingFlags.Instance);
+
+            static bool Prefix(StrandedWorld __instance, Zone zone)
+            {
+                try
+                {
+                    if (!increaseLODs || !ultraDistance)
+                        return true;
+
+                    if (!WorldUtilities.IsStrandedWide())
+                    {
+                        // if in standard radius, standard behavior
+                        if (!zone.Loaded && PlayerRegistry.AllPlayers.Any_NonAlloc(new Func<IPlayer, Zone, bool>(InZoneLoadingVanillaBounds), zone))
+                        {
+                            Debug.Log("Stranded Deep LOD mod : standard Load zone " + zone.ZoneName);
+                            _preloadedZones.Remove(zone);
+                            return true;
+                        }
+
+                        bool hasVisited = zone.HasVisited;
+
+                        // try and preload objects without making this zone the current zone
+                        if (!LevelLoader.IsLoading()
+                            && !zone.Loading 
+                            && !zone.Loaded 
+                            && !_preloadedZones.Contains(zone) 
+                            && PlayerRegistry.AllPlayers.Any_NonAlloc(new Func<IPlayer, Zone, bool>(InZoneLoadingExtendedBounds), zone))
+                        {
+                            isPreLoading = true;
+                            Debug.Log("Stranded Deep LOD mod : PreLoad zone " + zone.ZoneName);
+                            mi_LoadZone.Invoke(__instance, new object[] { zone });
+
+                            if (zone != null)
+                            {
+                                if (zone.Loaded)
+                                    _preloadedZones.Add(zone);
+                            }
+
+                            isPreLoading = false;
+                        }
+                        return false;
+                    }
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching StrandedWorld_PollLoad_PreFix : " + e);
+                }
+                return true;
+            }
+
+            internal static bool InZoneLoadingVanillaBounds(IPlayer player, Zone zone)
+            {
+                return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < 240f;
+            }
+
+            /// <summary>
+            /// Tests if island is in a "preloading" radius
+            /// </summary>
+            /// <param name="player"></param>
+            /// <param name="zone"></param>
+            /// <returns></returns>
+            internal static bool InZoneLoadingExtendedBounds(IPlayer player, Zone zone)
+            {
+                if (!WorldUtilities.IsStrandedWide())
+                {
+                    float buffedLoadDistance = 250f * 4;
+                    return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedLoadDistance;
+                }
+                return false;
+            }
+        }
+
+        [HarmonyPatch(typeof(Zone), "Awake")]
+        class Zone_Awake_Postfix
+        {
+            static void Postfix(Zone __instance)
+            {
+                try
+                {
+                    if (!increaseTerrainLOD)
+                        return;
+
+                    __instance.Terrain.heightmapPixelError = 5f;
+                    __instance.Terrain.detailObjectDistance = 1000f;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching Zone_Awake_Postfix : " + e);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Zone), "Enter")]
+        class Zone_Enter_Postfix
+        {
+            static void Postfix(Zone __instance)
+            {
+                try
+                {
+                    if (!increaseTerrainLOD)
+                        return;
+
+                    __instance.Terrain.heightmapPixelError = 5f;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching Zone_Enter_Postfix : " + e);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(Zone), "Exit")]
+        class Zone_Exit_Postfix
+        {
+            static void Postfix(Zone __instance)
+            {
+                try
+                {
+                    if (!increaseTerrainLOD)
+                        return;
+
+                    __instance.Terrain.heightmapPixelError = 5f;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep LOD mod : error while patching Zone_Exit_Postfix : " + e);
                 }
             }
         }

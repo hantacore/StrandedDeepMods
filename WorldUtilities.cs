@@ -267,6 +267,14 @@ namespace StrandedDeepModsUtils
             }
         }
 
+        public static int MaxPlayers
+        {
+            get
+            {
+                return 2;
+            }
+        }
+
         public static bool IsWorldLoaded()
         {
             if (Beam.Game.State == GameState.NEW_GAME
@@ -276,7 +284,7 @@ namespace StrandedDeepModsUtils
                 if (previousInstance != null
                 && !System.Object.ReferenceEquals(previousInstance, StrandedWorld.Instance))
                 {
-                    Debug.Log("Stranded Deep AlternativeEndgame Mod : world instance changed, clearing events");
+                    Debug.Log("Stranded Deep World Utilities : world instance changed, clearing events");
                     previousInstance.WorldGenerated -= Instance_WorldGenerated;
                     previousInstance = null;
                     worldLoaded = false;
@@ -285,7 +293,7 @@ namespace StrandedDeepModsUtils
                 if (StrandedWorld.Instance != null
                     && !System.Object.ReferenceEquals(StrandedWorld.Instance, previousInstance))
                 {
-                    Debug.Log("Stranded Deep AlternativeEndgame Mod : world instance found, registering events");
+                    Debug.Log("Stranded Deep World Utilities : world instance found, registering events");
                     previousInstance = StrandedWorld.Instance;
                     StrandedWorld.Instance.WorldGenerated -= Instance_WorldGenerated;
                     StrandedWorld.Instance.WorldGenerated += Instance_WorldGenerated;
@@ -307,7 +315,7 @@ namespace StrandedDeepModsUtils
 
         private static void Instance_WorldGenerated()
         {
-            Debug.Log("Stranded Deep AlternativeEndgame Mod : World Loaded event");
+            Debug.Log("Stranded Deep World Utilities : World Loaded event");
             worldLoaded = true;
         }
     }
