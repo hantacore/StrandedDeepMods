@@ -82,7 +82,7 @@ namespace StrandedDeepLODMod
         //            LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
         //            localizedNotification.Priority = NotificationPriority.Immediate;
         //            localizedNotification.Duration = 8f;
-        //            localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") +" loaded");
+        //            localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") + " loaded");
         //            if (zone == StrandedWorld.Instance.NmlZone)
         //            {
         //                localizedNotification.MessageText.SetTerm("Zone NML loaded");
@@ -538,8 +538,8 @@ namespace StrandedDeepLODMod
                     if (!increaseLODs && !ultraDistance)
                         return true;
 
-                    if (!WorldUtilities.IsStrandedWide())
-                    {
+                    //if (!WorldUtilities.IsStrandedWide())
+                    //{
                         float buffedUnloadDistance = 260f * 4;
                         __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedUnloadDistance;
 
@@ -549,7 +549,7 @@ namespace StrandedDeepLODMod
                         }
 
                         return false;
-                    }
+                    //}
                 }
                 catch (Exception e)
                 {
@@ -600,8 +600,8 @@ namespace StrandedDeepLODMod
                     if (!increaseLODs || !ultraDistance)
                         return true;
 
-                    if (!WorldUtilities.IsStrandedWide())
-                    {
+                    //if (!WorldUtilities.IsStrandedWide())
+                    //{
                         // if in standard radius, standard behavior
                         if (!zone.Loaded && PlayerRegistry.AllPlayers.Any_NonAlloc(new Func<IPlayer, Zone, bool>(InZoneLoadingVanillaBounds), zone))
                         {
@@ -632,7 +632,7 @@ namespace StrandedDeepLODMod
                             isPreLoading = false;
                         }
                         return false;
-                    }
+                    //}
                 }
                 catch (Exception e)
                 {
@@ -654,11 +654,11 @@ namespace StrandedDeepLODMod
             /// <returns></returns>
             internal static bool InZoneLoadingExtendedBounds(IPlayer player, Zone zone)
             {
-                if (!WorldUtilities.IsStrandedWide())
-                {
+                //if (!WorldUtilities.IsStrandedWide())
+                //{
                     float buffedLoadDistance = 250f * 4;
                     return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedLoadDistance;
-                }
+                //}
                 return false;
             }
         }
