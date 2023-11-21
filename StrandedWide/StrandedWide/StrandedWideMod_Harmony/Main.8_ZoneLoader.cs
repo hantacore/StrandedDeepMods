@@ -419,8 +419,9 @@ namespace StrandedWideMod_Harmony
                     if (objectData != null
                         && objectData.Prefab.name == "GENERATOR_ISLAND_SHARKS")
                     {
-                        int radius = 120;// 170;
-                        int offset = 110;// (_islandSize / 2);
+#warning shark location
+                        int radius = 80 * IslandSizeRatio; ;//120;// 170;
+                        int offset = (int)Main.WaveOverlayPosition; //110;// (_islandSize / 2);
                         List<Vector3> positions = new List<Vector3>();
                         positions.Add(new Vector3(offset + radius * Mathf.Cos(Mathf.Deg2Rad * 0), 0, offset + radius * Mathf.Sin(Mathf.Deg2Rad * 0)));
                         positions.Add(new Vector3(offset + radius * Mathf.Cos(Mathf.Deg2Rad * 60), 0, offset + radius * Mathf.Sin(Mathf.Deg2Rad * 60)));

@@ -22,10 +22,10 @@ namespace StrandedWideMod_Harmony
         public static float slot2IslandSpacing = 1.25f;
         public static float slot3IslandSpacing = 1.25f;
 
-        public static int slot0IslandCount = 48;
-        public static int slot1IslandCount = 48;
-        public static int slot2IslandCount = 48;
-        public static int slot3IslandCount = 48;
+        public static int slot0IslandCount = 49;
+        public static int slot1IslandCount = 49;
+        public static int slot2IslandCount = 49;
+        public static int slot3IslandCount = 49;
 
         private static void ReadConfig()
         {

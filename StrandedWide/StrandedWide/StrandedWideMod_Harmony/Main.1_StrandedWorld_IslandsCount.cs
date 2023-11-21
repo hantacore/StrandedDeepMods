@@ -248,8 +248,11 @@ namespace StrandedWideMod_Harmony
 
         internal static FieldInfo fi_zoneLoader = typeof(StrandedWorld).GetField("_zoneLoader", BindingFlags.Instance | BindingFlags.NonPublic);
         internal static MethodInfo mi_InImpostorViewRange = typeof(StrandedWorld).GetMethod("InImpostorViewRange", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static MethodInfo mi_InZoneLoadingBounds = typeof(StrandedWorld).GetMethod("InZoneLoadingBounds", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static MethodInfo mi_InZoneUnLoadingBounds = typeof(StrandedWorld).GetMethod("InZoneUnLoadingBounds", BindingFlags.Instance | BindingFlags.NonPublic);
         internal static MethodInfo mi_PollImposters = typeof(StrandedWorld).GetMethod("PollImposters", BindingFlags.Instance | BindingFlags.NonPublic);
-        internal static MethodInfo mi_PollZone = typeof(StrandedWorld).GetMethod("PollZone", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static MethodInfo mi_PollLoad = typeof(StrandedWorld).GetMethod("PollLoad", BindingFlags.Instance | BindingFlags.NonPublic);
+        internal static MethodInfo mi_PollUnload = typeof(StrandedWorld).GetMethod("PollUnload", BindingFlags.Instance | BindingFlags.NonPublic);
 
         [HarmonyPatch(typeof(StrandedWorld), "PollZones")]
         class StrandedWorld_PollZones_Patch
@@ -258,11 +261,12 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
-                    ZoneLoader _zoneLoader = fi_zoneLoader.GetValue(__instance) as ZoneLoader;
-                    if (_zoneLoader.IsGenerating || LevelLoader.IsLoading() || LevelLoader.IsServerJoinInProgress)
+                    // patch 1.0.35
+                    if (PlayerRegistry.AllPeers.Count == 0 || LevelLoader.IsServerJoinInProgress)
                     {
                         return false;
                     }
+
                     for (int i = 0; i < Main.IslandsCount; i++)
                     {
                         Zone zone = __instance.Zones[i];
@@ -272,7 +276,12 @@ namespace StrandedWideMod_Harmony
                         //__instance.PollImposters(zone);
                         mi_PollImposters.Invoke(__instance, new object[] { zone });
                         //__instance.PollZone(zone);
-                        mi_PollZone.Invoke(__instance, new object[] { zone });
+                        
+                        // patch 1.0.35
+                        if (!(bool)mi_PollUnload.Invoke(__instance, new object[] { zone }))
+                        {
+                            mi_PollLoad.Invoke(__instance, new object[] { zone });
+                        }
                     }
 
                     // skip original method
@@ -280,21 +289,39 @@ namespace StrandedWideMod_Harmony
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld_LoadZonePositions_Patch : " + e);
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld_PollZones_Patch : " + e);
                 }
                 return true;
             }
         }
 
-        static Func<TTarget, TParam, TReturn> MagicMethodHelper<TTarget, TParam, TReturn>(MethodInfo method)
-            where TTarget : class
-        {
-            // Convert the slow MethodInfo into a fast, strongly typed, open delegate
-            Func<TTarget, TParam, TReturn> func = (Func<TTarget, TParam, TReturn>)Delegate.CreateDelegate
-                (typeof(Func<TTarget, TParam, TReturn>), method);
+#warning for debug
+        //[HarmonyPatch(typeof(StrandedWorld), "PollLoad")]
+        //class StrandedWorld_PollLoad_Patch
+        //{
+        //    static void Postfix(StrandedWorld __instance, Zone zone, bool __result)
+        //    {
+        //        try
+        //        {
+        //            if (__result)
+        //                Debug.Log("Stranded Wide (Harmony edition) : PollZones " + zone.name + " do load");
+        //            else
+        //            {
+        //                Debug.Log("Stranded Wide (Harmony edition) : PollZones " + zone.name + " do not load");
+        //                Debug.Log("Stranded Wide (Harmony edition) : PollZones " + zone.name + " loading " + zone.Loading);
+        //                Debug.Log("Stranded Wide (Harmony edition) : PollZones " + zone.name + " loaded " + zone.Loaded);
 
-            return func;
-        }
+        //                //PlayerRegistry.AllPlayers.Any_NonAlloc(new Func<IPlayer, Zone, bool>(this.InZoneLoadingBounds), zone)
+        //                bool playerInZoneLoadingBounds = PlayerRegistry.AllPlayers.Any_NonAlloc(player => (bool)mi_InZoneLoadingBounds.Invoke(__instance, new object[] { player, zone }));
+        //                Debug.Log("Stranded Wide (Harmony edition) : PollZones " + zone.name + " playerInZoneLoadingBounds " + playerInZoneLoadingBounds);
+        //            }
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld_PollZones_Patch : " + e);
+        //        }
+        //    }
+        //}
 
         [HarmonyPatch(typeof(StrandedWorld), "InitializeZones")]
         class StrandedWorld_InitializeZones_Patch

@@ -127,6 +127,11 @@ namespace StrandedWideMod_Harmony
                     // persist values
                     WriteConfig();
 
+                    Main._zoneLoadDistance = IslandSize - 6;
+                    Debug.Log("Stranded Wide (Harmony edition) : CreateWorld _zoneLoadDistance = " + _zoneLoadDistance);
+                    Main._zoneUnloadDistance = _zoneLoadDistance - 10;
+                    Debug.Log("Stranded Wide (Harmony edition) : CreateWorld _zoneUnloadDistance = " + _zoneUnloadDistance);
+
 #warning create world async ?
 
                     World.CreateWorldZonePoints(StrandedWorld.WORLD_SEED);
@@ -182,7 +187,7 @@ namespace StrandedWideMod_Harmony
                     {
                         // fuzzy bug with duplicate missions
                         Map map = Maps.AllMapList.ElementAt(i);
-                        if (!map.EditorData.Author.Contains("Beam Team"))
+                        if (!map.EditorData.Author.Contains("Beam Team") && SaveManager.ValidateVersionNumber(new Version(map.EditorData.GameVersionNumber)))
                         {
                             availableIslands.Add(i);
                         }

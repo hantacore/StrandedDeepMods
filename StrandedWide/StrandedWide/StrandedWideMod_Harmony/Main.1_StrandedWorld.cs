@@ -1,5 +1,6 @@
 ﻿using Beam;
 using Beam.Terrain;
+using Beam.UI;
 using Beam.Utilities;
 using Ceto;
 using HarmonyLib;
@@ -22,6 +23,11 @@ namespace StrandedWideMod_Harmony
             {
                 try
                 {
+                    Main._zoneLoadDistance = IslandSize - 6;
+                    Debug.Log("Stranded Wide (Harmony edition) : LoadWorld _zoneLoadDistance = " + _zoneLoadDistance);
+                    Main._zoneUnloadDistance = _zoneLoadDistance - 10;
+                    Debug.Log("Stranded Wide (Harmony edition) : LoadWorld _zoneUnloadDistance = " + _zoneUnloadDistance);
+
                     Beam.Terrain.LoadingResult loadingResult = World.LoadWorld();
                     if (loadingResult.Succeeded)
                     {
@@ -114,131 +120,77 @@ namespace StrandedWideMod_Harmony
             }
         }
 
-        //        [HarmonyPatch(typeof(StrandedWorld), "ApplyWorldToZones")]
-        //        class StrandedWorld_ApplyWorldToZones_Patch
-        //        {
-        //            static bool Prefix()
-        //            {
-        //                try
-        //                {
-        //#warning TODO async loading
-
-        //                    //StrandedWorld.Instance.LoadZonePositions();
-        //                    mi_LoadZonePositions.Invoke(StrandedWorld.Instance, new object[] { });
-
-        //                    Beam.UI.LoadingScreenPresenter presenter = Game.FindObjectOfType<Beam.UI.LoadingScreenPresenter>();
-        //                    Beam.UI.TextScreenViewAdapterBase loadingText = null;
-        //                    FieldInfo fi_view = typeof(Beam.UI.LoadingScreenPresenter).GetField("_view", BindingFlags.Instance | BindingFlags.NonPublic);
-        //                    if (presenter != null)
-        //                    {
-        //                        loadingText = fi_view.GetValue(presenter) as Beam.UI.TextScreenViewAdapterBase;
-        //                    }
-
-        //                    for (int i = 0; i < Main.IslandsCount; i++)
-        //                    {
-        //                        Zone zone = StrandedWorld.Instance.Zones[i];
-        //                        //LoadZone(zone, i);
-        //                        loadingText.SetHeaderText("Loading island n° " + i);
-        //                        StrandedWorld.Instance.StartCoroutine(LoadZone(zone, i));
-        //                    }
-
-        //                    return false;
-        //                }
-        //                catch (Exception ex)
-        //                {
-        //                    Debug.LogError("StrandedWorld:: Error in ApplyWorldToZones.ApplyWorldToZones : " + ex.Message);
-        //                }
-
-        //                return true;
-        //            }
-        //        }
-
-        //        static System.Collections.IEnumerator LoadZone(Zone zone, int i)
-        //        {
-        //            yield return new WaitForSeconds(0.01f);
-        //            try
-        //            {
-        //                Map map = World.MapList[i];
-        //                Debug.LogError("StrandedWorld:: Loading zone (" + i + ") " + DateTime.Now);
-        //                //try
-        //                //{
-        //                //    Beam.UI.TMPTextScreenViewAdapter loadingscreen = Game.FindObjectOfType<Beam.UI.TMPTextScreenViewAdapter>();
-        //                //    if (loadingscreen != null)
-        //                //    {
-        //                //        loadingscreen.SetTooltipText("Loading zone (" + i + "/" + 48 + ")");
-        //                //    }
-        //                //}
-        //                //catch { }
-
-        //                //Debug.LogError("StrandedWorld:: zone.Terrain.terrainData.heightmapResolution : " + zone.Terrain.terrainData.heightmapResolution);
-        //                zone.Terrain.terrainData.heightmapResolution = IslandSize + 1;
-        //                //Debug.LogError("StrandedWorld:: new zone.Terrain.terrainData.heightmapResolution : " + zone.Terrain.terrainData.heightmapResolution);
-
-        //                zone.Terrain.terrainData.SetHeights(0, 0, map.HeightmapData);
-        //                zone.ZoneName = map.EditorData.Name;
-        //                zone.Id = map.EditorData.Id;
-        //                zone.Version = map.EditorData.VersionNumber;
-        //                zone.Biome = map.EditorData.Biome;
-        //                zone.IsMapEditor = map.IsCustomMap();
-        //                zone.IsUserMap = map.IsUserMap();
-        //                zone.Seed = i;
-        //                Texture2D height = Main.Blur(WorldTools.CreateHeightMapTexture(zone.Terrain.terrainData), 2);
-        //                //ExportTexture(height, "height" + i);
-        //                Texture2D shore = Main.Blur(WorldTools.CreateShoreMaskTexture(zone.Terrain.terrainData), 2);
-        //                //ExportTexture(shore, "shore" + i);
-        //                if (zone.Biome == Zone.BiomeType.ISLAND || zone.Biome == Zone.BiomeType.ISLAND_SMALL || zone.Biome == Zone.BiomeType.ISLAND_ROCK || zone.Biome == Zone.BiomeType.CARRIER)
-        //                {
-        //#warning ocean textures
-        //                    //zone.WaveOverlay = StrandedWorld.Instance.AddWaveOverlay(zone.gameObject, height, shore);
-        //                    zone.WaveOverlay = (Ceto.AddWaveOverlay)mi_StrandedWorldAddWaveOverlay.Invoke(StrandedWorld.Instance, new object[] { zone.gameObject, height, shore });
-        //                    //OLD DO NOT USE zone.WaveOverlay = this.AddWaveOverlay(zone.gameObject, CreateTransparentTexture(_islandSize), CreateTransparentTexture(_islandSize));
-        //                }
-        //                zone.SaveContainer.transform.SetAsLastSibling();
-        //            }
-        //            catch (Exception e)
-        //            {
-        //                Debug.LogError("StrandedWorld:: Error in ApplyWorldToZones (" + zone.Biome + ") : " + e.Message);
-        //            }
-        //            yield break;
-        //        }
-
-        [HarmonyPatch(typeof(StrandedWorld), "InZoneUnLoadingBounds")]
-        class StrandedWorld_InZoneUnLoadingBounds_Patch
+#warning for debug
+        static bool isPreLoading = false;
+        [HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
+        class StrandedWorld_ZoneLoader_LoadedZone_Patch
         {
-            static bool Prefix(IPlayer player, Zone zone, ref bool __result)
+
+            static void Postfix(Zone zone, StrandedWorld __instance)
             {
                 try
                 {
-                    __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneUnloadDistance;
-                    // skip original method
-                    return false;
+                    LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
+                    localizedNotification.Priority = NotificationPriority.Immediate;
+                    localizedNotification.Duration = 8f;
+                    localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") + " loaded");
+                    if (zone == StrandedWorld.Instance.NmlZone)
+                    {
+                        localizedNotification.MessageText.SetTerm("Zone NML loaded");
+                    }
+                    else
+                    {
+                        localizedNotification.MessageText.SetTerm("Zone " + zone.ZoneName + (isPreLoading ? "pre" : "") + " loaded");
+                    }
+                    localizedNotification.Raise();
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneUnLoadingBounds : " + e);
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
                 }
-                return true;
             }
         }
 
-        [HarmonyPatch(typeof(StrandedWorld), "InZoneLoadingBounds")]
-        class StrandedWorld_InZoneLoadingBounds_Patch
-        {
-            static bool Prefix(IPlayer player, Zone zone, ref bool __result)
-            {
-                try
-                {
-                    __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneLoadDistance;
-                    // skip original method
-                    return false;
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneLoadingBounds : " + e);
-                }
-                return true;
-            }
-        }
+
+
+#warning let the game or the LOD mod handle this
+        //[HarmonyPatch(typeof(StrandedWorld), "InZoneUnLoadingBounds")]
+        //class StrandedWorld_InZoneUnLoadingBounds_Patch
+        //{
+        //    static bool Prefix(IPlayer player, Zone zone, ref bool __result)
+        //    {
+        //        try
+        //        {
+        //            __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneUnloadDistance;
+        //            // skip original method
+        //            return false;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneUnLoadingBounds : " + e);
+        //        }
+        //        return true;
+        //    }
+        //}
+
+        //[HarmonyPatch(typeof(StrandedWorld), "InZoneLoadingBounds")]
+        //class StrandedWorld_InZoneLoadingBounds_Patch
+        //{
+        //    static bool Prefix(IPlayer player, Zone zone, ref bool __result)
+        //    {
+        //        try
+        //        {
+        //            __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneLoadDistance;
+        //            // skip original method
+        //            return false;
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneLoadingBounds : " + e);
+        //        }
+        //        return true;
+        //    }
+        //}
 
         [HarmonyPatch(typeof(StrandedWorld), "AddWaveOverlay")]
         class StrandedWorld_AddWaveOverlay_Patch

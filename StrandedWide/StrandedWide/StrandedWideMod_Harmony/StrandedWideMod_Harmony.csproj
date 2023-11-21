@@ -37,33 +37,33 @@
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="bolt">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
     </Reference>
     <Reference Include="bolt.user">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
     </Reference>
     <Reference Include="Rewired_Core, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Rewired_Core.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Rewired_Core.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Sirenix.Serialization.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Sirenix.Serialization.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Serialization.Config, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Sirenix.Serialization.Config.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Sirenix.Serialization.Config.dll</HintPath>
     </Reference>
     <Reference Include="Sirenix.Utilities, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Sirenix.Utilities.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Sirenix.Utilities.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -73,42 +73,42 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="Unity.TextMeshPro">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Unity.TextMeshPro.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\Unity.TextMeshPro.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TerrainModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.TerrainModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextCoreFontEngineModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.TextCoreFontEngineModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextCoreTextEngineModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.TextCoreTextEngineModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule">
-      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-      <HintPath>..\..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\..\Stranded Deep 1.0.31.0.25\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityModManager">
       <HintPath>..\..\..\..\UnityModManager\UnityModManager.dll</HintPath>
@@ -125,6 +125,7 @@
     <Compile Include="Main.0_Additions.cs" />
     <Compile Include="Main.0_SplashScreen.cs" />
     <Compile Include="Main.1_StrandedWorld.cs" />
+    <Compile Include="Main.1_StrandedWorld_AsyncLoadTest.cs" />
     <Compile Include="Main.1_StrandedWorld_IslandsCount.cs" />
     <Compile Include="Main.2_Zone.cs" />
     <Compile Include="Main.3_Maps.cs" />
@@ -161,9 +162,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\..\Stranded Deep 1.0.17.0.23\Mods\"
+    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\..\Stranded Deep 1.0.31.0.25\Mods\"
 if not exist %25path%25 mkdir %25path%25
-SET path="$(ProjectDir)..\..\..\..\Stranded Deep 1.0.17.0.23\Mods\StrandedWideMod\"
+SET path="$(ProjectDir)..\..\..\..\Stranded Deep 1.0.31.0.25\Mods\StrandedWideMod\"
 if not exist %25path%25 mkdir %25path%25
 copy /Y "$(TargetDir)Info.json" %25path%25\.
 copy /Y "$(TargetDir)$(ProjectName).dll" %25path%25\.

@@ -25,10 +25,10 @@ namespace StrandedWideMod_Harmony
         public static float slot2IslandSpacingBuffer = 1.25f;
         public static float slot3IslandSpacingBuffer = 1.25f;
 
-        public static int slot0IslandCountBuffer = 48;
-        public static int slot1IslandCountBuffer = 48;
-        public static int slot2IslandCountBuffer = 48;
-        public static int slot3IslandCountBuffer = 48;
+        public static int slot0IslandCountBuffer = 49;
+        public static int slot1IslandCountBuffer = 49;
+        public static int slot2IslandCountBuffer = 49;
+        public static int slot3IslandCountBuffer = 49;
 
         public static int IslandSizeBuffer
         {
@@ -84,7 +84,7 @@ namespace StrandedWideMod_Harmony
                     case 3:
                         return slot3IslandCountBuffer;
                     default:
-                        return 512;
+                        return 49;
                 }
             }
             set
@@ -123,7 +123,7 @@ namespace StrandedWideMod_Harmony
                     case 3:
                         return slot3IslandSpacingBuffer;
                     default:
-                        return 512;
+                        return 1.25f;
                 }
             }
             set
@@ -215,7 +215,7 @@ namespace StrandedWideMod_Harmony
                     case 3:
                         return slot3IslandCount;
                     default:
-                        return 512;
+                        return 49;
                 }
             }
             set
@@ -256,7 +256,7 @@ namespace StrandedWideMod_Harmony
                     case 3:
                         return slot3IslandSpacing;
                     default:
-                        return 512;
+                        return 1.25f;
                 }
             }
             set
