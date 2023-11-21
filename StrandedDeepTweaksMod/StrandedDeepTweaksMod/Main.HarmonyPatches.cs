@@ -18,6 +18,7 @@ using Beam.Serialization;
 using HarmonyLib;
 using System.Runtime.CompilerServices;
 using Beam.Utilities;
+using System.Collections;
 
 namespace StrandedDeepTweaksMod
 {
@@ -750,6 +751,48 @@ namespace StrandedDeepTweaksMod
                 catch (Exception e)
                 {
                     Debug.Log("Stranded Deep Tweaks Mod : error while patching AtmosphereStorm_Load_Postfix_Patch postfix : " + e);
+                }
+            }
+        }
+
+        [HarmonyPatch(typeof(LodController), "FindImpostor")]
+        class LodController_FindImpostor_Prefix_Patch
+        {
+            static bool Prefix(LodController __instance)
+            {
+                try
+                {
+                    if (StrandedWorld.GetZone(__instance.transform.position, false) == null)
+                        return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching LodController_FindImpostor_Prefix_Patch : " + e);
+                }
+
+                return true;
+            }
+        }
+
+
+        static FieldInfo fi_optimizedDistance = typeof(LandAnimal).GetField("_optimizedDistance", BindingFlags.NonPublic | BindingFlags.Instance);
+
+        [HarmonyPatch(typeof(LandAnimal), "Start")]
+        class LandAnimal_Start_Postfix_Patch
+        {
+            static void Postfix(LandAnimal __instance)
+            {
+                try
+                {
+                    if (!fixFlyingPigs)
+                        return;
+
+                    Debug.Log("Stranded Deep Tweaks Mod : Flying pig fix");
+                    fi_optimizedDistance.SetValue(__instance, 500f); // 1000 ?
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching LandAnimal_Start_Postfix_Patch postfix : " + e);
                 }
             }
         }

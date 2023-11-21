@@ -47,6 +47,7 @@ namespace StrandedDeepTweaksMod
         private static bool fixRainStart = true;
         private static bool betterRainTextures = true;
         private static bool fixBirdsEverywhere = true;
+        private static bool fixFlyingPigs = true;
 
         private static bool fixAudioReset = true;
 
@@ -446,6 +447,7 @@ namespace StrandedDeepTweaksMod
             fixRainStart = GUILayout.Toggle(fixRainStart, "Fix the rain not starting bug");
             fixAudioReset = GUILayout.Toggle(fixAudioReset, "Fix audio parameters resetting bug");
             fixBirdsEverywhere = GUILayout.Toggle(fixBirdsEverywhere, "Fix birds and bats only showing on starting island");
+            fixFlyingPigs = GUILayout.Toggle(fixFlyingPigs, "Fix pigs and giant crabs flying bug (experimental)");
             GUILayout.Label("<b>QoL options</b>");
             alwaysSkipIntro = GUILayout.Toggle(alwaysSkipIntro, "Always skip the private jet intro");
             saveAnywhereAllowed = GUILayout.Toggle(saveAnywhereAllowed, "Save anywhere allowed (F7)");
@@ -1838,6 +1840,10 @@ namespace StrandedDeepTweaksMod
                             {
                                 stopMissedAchievementsSpam = bool.Parse(tokens[1]);
                             }
+                            else if (tokens[0].Contains("fixFlyingPigs"))
+                            {
+                                fixFlyingPigs = bool.Parse(tokens[1]);
+                            }
                         }
                     }
                 }
@@ -1874,6 +1880,7 @@ namespace StrandedDeepTweaksMod
                 sb.AppendLine("betterRainTextures=" + betterRainTextures + ";");
                 sb.AppendLine("fixBirdsEverywhere=" + fixBirdsEverywhere + ";");
                 sb.AppendLine("stopMissedAchievementsSpam=" + stopMissedAchievementsSpam + ";");
+                sb.AppendLine("fixFlyingPigs=" + fixFlyingPigs + ";");
 
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
