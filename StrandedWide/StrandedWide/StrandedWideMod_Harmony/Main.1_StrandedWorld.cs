@@ -121,35 +121,35 @@ namespace StrandedWideMod_Harmony
         }
 
 #warning for debug
-        static bool isPreLoading = false;
-        [HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
-        class StrandedWorld_ZoneLoader_LoadedZone_Patch
-        {
+        //static bool isPreLoading = false;
+        //[HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
+        //class StrandedWorld_ZoneLoader_LoadedZone_Patch
+        //{
 
-            static void Postfix(Zone zone, StrandedWorld __instance)
-            {
-                try
-                {
-                    LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
-                    localizedNotification.Priority = NotificationPriority.Immediate;
-                    localizedNotification.Duration = 8f;
-                    localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") + " loaded");
-                    if (zone == StrandedWorld.Instance.NmlZone)
-                    {
-                        localizedNotification.MessageText.SetTerm("Zone NML loaded");
-                    }
-                    else
-                    {
-                        localizedNotification.MessageText.SetTerm("Zone " + zone.ZoneName + (isPreLoading ? "pre" : "") + " loaded");
-                    }
-                    localizedNotification.Raise();
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
-                }
-            }
-        }
+        //    static void Postfix(Zone zone, StrandedWorld __instance)
+        //    {
+        //        try
+        //        {
+        //            LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
+        //            localizedNotification.Priority = NotificationPriority.Immediate;
+        //            localizedNotification.Duration = 8f;
+        //            localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") + " loaded");
+        //            if (zone == StrandedWorld.Instance.NmlZone)
+        //            {
+        //                localizedNotification.MessageText.SetTerm("Zone NML loaded");
+        //            }
+        //            else
+        //            {
+        //                localizedNotification.MessageText.SetTerm("Zone " + zone.ZoneName + (isPreLoading ? "pre" : "") + " loaded");
+        //            }
+        //            localizedNotification.Raise();
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
+        //        }
+        //    }
+        //}
 
 
 
