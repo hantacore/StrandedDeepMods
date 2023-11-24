@@ -155,17 +155,31 @@ namespace StrandedWideMod_Harmony
 
 #warning world randomizer
 
-                    Beam.AccountServices.SteamWorkshop.Instance.RequestUserContent();
-                    FieldInfo fi_userContent = typeof(Beam.AccountServices.SteamWorkshop).GetField("m_content", BindingFlags.Instance | BindingFlags.NonPublic);
-                    List<Beam.AccountServices.LoadedContent> steamContent = fi_userContent.GetValue(Beam.AccountServices.SteamWorkshop.Instance) as List<Beam.AccountServices.LoadedContent>;
-
-                    IEnumerable<string> remoteMapPaths = (from c in steamContent
-                                       where c.Tags.Any_NonAlloc((string tag) => tag.Equals(Beam.AccountServices.UgcTags.MAPS))
-                                       select c).SelectMany((Beam.AccountServices.LoadedContent c) => Directory.GetDirectories(c.Path));
                     LoadingResult lr = new LoadingResult();
                     Maps.LoadDefaultMaps(out lr);
                     Maps.LoadLocalMaps(out lr);
-                    Maps.LoadRemoteMaps(remoteMapPaths, out lr);
+                    try
+                    {
+                        PropertyInfo pi_Instance = typeof(Beam.AccountServices.SteamWorkshop).GetProperty("Instance", BindingFlags.Public | BindingFlags.Static);
+                        if (pi_Instance == null)
+                        {
+                            Debug.Log("Stranded Wide (Harmony edition) : Steam Workshop not found, skipping remote maps");
+                        }
+                        else
+                        {
+                            Debug.Log("Stranded Wide (Harmony edition) : Steam Workshop found, loading remote maps");
+                            //lr = DynamicSteamMapsLoad(lr);
+                            MethodInfo mi_DynamicSteamMapsLoad = typeof(Main).GetMethod("DynamicSteamMapsLoad", BindingFlags.Public | BindingFlags.Static);
+                            if (mi_DynamicSteamMapsLoad != null)
+                            {
+                                lr = (LoadingResult)mi_DynamicSteamMapsLoad.Invoke(null, new object[] { lr });
+                            }
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log("Stranded Wide (Harmony edition) : Steam Workshop not found, skipping remote maps");
+                    }
 
 #warning end randomizer
 
@@ -225,6 +239,23 @@ namespace StrandedWideMod_Harmony
                     Debug.Log("Stranded Wide (Harmony edition) : error while patching World_CreateWorld_Patch : " + ex);
                 }
                 return false;
+            }
+
+            public static LoadingResult DynamicSteamMapsLoad(LoadingResult lr)
+            {
+                if (Beam.AccountServices.SteamWorkshop.Instance != null)
+                {
+                    Beam.AccountServices.SteamWorkshop.Instance.RequestUserContent();
+                    FieldInfo fi_userContent = typeof(Beam.AccountServices.SteamWorkshop).GetField("m_content", BindingFlags.Instance | BindingFlags.NonPublic);
+                    List<Beam.AccountServices.LoadedContent> steamContent = fi_userContent.GetValue(Beam.AccountServices.SteamWorkshop.Instance) as List<Beam.AccountServices.LoadedContent>;
+
+                    IEnumerable<string> remoteMapPaths = (from c in steamContent
+                                                          where c.Tags.Any_NonAlloc((string tag) => tag.Equals(Beam.AccountServices.UgcTags.MAPS))
+                                                          select c).SelectMany((Beam.AccountServices.LoadedContent c) => Directory.GetDirectories(c.Path));
+                    Maps.LoadRemoteMaps(remoteMapPaths, out lr);
+                }
+
+                return lr;
             }
         }
 
