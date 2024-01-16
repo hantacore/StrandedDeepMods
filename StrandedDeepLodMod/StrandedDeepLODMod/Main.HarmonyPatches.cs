@@ -538,8 +538,9 @@ namespace StrandedDeepLODMod
                     if (!increaseLODs && !ultraDistance)
                         return true;
 
-                    //if (!WorldUtilities.IsStrandedWide())
-                    //{
+#warning stranded wide interaction
+                    if (!WorldUtilities.IsStrandedWide())
+                    {
                         float buffedUnloadDistance = 260f * 4;
                         __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedUnloadDistance;
 
@@ -549,7 +550,7 @@ namespace StrandedDeepLODMod
                         }
 
                         return false;
-                    //}
+                    }
                 }
                 catch (Exception e)
                 {
@@ -600,8 +601,9 @@ namespace StrandedDeepLODMod
                     if (!increaseLODs || !ultraDistance)
                         return true;
 
-                    //if (!WorldUtilities.IsStrandedWide())
-                    //{
+#warning stranded wide interaction
+                    if (!WorldUtilities.IsStrandedWide())
+                    {
                         // if in standard radius, standard behavior
                         if (!zone.Loaded && PlayerRegistry.AllPlayers.Any_NonAlloc(new Func<IPlayer, Zone, bool>(InZoneLoadingVanillaBounds), zone))
                         {
@@ -629,10 +631,12 @@ namespace StrandedDeepLODMod
                                     _preloadedZones.Add(zone);
                             }
 
+                            zone.HasVisited = hasVisited;
+
                             isPreLoading = false;
                         }
                         return false;
-                    //}
+                    }
                 }
                 catch (Exception e)
                 {
@@ -654,12 +658,8 @@ namespace StrandedDeepLODMod
             /// <returns></returns>
             internal static bool InZoneLoadingExtendedBounds(IPlayer player, Zone zone)
             {
-                //if (!WorldUtilities.IsStrandedWide())
-                //{
-                    float buffedLoadDistance = 250f * 4;
-                    return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedLoadDistance;
-                //}
-                return false;
+                float buffedLoadDistance = 250f * 4;
+                return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedLoadDistance;
             }
         }
 

@@ -1,7 +1,7 @@
 {
 	"Releases" :
 	[
-		{"Id": "StrandedWideMod", "Version": "0.1.3", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/195"},
+		{"Id": "StrandedWideMod", "Version": "0.1.4", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/195"},
 		{"Id": "StrandedDeepTweaksMod", "Version": "0.0.23", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/169"},
 		{"Id": "StrandedDeepAlternativeEndgameMod", "Version": "1.0.2", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/205"},
 		{"Id": "StrandedDeepRaftStructuresMod", "Version": "1.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/201"},
@@ -9,7 +9,7 @@
 		{"Id": "StrandedDeepMusicMod", "Version": "0.0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/165"},
 		{"Id": "StrandedDeepJusRobsMod", "Version": "0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/203"},
 		{"Id": "StrandedDeepOneHitBuildMod", "Version": "0.0.1", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/199"},
-		{"Id": "StrandedDeepLODMod", "Version": "0.0.16", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/197"},
+		{"Id": "StrandedDeepLODMod", "Version": "0.0.17", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/197"},
 		{"Id": "StrandedDeepAnimatedFoliageMod", "Version": "0.0.7", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/207"},
 		{"Id": "StrandedDeepExplorationMod", "Version": "1.0.0", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/227"},
 		{"Id": "StrandedDeep2KMod", "Version": "0.0.6", "Homepage": "https://www.nexusmods.com/strandeddeep/mods/175"},

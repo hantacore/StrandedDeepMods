@@ -121,76 +121,76 @@ namespace StrandedWideMod_Harmony
         }
 
 #warning for debug
-        //static bool isPreLoading = false;
-        //[HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
-        //class StrandedWorld_ZoneLoader_LoadedZone_Patch
-        //{
+        static bool isPreLoading = false;
+        [HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
+        class StrandedWorld_ZoneLoader_LoadedZone_Patch
+        {
 
-        //    static void Postfix(Zone zone, StrandedWorld __instance)
-        //    {
-        //        try
-        //        {
-        //            LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
-        //            localizedNotification.Priority = NotificationPriority.Immediate;
-        //            localizedNotification.Duration = 8f;
-        //            localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") + " loaded");
-        //            if (zone == StrandedWorld.Instance.NmlZone)
-        //            {
-        //                localizedNotification.MessageText.SetTerm("Zone NML loaded");
-        //            }
-        //            else
-        //            {
-        //                localizedNotification.MessageText.SetTerm("Zone " + zone.ZoneName + (isPreLoading ? "pre" : "") + " loaded");
-        //            }
-        //            localizedNotification.Raise();
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
-        //        }
-        //    }
-        //}
+            static void Postfix(Zone zone, StrandedWorld __instance)
+            {
+                try
+                {
+                    LocalizedNotification localizedNotification = new LocalizedNotification(new Notification());
+                    localizedNotification.Priority = NotificationPriority.Immediate;
+                    localizedNotification.Duration = 8f;
+                    localizedNotification.TitleText.SetTerm("Zone " + (isPreLoading ? "pre" : "") + " loaded");
+                    if (zone == StrandedWorld.Instance.NmlZone)
+                    {
+                        localizedNotification.MessageText.SetTerm("Zone NML loaded");
+                    }
+                    else
+                    {
+                        localizedNotification.MessageText.SetTerm("Zone " + zone.ZoneName + (isPreLoading ? "pre" : "") + " loaded");
+                    }
+                    localizedNotification.Raise();
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
+                }
+            }
+        }
 
 
 
-#warning let the game or the LOD mod handle this
-        //[HarmonyPatch(typeof(StrandedWorld), "InZoneUnLoadingBounds")]
-        //class StrandedWorld_InZoneUnLoadingBounds_Patch
-        //{
-        //    static bool Prefix(IPlayer player, Zone zone, ref bool __result)
-        //    {
-        //        try
-        //        {
-        //            __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneUnloadDistance;
-        //            // skip original method
-        //            return false;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneUnLoadingBounds : " + e);
-        //        }
-        //        return true;
-        //    }
-        //}
+#warning necessary
+        [HarmonyPatch(typeof(StrandedWorld), "InZoneUnLoadingBounds")]
+        class StrandedWorld_InZoneUnLoadingBounds_Patch
+        {
+            static bool Prefix(IPlayer player, Zone zone, ref bool __result)
+            {
+                try
+                {
+                    __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneUnloadDistance;
+                    // skip original method
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneUnLoadingBounds : " + e);
+                }
+                return true;
+            }
+        }
 
-        //[HarmonyPatch(typeof(StrandedWorld), "InZoneLoadingBounds")]
-        //class StrandedWorld_InZoneLoadingBounds_Patch
-        //{
-        //    static bool Prefix(IPlayer player, Zone zone, ref bool __result)
-        //    {
-        //        try
-        //        {
-        //            __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneLoadDistance;
-        //            // skip original method
-        //            return false;
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneLoadingBounds : " + e);
-        //        }
-        //        return true;
-        //    }
-        //}
+        [HarmonyPatch(typeof(StrandedWorld), "InZoneLoadingBounds")]
+        class StrandedWorld_InZoneLoadingBounds_Patch
+        {
+            static bool Prefix(IPlayer player, Zone zone, ref bool __result)
+            {
+                try
+                {
+                    __result = Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < _zoneLoadDistance;
+                    // skip original method
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneLoadingBounds : " + e);
+                }
+                return true;
+            }
+        }
 
         [HarmonyPatch(typeof(StrandedWorld), "AddWaveOverlay")]
         class StrandedWorld_AddWaveOverlay_Patch
