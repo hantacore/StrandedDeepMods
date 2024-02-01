@@ -567,64 +567,15 @@ namespace StrandedDeepTweaksMod
             }
         }
 
-
-
-        // BIRD FLOCKS PATCH
-
-        [HarmonyPatch(typeof(StrandedWorld), "ZoneLoader_LoadedZone")]
-        class FlockController_StrandedWorld_ZoneLoader_LoadedZone_Patch
+        // 1.0.38 compatibility
+        [HarmonyPatch(typeof(BiomeFlockProvider), "StrandedWorld_ZoneEntered")]
+        class BiomeFlockProvider_StrandedWorld_ZoneEntered_Postfix_Patch
         {
-
-            static void Postfix(Zone zone, StrandedWorld __instance)
+            static void Postfix(Zone zone, BiomeFlockProvider __instance)
             {
                 try
                 {
-                    if (!fixBirdsEverywhere)
-                        return;
-
-                    Debug.Log("Stranded Deep Tweaks Mod : ZoneLoader_LoadedZone " + zone.name);
-                    typeof(StrandedWorld).GetMethod("OnZoneEntered", BindingFlags.Instance | BindingFlags.NonPublic).Invoke(StrandedWorld.Instance, new object[] { zone });
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Stranded Deep Tweaks Mod : error while patching StrandedWorld.ZoneLoader_LoadedZone : " + e);
-                }
-            }
-        }
-
-        [HarmonyPatch(typeof(FlockController), "StrandedWorld_ZoneEntered")]
-        class FlockController_StrandedWorld_ZoneEntered__Prefix_Patch
-        {
-            static bool Prefix(Zone zone, FlockController __instance)
-            {
-                try
-                {
-                    if (!fixBirdsEverywhere)
-                        return true;
-
-                    //Debug.Log("Stranded Deep Tweaks Mod : FLOCK CONTROLLER zone entered prefix " + zone.name);
-                    if (zone.ZoneName.CompareTo(StrandedWorld.Instance.NmlZone.ZoneName) == 0)
-                    {
-                        Debug.Log("Stranded Deep Tweaks Mod : Birds everywhere fix : bypassing NML zone");
-                        return false;
-                    }
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Stranded Deep Tweaks Mod : error while patching FlockController.StrandedWorld_ZoneEntered prefix : " + e);
-                }
-                return true;
-            }
-        }
-
-        [HarmonyPatch(typeof(FlockController), "StrandedWorld_ZoneEntered")]
-        class FlockController_StrandedWorld_ZoneEntered_Postfix_Patch
-        {
-            static void Postfix(Zone zone, FlockController __instance)
-            {
-                try
-                {
-                    if (!fixBirdsEverywhere)
+                    if (!fixBirdsSwide)
                         return;
 
                     if (zone.ZoneName.CompareTo(StrandedWorld.Instance.NmlZone.ZoneName) == 0)
@@ -633,6 +584,7 @@ namespace StrandedDeepTweaksMod
                         return;
                     }
                     //Debug.Log("Stranded Deep Tweaks Mod : FLOCK CONTROLLER zone entered postfix " + zone.name);
+                    // StrandedWide compatibility
                     FixFlocks();
                 }
                 catch (Exception e)
@@ -663,7 +615,8 @@ namespace StrandedDeepTweaksMod
         [HarmonyPatch(typeof(AtmosphereStorm), "CheckWeather")]
         class AtmosphereStorm_CheckWeather_Postfix_Patch
         {
-            static void Postfix(AtmosphereStorm __instance, int calendarDay, float rainRatio, float eventRatio, float startTimeRatio)
+            // 1.0.38 compatibility
+            static void Postfix(AtmosphereStorm __instance)
             {
                 try
                 {
@@ -774,27 +727,29 @@ namespace StrandedDeepTweaksMod
             }
         }
 
+#warning turbo paddle cheat
+        //[HarmonyPatch(typeof(PaddleVehicleMovement), "Move")]
+        //class PaddleVehicleMovement_Move_Prefix_Patch
+        //{
+        //    static bool Prefix(PaddleVehicleMovement __instance)
+        //    {
+        //        try
+        //        {
+        //            //PropertyInfo property = typeof(VehicleMovementBase).GetProperty("Throttle");
+        //            //property.DeclaringType.GetProperty("Throttle");
+        //            //Debug.Log("Stranded Deep Tweaks Mod : paddle Throttle " + __instance.Throttle);
+        //            //property.GetSetMethod(true).Invoke(__instance, new object[] { 0.0f });
 
-        static FieldInfo fi_optimizedDistance = typeof(LandAnimal).GetField("_optimizedDistance", BindingFlags.NonPublic | BindingFlags.Instance);
-
-        [HarmonyPatch(typeof(LandAnimal), "Start")]
-        class LandAnimal_Start_Postfix_Patch
-        {
-            static void Postfix(LandAnimal __instance)
-            {
-                try
-                {
-                    if (!fixFlyingPigs)
-                        return;
-
-                    Debug.Log("Stranded Deep Tweaks Mod : Flying pig fix");
-                    fi_optimizedDistance.SetValue(__instance, 500f); // 1000 ?
-                }
-                catch (Exception e)
-                {
-                    Debug.Log("Stranded Deep Tweaks Mod : error while patching LandAnimal_Start_Postfix_Patch postfix : " + e);
-                }
-            }
-        }
+        //            FieldInfo fi_engineForce = typeof(PaddleVehicleMovement).GetField("_engineForce", BindingFlags.NonPublic | BindingFlags.Instance);
+        //            //Debug.Log("Stranded Deep Tweaks Mod : paddle _engineForce " + fi_engineForce.GetValue(__instance));
+        //            fi_engineForce.SetValue(__instance, 300.0f);
+        //        }
+        //        catch (Exception e)
+        //        {
+        //            Debug.Log("Stranded Deep Tweaks Mod : error while patching PaddleVehicleMovement_Move_Prefix_Patch postfix : " + e);
+        //        }
+        //        return true;
+        //    }
+        //}
     }
 }

@@ -31,7 +31,6 @@ namespace StrandedDeepTweaksMod
 
         private static bool infiniteAir = false;
         private static bool biggerAirTank = false;
-        //private static List<Funlabs.MiniGuid> handledAirtankReferences;
 
         private static bool showDistances = false;
 
@@ -46,20 +45,16 @@ namespace StrandedDeepTweaksMod
         private static bool fixRainReset = true;
         private static bool fixRainStart = true;
         private static bool betterRainTextures = true;
-        private static bool fixBirdsEverywhere = true;
-        private static bool fixFlyingPigs = true;
+        private static bool fixBirdsSwide = true;
 
         private static bool fixAudioReset = true;
 
         private static bool biggerStackSizes = false;
 
-        private static bool bossesInitialized = false;
-
         private static bool smallerRaftTurnAngle = false;
 
         private static bool spawnJerrycansAbaiaWreck = false;
 
-        private static bool compassActive = false;
         private static bool permaCompassEnabled = false;
         private static bool permaCompassAlwaysVisible = false;
 
@@ -70,7 +65,6 @@ namespace StrandedDeepTweaksMod
 
         private static bool infiniteGas = false;
         private static bool biggerGasTank = false;
-        //private static List<string> handledGastankReferences;
 
         private static bool stopMissedAchievementsSpam = false;
 
@@ -82,8 +76,6 @@ namespace StrandedDeepTweaksMod
         internal static System.Diagnostics.Stopwatch chrono = new System.Diagnostics.Stopwatch();
         internal static bool perfCheck = false;
 
-        private static FieldInfo fi_holding;
-        //private static FieldInfo fi_owner;
         private static FieldInfo fi_rain = typeof(AtmosphereStorm).GetField("_rain", BindingFlags.Instance | BindingFlags.NonPublic);
         private static FieldInfo fi_AudioManagerInstance = typeof(AudioManager).GetField("_Instance", BindingFlags.NonPublic | BindingFlags.Static);
         private static FieldInfo fi_rigidbody = typeof(Buoyancy).GetField("_rigidbody", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -154,20 +146,6 @@ namespace StrandedDeepTweaksMod
                 //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings VoiceVolume after : " + Options.AudioSettings.VoiceVolume);
                 //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings EffectsVolume after : " + Options.AudioSettings.EffectsVolume);
                 //Debug.Log("Stranded Deep Tweaks Mod : Audiosettings EnvironmentVolume after : " + Options.AudioSettings.EnvironmentVolume);
-
-                fi_holding = typeof(Beam.Crafting.InteractiveObject_SPYGLASS).GetField("_holding", BindingFlags.NonPublic | BindingFlags.Instance);
-                if (fi_holding == null)
-                {
-                    Debug.Log("Stranded Deep Tweaks Mod : _holding field not found");
-                    return false;
-                }
-
-                //fi_owner = typeof(Beam.Crafting.InteractiveObject_SPYGLASS).BaseType.GetField("_owner", BindingFlags.NonPublic | BindingFlags.Instance);
-                //if (fi_owner == null)
-                //{
-                //    Debug.Log("Stranded Deep Tweaks Mod : _owner field not found");
-                //    return false;
-                //}
 
                 if (fixItemWeigths)
                 {
@@ -446,8 +424,7 @@ namespace StrandedDeepTweaksMod
             fixRainReset = GUILayout.Toggle(fixRainReset, "Fix the rain not resetting bug");
             fixRainStart = GUILayout.Toggle(fixRainStart, "Fix the rain not starting bug");
             fixAudioReset = GUILayout.Toggle(fixAudioReset, "Fix audio parameters resetting bug");
-            fixBirdsEverywhere = GUILayout.Toggle(fixBirdsEverywhere, "Fix birds and bats only showing on starting island");
-            fixFlyingPigs = GUILayout.Toggle(fixFlyingPigs, "Fix pigs and giant crabs flying bug (experimental)");
+            fixBirdsSwide = GUILayout.Toggle(fixBirdsSwide, "Fix birds and bats flocks position in Stranded Wide");
             GUILayout.Label("<b>QoL options</b>");
             alwaysSkipIntro = GUILayout.Toggle(alwaysSkipIntro, "Always skip the private jet intro");
             saveAnywhereAllowed = GUILayout.Toggle(saveAnywhereAllowed, "Save anywhere allowed (F7)");
@@ -731,7 +708,7 @@ namespace StrandedDeepTweaksMod
                             && PlayerRegistry.LocalPlayer.Holder.CurrentObject is InteractiveObject_SPYGLASS)
                         {
                             InteractiveObject_SPYGLASS spyglass = PlayerRegistry.LocalPlayer.Holder.CurrentObject as InteractiveObject_SPYGLASS;
-                            bool holding = (bool)fi_holding.GetValue(spyglass);
+                            bool holding = spyglass.IsPickedUp;//(bool)fi_holding.GetValue(spyglass);
                             //Debug.Log("Stranded Deep Tweaks Mod : is holding spyglass = " + holding);
                             if (!holding)
                             {
@@ -1832,17 +1809,13 @@ namespace StrandedDeepTweaksMod
                             {
                                 betterRainTextures = bool.Parse(tokens[1]);
                             }
-                            else if (tokens[0].Contains("fixBirdsEverywhere"))
+                            else if (tokens[0].Contains("fixBirdsSwide"))
                             {
-                                fixBirdsEverywhere = bool.Parse(tokens[1]);
+                                fixBirdsSwide = bool.Parse(tokens[1]);
                             }
                             else if (tokens[0].Contains("stopMissedAchievementsSpam"))
                             {
                                 stopMissedAchievementsSpam = bool.Parse(tokens[1]);
-                            }
-                            else if (tokens[0].Contains("fixFlyingPigs"))
-                            {
-                                fixFlyingPigs = bool.Parse(tokens[1]);
                             }
                         }
                     }
@@ -1878,9 +1851,8 @@ namespace StrandedDeepTweaksMod
                 sb.AppendLine("betterSpyglass=" + betterSpyglass + ";");
                 sb.AppendLine("fixRainStart=" + fixRainStart + ";");
                 sb.AppendLine("betterRainTextures=" + betterRainTextures + ";");
-                sb.AppendLine("fixBirdsEverywhere=" + fixBirdsEverywhere + ";");
+                sb.AppendLine("fixBirdsSwide=" + fixBirdsSwide + ";");
                 sb.AppendLine("stopMissedAchievementsSpam=" + stopMissedAchievementsSpam + ";");
-                sb.AppendLine("fixFlyingPigs=" + fixFlyingPigs + ";");
 
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
