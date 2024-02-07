@@ -55,7 +55,7 @@ namespace StrandedWideMod_Harmony
                     }
                     else
                     {
-                        __instance.HandleOutOfGameBounds_SaveDynamicContainer();
+                        __instance.HandleOutOfGameBounds_NoMansLand();
                     }
                     JObject jobject4 = new JObject();
                     for (int k = 0; k < Main.IslandsCount; k++)
