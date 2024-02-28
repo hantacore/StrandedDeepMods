@@ -60,6 +60,8 @@ namespace StrandedDeepTweaksMod
 
         private static bool betterSpyglass = false;
 
+        private static bool turboPaddleCheat = false;
+
         //private static bool hardersharks = true;
         //private static bool hardcoresharks = true;
 
@@ -316,6 +318,9 @@ namespace StrandedDeepTweaksMod
 
                 VersionChecker.CheckVersion(modEntry, _infojsonlocation);
 
+                KeyHandler.KeyPressed -= KeyHandler_KeyPressed;
+                KeyHandler.KeyPressed += KeyHandler_KeyPressed;
+
                 Debug.Log("Stranded Deep Tweaks Mod properly loaded");
 
                 return true;
@@ -443,6 +448,7 @@ namespace StrandedDeepTweaksMod
             hardcorebosses = GUILayout.Toggle(hardcorebosses, "Make the bosses hardcore (increased damage)");
             permaCompassEnabled = GUILayout.Toggle(permaCompassEnabled, "Show compass when item is in inventory");// (toggle with XX)");
             permaCompassAlwaysVisible = GUILayout.Toggle(permaCompassAlwaysVisible, "Always show compass");// (toggle with XX)");
+            turboPaddleCheat = GUILayout.Toggle(turboPaddleCheat, "Turbo paddling cheat");
             GUILayout.Label("<b>Realism options</b>");
             addBuoyancies = GUILayout.Toggle(addBuoyancies, "Add floatability to some objects (performance impact)");
             fixItemWeigths = GUILayout.Toggle(fixItemWeigths, "More realistic item weights on raft (WIP)");
@@ -610,22 +616,7 @@ namespace StrandedDeepTweaksMod
 
                 if (Beam.Game.State == GameState.NEW_GAME || Beam.Game.State == GameState.LOAD_GAME)
                 {
-                    if (saveAnywhereAllowed)
-                    {
-                        Event currentevent = Event.current;
-                        if (currentevent.isKey)
-                        {
-                            if (currentevent.keyCode == KeyCode.F7 && !Game.Mode.IsMultiplayer())
-                            {
-                                if (Game.Mode.IsMaster())
-                                {
-                                    // Try and save the game
-                                    //SaveManager.Save(Beam.Game.Mode, true);
-                                    SaveManager.SaveGame(PlayerRegistry.LocalPlayer);
-                                }
-                            }
-                        }
-                    }
+                    KeyHandler.HandleKey();
 
                     //Debug.Log("Stranded Deep Tweaks Mod update step 2 (ms) = " + chrono.ElapsedMilliseconds);
 
@@ -854,17 +845,17 @@ namespace StrandedDeepTweaksMod
                     //Debug.Log("Stranded Deep Tweaks Mod update step 7 (ms) = " + chrono.ElapsedMilliseconds);
 
                     //BuoyancyTests();
-                    //if (addBuoyancies && flag == 3)
-                    //{
-                    //    //AddBuoyancies();
-                    //    if (buoyancyHandler.MustFillQueue)
-                    //    {
-                    //        buoyancyHandler.FillQueue(Beam.Game.FindObjectsOfType<InteractiveObject>());
-                    //    }
-                    //    buoyancyHandler.Handle();
-                    //}
+                    if (addBuoyancies && flag == 3)
+                    {
+                        //    //AddBuoyancies();
+                        //    if (buoyancyHandler.MustFillQueue)
+                        //    {
+                        //        buoyancyHandler.FillQueue(Beam.Game.FindObjectsOfType<InteractiveObject>());
+                        //    }
+                        buoyancyHandler.Handle();
+                    }
 
-                    if ((permaCompassEnabled || permaCompassAlwaysVisible))
+                if ((permaCompassEnabled || permaCompassAlwaysVisible))
                     {
                         try
                         {
@@ -971,6 +962,34 @@ namespace StrandedDeepTweaksMod
                 {
                     Debug.Log("Stranded Deep Tweaks Mod update time (ms) = " + chrono.ElapsedMilliseconds);
                 }
+            }
+        }
+
+        private static void KeyHandler_KeyPressed(object sender, KeyCode e)
+        {
+            if (saveAnywhereAllowed)
+            {
+                //Event currentevent = Event.current;
+                //if (currentevent.isKey)
+                //{
+                    if (e == KeyCode.F7 && !Game.Mode.IsMultiplayer())
+                    {
+                        if (Game.Mode.IsMaster() && CanSave())
+                        {
+                            try
+                            {
+                                // Try and save the game
+                                Debug.Log("Stranded Deep Tweaks Mod : manual game save");
+                                //SaveManager.Save(Beam.Game.Mode, true);
+                                SaveManager.SaveGame(PlayerRegistry.LocalPlayer);
+                            }
+                            catch(Exception ex)
+                            {
+                                Debug.Log("Stranded Deep Tweaks Mod : error on save game : " + ex);
+                            }
+                        }
+                    }
+                //}
             }
         }
 

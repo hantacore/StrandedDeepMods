@@ -333,17 +333,18 @@ namespace StrandedDeepTweaksMod
             if (io == null)
                 return;
 
-            Debug.Log("Stranded Deep Tweaks Mod : adding buoyancy to " + io.name);
-            io.gameObject.SetActive(false);
-            Buoyancy newbuoy = io.gameObject.AddComponent<Buoyancy>();
-            fi_buoyancyDensity.SetValue(newbuoy, 600.0f);
-            Rigidbody rb = fi_rigidbody.GetValue(newbuoy) as Rigidbody;
-            if (rb == null)
-            {
-                //Debug.Log("Stranded Deep Tweaks Mod : buoyancy rigidbody is null");
-                fi_rigidbody.SetValue(newbuoy, io.rigidbody);
-            }
-            io.gameObject.SetActive(true);
+            buoyancyHandler.AddOne(io);
+
+            //io.gameObject.SetActive(false);
+            //Buoyancy newbuoy = io.gameObject.AddComponent<Buoyancy>();
+            //fi_buoyancyDensity.SetValue(newbuoy, 600.0f);
+            //Rigidbody rb = fi_rigidbody.GetValue(newbuoy) as Rigidbody;
+            //if (rb == null)
+            //{
+            //    //Debug.Log("Stranded Deep Tweaks Mod : buoyancy rigidbody is null");
+            //    fi_rigidbody.SetValue(newbuoy, io.rigidbody);
+            //}
+            //io.gameObject.SetActive(true);
         }
 
         [HarmonyPatch(typeof(SaveablePrefab), "Attached")]
@@ -727,29 +728,31 @@ namespace StrandedDeepTweaksMod
             }
         }
 
-#warning turbo paddle cheat
-        //[HarmonyPatch(typeof(PaddleVehicleMovement), "Move")]
-        //class PaddleVehicleMovement_Move_Prefix_Patch
-        //{
-        //    static bool Prefix(PaddleVehicleMovement __instance)
-        //    {
-        //        try
-        //        {
-        //            //PropertyInfo property = typeof(VehicleMovementBase).GetProperty("Throttle");
-        //            //property.DeclaringType.GetProperty("Throttle");
-        //            //Debug.Log("Stranded Deep Tweaks Mod : paddle Throttle " + __instance.Throttle);
-        //            //property.GetSetMethod(true).Invoke(__instance, new object[] { 0.0f });
+        [HarmonyPatch(typeof(PaddleVehicleMovement), "Move")]
+        class PaddleVehicleMovement_Move_Prefix_Patch
+        {
+            static bool Prefix(PaddleVehicleMovement __instance)
+            {
+                try
+                {
+                    if (!turboPaddleCheat)
+                        return true;
 
-        //            FieldInfo fi_engineForce = typeof(PaddleVehicleMovement).GetField("_engineForce", BindingFlags.NonPublic | BindingFlags.Instance);
-        //            //Debug.Log("Stranded Deep Tweaks Mod : paddle _engineForce " + fi_engineForce.GetValue(__instance));
-        //            fi_engineForce.SetValue(__instance, 300.0f);
-        //        }
-        //        catch (Exception e)
-        //        {
-        //            Debug.Log("Stranded Deep Tweaks Mod : error while patching PaddleVehicleMovement_Move_Prefix_Patch postfix : " + e);
-        //        }
-        //        return true;
-        //    }
-        //}
+                    //PropertyInfo property = typeof(VehicleMovementBase).GetProperty("Throttle");
+                    //property.DeclaringType.GetProperty("Throttle");
+                    //Debug.Log("Stranded Deep Tweaks Mod : paddle Throttle " + __instance.Throttle);
+                    //property.GetSetMethod(true).Invoke(__instance, new object[] { 0.0f });
+
+                    FieldInfo fi_engineForce = typeof(PaddleVehicleMovement).GetField("_engineForce", BindingFlags.NonPublic | BindingFlags.Instance);
+                    //Debug.Log("Stranded Deep Tweaks Mod : paddle _engineForce " + fi_engineForce.GetValue(__instance));
+                    fi_engineForce.SetValue(__instance, 300.0f);
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Deep Tweaks Mod : error while patching PaddleVehicleMovement_Move_Prefix_Patch postfix : " + e);
+                }
+                return true;
+            }
+        }
     }
 }

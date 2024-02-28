@@ -17,40 +17,66 @@ namespace StrandedDeepTweaksMod
         private FieldInfo fi_rigidbody = typeof(Buoyancy).GetField("_rigidbody", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public BuoyancyHandler()
-            : base(2, true)
+            //: base(2, true)
+            : base(1, true)
         {
+        }
+
+        public void AddOne(InteractiveObject toHandle)
+        {
+            try
+            {
+                List<InteractiveObject> buffer = new List<InteractiveObject>();
+                if (ListToHandle != null)
+                {
+                    buffer = new List<InteractiveObject>(ListToHandle);
+                }
+                buffer.Add(toHandle);
+                ListToHandle = new InteractiveObject[buffer.Count];
+                Array.Copy(buffer.ToArray(), ListToHandle, buffer.Count);
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep Tweaks Mod : AddOne failed : " + e);
+            }
         }
 
         protected override void HandleOne(InteractiveObject io)
         {
-            //Debug.Log("Stranded Deep Tweaks Mod : " + io.name);
-            Buoyancy buoy = io.GetComponent<Buoyancy>();
-            if (buoy == null
-                && (io.name.Contains("STICK")
-                || io.name.Contains("COCONUT")
-                || io.name.Contains("SCRAP_PLANK")
-                || io.name.Contains("CONTAINER_CRATE")
-                || io.name.Contains("FROND")
-                || io.name.Contains("PALM_TOP")
-                || io.name.Contains("PALM_LOG")
-                || io.name.Contains("PADDLE")
-                || io.name.Contains("FUELCAN")
-                || io.name.Contains("LEAVES_FIBROUS")
-                || io.name.Contains("WOLLIE")
-                || io.name.Contains("COCONUT_FLASK")
-                || io.name.Contains("MEDICAL")))
-            {
-                if (io.name.Contains("CONTAINER_CRATE")
-                    && io is Interactive_STORAGE)
-                {
-                    Interactive_STORAGE istor = io as Interactive_STORAGE;
-                    //Debug.Log("Stranded Deep Tweaks Mod : CRATE spawnItemLoot = " + fi_LootSpawned.GetValue(istor));
-                    if (!(bool)fi_LootSpawned.GetValue(istor))
-                    {
-                        return;
-                    }
-                }
+            if (io == null || io.gameObject == null)
+                return;
 
+            //Debug.Log("Stranded Deep Tweaks Mod : " + io.name);
+            //Buoyancy buoy = io.GetComponent<Buoyancy>();
+            //if (buoy == null
+            //    && (io.name.Contains("STICK")
+            //    || io.name.Contains("COCONUT")
+            //    || io.name.Contains("SCRAP_PLANK")
+            //    || io.name.Contains("CONTAINER_CRATE")
+            //    || io.name.Contains("FROND")
+            //    || io.name.Contains("PALM_TOP")
+            //    || io.name.Contains("PALM_LOG")
+            //    || io.name.Contains("PADDLE")
+            //    || io.name.Contains("FUELCAN")
+            //    || io.name.Contains("LEAVES_FIBROUS")
+            //    || io.name.Contains("WOLLIE")
+            //    || io.name.Contains("COCONUT_FLASK")
+            //    || io.name.Contains("MEDICAL")))
+            //{
+            //    if (io.name.Contains("CONTAINER_CRATE")
+            //        && io is Interactive_STORAGE)
+            //    {
+            //        Interactive_STORAGE istor = io as Interactive_STORAGE;
+            //        //Debug.Log("Stranded Deep Tweaks Mod : CRATE spawnItemLoot = " + fi_LootSpawned.GetValue(istor));
+            //        if (!(bool)fi_LootSpawned.GetValue(istor))
+            //        {
+            //            return;
+            //        }
+            //    }
+
+            Buoyancy buoy = io.GetComponent<Buoyancy>();
+            if (buoy == null)
+            {
                 io.gameObject.SetActive(false);
                 Debug.Log("Stranded Deep Tweaks Mod : adding buoyancy to " + io.name);
                 Buoyancy newbuoy = io.gameObject.AddComponent<Buoyancy>();
@@ -63,6 +89,7 @@ namespace StrandedDeepTweaksMod
                 }
                 io.gameObject.SetActive(true);
             }
+            //}
         }
     }
 }

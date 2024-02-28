@@ -112,10 +112,14 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\KeyHandler.cs">
+      <Link>KeyHandler.cs</Link>
+    </Compile>
     <Compile Include="BuoyancyHandler.cs" />
     <Compile Include="CollectionHandler.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Main.HarmonyPatches.cs" />
+    <Compile Include="Main.Save.cs" />
     <Compile Include="Main.Spyglass.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VersionChecker.cs" />

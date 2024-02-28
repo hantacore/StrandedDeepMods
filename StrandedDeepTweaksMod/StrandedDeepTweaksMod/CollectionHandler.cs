@@ -9,7 +9,7 @@ namespace StrandedDeepTweaksMod
 {
     public class CollectionHandler<T>
     {
-        T[] ListToHandle = null;
+        protected T[] ListToHandle = null;
         List<T> _handledElements = new List<T>();
         int lastPassCount = 0;
         int currentIndex = -1;
@@ -58,9 +58,8 @@ namespace StrandedDeepTweaksMod
                 }
 
                 lastPassCount = count;
-
-                ListToHandle = new T[lastPassCount];
-                Array.Copy(collection, ListToHandle, lastPassCount);
+                ListToHandle = new T[count];
+                Array.Copy(collection, ListToHandle, count);
             }
             catch (Exception e)
             {
@@ -92,7 +91,7 @@ namespace StrandedDeepTweaksMod
                         T element = ListToHandle[currentIndex];
                         try
                         {
-                            if (StoreHandled && _handledElements.Contains(element))
+                            if (element == null || StoreHandled && _handledElements.Contains(element))
                                 continue;
 
                             // do stuff
