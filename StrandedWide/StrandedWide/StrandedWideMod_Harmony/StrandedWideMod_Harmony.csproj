@@ -125,7 +125,6 @@
     <Compile Include="Main.0_Additions.cs" />
     <Compile Include="Main.0_SplashScreen.cs" />
     <Compile Include="Main.1_StrandedWorld.cs" />
-    <Compile Include="Main.1_StrandedWorld_AsyncLoadTest.cs" />
     <Compile Include="Main.1_StrandedWorld_IslandsCount.cs" />
     <Compile Include="Main.2_Zone.cs" />
     <Compile Include="Main.3_Maps.cs" />
@@ -147,7 +146,9 @@
     <Compile Include="Main.I_LE_GUI3dObject.cs" />
     <Compile Include="Main.M_PiscusManager.cs" />
     <Compile Include="Main.N_LE_ObjectEditHandle.cs" />
+    <Compile Include="Main.Q_ConnectorCheck_CheckDistanceFromZone.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Main.P_LE_SaveLoad.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="..\..\..\Repository.json">

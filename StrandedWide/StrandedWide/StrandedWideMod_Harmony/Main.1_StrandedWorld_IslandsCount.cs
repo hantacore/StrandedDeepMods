@@ -63,15 +63,12 @@ namespace StrandedWideMod_Harmony
                         jobject4.Add(__instance.GetZoneData(__instance.Zones[k]));
                     }
                     JObject zoneData = __instance.GetZoneData(__instance.NmlZone);
-                    if (zoneData.IsValid())
-                    {
-                        jobject4.Add(zoneData);
-                    }
+                    jobject4.Add(zoneData);
                     jobject.AddField("Zones", jobject4);
                     jobject.AddField("ShelterCount", JSerializer.Serialize(__instance.ShelterCount));
                     JObject jobject5 = new JObject();
                     int num = 1;
-                    int num2 = -1;
+                    int instance = -1;
                     for (int l = 0; l < __instance.Zones.Length; l++)
                     {
                         Zone zone2 = __instance.Zones[l];
@@ -83,10 +80,10 @@ namespace StrandedWideMod_Harmony
                         }
                         if (zone2.HasWollie)
                         {
-                            num2 = l;
+                            instance = l;
                         }
                     }
-                    jobject5.AddField("Wollie", (float)num2);
+                    jobject5.AddField("Wollie", (float)instance);
                     jobject.AddField("Shelters", jobject5);
                     __result = jobject;
 
@@ -277,11 +274,15 @@ namespace StrandedWideMod_Harmony
                         mi_PollImposters.Invoke(__instance, new object[] { zone });
                         //__instance.PollZone(zone);
                         
-                        // patch 1.0.35
-                        if (!(bool)mi_PollUnload.Invoke(__instance, new object[] { zone }))
-                        {
-                            mi_PollLoad.Invoke(__instance, new object[] { zone });
-                        }
+                        // patch 1.0.35 -> buggy
+                        //if (!(bool)mi_PollUnload.Invoke(__instance, new object[] { zone }))
+                        //{
+                        //    mi_PollLoad.Invoke(__instance, new object[] { zone });
+                        //}
+
+                        // raft bug fix
+                        mi_PollUnload.Invoke(__instance, new object[] { zone });
+                        mi_PollLoad.Invoke(__instance, new object[] { zone });
                     }
 
                     // skip original method
@@ -294,6 +295,40 @@ namespace StrandedWideMod_Harmony
                 return true;
             }
         }
+
+#warning for debug
+//        [HarmonyPatch(typeof(StrandedWorld), "PollUnload")]
+//        class StrandedWorld_PollUnload_Patch
+//        {
+//            static bool Prefix(StrandedWorld __instance, Zone zone, bool __result)
+//            {
+//                try
+//                {
+
+//                    //if (__result)
+//                    //    Debug.Log("Stranded Wide (Harmony edition) : PollUnload " + zone.name + " do unload");
+//                    //else
+//                    //{
+//                    //    Debug.Log("Stranded Wide (Harmony edition) : PollUnload " + zone.name + " do not unload");
+//                    //    //Debug.Log("Stranded Wide (Harmony edition) : PollUnload " + zone.name + " do not load");
+//                    //    //Debug.Log("Stranded Wide (Harmony edition) : PollUnload " + zone.name + " loading " + zone.Loading);
+//                    //    //Debug.Log("Stranded Wide (Harmony edition) : PollUnload " + zone.name + " loaded " + zone.Loaded);
+
+//                    //    ////PlayerRegistry.AllPlayers.Any_NonAlloc(new Func<IPlayer, Zone, bool>(this.InZoneLoadingBounds), zone)
+//                    //    //bool playerInZoneLoadingBounds = PlayerRegistry.AllPlayers.Any_NonAlloc(player => (bool)mi_InZoneLoadingBounds.Invoke(__instance, new object[] { player, zone }));
+//                    //    //Debug.Log("Stranded Wide (Harmony edition) : PollZones " + zone.name + " playerInZoneLoadingBounds " + playerInZoneLoadingBounds);
+//                    //}
+
+
+//                }
+//                catch (Exception e)
+//                {
+//                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld_PollUnload_Patch : " + e);
+//                }
+
+//                return true;
+//            }
+//        }
 
 #warning for debug
         //[HarmonyPatch(typeof(StrandedWorld), "PollLoad")]

@@ -54,7 +54,7 @@ namespace StrandedWideMod_Harmony
         [HarmonyPatch(typeof(StrandedWorld), "ApplyWorldToZones")]
         class StrandedWorld_ApplyWorldToZones_Patch
         {
-            static bool Prefix()
+            static bool Prefix(StrandedWorld __instance)
             {
                 try
                 {
@@ -103,6 +103,9 @@ namespace StrandedWideMod_Harmony
                                 //OLD DO NOT USE zone.WaveOverlay = this.AddWaveOverlay(zone.gameObject, CreateTransparentTexture(_islandSize), CreateTransparentTexture(_islandSize));
                             }
                             zone.SaveContainer.transform.SetAsLastSibling();
+
+                            Debug.LogError("StrandedWorld:: TEST pre-creating zone (" + i + ") " + DateTime.Now);
+                            __instance.ZoneLoader.GenerateZone(zone);
                         }
                         catch (Exception e)
                         {
@@ -187,6 +190,30 @@ namespace StrandedWideMod_Harmony
                 catch (Exception e)
                 {
                     Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.InZoneLoadingBounds : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(StrandedWorld), "IsOutOfGameBounds")]
+        class StrandedWorld_IsOutOfGameBounds_Patch
+        {
+            static bool Prefix(Vector3 position, ref bool __result)
+            {
+                try
+                {
+                    float zoneSize = Main.ZoneSize;
+                    float zoneSpacing = Main.ZoneSpacing;
+                    float numberOfIslandsOnDiameter = 8f;
+                    float worldRadius = (zoneSize * zoneSpacing * numberOfIslandsOnDiameter) / 2.0f;
+
+                    __result = position.y > 300f || position.y < -25f || position.x > worldRadius || position.x < -worldRadius || position.z > worldRadius || position.z < -worldRadius;
+                    // skip original method
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching StrandedWorld.IsOutOfGameBounds : " + e);
                 }
                 return true;
             }

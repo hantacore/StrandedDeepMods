@@ -106,7 +106,10 @@ namespace StrandedWideMod_Harmony
                         Vector2 vector = World.GenerationZonePositons[i];
                         RectTransform rectTransform = (RectTransform)uworldMapSlot.transform;
                         rectTransform.localPosition = new Vector3(vector.x, vector.y, 0f);
-                        rectTransform.sizeDelta = new Vector2(257f, 257f);
+
+#warning something fishy with this magic 257
+                        //rectTransform.sizeDelta = new Vector2(257f, 257f);
+                        rectTransform.sizeDelta = new Vector2(IslandSize + 1, IslandSize + 1);
                     }
                     componentInParent.ScaleToFitContent();
                     componentInParent.SetScale(0.5f);

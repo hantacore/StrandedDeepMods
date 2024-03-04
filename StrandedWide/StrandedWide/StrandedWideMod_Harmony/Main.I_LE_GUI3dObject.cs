@@ -10,11 +10,26 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using Funlabs;
+using S_SnapTools;
+using MyUtility;
 
 namespace StrandedWideMod_Harmony
 {
     public static partial class Main
     {
+        static FieldInfo fi_m_previewInstance = AccessTools.Field(typeof(LE_GUI3dObject), "m_previewInstance");
+        static FieldInfo fi_m_cursorHitInfo = AccessTools.Field(typeof(LE_GUI3dObject), "m_cursorHitInfo");
+        static FieldInfo fi_m_object = AccessTools.Field(typeof(LE_GUI3dObject), "m_object");
+        static FieldInfo fi_m_isObjectPlaceable = AccessTools.Field(typeof(LE_GUI3dObject), "m_isObjectPlaceable");
+        static MethodInfo mi_SetDragMessageInUI = AccessTools.Method(typeof(LE_GUI3dObject), "SetDragMessageInUI");
+        static MethodInfo mi_IsObjectDraggedInUI = AccessTools.Method(typeof(LE_GUI3dObject), "IsObjectDraggedInUI");
+        static MethodInfo mi_OnObjectDrag = AccessTools.Method(typeof(LE_GUI3dObject), "OnObjectDrag");
+        static MethodInfo mi_MoveToLayer = AccessTools.Method(typeof(LE_GUI3dObject), "MoveToLayer");
+        static MethodInfo mi_AddGridSnapping = AccessTools.Method(typeof(LE_GUI3dObject), "AddGridSnapping");
+        static MethodInfo mi_PlaceObject = AccessTools.Method(typeof(LE_GUI3dObject), "PlaceObject");
+        static MethodInfo mi_OnNewObjectPlaced = AccessTools.Method(typeof(LE_GUI3dObject), "OnNewObjectPlaced");
+
         [HarmonyPatch(typeof(LE_GUI3dObject), "IsObjectPlaceable", new Type[] { typeof(LE_Object) })]
         class LE_GUI3dObject_IsObjectPlaceable_Patch
         {
@@ -28,10 +43,12 @@ namespace StrandedWideMod_Harmony
                         LE_Object[] array = UnityEngine.Object.FindObjectsOfType<LE_Object>();
                         for (int i = 0; i < array.Length; i++)
                         {
-                            if (array[i].Id == p_object.Id)
+                            // 1.0.38 compatibility
+                            LE_Object m_previewInstance = fi_m_previewInstance.GetValue(__instance) as LE_Object;
+                            if ((!(m_previewInstance != null) || !(m_previewInstance == array[i])) && array[i].Id == p_object.Id)
                             {
                                 num++;
-                                if (p_object.MaxInstancesInLevel * Main.IncreaseMaxObjectsRatio < num)
+                                if (p_object.MaxInstancesInLevel * Main.IncreaseMaxObjectsRatio <= num)
                                 {
                                     __result = false;
                                     return false;
@@ -50,17 +67,6 @@ namespace StrandedWideMod_Harmony
                 return true;
             }
         }
-
-        static FieldInfo fi_m_previewInstance = AccessTools.Field(typeof(LE_GUI3dObject), "m_previewInstance");
-        static FieldInfo fi_m_cursorHitInfo = AccessTools.Field(typeof(LE_GUI3dObject), "m_cursorHitInfo");
-        static FieldInfo fi_m_object = AccessTools.Field(typeof(LE_GUI3dObject), "m_object");
-        static FieldInfo fi_m_isObjectPlaceable = AccessTools.Field(typeof(LE_GUI3dObject), "m_isObjectPlaceable");
-        static MethodInfo mi_SetDragMessageInUI = AccessTools.Method(typeof(LE_GUI3dObject), "SetDragMessageInUI");
-        static MethodInfo mi_IsObjectDraggedInUI = AccessTools.Method(typeof(LE_GUI3dObject), "IsObjectDraggedInUI");
-        static MethodInfo mi_OnObjectDrag = AccessTools.Method(typeof(LE_GUI3dObject), "OnObjectDrag");
-        static MethodInfo mi_MoveToLayer = AccessTools.Method(typeof(LE_GUI3dObject), "MoveToLayer");
-        static MethodInfo mi_AddGridSnapping = AccessTools.Method(typeof(LE_GUI3dObject), "AddGridSnapping");
-        static MethodInfo mi_PlaceObject = AccessTools.Method(typeof(LE_GUI3dObject), "PlaceObject");
 
         // issue : drops loads of objects on the way
 
@@ -166,6 +172,75 @@ namespace StrandedWideMod_Harmony
                 catch (Exception e)
                 {
                     Debug.Log("Stranded Wide (Harmony edition) : error while patching LE_GUI3dObject.UpdateNewObjectDragAndDrop : " + e);
+                }
+                return true;
+            }
+        }
+
+        [HarmonyPatch(typeof(LE_GUI3dObject), "PlaceObject", new Type[] { typeof(LE_Object), typeof(Transform), typeof(bool), typeof(bool) })]
+        class LE_GUI3dObject_PlaceObject_Patch
+        {
+            static bool Prefix(LE_GUI3dObject __instance, LE_Object p_prefab, Transform p_copyTransform, bool p_isDestroyClonedScripts, ref LE_Object __result, bool clonedOffset = false)
+            {
+                try
+                {
+                    Vector3 position = p_copyTransform.position;
+                    position.x += 1f;
+                    // 1.0.38 compatibility
+                    if (position.XZSqr() > (float)Math.Pow(ZoneHalfSize, 2))
+                    {
+                        return false;
+                    }
+                    LE_Object le_Object = UnityEngine.Object.Instantiate<LE_Object>(p_prefab);
+                    le_Object.gameObject.name = p_prefab.name;
+                    le_Object.gameObject.GetComponent<Transform>().parent = Singleton<LE_LevelEditorMain>.Instance.ObjectDumpContainer;
+                    if (clonedOffset)
+                    {
+                        le_Object.transform.position = p_copyTransform.position + new Vector3(1f, 0f, 0f);
+                    }
+                    else
+                    {
+                        le_Object.transform.position = p_copyTransform.position;
+                    }
+                    le_Object.transform.rotation = p_copyTransform.rotation;
+                    le_Object.transform.localScale = p_copyTransform.localScale;
+                    if (p_isDestroyClonedScripts)
+                    {
+                        LE_ObjectEditHandle componentInChildren = le_Object.GetComponentInChildren<LE_ObjectEditHandle>();
+                        if (componentInChildren != null)
+                        {
+                            UnityEngine.Object.Destroy(componentInChildren.gameObject);
+                        }
+                        S_SnapToWorld component = le_Object.GetComponent<S_SnapToWorld>();
+                        if (component != null)
+                        {
+                            UnityEngine.Object.Destroy(component);
+                        }
+                        S_SnapToGrid component2 = le_Object.GetComponent<S_SnapToGrid>();
+                        if (component2 != null)
+                        {
+                            UnityEngine.Object.Destroy(component2);
+                        }
+                        S_SnapToObject[] componentsInChildren = le_Object.GetComponentsInChildren<S_SnapToObject>(true);
+                        for (int i = 0; i < componentsInChildren.Length; i++)
+                        {
+                            LE_ObjectSnapPoint.DestroySnapSystem(componentsInChildren[i]);
+                        }
+                        UtilityOnDestroyHandler component3 = le_Object.GetComponent<UtilityOnDestroyHandler>();
+                        if (component3 != null)
+                        {
+                            component3.DestroyWithoutHandling();
+                        }
+                    }
+                    mi_OnNewObjectPlaced.Invoke(__instance, new object[] { le_Object });
+
+                    __result = le_Object;
+                    // skip original method
+                    return false;
+                }
+                catch (Exception e)
+                {
+                    Debug.Log("Stranded Wide (Harmony edition) : error while patching LE_GUI3dObject_PlaceObject_Patch : " + e);
                 }
                 return true;
             }
