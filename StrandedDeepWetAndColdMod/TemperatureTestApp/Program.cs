@@ -25,7 +25,7 @@ namespace TemperatureTestApp
             currentTime = currentTime.AddMinutes(1);
             // use GameCalendar.Instance.Month !
 
-            //Debug.Log("Stranded Deep Wet and Cold Mod : current month in GameTime.Now = " + now.Month + " / current month in GameTime.Instance.Month : " + GameCalendar.Instance.Month);
+            //Debug.Log("Stranded Deep "+MODNAME+" Mod : current month in GameTime.Now = " + now.Month + " / current month in GameTime.Instance.Month : " + GameCalendar.Instance.Month);
 
             //GameCalendar.Instance.CurrentMonthData; // <- USE THIS DATA
 
@@ -43,10 +43,10 @@ namespace TemperatureTestApp
             if (currentTemperature >= 0.9999 || currentTemperature <= 0.0001)
                 Console.WriteLine("Time is : " + currentTime.ToShortTimeString() + " / temperature is : " + currentTemperature);
 
-            //Debug.Log("Stranded Deep Wet and Cold Mod : current month data Min : " + GameCalendar.Instance.CurrentMonthData.MinTemp + " / MAx " + GameCalendar.Instance.CurrentMonthData.MaxTemp);
+            //Debug.Log("Stranded Deep "+MODNAME+" Mod : current month data Min : " + GameCalendar.Instance.CurrentMonthData.MinTemp + " / MAx " + GameCalendar.Instance.CurrentMonthData.MaxTemp);
 
             //GameCalendar.Instance.MonthsData
-            //Debug.Log("Stranded Deep Wet and Cold Mod : month by index ("+ now.Month +") data Min : " + GameCalendar.Instance.MonthsData[now.Month].MinTemp + " / MAx " + GameCalendar.Instance.MonthsData[now.Month].MaxTemp);
+            //Debug.Log("Stranded Deep "+MODNAME+" Mod : month by index ("+ now.Month +") data Min : " + GameCalendar.Instance.MonthsData[now.Month].MinTemp + " / MAx " + GameCalendar.Instance.MonthsData[now.Month].MaxTemp);
 
         }
     }

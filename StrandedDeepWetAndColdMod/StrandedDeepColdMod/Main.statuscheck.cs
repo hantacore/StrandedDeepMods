@@ -23,7 +23,7 @@ namespace StrandedDeepWetAndColdMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod : error IsInTheSun : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod : error IsInTheSun : " + e);
             }
             return !IsStorm();
         }
@@ -81,7 +81,7 @@ namespace StrandedDeepWetAndColdMod
                     simpleShelter = true;
 
                     //if (hit.transform != null)
-                    //    Debug.Log("Stranded Deep Wet and Cold Mod : I'm under " + hit.transform.name);
+                    //    Debug.Log("Stranded Deep "+MODNAME+" Mod : I'm under " + hit.transform.name);
                     GameObject go = hit.transform.gameObject;
                     BaseObject sp = null;
                     if (go != null)
@@ -102,7 +102,7 @@ namespace StrandedDeepWetAndColdMod
                         // is there a foundation
                         if (hit.transform != null && hit.transform.gameObject != null)
                         {
-                            //Debug.Log("Stranded Deep Wet and Cold Mod : I walk on " + hit.transform.name);
+                            //Debug.Log("Stranded Deep "+MODNAME+" Mod : I walk on " + hit.transform.name);
                             go = hit.transform.gameObject;
                             sp = null;
                             if (go != null)
@@ -210,7 +210,7 @@ namespace StrandedDeepWetAndColdMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod : HasPhysicalActivity failed : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod : HasPhysicalActivity failed : " + e);
             }
 
             return false;

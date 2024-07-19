@@ -8,16 +8,19 @@ namespace StrandedDeepWetAndColdMod
 {
     public static class ParameterValues
     {
+        public static float BALANCING_FACTOR = 2f;
+
+        public static int MAX_ENERGY = 700;
         public static int MAX_WETNESS = 200;
         public static int MAX_TEMP = 100;
 
         public static int COMFORT_MAX_TEMPERATURE_DEGREES_AIR = 26; // degrees
         public static int COMFORT_MIN_TEMPERATURE_DEGREES_AIR = 22; // degrees
         public static int NEUTRAL_TEMPERATURE_DEGREES_WATER = 33; // degrees
-        public static int NATURAL_TEMPERATURE_REGULATION = 2;
+        public static float NATURAL_TEMPERATURE_REGULATION_PER_MINUTE = 2 / BALANCING_FACTOR;
 
-        public static int HEAT_PERCEPTION = 6;// degrees per minute
-        public static int COLD_PERCEPTION = -6;// degrees per minute
+        //public static int HEAT_PERCEPTION = 6;// degrees per minute
+        //public static int COLD_PERCEPTION = -6;// degrees per minute
 
         public static int HOT_THRESHOLD = 65;// percent
         public static int SWEAT_THRESHOLD = 75;// percent
@@ -28,7 +31,26 @@ namespace StrandedDeepWetAndColdMod
         public static float REGULATION_CONSUMPTION_DIVIDE_FACTOR = 4f;
         public static float NATURAL_TEMPERATURE_REGULATION_SLEEP_EFFICIENCY = 0.5f;
 
+        /// <summary>
+        /// default is 4 ingame hours
+        /// </summary>
+        public static int SICK_INGAME_DELAY = 4 * 60 * 60 * 1000; // 4 ingame hours
+        /// <summary>
+        /// default is 1 ingame day
+        /// </summary>
+        public static int FEVER_INGAME_DELAY = 60 * 60 * 1000 * 24; // default is 1 ingame day
+        /// <summary>
+        /// default is 4 ingame hour
+        /// </summary>
+        public static int HEAL_INGAME_DELAY_MINUTES = 4 * 60; // 4 ingame hours
+        /// <summary>
+        /// default is 4 ingame hour
+        /// </summary>
+        public static int FEVER_HEAL_INGAME_DELAY_MINUTES = 4 * 60; // 4 ingame hours
 
+        /// <summary>
+        /// Technical parameters
+        /// </summary>
         public static int SHELTER_CHECK_INTERVAL_SECONDS = 2;
         public static float TOP_SHELTER_CHECK_DISTANCE = 20f;
         public static float SHELTER_CHECK_DISTANCE = 10f;//5f;
@@ -36,40 +58,46 @@ namespace StrandedDeepWetAndColdMod
         public static int MINIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS = 10000;
         public static int MAXIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS = 60000;
 
-        public static int UNDERWATER_WETNESS_MODIFICATOR = 100;
-        public static int WATER_TOUCH_WETNESS_MODIFICATOR = 10;
-        public static int UNSHELTERED_RAIN_WETNESS_MODIFICATOR = 2;
-        public static int DAYLIGHT_SUN_WETNESS_MODIFICATOR = -2;
-        public static int NIGHT_WETNESS_MODIFICATOR = -1;
-        public static int DAY_WETNESS_MODIFICATOR = -1;
-        public static int HEATSOURCE_WETNESS_MODIFICATOR = -7;
+        /// <summary>
+        /// Fixed parameters
+        /// </summary>
+        public static int UNDERWATER_WETNESS_MODIFICATOR_PER_MINUTE = 100;
+        public static int WATER_TOUCH_WETNESS_MODIFICATOR_PER_MINUTE = 10;
+        public static int UNSHELTERED_RAIN_WETNESS_MODIFICATOR_PER_MINUTE = 2;
+        public static int DAYLIGHT_SUN_WETNESS_MODIFICATOR_PER_MINUTE = -2;
+        public static int NIGHT_WETNESS_MODIFICATOR_PER_MINUTE = -1;
+        public static int DAY_WETNESS_MODIFICATOR_PER_MINUTE = -1;
+        public static int HEATSOURCE_WETNESS_MODIFICATOR_PER_MINUTE = -7;
 
-        public static int DAYLIGHT_DAWN_TEMP_MODIFICATOR = 1;
-        public static int DAYLIGHT_MID_SUN_TEMP_MODIFICATOR = 2;
-        public static int DAYLIGHT_FULL_SUN_TEMP_MODIFICATOR = 3;
+        /// <summary>
+        /// Balanced parameters
+        /// </summary>
+        public static float DAYLIGHT_DAWN_TEMP_MODIFICATOR_PER_MINUTE = 1 / BALANCING_FACTOR;
+        public static float DAYLIGHT_MID_SUN_TEMP_MODIFICATOR_PER_MINUTE = 2 / BALANCING_FACTOR;
+        public static float DAYLIGHT_FULL_SUN_TEMP_MODIFICATOR_PER_MINUTE = 3 / BALANCING_FACTOR;
 
-        public static int HOUSING_SHELTER_TEMP_MODIFICATOR = 2;
-        public static int HEATSOURCE_TEMP_MODIFICATOR = 5;
-        public static int ACTIVITY_TEMP_MODIFICATOR = 3;
-        public static int WETNESS_TEMP_MODIFICATOR = -1;
-        public static int EVAPORATION_TEMP_MODIFICATOR = 5;
+        public static float HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE = 2 / BALANCING_FACTOR;
+        public static float HEATSOURCE_TEMP_MODIFICATOR_PER_MINUTE = 5 / BALANCING_FACTOR;
+        public static float ACTIVITY_TEMP_MODIFICATOR_PER_MINUTE = 3 / BALANCING_FACTOR;
+        public static float WETNESS_TEMP_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float EVAPORATION_TEMP_MODIFICATOR_PER_MINUTE = 5 / BALANCING_FACTOR;
         //public static int UNDERWATER_TEMP_MODIFICATOR = -1;
-        public static int STORM_TEMP_MODIFICATOR = -2;
-        public static int NIGHT_TEMP_MODIFICATOR = -1;
-        public static int SICK_TEMP_MODIFICATOR = -1;
-        public static int FEVER_TEMP_MODIFICATOR = -1;
+        public static float STORM_TEMP_MODIFICATOR_PER_MINUTE = -2 / BALANCING_FACTOR;
+        public static float NIGHT_TEMP_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float SICK_TEMP_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float FEVER_TEMP_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
 
-        public static int COLD_CALORIES_CONSUMPTION = -1;
-        public static int SWEAT_WATER_CONSUMPTION = -1;
+        public static float COLD_CALORIES_CONSUMPTION_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float SWEAT_WATER_CONSUMPTION_PER_MINUTE = -1 / BALANCING_FACTOR;
 
-        public static int SICK_ENERGY_MODIFICATOR = -1;
-        public static int REST_ENERGY_MODIFICATOR = 1;
-        public static int ACTIVITY_ENERGY_MODIFICATOR = -1;
-        public static int FEVER_ENERGY_MODIFICATOR = -1;
-        public static float TIME_ENERGY_MODIFICATOR = 0.3f;
+        public static float SICK_ENERGY_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float REST_ENERGY_MODIFICATOR_PER_MINUTE = 1 / BALANCING_FACTOR;
+        public static float ACTIVITY_ENERGY_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float FEVER_ENERGY_MODIFICATOR_PER_MINUTE = -1 / BALANCING_FACTOR;
+        public static float TIME_ENERGY_MODIFICATOR_PER_MINUTE = 0.3f / BALANCING_FACTOR;
 
-        public static int SICK_HEAL_HOUSE_MULTIPLICATOR = 5;
-        public static int FEVER_HEAL_HOUSE_MULTIPLICATOR = 10;
+        public static float SICK_HEAL_HOUSE_MULTIPLICATOR_PER_MINUTE = 5 / BALANCING_FACTOR;
+        public static float FEVER_HEAL_HOUSE_MULTIPLICATOR_PER_MINUTE = 10 / BALANCING_FACTOR;
 
 
         public static int ICONSIZE = 50;

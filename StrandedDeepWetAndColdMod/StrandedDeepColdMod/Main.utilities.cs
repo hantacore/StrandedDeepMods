@@ -38,7 +38,7 @@ namespace StrandedDeepWetAndColdMod
 
         #region images instanciation
 
-        private static int iconSize = 70;//50
+        private static int iconSize = 50;
 
         private static void InitWetnessMeter()
         {
@@ -367,7 +367,7 @@ namespace StrandedDeepWetAndColdMod
         {
             CanvasScaler cvsl = parentaCanvas.AddComponent<CanvasScaler>();
             cvsl.uiScaleMode = CanvasScaler.ScaleMode.ScaleWithScreenSize;
-            cvsl.referenceResolution = new Vector2(coldCanvasDefaultScreenWidth, coldCanvasDefaultScreenHeight);
+            cvsl.referenceResolution = new Vector2(wetAndColdCanvasDefaultScreenWidth, wetAndColdCanvasDefaultScreenHeight);
 
             cvsl.matchWidthOrHeight = 0.5f;
             cvsl.screenMatchMode = CanvasScaler.ScreenMatchMode.MatchWidthOrHeight;
@@ -404,17 +404,17 @@ namespace StrandedDeepWetAndColdMod
                             {
                                 hardFeverEffect = bool.Parse(tokens[1]);
                             }
-                            //else if (tokens[0].Contains("revealMissions"))
-                            //{
-                            //    revealMissions = bool.Parse(tokens[1]);
-                            //}
+                            else if (tokens[0].Contains("showWnCGUI"))
+                            {
+                                showWnCGUI = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("balancingFactor"))
+                            {
+                                ParameterValues.BALANCING_FACTOR = float.Parse(tokens[1]);
+                            }
                             //else if (tokens[0].Contains("debugMode"))
                             //{
                             //    debugMode = bool.Parse(tokens[1]);
-                            //}
-                            //if (tokens[0].Contains("viewDistance"))
-                            //{
-                            //    viewDistance = float.Parse(tokens[1]);
                             //}
                         }
                     }
@@ -429,11 +429,10 @@ namespace StrandedDeepWetAndColdMod
             {
                 string configFilePath = System.IO.Path.Combine(dataDirectory, configFileName);
                 StringBuilder sb = new StringBuilder();
-                //sb.AppendLine("viewDistance=" + viewDistance + ";");
-                //sb.AppendLine("revealWorld=" + revealWorld + ";");
-                //sb.AppendLine("revealMissions=" + revealMissions + ";");
 
                 sb.AppendLine("hardFeverEffect=" + hardFeverEffect + ";");
+                sb.AppendLine("showWnCGUI=" + showWnCGUI + ";");
+                sb.AppendLine("balancingFactor=" + ParameterValues.BALANCING_FACTOR + ";");
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
             }

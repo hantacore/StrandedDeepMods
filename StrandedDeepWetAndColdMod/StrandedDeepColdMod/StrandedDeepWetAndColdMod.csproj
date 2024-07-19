@@ -35,21 +35,21 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="0Harmony">
-      <HintPath>..\..\UnityModManager\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\UnityModManager\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
     </Reference>
     <Reference Include="bolt">
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
+      <HintPath>..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
     </Reference>
     <Reference Include="bolt.user">
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
+      <HintPath>..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
@@ -59,59 +59,68 @@
     <Reference Include="System.Xml" />
     <Reference Include="Unity.Postprocessing.Runtime, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\StrandedDeepMods\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
+      <HintPath>..\..\..\StrandedDeepMods\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\Unity.Postprocessing.Runtime.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AnimationModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.AnimationModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.ImageConversionModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.ImageConversionModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.PhysicsModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.PhysicsModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TextRenderingModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.TextRenderingModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityModManager">
-      <HintPath>..\..\UnityModManager\UnityModManager.dll</HintPath>
+      <HintPath>..\..\..\UnityModManager\UnityModManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="..\..\VersionChecker.cs">
+      <Link>VersionChecker.cs</Link>
+    </Compile>
+    <Compile Include="..\..\WorldUtilities.cs">
+      <Link>WorldUtilities.cs</Link>
+    </Compile>
     <Compile Include="BodyTemperature.cs" />
     <Compile Include="Cold.cs" />
     <Compile Include="Fever.cs" />
     <Compile Include="Hot.cs" />
     <Compile Include="Main.accessors.cs" />
+    <Compile Include="Main.AudioAndVisualEffects.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="Main.HarmonyPatches.cs" />
+    <Compile Include="Main.RainFix.cs" />
     <Compile Include="Main.statuscheck.cs" />
     <Compile Include="Main.utilities.cs" />
     <Compile Include="ParameterValues.cs" />
@@ -121,6 +130,9 @@
     <Compile Include="Wet.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="Info.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
@@ -168,9 +180,9 @@
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\"
+    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.38.0.29\Mods\"
 if not exist %25path%25 mkdir %25path%25
-SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\$(ProjectName)\"
+SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.38.0.29\Mods\$(ProjectName)\"
 if not exist %25path%25 mkdir %25path%25
 if not exist %25path%25\assets mkdir %25path%25\assets
 copy /Y "$(TargetDir)Info.json" %25path%25\.

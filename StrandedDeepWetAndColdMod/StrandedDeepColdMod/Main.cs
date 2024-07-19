@@ -1,5 +1,7 @@
 ﻿using Beam;
 using Beam.UI.Crafting;
+using HarmonyLib;
+using StrandedDeepModsUtils;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -35,12 +37,16 @@ namespace StrandedDeepWetAndColdMod
     /// </summary>
     public static partial class Main
     {
+        public const string MODNAME = "Wet and Cold";
+
+        private static Harmony harmony;
+
         private static bool showDebugText = false;
 
         private static string configFileName = "StrandedDeepWetAndColdMod.config";
 
-        private static float coldCanvasDefaultScreenWidth = 1024f;
-        private static float coldCanvasDefaultScreenHeight = 768f;
+        private static float wetAndColdCanvasDefaultScreenWidth = 1024f;
+        private static float wetAndColdCanvasDefaultScreenHeight = 768f;
         private static float screenRatioConversion = 1f;
 
         private static bool coldCanvasVisible = false;
@@ -48,14 +54,14 @@ namespace StrandedDeepWetAndColdMod
         private static Text debugText;
 
         public static Image wetMeterImage;
-        public static Wet wetEffect;
         public static Image coldMeterImage;
         public static Image hotMeterImage;
-        public static BodyTemperature bodytemperatureEffect;
-        public static Sick sickEffect;
-        public static Fever feverEffect;
-        public static Cold coldEffect;
-        public static Hot hotEffect;
+        public static Dictionary<int, Wet> wetEffect;
+        public static Dictionary<int, BodyTemperature> bodytemperatureEffect;
+        public static Dictionary<int, Sick> sickEffect;
+        public static Dictionary<int, Fever> feverEffect;
+        public static Dictionary<int, Cold> coldEffect;
+        public static Dictionary<int, Hot> hotEffect;
 
         private static FieldInfo playerStatisticsSleepField;
         private static FieldInfo playerStatisticsWaterField;
@@ -70,7 +76,7 @@ namespace StrandedDeepWetAndColdMod
         private static Image caloriesImage;
         private static Image feverOverlayImage;
 
-        private static DateTime lastCheck = DateTime.MinValue;
+        internal static DateTime lastCheck = DateTime.MinValue;
 
         private static bool simpleSheltered = false;
         private static bool housingSheltered = false;
@@ -79,17 +85,6 @@ namespace StrandedDeepWetAndColdMod
         private static bool isHeating = false;
 
         private static System.Random r = new System.Random();
-        private static DateTime nextCough = DateTime.MaxValue;
-        private static DateTime nextGripe = DateTime.MaxValue;
-        private static AudioClip coughMan = null;
-        private static AudioClip coughWoman = null;
-        private static AudioClip gripeMan = null;
-        private static AudioClip gripeWoman = null;
-
-        private static AudioClip shiverMan = null;
-        private static AudioClip shiverWoman = null;
-        private static AudioClip reliefMan = null;
-        private static AudioClip reliefWoman = null;
 
         private static List<uint> firePrefabs;
         private static List<uint> floorPrefabs;
@@ -103,12 +98,17 @@ namespace StrandedDeepWetAndColdMod
         internal static string END_FEVER_MESSAGE = "I'm starting to feel better.";
 
         internal static bool hardFeverEffect = true;
+        internal static bool showWnCGUI = true;
 
         // PlayerEffect
         // AtmosphereTemperature
 
         internal static System.Diagnostics.Stopwatch chrono = new System.Diagnostics.Stopwatch();
         private static bool perfCheck = false;
+
+        static string _infojsonlocation = "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/StrandedDeepWetAndColdMod/StrandedDeepColdMod/Info.json";
+
+        internal static bool fixRainReset = true;
 
         static bool Load(UnityModManager.ModEntry modEntry)
         {
@@ -119,8 +119,19 @@ namespace StrandedDeepWetAndColdMod
                 modEntry.OnUpdate = OnUpdate;
                 modEntry.OnGUI = OnGUI;
                 modEntry.OnHideGUI = OnHideGUI;
+                modEntry.OnUnload = OnUnload;
 
                 ReadConfig();
+
+                VersionChecker.CheckVersion(modEntry, _infojsonlocation);
+
+                // check if Tweaks loaded (maybe test fix enabled later)
+                //UnityModManager.ModEntry tweaksMod = UnityModManager.FindMod("StrandedDeepTweaksMod");
+                //if (tweaksMod != null && tweaksMod.Active && tweaksMod.Loaded)
+                //{
+                    Debug.Log("Stranded Deep " + MODNAME + " Mod : rain fix hardcoded and enabled");
+                    //ParameterValues.RAIN_VALUE_CORRECTION = 0;
+                //}
 
                 playerStatisticsSleepField = typeof(Statistics).GetField("_sleep", BindingFlags.NonPublic | BindingFlags.Instance);
                 if (playerStatisticsSleepField == null)
@@ -132,24 +143,11 @@ namespace StrandedDeepWetAndColdMod
                 if (playerStatisticsWaterField == null)
                     return false;
 
-                wetEffect = new Wet();
-                bodytemperatureEffect = new BodyTemperature();
-                sickEffect = new Sick();
-                feverEffect = new Fever();
-                coldEffect = new Cold();
-                hotEffect = new Hot();
+                InitEffects();
 
-                coughMan = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.cough_man.wav"));
-                coughWoman = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.cough_woman.wav"));
-                gripeMan = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.gripe_man.wav"));
-                gripeWoman = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.gripe_woman.wav"));
+                LoadAudioEffects();
 
-                shiverMan = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.cold_man.wav"));
-                shiverWoman = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.cold_woman.wav"));
-                reliefMan = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.relief_man.wav"));
-                reliefWoman = WavUtility.ToAudioClip(ExtractResource("StrandedDeepWetAndColdMod.audio.relief_woman.wav"));
-
-                float defaultScreenRatio = coldCanvasDefaultScreenWidth / coldCanvasDefaultScreenHeight;
+                float defaultScreenRatio = wetAndColdCanvasDefaultScreenWidth / wetAndColdCanvasDefaultScreenHeight;
                 float currentScreenRatio = (float)Screen.width / (float)Screen.height;
                 screenRatioConversion = currentScreenRatio / defaultScreenRatio;
 
@@ -226,31 +224,47 @@ namespace StrandedDeepWetAndColdMod
                 roofPrefabs.Add(245);//BRICK_ROOF_MIDDLE
                 roofPrefabs.Add(246);//BRICK_ROOF_WEDGE
 
-                RefreshColdTextCanvas();
+                harmony = new Harmony(modEntry.Info.Id);
+                harmony.PatchAll(Assembly.GetExecutingAssembly());
 
-                //InitWetnessMeter();
-                //InitTemperatureMeter();
-                //InitEnergyMeter();
-                //InitStaticImages();
-
-                Debug.Log("Stranded Deep Wet and Cold Mod properly loaded");
+                Debug.Log("Stranded Deep " + MODNAME + " Mod properly loaded");
                 return true;
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod error on load : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod error on load : " + e);
             }
             finally
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod load time (ms) = " + chrono.ElapsedMilliseconds);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod load time (ms) = " + chrono.ElapsedMilliseconds);
             }
 
             return false;
         }
 
+        private static void InitEffects()
+        {
+            Debug.Log("Stranded Deep " + MODNAME + " initialize effects");
+            wetEffect = new Dictionary<int, Wet>();
+            bodytemperatureEffect = new Dictionary<int, BodyTemperature>();
+            sickEffect = new Dictionary<int, Sick>();
+            feverEffect = new Dictionary<int, Fever>();
+            coldEffect = new Dictionary<int, Cold>();
+            hotEffect = new Dictionary<int, Hot>();
+            for (int i = 0; i < WorldUtilities.MaxPlayers; i++)
+            {
+                wetEffect.Add(i, new Wet());
+                bodytemperatureEffect.Add(i, new BodyTemperature());
+                sickEffect.Add(i, new Sick());
+                feverEffect.Add(i, new Fever());
+                coldEffect.Add(i, new Cold());
+                hotEffect.Add(i, new Hot());
+            }
+        }
+
         static void OnGUI(UnityModManager.ModEntry modEntry)
         {
-            GUILayout.Label("Wet and Cold mod by Hantacore");
+            GUILayout.Label("<b>Wet and Cold mod by Hantacore</b>");
             GUILayout.Label("This mod adds a hot / wet / cold / sick mechanism to the game");
             GUILayout.Label("It restores the atmosphere temperature mechanism, based on monthly data");
             GUILayout.Label("Storms are colder, and bring rain");
@@ -265,8 +279,56 @@ namespace StrandedDeepWetAndColdMod
             GUILayout.Label("You can heal fever and cold by keeping warm, and you'll heal faster inside a house");
             GUILayout.Label("");
             GUILayout.Label("Cold and fever effects are in Work in Progress for balancing");
-
+            GUILayout.Label("");
+            showWnCGUI = GUILayout.Toggle(showWnCGUI, "Show Wet and Cold GUI icons");
             hardFeverEffect = GUILayout.Toggle(hardFeverEffect, "Fever hard mode (blocks crafting)");
+            GUILayout.Label("");
+            GUILayout.Label("Balancing factor (Experimental, the higher = the slower) = " + ParameterValues.BALANCING_FACTOR);
+            ParameterValues.BALANCING_FACTOR = GUILayout.HorizontalSlider(ParameterValues.BALANCING_FACTOR, 1, 4);
+            if (GUILayout.Button("Reset Balancing factor"))
+            {
+                ParameterValues.BALANCING_FACTOR = 2.0f;
+            }
+            GUILayout.Label("");
+            GUILayout.Label("<b><color=orange>Info values (all readonly)</color></b>");
+
+            GUILayout.Label("Maximum wetness value");
+            GUILayout.TextField(ParameterValues.MAX_WETNESS.ToString());
+            GUILayout.Label("Maximum temperature value");
+            GUILayout.TextField(ParameterValues.MAX_TEMP.ToString());
+            GUILayout.Label("Hot threshold");
+            GUILayout.TextField(ParameterValues.HOT_THRESHOLD.ToString());
+            GUILayout.Label("Sweat threshold");
+            GUILayout.TextField(ParameterValues.SWEAT_THRESHOLD.ToString());
+            GUILayout.Label("Cold threshold");
+            GUILayout.TextField(ParameterValues.COLD_THRESHOLD.ToString());
+            GUILayout.Label("Sweat threshold");
+            GUILayout.TextField(ParameterValues.SWEAT_THRESHOLD.ToString());
+
+            GUILayout.Label("Get cold ingame delay");
+            GUILayout.TextField(ParameterValues.SICK_INGAME_DELAY.ToString());
+            GUILayout.Label("Heal from cold ingame delay");
+            GUILayout.TextField(ParameterValues.HEAL_INGAME_DELAY_MINUTES.ToString());
+            GUILayout.Label("Get fever ingame delay");
+            GUILayout.TextField(ParameterValues.FEVER_INGAME_DELAY.ToString());
+            GUILayout.Label("Heal fever ingame delay");
+            GUILayout.TextField(ParameterValues.FEVER_HEAL_INGAME_DELAY_MINUTES.ToString());
+
+            GUILayout.Label("Underwater wetness modificator");
+            GUILayout.TextField(ParameterValues.UNDERWATER_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+            GUILayout.Label("Touch water wetness modificator");
+            GUILayout.TextField(ParameterValues.WATER_TOUCH_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+            GUILayout.Label("Unsheletered rain wetness modificator");
+            GUILayout.TextField(ParameterValues.UNSHELTERED_RAIN_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+            GUILayout.Label("Daylight sun wetness modificator");
+            GUILayout.TextField(ParameterValues.DAYLIGHT_SUN_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+            GUILayout.Label("Night wetness modificator");
+            GUILayout.TextField(ParameterValues.NIGHT_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+            GUILayout.Label("Default day wetness modificator");
+            GUILayout.TextField(ParameterValues.DAY_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+            GUILayout.Label("Heatsource wetness modificator");
+            GUILayout.TextField(ParameterValues.HEATSOURCE_WETNESS_MODIFICATOR_PER_MINUTE.ToString());
+
             showDebugText = GUILayout.Toggle(showDebugText, "Show debug values");
 
             //Camera.current.focalLength = GUILayout.HorizontalSlider(Camera.current.focalLength, 0f, 150f);
@@ -275,11 +337,11 @@ namespace StrandedDeepWetAndColdMod
             {
                 if (GUILayout.Button("Give sick"))
                 {
-                    if (!PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(sickEffect))
+                    if (!PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(sickEffect[0]))
                     {
-                        Debug.Log("Stranded Deep Wet and Cold Mod : debug add sick");
-                        sickEffect.Reset();
-                        PlayerRegistry.LocalPlayer.Statistics.ApplyStatusEffect(sickEffect);
+                        Debug.Log("Stranded Deep "+MODNAME+" Mod : debug add sick");
+                        sickEffect[0].Reset();
+                        PlayerRegistry.LocalPlayer.Statistics.ApplyStatusEffect(sickEffect[0]);
                         Main.ShowSubtitles(PlayerRegistry.LocalPlayer, Main.SICK_MESSAGE);
                         nextCough = DateTime.Now;
                     }
@@ -287,66 +349,68 @@ namespace StrandedDeepWetAndColdMod
 
                 if (GUILayout.Button("Clear sick"))
                 {
-                    if (PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(sickEffect))
+                    if (PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(sickEffect[0]))
                     {
-                        Debug.Log("Stranded Deep Wet and Cold Mod : debug remove sick");
+                        Debug.Log("Stranded Deep "+MODNAME+" Mod : debug remove sick");
                         nextGripe = DateTime.MaxValue;
                         nextCough = DateTime.MaxValue;
-                        PlayerRegistry.LocalPlayer.Statistics.RemoveStatusEffect(sickEffect);
+                        PlayerRegistry.LocalPlayer.Statistics.RemoveStatusEffect(sickEffect[0]);
                         PlayRelief(PlayerRegistry.LocalPlayer);
                     }
                 }
 
                 if (GUILayout.Button("Give fever"))
                 {
-                    if (!PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(feverEffect))
+                    if (!PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(feverEffect[0]))
                     {
-                        Debug.Log("Stranded Deep Wet and Cold Mod : debug add fever");
-                        feverEffect.Reset();
-                        PlayerRegistry.LocalPlayer.Statistics.ApplyStatusEffect(feverEffect);
+                        Debug.Log("Stranded Deep "+MODNAME+" Mod : debug add fever");
+                        feverEffect[0].Reset();
+                        PlayerRegistry.LocalPlayer.Statistics.ApplyStatusEffect(feverEffect[0]);
                         Main.ShowSubtitles(PlayerRegistry.LocalPlayer, Main.FEVER_MESSAGE);
-                        bodytemperatureEffect.HasHadFever = true;
+                        bodytemperatureEffect[0].HasHadFever = true;
                     }
                 }
 
                 if (GUILayout.Button("Clear fever"))
                 {
-                    if (PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(feverEffect))
+                    if (PlayerRegistry.LocalPlayer.Statistics.HasStatusEffect(feverEffect[0]))
                     {
-                        Debug.Log("Stranded Deep Wet and Cold Mod : debug remove fever");
+                        Debug.Log("Stranded Deep "+MODNAME+" Mod : debug remove fever");
                         nextGripe = DateTime.MaxValue;
-                        PlayerRegistry.LocalPlayer.Statistics.RemoveStatusEffect(feverEffect);
+                        PlayerRegistry.LocalPlayer.Statistics.RemoveStatusEffect(feverEffect[0]);
                         PlayRelief(PlayerRegistry.LocalPlayer);
                     }
                 }
 
                 if (GUILayout.Button("Start Storm") && AtmosphereStorm.Instance != null)
                 {
-                    Debug.Log("Stranded Deep Wet and Cold Mod : Try start storm");
+                    Debug.Log("Stranded Deep "+MODNAME+" Mod : Try start storm");
                     MethodInfo mi_CreateWeatherEvent = typeof(AtmosphereStorm).GetMethod("CreateWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
                     //CreateWeatherEvent(float eventRatio, float startTimeRatio)
-                    mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { 100f, 0f });
+                    // 1.0.38 compatibility
+                    //mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { 100f, 20f });
+                    mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { });
                     AtmosphereStorm.Instance.StartWeatherEvent();
                 }
-                if (GUILayout.Button("Start Rain") && AtmosphereStorm.Instance != null)
-                {
-                    Debug.Log("Stranded Deep Wet and Cold Mod : Try start rain");
-                    MethodInfo mi_CreateWeatherEvent = typeof(AtmosphereStorm).GetMethod("CreateWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-                    //CreateWeatherEvent(float eventRatio, float startTimeRatio)
-                    mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { 50f, 0f });
-                    AtmosphereStorm.Instance.StartWeatherEvent();
-                }
-                if (GUILayout.Button("Start Light Rain") && AtmosphereStorm.Instance != null)
-                {
-                    Debug.Log("Stranded Deep Wet and Cold Mod : Try start light rain");
-                    MethodInfo mi_CreateWeatherEvent = typeof(AtmosphereStorm).GetMethod("CreateWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-                    //CreateWeatherEvent(float eventRatio, float startTimeRatio)
-                    mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { 25f, 0f });
-                    AtmosphereStorm.Instance.StartWeatherEvent();
-                }
+                //if (GUILayout.Button("Start Rain") && AtmosphereStorm.Instance != null)
+                //{
+                //    Debug.Log("Stranded Deep "+MODNAME+" Mod : Try start rain");
+                //    MethodInfo mi_CreateWeatherEvent = typeof(AtmosphereStorm).GetMethod("CreateWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
+                //    //CreateWeatherEvent(float eventRatio, float startTimeRatio)
+                //    mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { 50f, 20f });
+                //    AtmosphereStorm.Instance.StartWeatherEvent();
+                //}
+                //if (GUILayout.Button("Start Light Rain") && AtmosphereStorm.Instance != null)
+                //{
+                //    Debug.Log("Stranded Deep "+MODNAME+" Mod : Try start light rain");
+                //    MethodInfo mi_CreateWeatherEvent = typeof(AtmosphereStorm).GetMethod("CreateWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
+                //    //CreateWeatherEvent(float eventRatio, float startTimeRatio)
+                //    mi_CreateWeatherEvent.Invoke(AtmosphereStorm.Instance, new object[] { 25f, 20f });
+                //    AtmosphereStorm.Instance.StartWeatherEvent();
+                //}
                 if (GUILayout.Button("End current event") && AtmosphereStorm.Instance != null)
                 {
-                    Debug.Log("Stranded Deep Wet and Cold Mod : Try end current event");
+                    Debug.Log("Stranded Deep "+MODNAME+" Mod : Try end current event");
                     foreach(WeatherEvent we in AtmosphereStorm.Instance.WeatherEvents)
                     {
                         we.ResetEvent();
@@ -361,13 +425,12 @@ namespace StrandedDeepWetAndColdMod
             WriteConfig();
         }
 
-        private static bool mustReloadEffectsFromSave = true;
+        //private static bool mustReloadEffectsFromSave = true;
         private static bool mustReinitImages = true;
         private static StringBuilder temperatureStringBuilder = new StringBuilder();
         private static StringBuilder wetnessStringBuilder = new StringBuilder();
 
-        private static StrandedWorld previousWorldInstance = null;
-        internal static bool worldLoaded = false;
+        private static FieldInfo fi_rain = typeof(AtmosphereStorm).GetField("_rain", BindingFlags.Instance | BindingFlags.NonPublic);
 
         static void OnUpdate(UnityModManager.ModEntry modEntry, float dt)
         {
@@ -379,129 +442,68 @@ namespace StrandedDeepWetAndColdMod
                 if (Beam.Game.State != GameState.NEW_GAME
                     && Beam.Game.State != GameState.LOAD_GAME)
                 {
-                    //Debug.Log("Stranded Deep Wet and Cold Mod : context changed, resetting");
+                    //Debug.Log("Stranded Deep "+MODNAME+" Mod : context changed, resetting");
                     Reset();
                     return;
                 }
 
-                coldCanvasVisible = (Beam.Game.State == GameState.NEW_GAME
-                    || Beam.Game.State == GameState.LOAD_GAME) && worldLoaded;// && !LevelLoader.IsLoading() && !LevelLoader.IsLoadingScene();
+                coldCanvasVisible = showWnCGUI && (Beam.Game.State == GameState.NEW_GAME
+                    || Beam.Game.State == GameState.LOAD_GAME) && WorldUtilities.IsWorldLoaded();
 
                 RefreshColdTextCanvas();
 
                 if (Beam.Game.State == GameState.NEW_GAME
                     || Beam.Game.State == GameState.LOAD_GAME)
                 {
-                    // anti memory leak
-                    if (previousWorldInstance != null
-                        && !System.Object.ReferenceEquals(previousWorldInstance, StrandedWorld.Instance))
-                    {
-                        Debug.Log("Stranded Deep Wet and Cold Mod : world instance changed, clearing events");
-                        previousWorldInstance.WorldGenerated -= Instance_WorldGenerated;
-                        previousWorldInstance = null;
-                        worldLoaded = false;
-                    }
-                    // to reattach at the right moment
-                    if (StrandedWorld.Instance != null
-                        && !System.Object.ReferenceEquals(StrandedWorld.Instance, previousWorldInstance))
-                    {
-                        Debug.Log("Stranded Deep Wet and Cold Mod : world instance found, registering events");
-                        previousWorldInstance = StrandedWorld.Instance;
-                        StrandedWorld.Instance.WorldGenerated -= Instance_WorldGenerated;
-                        worldLoaded = false;
-                        StrandedWorld.Instance.WorldGenerated += Instance_WorldGenerated;
-                    }
-
-                    if (!worldLoaded)
+                    if (!WorldUtilities.IsWorldLoaded())
                     {
                         return;
                     }
 
                     if (GameCalendar.Instance == null || GameTime.Instance == null || PlayerRegistry.AllPlayers == null || PlayerRegistry.AllPlayers.Count == 0)
                     {
-                        //Debug.Log("Stranded Deep Wet and Cold Mod : null calendar or gametime");
+                        //Debug.Log("Stranded Deep "+MODNAME+" Mod : null calendar or gametime");
                         return;
                     }
 
-                    foreach (Player p in PlayerRegistry.AllPlayers)
+                    //if (fixRainReset)
+                    //{
+                    //    if (AtmosphereStorm.Instance != null
+                    //        && (AtmosphereStorm.Instance.CurrentWeatherEvent == null
+                    //            || !Mathf.Approximately(AtmosphereStorm.Instance.CurrentWeatherEvent.Humidity, 100f))
+                    //        && AtmosphereStorm.Instance.Rain > 0)
+                    //    {
+                    //        Debug.Log("Stranded Deep " + MODNAME + " Mod : resetting rain");
+                    //        fi_rain.SetValue(AtmosphereStorm.Instance, 0);
+                    //    }
+                    //}
+
+                    for (int currentPlayerIndex = 0; currentPlayerIndex < PlayerRegistry.AllPlayers.Count; currentPlayerIndex++)
                     {
+                        Player p = PlayerRegistry.AllPlayers[currentPlayerIndex] as Player;
                         try
                         {
-                            if (p.Movement.GodMode)
-                            {
-                                debugText.text = "GodMode true";
-                                lastCheck = GameTime.Now;
-                                continue;
-                            }
+                            //if (p.Movement.GodMode || p.Statistics.Invincible)
+                            //{
+                            //    debugText.text = "GodMode true";
+                            //    lastCheck = GameTime.Now;
+                            //    continue;
+                            //}
 
                             if (mustReinitImages)
                             {
                                 #region weird exception fix test
 
-                                wetEffect = new Wet();
-                                bodytemperatureEffect = new BodyTemperature();
-                                sickEffect = new Sick();
-                                feverEffect = new Fever();
-                                coldEffect = new Cold();
-                                hotEffect = new Hot();
-
-                                InitWetnessMeter();
-                                InitTemperatureMeter();
-                                InitEnergyMeter();
-                                InitStaticImages();
+                                //InitEffects();
 
                                 #endregion
 
                                 mustReinitImages = false;
                             }
 
-                            if (mustReloadEffectsFromSave && p.Statistics.PlayerEffects.Count() > 0)
-                            {
-                                // check and replace loaded effects
-                                Debug.Log("Stranded Deep Wet and Cold Mod : check and replace loaded effects");
-                                for (int effectIndex = 0; effectIndex < p.Statistics.PlayerEffects.Count(); effectIndex++)
-                                {
-                                    PlayerEffect pe = p.Statistics.PlayerEffects.ElementAt(effectIndex);
-                                    Debug.Log("Stranded Deep Wet and Cold Mod : found " + pe.Name);
-                                    if (pe.Name == Wet.WET && !System.Object.ReferenceEquals(pe, wetEffect))
-                                    {
-                                        Debug.Log("Stranded Deep Wet and Cold Mod : replacing wet effect");
-                                        p.Statistics.RemoveStatusEffect(pe);
-                                        wetEffect.InitFromLoaded(pe);
-                                        p.Statistics.ApplyStatusEffect(wetEffect);
-                                    }
-                                    if (pe.Name == BodyTemperature.BODY_TEMPERATURE && !System.Object.ReferenceEquals(pe, bodytemperatureEffect))
-                                    {
-                                        Debug.Log("Stranded Deep Wet and Cold Mod : replacing temperature effect");
-                                        p.Statistics.RemoveStatusEffect(pe);
-                                        bodytemperatureEffect.InitFromLoaded(pe);
-                                        p.Statistics.ApplyStatusEffect(bodytemperatureEffect);
-                                        nextCough = DateTime.Now;
-                                    }
-                                    if (pe.Name == Sick.SICK && !System.Object.ReferenceEquals(pe, sickEffect))
-                                    {
-                                        Debug.Log("Stranded Deep Wet and Cold Mod : replacing sick effect");
-                                        p.Statistics.RemoveStatusEffect(pe);
-                                        sickEffect.InitFromLoaded(pe);
-                                        p.Statistics.ApplyStatusEffect(sickEffect);
-                                    }
-                                    if (pe.Name == Fever.FEVER && !System.Object.ReferenceEquals(pe, feverEffect))
-                                    {
-                                        Debug.Log("Stranded Deep Wet and Cold Mod : replacing fever effect");
-                                        p.Statistics.RemoveStatusEffect(pe);
-                                        feverEffect.InitFromLoaded(pe);
-                                        p.Statistics.ApplyStatusEffect(feverEffect);
-                                    }
-                                }
-
-                                lastCheck = DateTime.MinValue;
-
-                                mustReloadEffectsFromSave = false;
-                            }
-
                             if (DateTime.Now.Second % ParameterValues.SHELTER_CHECK_INTERVAL_SECONDS == 0)
                             {
-                                //Debug.Log("Stranded Deep Wet and Cold Mod : checking sheltered");
+                                //Debug.Log("Stranded Deep "+MODNAME+" Mod : checking sheltered");
                                 IsSheltered(p, out simpleSheltered, out housingSheltered);
                                 isHeating = IsNearLitFire(p);
                                 if (simpleShelterImage != null)
@@ -516,130 +518,102 @@ namespace StrandedDeepWetAndColdMod
                             if (lastCheck == DateTime.MinValue)
                                 lastCheck = GameTime.Now;
 
-                            temperatureStringBuilder.Clear();
-                            wetnessStringBuilder.Clear();
-
-                            DateTime nextCheck = lastCheck.AddMinutes(ParameterValues.STATUS_CHECK_INTERVAL_GAMETIME_MINUTES);
-                            bool shouldUpdate = (DateTime.Compare(GameTime.Now, nextCheck) >= 0);
-                            //Debug.Log("Stranded Deep Wet and Cold Mod : shouldUpdate : " + shouldUpdate + " / GameTime.now " + GameTime.Now + " / nextcheck " + nextCheck + " / interval game minutes " + ParameterValues.STATUS_CHECK_INTERVAL_GAMETIME_MINUTES);
-                            if (shouldUpdate && p.Movement != null)
+                            if (false)
                             {
-                                metersChangeMessage = "";
-
-                                TimeSpan elapsed = GameTime.Now.Subtract(lastCheck);
-                                int elapsedMinutes = (int)elapsed.TotalMinutes;
-                                //Debug.Log("Stranded Deep Wet and Cold Mod : elapsed minutes = " + elapsedMinutes);
-
-                                //Debug.Log("Stranded Deep Wet and Cold Mod : updating stats : " + GameTime.Now);
-                                if (elapsedMinutes <= 2)
+                                DateTime nextCheck = lastCheck.AddMinutes(ParameterValues.STATUS_CHECK_INTERVAL_GAMETIME_MINUTES);
+                                bool shouldUpdate = (DateTime.Compare(GameTime.Now, nextCheck) >= 0);
+                                //Debug.Log("Stranded Deep "+MODNAME+" Mod : shouldUpdate : " + shouldUpdate + " / GameTime.now " + GameTime.Now + " / nextcheck " + nextCheck + " / interval game minutes " + ParameterValues.STATUS_CHECK_INTERVAL_GAMETIME_MINUTES);
+                                if (shouldUpdate && p.Movement != null)
                                 {
-                                    WeatherEvent we = null;
-                                    //if (we != null)
-                                    //{
-                                    //    Debug.Log("Stranded Deep Wet and Cold Mod : atmosphere storm percentage : " + AtmosphereStorm.Instance.Percentage);
-                                    //}
-                                    if (AtmosphereStorm.Instance.Rain > 0)
+
+                                    TimeSpan elapsed = GameTime.Now.Subtract(lastCheck);
+                                    int elapsedMinutes = (int)elapsed.TotalMinutes;
+                                    //Debug.Log("Stranded Deep "+MODNAME+" Mod : elapsed minutes = " + elapsedMinutes);
+
+                                    //Debug.Log("Stranded Deep "+MODNAME+" Mod : updating stats : " + GameTime.Now);
+                                    if (elapsedMinutes <= 2)
                                     {
-                                        //Debug.Log("Stranded Deep Wet and Cold Mod : atmosphere rain : " + AtmosphereStorm.Instance.Rain);
-                                        //FieldInfo fi_currentWeatherEvent = typeof(AtmosphereStorm).GetField("_currentWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
-                                        //we = fi_currentWeatherEvent.GetValue(AtmosphereStorm.Instance) as WeatherEvent;
-                                        we = AtmosphereStorm.Instance.CurrentWeatherEvent;
+                                        WeatherEvent we = null;
                                         //if (we != null)
                                         //{
-                                        //    Debug.Log("Stranded Deep Wet and Cold Mod : weather event percentage : " + we.Percentage);
-                                        //    Debug.Log("Stranded Deep Wet and Cold Mod : weather event humidity : " + we.Humidity);
+                                        //    Debug.Log("Stranded Deep "+MODNAME+" Mod : atmosphere storm percentage : " + AtmosphereStorm.Instance.Percentage);
                                         //}
-                                    }
-                                    UpdateWetness(p, elapsedMinutes, AtmosphereStorm.Instance.Rain, we != null ? we.Percentage : 0.0f);//(AtmosphereStorm.Instance.Rain == 1));
-                                    UpdateBodyTemperature(p, elapsedMinutes, false);
-                                    UpdateEnergy(p, elapsedMinutes, false);
-                                    UpdateSick(p, elapsedMinutes, false);
-                                    UpdateFever(p, elapsedMinutes);
-                                }
-                                else
-                                {
-                                    // have to simulate night or sleep
-                                    Debug.Log("Stranded Deep Wet and Cold Mod : simulating temperatures");
-                                    DateTime currentSimulatedTime = lastCheck;
-                                    int simulationIntervalInGameMinutes = 15;
-                                    while (DateTime.Compare(currentSimulatedTime, GameTime.Now) <= 0)
-                                    {
-                                        currentSimulatedTime = currentSimulatedTime.AddMinutes(simulationIntervalInGameMinutes);
-                                        UpdateAtmosphereTemperature(p, currentSimulatedTime);
-
-                                        WeatherEvent we = null;
+                                        //Debug.Log("Stranded Deep "+MODNAME+" Mod : atmosphere rain : " + AtmosphereStorm.Instance.Rain);
                                         if (AtmosphereStorm.Instance.Rain > 0)
                                         {
+                                            //Debug.Log("Stranded Deep "+MODNAME+" Mod : atmosphere rain : " + AtmosphereStorm.Instance.Rain);
                                             //FieldInfo fi_currentWeatherEvent = typeof(AtmosphereStorm).GetField("_currentWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
                                             //we = fi_currentWeatherEvent.GetValue(AtmosphereStorm.Instance) as WeatherEvent;
-                                            if (AtmosphereStorm.Instance.CurrentWeatherEvent != null)
-                                                we = AtmosphereStorm.Instance.CurrentWeatherEvent;
+                                            we = AtmosphereStorm.Instance.CurrentWeatherEvent;
+                                            //if (we != null)
+                                            //{
+                                            //    Debug.Log("Stranded Deep "+MODNAME+" Mod : weather event percentage : " + we.Percentage);
+                                            //    Debug.Log("Stranded Deep "+MODNAME+" Mod : weather event humidity : " + we.Humidity);
+                                            //}
                                         }
-                                        UpdateWetness(p, simulationIntervalInGameMinutes, AtmosphereStorm.Instance.Rain, we != null ? we.Percentage : 0.0f);//(AtmosphereStorm.Instance.Rain == 1));
-                                        UpdateBodyTemperature(p, simulationIntervalInGameMinutes, true);
-                                        UpdateEnergy(p, simulationIntervalInGameMinutes, true);
-                                        UpdateSick(p, simulationIntervalInGameMinutes, true);
-                                        UpdateFever(p, simulationIntervalInGameMinutes);
-
-                                        //Debug.Log("Stranded Deep Wet and Cold Mod : simulated time = " + currentSimulatedTime.ToShortTimeString() + " / atmosphere temperature = " + FahrenheitToCelsius(p.Statistics.environmentTemperature) + " / body temperature modifier : " + bodytemperatureEffect.CurrentTemperature);
+                                        UpdateWetness(p, currentPlayerIndex, elapsedMinutes, AtmosphereStorm.Instance.Rain, we != null ? we.Percentage : 0.0f);//(AtmosphereStorm.Instance.Rain == 1));
+                                        UpdateBodyTemperature(p, currentPlayerIndex, elapsedMinutes, false);
+                                        UpdateEnergy(p, currentPlayerIndex, elapsedMinutes, false);
+                                        UpdateSick(p, currentPlayerIndex, elapsedMinutes, false);
+                                        UpdateFever(p, currentPlayerIndex, elapsedMinutes);
                                     }
-                                }
-                                lastCheck = GameTime.Now;
-                            }
-
-                            if (p.Statistics.HasStatusEffect(sickEffect)
-                                && DateTime.Compare(DateTime.Now, nextCough) >= 0)
-                            {
-                                PlayCough(p);
-                                nextCough = nextCough.AddMilliseconds(r.Next(ParameterValues.MINIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS, ParameterValues.MAXIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS));
-                            }
-
-                            if (p.Statistics.HasStatusEffect(feverEffect))
-                            {
-                                // set effect
-                                //Debug.Log("Stranded Deep Wet and Cold Mod : original focal length : " + Camera.current.focalLength);
-                                feverOverlayImage.enabled = true;
-                                if (DateTime.Compare(DateTime.Now, nextGripe) >= 0)
-                                {
-                                    PlayGripe(p);
-                                    nextGripe = nextGripe.AddMilliseconds(r.Next(ParameterValues.MINIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS, ParameterValues.MAXIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS));
-                                }
-                                else
-                                {
-                                    if (nextGripe.CompareTo(DateTime.MaxValue) == 0)
+                                    else
                                     {
-                                        nextGripe = DateTime.Now.AddMilliseconds(r.Next(ParameterValues.MINIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS, ParameterValues.MAXIMAL_SOUND_EFFECT_INTERVAL_MILLISECONDS));
+                                        // have to simulate night or sleep
+                                        Debug.Log("Stranded Deep " + MODNAME + " Mod : simulating temperatures");
+                                        DateTime currentSimulatedTime = lastCheck;
+                                        int simulationIntervalInGameMinutes = 15;
+                                        while (DateTime.Compare(currentSimulatedTime, GameTime.Now) <= 0)
+                                        {
+                                            currentSimulatedTime = currentSimulatedTime.AddMinutes(simulationIntervalInGameMinutes);
+                                            UpdateAtmosphereTemperature(p, currentSimulatedTime);
+
+                                            WeatherEvent we = null;
+                                            if (AtmosphereStorm.Instance.Rain > 0)
+                                            {
+                                                //FieldInfo fi_currentWeatherEvent = typeof(AtmosphereStorm).GetField("_currentWeatherEvent", BindingFlags.NonPublic | BindingFlags.Instance);
+                                                //we = fi_currentWeatherEvent.GetValue(AtmosphereStorm.Instance) as WeatherEvent;
+                                                if (AtmosphereStorm.Instance.CurrentWeatherEvent != null)
+                                                    we = AtmosphereStorm.Instance.CurrentWeatherEvent;
+                                            }
+                                            UpdateWetness(p, currentPlayerIndex, simulationIntervalInGameMinutes, AtmosphereStorm.Instance.Rain, we != null ? we.Percentage : 0.0f);//(AtmosphereStorm.Instance.Rain == 1));
+                                            UpdateBodyTemperature(p, currentPlayerIndex, simulationIntervalInGameMinutes, true);
+                                            UpdateEnergy(p, currentPlayerIndex, simulationIntervalInGameMinutes, true);
+                                            UpdateSick(p, currentPlayerIndex, simulationIntervalInGameMinutes, true);
+                                            UpdateFever(p, currentPlayerIndex, simulationIntervalInGameMinutes);
+
+                                            //Debug.Log("Stranded Deep "+MODNAME+" Mod : simulated time = " + currentSimulatedTime.ToShortTimeString() + " / atmosphere temperature = " + FahrenheitToCelsius(p.Statistics.environmentTemperature) + " / body temperature modifier : " + bodytemperatureEffect.CurrentTemperature);
+                                        }
                                     }
+                                    lastCheck = GameTime.Now;
                                 }
                             }
-                            else
-                            {
-                                // reset effect
-                                feverOverlayImage.enabled = false;
-                            }
 
+                            UpdateAudioAndVisualEffects(p, currentPlayerIndex);
+                            
                             if (hardFeverEffect)
                             {
-                                CheckFeverBlocksCrafting();
+                                CheckFeverBlocksCrafting(p, currentPlayerIndex);
                             }
                         }
                         catch (Exception e)
                         {
-                            Debug.Log("Stranded Deep Wet and Cold Mod : error on update stats : " + e);
+                            Debug.Log("Stranded Deep "+MODNAME+" Mod : error on update stats : " + e);
                         }
 
                         if (showDebugText)
                         {
                             try
                             {
-                                debugText.text = "Body : " + FahrenheitToCelsius(p.Statistics.bodyTemperature) + " / Air : " + FahrenheitToCelsius(p.Statistics.environmentTemperature) + " / Water : " + FahrenheitToCelsius(AtmosphereTemperature.Instance.GetOceanTemperatureForDepth(p.transform.position.y));
-                                debugText.text += "\n Wetness : " + wetEffect.Wetness + " / Body temperature : " + bodytemperatureEffect.CurrentTemperature + " / Is in the sun " + IsInTheSun(p) + " / Is rain " + (AtmosphereStorm.Instance.Rain > 1) + " / Is storm " + IsStorm();
-                                debugText.text += "\n Simple shelter : " + simpleSheltered + " / Housing Sheltered : " + housingSheltered + " / Sweating : " + sweating + " / Burning calories : " + burningCalories;
-                                debugText.text += metersChangeMessage;
+                                debugText.text = "Body : " + FahrenheitToCelsius(p.Statistics.bodyTemperature) + " | Air : " + FahrenheitToCelsius(p.Statistics.environmentTemperature) + " | Water : " + FahrenheitToCelsius(AtmosphereTemperature.Instance.GetOceanTemperatureForDepth(p.transform.position.y));
+                                debugText.text += "\n Wetness : " + wetEffect[currentPlayerIndex].Wetness + " | Body temperature : " + bodytemperatureEffect[currentPlayerIndex].CurrentTemperature + " | Is in the sun " + IsInTheSun(p) + " | Is rain " + AtmosphereStorm.Instance.Rain + " | Is storm " + IsStorm();
+                                debugText.text += "\n Simple shelter : " + simpleSheltered + " | Housing Sheltered : " + housingSheltered + " | Sweating : " + sweating + " | Burning calories : " + burningCalories;
+                                debugText.text += temperatureStringBuilder.ToString();
+                                debugText.text += wetnessStringBuilder.ToString();
                             }
                             catch (Exception e)
                             {
-                                Debug.Log("Stranded Deep Wet and Cold Mod : error on update text : " + e);
+                                Debug.Log("Stranded Deep "+MODNAME+" Mod : error on update text : " + e);
                             }
                         }
                     }
@@ -647,75 +621,86 @@ namespace StrandedDeepWetAndColdMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod : error on update : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod : error on update : " + e);
             }
             finally
             {
                 if (perfCheck && chrono.ElapsedMilliseconds >= 10)
                 {
-                    Debug.Log("Stranded Deep Wet and Cold Mod update time (ms) = " + chrono.ElapsedMilliseconds);
+                    Debug.Log("Stranded Deep "+MODNAME+" Mod update time (ms) = " + chrono.ElapsedMilliseconds);
                 }
             }
         }
 
-        private static void Instance_WorldGenerated()
+        public static float CurrentRain
         {
-            Debug.Log("Stranded Deep AlternativeEndgame Mod : World Loaded event");
-            worldLoaded = true;
+            get
+            {
+                WeatherEvent we = null;
+                if (AtmosphereStorm.Instance.Rain > 0)
+                {
+                    we = AtmosphereStorm.Instance.CurrentWeatherEvent;
+                }
+                return we != null ? we.Percentage : 0.0f;
+            }
         }
+
+
+        //private static void Instance_WorldGenerated()
+        //{
+        //    Debug.Log("Stranded Deep AlternativeEndgame Mod : World Loaded event");
+        //    worldLoaded = true;
+        //}
 
         private static Beam.UI.QuickCrafterMenuPresenter quickCrafterMenu = null;
         private static Beam.UI.Crafting.CrafterMenuViewAdapterBase craftingMenu = null;
         private static FieldInfo fi_view = typeof(Beam.UI.Crafting.CombinationButtonPresenter).GetField("_view", BindingFlags.NonPublic | BindingFlags.Instance);
 
-        private static void CheckFeverBlocksCrafting()
+        private static void CheckFeverBlocksCrafting(IPlayer player, int currentPlayerIndex)
         {
-            foreach (IPlayer player in PlayerRegistry.AllPlayers)
+            if (player.Statistics.HasStatusEffect(feverEffect[currentPlayerIndex]))
             {
-                if (player.Statistics.HasStatusEffect(feverEffect))
+                if (craftingMenu == null)
                 {
-                    if (craftingMenu == null)
-                    {
-                        craftingMenu = Game.FindObjectOfType<Beam.UI.Crafting.CrafterMenuViewAdapterBase>();
-                    }
-                    //craftingMenu.CombinationsCanvasGroup.Interactable = false;
-                    foreach(Beam.UI.Crafting.CombinationButtonPresenter button in craftingMenu.CombinationButtons)
-                    {
-                        if (button.Combination.CraftsmanshipLevelRequired > 0)
-                        {
-                            ((CombinationButtonViewAdapterBase)fi_view.GetValue(button)).CanvasGroup.Interactable = false;
-                        }
-                    }
-                    if (quickCrafterMenu == null)
-                    {
-                        quickCrafterMenu = Game.FindObjectOfType<Beam.UI.QuickCrafterMenuPresenter>();
-                    }
-                    quickCrafterMenu.CanOpen = false;
+                    craftingMenu = Game.FindObjectOfType<Beam.UI.Crafting.CrafterMenuViewAdapterBase>();
                 }
-                else if (!player.Statistics.HasStatusEffect(feverEffect))
+                //craftingMenu.CombinationsCanvasGroup.Interactable = false;
+                foreach (Beam.UI.Crafting.CombinationButtonPresenter button in craftingMenu.CombinationButtons)
                 {
-                    if (craftingMenu == null)
+                    if (button.Combination.CraftsmanshipLevelRequired > 0)
                     {
-                        craftingMenu = Game.FindObjectOfType<Beam.UI.Crafting.CrafterMenuViewAdapterBase>();
+                        ((CombinationButtonViewAdapterBase)fi_view.GetValue(button)).CanvasGroup.Interactable = false;
                     }
-                    foreach (Beam.UI.Crafting.CombinationButtonPresenter button in craftingMenu.CombinationButtons)
-                    {
-                        CombinationButtonViewAdapterBase view = (CombinationButtonViewAdapterBase)fi_view.GetValue(button);
-                        view.CanvasGroup.Interactable = (!button.Combination.IsLocked && !button.Combination.IsLimited);
-                    }
-                    if (quickCrafterMenu == null)
-                    {
-                        quickCrafterMenu = Game.FindObjectOfType<Beam.UI.QuickCrafterMenuPresenter>();
-                    }
-                    quickCrafterMenu.CanOpen = true;
                 }
+                if (quickCrafterMenu == null)
+                {
+                    quickCrafterMenu = Game.FindObjectOfType<Beam.UI.QuickCrafterMenuPresenter>();
+                }
+                quickCrafterMenu.CanOpen = false;
+            }
+            else if (!player.Statistics.HasStatusEffect(feverEffect[currentPlayerIndex]))
+            {
+                if (craftingMenu == null)
+                {
+                    craftingMenu = Game.FindObjectOfType<Beam.UI.Crafting.CrafterMenuViewAdapterBase>();
+                }
+                foreach (Beam.UI.Crafting.CombinationButtonPresenter button in craftingMenu.CombinationButtons)
+                {
+                    CombinationButtonViewAdapterBase view = (CombinationButtonViewAdapterBase)fi_view.GetValue(button);
+                    view.CanvasGroup.Interactable = (!button.Combination.IsLocked && !button.Combination.IsLimited);
+                }
+                if (quickCrafterMenu == null)
+                {
+                    quickCrafterMenu = Game.FindObjectOfType<Beam.UI.QuickCrafterMenuPresenter>();
+                }
+                quickCrafterMenu.CanOpen = true;
             }
         }
 
         private static void Reset()
         {
             mustReinitImages = true;
-            mustReloadEffectsFromSave = true;
+            //mustReloadEffectsFromSave = true;
             //bodytemperatureEffect.Reset();
             //sickEffect.Reset();
             //feverEffect.Reset();
@@ -724,7 +709,7 @@ namespace StrandedDeepWetAndColdMod
             nextGripe = DateTime.MaxValue;
             quickCrafterMenu = null;
             craftingMenu = null;
-            worldLoaded = false;
+            //worldLoaded = false;
         }
 
         private static void UpdateAtmosphereTemperature(IPlayer p, DateTime? simulatedTime = null)
@@ -736,8 +721,8 @@ namespace StrandedDeepWetAndColdMod
                     currentTime = simulatedTime.GetValueOrDefault();
 
                 // use GameCalendar.Instance.Month !
-                //Debug.Log("Stranded Deep Wet and Cold Mod : current month in GameTime.Now = " + now.Month + " / current month in GameTime.Instance.Month : " + GameCalendar.Instance.Month);
-                //Debug.Log("Stranded Deep Wet and Cold Mod : current month data Min : " + GameCalendar.Instance.CurrentMonthData.MinTemp + " / MAx " + GameCalendar.Instance.CurrentMonthData.MaxTemp);
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : current month in GameTime.Now = " + now.Month + " / current month in GameTime.Instance.Month : " + GameCalendar.Instance.Month);
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : current month data Min : " + GameCalendar.Instance.CurrentMonthData.MinTemp + " / MAx " + GameCalendar.Instance.CurrentMonthData.MaxTemp);
 
                     // periode (1440 minutes par jour) = 2 * Pi / B => B = (2 * Pi) / 1440
                 float period = ((float)Math.PI * 2f) / 1440f;
@@ -751,7 +736,7 @@ namespace StrandedDeepWetAndColdMod
                     && AtmosphereStorm.Instance.CurrentWeatherEvent.HasStarted 
                     && AtmosphereStorm.Instance.CurrentWeatherEvent.isActiveAndEnabled)
                 {
-                    //Debug.Log("Stranded Deep Wet and Cold Mod : event affects temperature : " + AtmosphereStorm.Instance.CurrentWeatherEvent.Temperature);
+                    //Debug.Log("Stranded Deep "+MODNAME+" Mod : event affects temperature : " + AtmosphereStorm.Instance.CurrentWeatherEvent.Temperature);
                     minTemperature = AtmosphereStorm.Instance.CurrentWeatherEvent.Temperature - 1;
                     maxTemperature = AtmosphereStorm.Instance.CurrentWeatherEvent.Temperature;
                 }
@@ -763,7 +748,7 @@ namespace StrandedDeepWetAndColdMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod : error on update temperature : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod : error on update temperature : " + e);
             }
         }
 
@@ -771,10 +756,10 @@ namespace StrandedDeepWetAndColdMod
         {
             if (modCanvas == null)
             {
-                modCanvas = createCanvas(false, "ColdModCanvas");
+                modCanvas = createCanvas(false, "WetAndColdModCanvas");
 
                 Font defaultFont = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-                GameObject textColdGO = new GameObject("ColdMod_Text_Sprite");
+                GameObject textColdGO = new GameObject("WetAndColdMod_Text_Sprite");
                 textColdGO.transform.SetParent(modCanvas.transform);
                 debugText = textColdGO.AddComponent<Text>();
                 debugText.horizontalOverflow = HorizontalWrapMode.Wrap;
@@ -791,6 +776,11 @@ namespace StrandedDeepWetAndColdMod
                 //GameObject textGO = CreateText(canvas.transform, 0, 0, "Hello world", 32, Color.red);
                 //textGO.GetComponent<RectTransform>().anchoredPosition = Vector2.zero;
 
+                InitWetnessMeter();
+                InitTemperatureMeter();
+                InitEnergyMeter();
+                InitStaticImages();
+
                 modCanvas.SetActive(coldCanvasVisible);
             }
             else
@@ -801,7 +791,7 @@ namespace StrandedDeepWetAndColdMod
             }
         }
 
-        private static void UpdateWetness(IPlayer p, int elapsedMinutes, int rain, float percentage)//bool isRaining)
+        private static void UpdateWetness(IPlayer p, int currentPlayerIndex, int elapsedMinutes, int rain, float percentage)//bool isRaining)
         {
             try
             {
@@ -810,13 +800,13 @@ namespace StrandedDeepWetAndColdMod
                 int wetnessChange = 0;
                 if (p.Movement.IsUnderwater)
                 {
-                    wetnessStringBuilder.Append("underwater : " + ParameterValues.UNDERWATER_WETNESS_MODIFICATOR + " / ");
-                    wetnessChange += ParameterValues.UNDERWATER_WETNESS_MODIFICATOR;
+                    wetnessStringBuilder.Append("underwater : " + ParameterValues.UNDERWATER_WETNESS_MODIFICATOR_PER_MINUTE + " | ");
+                    wetnessChange += ParameterValues.UNDERWATER_WETNESS_MODIFICATOR_PER_MINUTE;
                 }
                 else if (p.Movement.touchingWater)
                 {
-                    wetnessStringBuilder.Append("touch water : " + ParameterValues.WATER_TOUCH_WETNESS_MODIFICATOR + " / ");
-                    wetnessChange += ParameterValues.WATER_TOUCH_WETNESS_MODIFICATOR;
+                    wetnessStringBuilder.Append("touch water : " + ParameterValues.WATER_TOUCH_WETNESS_MODIFICATOR_PER_MINUTE + " | ");
+                    wetnessChange += ParameterValues.WATER_TOUCH_WETNESS_MODIFICATOR_PER_MINUTE;
                 }
                 else if (rain > 0.0) //isRaining
                 {
@@ -826,67 +816,63 @@ namespace StrandedDeepWetAndColdMod
                     }
                     else
                     {
-                        wetnessStringBuilder.Append("rain : " + ((rain - 1) * ParameterValues.UNSHELTERED_RAIN_WETNESS_MODIFICATOR) + " / ");
-                        wetnessChange += ((rain - 1) * ParameterValues.UNSHELTERED_RAIN_WETNESS_MODIFICATOR);
+                        wetnessStringBuilder.Append("rain : " + (rain * ParameterValues.UNSHELTERED_RAIN_WETNESS_MODIFICATOR_PER_MINUTE) + " | ");
+                        wetnessChange += (rain * ParameterValues.UNSHELTERED_RAIN_WETNESS_MODIFICATOR_PER_MINUTE);
                     }
                 }
                 else if (IsInTheSun(p))
                 {
-                    wetnessStringBuilder.Append("sun : " + ParameterValues.DAYLIGHT_SUN_WETNESS_MODIFICATOR + " / ");
-                    wetnessChange += ParameterValues.DAYLIGHT_SUN_WETNESS_MODIFICATOR;
+                    wetnessStringBuilder.Append("sun : " + ParameterValues.DAYLIGHT_SUN_WETNESS_MODIFICATOR_PER_MINUTE + " | ");
+                    wetnessChange += ParameterValues.DAYLIGHT_SUN_WETNESS_MODIFICATOR_PER_MINUTE;
                 }
                 else if (IsNight())
                 {
-                    wetnessStringBuilder.Append("night : " + ParameterValues.NIGHT_WETNESS_MODIFICATOR + " / ");
-                    wetnessChange += ParameterValues.NIGHT_WETNESS_MODIFICATOR;
+                    wetnessStringBuilder.Append("night : " + ParameterValues.NIGHT_WETNESS_MODIFICATOR_PER_MINUTE + " | ");
+                    wetnessChange += ParameterValues.NIGHT_WETNESS_MODIFICATOR_PER_MINUTE;
                 }
                 else
                 {
-                    wetnessStringBuilder.Append("day : " + ParameterValues.DAY_WETNESS_MODIFICATOR + " / ");
-                    wetnessChange += ParameterValues.DAY_WETNESS_MODIFICATOR;
+                    wetnessStringBuilder.Append("day : " + ParameterValues.DAY_WETNESS_MODIFICATOR_PER_MINUTE + " | ");
+                    wetnessChange += ParameterValues.DAY_WETNESS_MODIFICATOR_PER_MINUTE;
                 }
                 if (isHeating)
                 {
-                    wetnessStringBuilder.Append("heating : " + ParameterValues.HEATSOURCE_WETNESS_MODIFICATOR + " / ");
-                    wetnessChange += ParameterValues.HEATSOURCE_WETNESS_MODIFICATOR;
+                    wetnessStringBuilder.Append("heating : " + ParameterValues.HEATSOURCE_WETNESS_MODIFICATOR_PER_MINUTE + " | ");
+                    wetnessChange += ParameterValues.HEATSOURCE_WETNESS_MODIFICATOR_PER_MINUTE;
                 }
 
-                temperatureStringBuilder.Append("\n total wetness change : " + wetnessChange + " * " + elapsedMinutes + "/ ");
-                wetEffect.Wetness += wetnessChange * elapsedMinutes;
+                temperatureStringBuilder.Append("\n total wetness change : " + wetnessChange + " * " + elapsedMinutes + "/min | ");
+                wetEffect[currentPlayerIndex].Wetness += wetnessChange * elapsedMinutes;
 
-                if (wetEffect.Wetness <= 0)
-                    wetEffect.Wetness = 0;
+                if (wetEffect[currentPlayerIndex].Wetness <= 0)
+                    wetEffect[currentPlayerIndex].Wetness = 0;
 
-                if (wetEffect.Wetness >= ParameterValues.MAX_WETNESS)
-                    wetEffect.Wetness = ParameterValues.MAX_WETNESS;
+                if (wetEffect[currentPlayerIndex].Wetness >= ParameterValues.MAX_WETNESS)
+                    wetEffect[currentPlayerIndex].Wetness = ParameterValues.MAX_WETNESS;
 
                 if (wetMeterImage != null)
                 {
-                    wetMeterImage.fillAmount = wetEffect.Wetness / (float)ParameterValues.MAX_WETNESS;
+                    wetMeterImage.fillAmount = wetEffect[currentPlayerIndex].Wetness / (float)ParameterValues.MAX_WETNESS;
                 }
 
                 // update effect
-                if (wetEffect.Wetness > 0)
+                if (wetEffect[currentPlayerIndex].Wetness > 0)
                 {
-                    if (!p.Statistics.HasStatusEffect(wetEffect))
+                    if (!p.Statistics.HasStatusEffect(wetEffect[currentPlayerIndex]))
                     {
-                        p.Statistics.ApplyStatusEffect(wetEffect);
+                        p.Statistics.ApplyStatusEffect(wetEffect[currentPlayerIndex]);
                     }
                 }
                 else
                 {
-                    p.Statistics.RemoveStatusEffect(wetEffect);
+                    p.Statistics.RemoveStatusEffect(wetEffect[currentPlayerIndex]);
                 }
-
-                metersChangeMessage += wetnessStringBuilder.ToString();
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod : error UpdateWetness : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod : error UpdateWetness : " + e);
             }
         }
-
-        static string metersChangeMessage = "";
 
         private static FieldInfo fi_physicalLevel = typeof(PlayerSkills).GetField("_physicalLevel", BindingFlags.NonPublic | BindingFlags.Instance);
 
@@ -915,18 +901,18 @@ namespace StrandedDeepWetAndColdMod
             return physicalModifier[7];
         }
 
-        private static void UpdateBodyTemperature(IPlayer p, int elapsedMinutes, bool isSleeping)
+        private static void UpdateBodyTemperature(IPlayer p, int currentPlayerIndex, int elapsedMinutes, bool isSleeping)
         {
-            //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 1");
+            //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 1");
 
             if (p.Statistics == null)
                 return;
-            if (!p.Statistics.HasStatusEffect(bodytemperatureEffect))
-                p.Statistics.ApplyStatusEffect(bodytemperatureEffect);
+            if (!p.Statistics.HasStatusEffect(bodytemperatureEffect[currentPlayerIndex]))
+                p.Statistics.ApplyStatusEffect(bodytemperatureEffect[currentPlayerIndex]);
 
             try
             {
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 2");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 2");
 
                 temperatureStringBuilder.Append("\n");
                 float totalBodyTemperatureChange = 0;
@@ -934,19 +920,19 @@ namespace StrandedDeepWetAndColdMod
                 float atmosphereTemperatureFeeling = 0;
                 //float atmosphereTemperatureDelta = 0;
 
-                if (p.Statistics.HasStatusEffect(sickEffect))
+                if (p.Statistics.HasStatusEffect(sickEffect[currentPlayerIndex]))
                 {
-                    totalBodyTemperatureChange += ParameterValues.SICK_TEMP_MODIFICATOR;
-                    temperatureStringBuilder.Append("SICK_TEMP_MODIFICATOR : " + ParameterValues.SICK_TEMP_MODIFICATOR + " / ");
+                    totalBodyTemperatureChange += ParameterValues.SICK_TEMP_MODIFICATOR_PER_MINUTE;
+                    temperatureStringBuilder.Append("SICK_TEMP_MODIFICATOR : " + ParameterValues.SICK_TEMP_MODIFICATOR_PER_MINUTE + " | ");
                 }
 
-                if (p.Statistics.HasStatusEffect(feverEffect))
+                if (p.Statistics.HasStatusEffect(feverEffect[currentPlayerIndex]))
                 {
-                    totalBodyTemperatureChange += ParameterValues.FEVER_TEMP_MODIFICATOR;
-                    temperatureStringBuilder.Append("FEVER_TEMP_MODIFICATOR : " + ParameterValues.FEVER_TEMP_MODIFICATOR + " / ");
+                    totalBodyTemperatureChange += ParameterValues.FEVER_TEMP_MODIFICATOR_PER_MINUTE;
+                    temperatureStringBuilder.Append("FEVER_TEMP_MODIFICATOR : " + ParameterValues.FEVER_TEMP_MODIFICATOR_PER_MINUTE + " | ");
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 3");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 3");
 
                 // atmosphere has no influence underwater
                 if (!p.Movement.IsUnderwater)
@@ -964,75 +950,77 @@ namespace StrandedDeepWetAndColdMod
 
                     if (IsNight())
                     {
-                        atmosphereTemperatureFeeling += ParameterValues.NIGHT_TEMP_MODIFICATOR;
+                        atmosphereTemperatureFeeling += ParameterValues.NIGHT_TEMP_MODIFICATOR_PER_MINUTE;
                     }
 
+                    atmosphereTemperatureFeeling = atmosphereTemperatureFeeling / ParameterValues.BALANCING_FACTOR;
+
                     totalBodyTemperatureChange += atmosphereTemperatureFeeling;
-                    temperatureStringBuilder.Append("atmosphere feeling : " + atmosphereTemperatureFeeling + " / ");
+                    temperatureStringBuilder.Append("atmosphere feeling : " + atmosphereTemperatureFeeling + " | ");
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 4");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 4");
 
                 if (IsInTheSun(p) && !p.Movement.InWater)
                 {
                     if (GameTime.Now.Hour <= 7 || GameTime.Now.Hour >= 18)
                     {
-                        totalBodyTemperatureChange += (int)((float)ParameterValues.DAYLIGHT_DAWN_TEMP_MODIFICATOR);
-                        temperatureStringBuilder.Append("DAYLIGHT_SUN_TEMP_MODIFICATOR : " + ParameterValues.DAYLIGHT_DAWN_TEMP_MODIFICATOR + " / ");
+                        totalBodyTemperatureChange += ParameterValues.DAYLIGHT_DAWN_TEMP_MODIFICATOR_PER_MINUTE;
+                        temperatureStringBuilder.Append("DAYLIGHT_SUN_TEMP_MODIFICATOR : " + ParameterValues.DAYLIGHT_DAWN_TEMP_MODIFICATOR_PER_MINUTE + " | ");
                     }
                     else if (GameTime.Now.Hour <= 10 || GameTime.Now.Hour >= 16)
                     {
-                        totalBodyTemperatureChange += (int)((float)ParameterValues.DAYLIGHT_MID_SUN_TEMP_MODIFICATOR);
-                        temperatureStringBuilder.Append("DAYLIGHT_SUN_TEMP_MODIFICATOR : " + ParameterValues.DAYLIGHT_MID_SUN_TEMP_MODIFICATOR + " / ");
+                        totalBodyTemperatureChange += ParameterValues.DAYLIGHT_MID_SUN_TEMP_MODIFICATOR_PER_MINUTE;
+                        temperatureStringBuilder.Append("DAYLIGHT_SUN_TEMP_MODIFICATOR : " + ParameterValues.DAYLIGHT_MID_SUN_TEMP_MODIFICATOR_PER_MINUTE + " | ");
                     }
                     else
                     {
-                        totalBodyTemperatureChange += ParameterValues.DAYLIGHT_FULL_SUN_TEMP_MODIFICATOR;
-                        temperatureStringBuilder.Append("DAYLIGHT_SUN_TEMP_MODIFICATOR : " + ParameterValues.DAYLIGHT_FULL_SUN_TEMP_MODIFICATOR + " / ");
+                        totalBodyTemperatureChange += ParameterValues.DAYLIGHT_FULL_SUN_TEMP_MODIFICATOR_PER_MINUTE;
+                        temperatureStringBuilder.Append("DAYLIGHT_SUN_TEMP_MODIFICATOR : " + ParameterValues.DAYLIGHT_FULL_SUN_TEMP_MODIFICATOR_PER_MINUTE + " | ");
                     }
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 5");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 5");
 
                 if (p.Movement.IsUnderwater)
                 {
                     float waterTemperatureEffect = AtmosphereTemperature.Instance.GetOceanTemperatureForDepth(p.transform.position.y) - CelsiusToFahrenheit(ParameterValues.NEUTRAL_TEMPERATURE_DEGREES_WATER);
-                    if (!(bodytemperatureEffect.IsHot && waterTemperatureEffect > 0))
+                    if (!(bodytemperatureEffect[currentPlayerIndex].IsHot && waterTemperatureEffect > 0))
                     {
                         // water chills
                         totalBodyTemperatureChange += waterTemperatureEffect;
-                        temperatureStringBuilder.Append("water Effect : " + waterTemperatureEffect + " / ");
+                        temperatureStringBuilder.Append("water Effect : " + waterTemperatureEffect + " | ");
                     }
                 }
-                else if (wetEffect.Wetness > 0)
+                else if (wetEffect[currentPlayerIndex].Wetness > 0)
                 {
                     if (totalBodyTemperatureChange > 0)
                     {
                         // if hot, the wetness will cool down
-                        if (bodytemperatureEffect.CurrentTemperature > 0)
+                        if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature > 0)
                         {
-                            temperatureStringBuilder.Append("WETNESS_TEMP_MODIFICATOR * EVAPORATION : " + ParameterValues.EVAPORATION_TEMP_MODIFICATOR * ParameterValues.WETNESS_TEMP_MODIFICATOR + " / ");
-                            totalBodyTemperatureChange += ParameterValues.EVAPORATION_TEMP_MODIFICATOR * ParameterValues.WETNESS_TEMP_MODIFICATOR;
+                            temperatureStringBuilder.Append("WETNESS_TEMP_MODIFICATOR * EVAPORATION : " + ParameterValues.EVAPORATION_TEMP_MODIFICATOR_PER_MINUTE * ParameterValues.WETNESS_TEMP_MODIFICATOR_PER_MINUTE + " | ");
+                            totalBodyTemperatureChange += ParameterValues.EVAPORATION_TEMP_MODIFICATOR_PER_MINUTE * ParameterValues.WETNESS_TEMP_MODIFICATOR_PER_MINUTE;
                         }
                         else
                         {
-                            temperatureStringBuilder.Append("WETNESS_TEMP_MODIFICATOR : " + ParameterValues.WETNESS_TEMP_MODIFICATOR + " / ");
-                            totalBodyTemperatureChange += ParameterValues.WETNESS_TEMP_MODIFICATOR;
+                            temperatureStringBuilder.Append("WETNESS_TEMP_MODIFICATOR : " + ParameterValues.WETNESS_TEMP_MODIFICATOR_PER_MINUTE + " | ");
+                            totalBodyTemperatureChange += ParameterValues.WETNESS_TEMP_MODIFICATOR_PER_MINUTE;
                         }
                     }
                     else
                     {
-                        temperatureStringBuilder.Append("WETNESS_TEMP_MODIFICATOR : " + ParameterValues.WETNESS_TEMP_MODIFICATOR + " / ");
-                        totalBodyTemperatureChange += ParameterValues.WETNESS_TEMP_MODIFICATOR;
+                        temperatureStringBuilder.Append("WETNESS_TEMP_MODIFICATOR : " + ParameterValues.WETNESS_TEMP_MODIFICATOR_PER_MINUTE + " | ");
+                        totalBodyTemperatureChange += ParameterValues.WETNESS_TEMP_MODIFICATOR_PER_MINUTE;
                     }
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 6");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 6");
 
                 if (HasPhysicalActivity(p))
                 {
-                    totalBodyTemperatureChange += ParameterValues.ACTIVITY_TEMP_MODIFICATOR;
-                    temperatureStringBuilder.Append("ACTIVITY_TEMP_MODIFICATOR : " + ParameterValues.ACTIVITY_TEMP_MODIFICATOR + " / ");
+                    totalBodyTemperatureChange += ParameterValues.ACTIVITY_TEMP_MODIFICATOR_PER_MINUTE;
+                    temperatureStringBuilder.Append("ACTIVITY_TEMP_MODIFICATOR : " + ParameterValues.ACTIVITY_TEMP_MODIFICATOR_PER_MINUTE + " | ");
                     if (coldCanvasVisible)
                     {
                         activityImage.enabled = true;
@@ -1046,62 +1034,62 @@ namespace StrandedDeepWetAndColdMod
                     }
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 7");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 7");
 
                 if (housingSheltered && totalBodyTemperatureChange != 0)
                 {
                     if (totalBodyTemperatureChange < 0)
                     {
-                        if (totalBodyTemperatureChange + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR >= 0)
+                        if (totalBodyTemperatureChange + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE >= 0)
                         {
-                            temperatureStringBuilder.Append("housingSheltered : reset / ");
+                            temperatureStringBuilder.Append("housingSheltered : reset | ");
                             totalBodyTemperatureChange = 0;
                         }
                         else
                         {
-                            temperatureStringBuilder.Append("housingSheltered : " + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR + " / ");
-                            totalBodyTemperatureChange += ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR;
+                            temperatureStringBuilder.Append("housingSheltered : " + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE + " | ");
+                            totalBodyTemperatureChange += ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE;
                         }
                     }
                     else
                     {
-                        if (totalBodyTemperatureChange + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR <= 0)
+                        if (totalBodyTemperatureChange + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE <= 0)
                         {
-                            temperatureStringBuilder.Append("housingSheltered : reset / ");
+                            temperatureStringBuilder.Append("housingSheltered : reset | ");
                             totalBodyTemperatureChange = 0;
                         }
                         else
                         {
-                            temperatureStringBuilder.Append("housingSheltered : -" + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR + " / ");
-                            totalBodyTemperatureChange -= ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR;
+                            temperatureStringBuilder.Append("housingSheltered : -" + ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE + " | ");
+                            totalBodyTemperatureChange -= ParameterValues.HOUSING_SHELTER_TEMP_MODIFICATOR_PER_MINUTE;
                         }
                     }
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 8");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 8");
 
                 if (isHeating)
                 {
-                    if (bodytemperatureEffect.CurrentTemperature < ParameterValues.HOT_THRESHOLD || atmosphereTemperatureFeeling <= 0)
+                    if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature < ParameterValues.HOT_THRESHOLD || atmosphereTemperatureFeeling <= 0)
                     {
-                        if (bodytemperatureEffect.CurrentTemperature + ParameterValues.HEATSOURCE_TEMP_MODIFICATOR < ParameterValues.HOT_THRESHOLD)
+                        if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature + ParameterValues.HEATSOURCE_TEMP_MODIFICATOR_PER_MINUTE < ParameterValues.HOT_THRESHOLD)
                         {
-                            temperatureStringBuilder.Append("isHeating : " + ParameterValues.HEATSOURCE_TEMP_MODIFICATOR + " / ");
-                            totalBodyTemperatureChange += ParameterValues.HEATSOURCE_TEMP_MODIFICATOR;
+                            temperatureStringBuilder.Append("isHeating : " + ParameterValues.HEATSOURCE_TEMP_MODIFICATOR_PER_MINUTE + " | ");
+                            totalBodyTemperatureChange += ParameterValues.HEATSOURCE_TEMP_MODIFICATOR_PER_MINUTE;
                         }
                         else
                         {
-                            temperatureStringBuilder.Append("isHeating : reset / ");
+                            temperatureStringBuilder.Append("isHeating : reset | ");
                             totalBodyTemperatureChange = 0;
                         }
                     }
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 9");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 9");
 
                 float physicalModificator = GetPhysical((int)fi_physicalLevel.GetValue(p.PlayerSkills));
                 // natural resistance with physical
-                if (bodytemperatureEffect.CurrentTemperature > 0)
+                if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature > 0)
                 {
                     if (totalBodyTemperatureChange > 0)
                     {
@@ -1114,7 +1102,7 @@ namespace StrandedDeepWetAndColdMod
                         temperatureStringBuilder.Append("physicalModificator : *" + physicalModificator);
                     }
                 }
-                else if (bodytemperatureEffect.CurrentTemperature < 0)
+                else if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature < 0)
                 {
                     if (totalBodyTemperatureChange < 0)
                     {
@@ -1128,38 +1116,38 @@ namespace StrandedDeepWetAndColdMod
                     }
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 10");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 10");
 
                 // test sweating, if wet, can't sweat
-                if (wetEffect.Wetness <= 0 && (bodytemperatureEffect.CurrentTemperature + totalBodyTemperatureChange) >= ParameterValues.SWEAT_THRESHOLD)
+                if (wetEffect[currentPlayerIndex].Wetness <= 0 && (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature + totalBodyTemperatureChange) >= ParameterValues.SWEAT_THRESHOLD)
                 {
                     sweating = true;
                     burningCalories = false;
 
-                    float regulatedTemperatureChange = Math.Min(0, totalBodyTemperatureChange - ParameterValues.NATURAL_TEMPERATURE_REGULATION);
+                    float regulatedTemperatureChange = Math.Min(0, totalBodyTemperatureChange - ParameterValues.NATURAL_TEMPERATURE_REGULATION_PER_MINUTE);
                     if (isSleeping)
                     {
-                        regulatedTemperatureChange = Math.Min(0, totalBodyTemperatureChange - ParameterValues.NATURAL_TEMPERATURE_REGULATION * ParameterValues.NATURAL_TEMPERATURE_REGULATION_SLEEP_EFFICIENCY);
+                        regulatedTemperatureChange = Math.Min(0, totalBodyTemperatureChange - ParameterValues.NATURAL_TEMPERATURE_REGULATION_PER_MINUTE * ParameterValues.NATURAL_TEMPERATURE_REGULATION_SLEEP_EFFICIENCY);
                     }
                     ConsumeWater(p, Math.Abs(totalBodyTemperatureChange - regulatedTemperatureChange) / ParameterValues.REGULATION_CONSUMPTION_DIVIDE_FACTOR);
 
-                    temperatureStringBuilder.Append("natural regulation (sweat) : " + regulatedTemperatureChange + " / ");
+                    temperatureStringBuilder.Append("natural regulation (sweat) : " + regulatedTemperatureChange + " | ");
                     totalBodyTemperatureChange = regulatedTemperatureChange;
                 }
                 // test burning calories
-                else if ((bodytemperatureEffect.CurrentTemperature + totalBodyTemperatureChange) <= ParameterValues.CALORIES_THRESHOLD)
+                else if ((bodytemperatureEffect[currentPlayerIndex].CurrentTemperature + totalBodyTemperatureChange) <= ParameterValues.CALORIES_THRESHOLD)
                 {
                     sweating = false;
                     burningCalories = true;
 
-                    float regulatedTemperatureChange = Math.Max(0, totalBodyTemperatureChange + ParameterValues.NATURAL_TEMPERATURE_REGULATION);
+                    float regulatedTemperatureChange = Math.Max(0, totalBodyTemperatureChange + ParameterValues.NATURAL_TEMPERATURE_REGULATION_PER_MINUTE);
                     if (isSleeping)
                     {
-                        regulatedTemperatureChange = Math.Max(0, totalBodyTemperatureChange + ParameterValues.NATURAL_TEMPERATURE_REGULATION * ParameterValues.NATURAL_TEMPERATURE_REGULATION_SLEEP_EFFICIENCY);
+                        regulatedTemperatureChange = Math.Max(0, totalBodyTemperatureChange + ParameterValues.NATURAL_TEMPERATURE_REGULATION_PER_MINUTE * ParameterValues.NATURAL_TEMPERATURE_REGULATION_SLEEP_EFFICIENCY);
                     }
                     ConsumeCalories(p, Math.Abs(totalBodyTemperatureChange - regulatedTemperatureChange) / ParameterValues.REGULATION_CONSUMPTION_DIVIDE_FACTOR);
 
-                    temperatureStringBuilder.Append("natural regulation (calories) : " + regulatedTemperatureChange + " / ");
+                    temperatureStringBuilder.Append("natural regulation (calories) : " + regulatedTemperatureChange + " | ");
                     totalBodyTemperatureChange = regulatedTemperatureChange;
                 }
                 else
@@ -1168,183 +1156,188 @@ namespace StrandedDeepWetAndColdMod
                     burningCalories = false;
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 11");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 11");
 
                 sweatingImage.enabled = sweating;
                 caloriesImage.enabled = burningCalories;
 
-                temperatureStringBuilder.Append("\n total bodytemp change : " + totalBodyTemperatureChange + " * " + elapsedMinutes + "/ ");
-                bodytemperatureEffect.CurrentTemperature += totalBodyTemperatureChange * elapsedMinutes;
+                temperatureStringBuilder.Append("\n total bodytemp change : " + totalBodyTemperatureChange + " * " + elapsedMinutes + "/min | ");
+                bodytemperatureEffect[currentPlayerIndex].CurrentTemperature += totalBodyTemperatureChange * elapsedMinutes;
 
-                try
+                if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature <= -ParameterValues.MAX_TEMP)
                 {
-                    metersChangeMessage += temperatureStringBuilder.ToString();
-                }
-                catch { }
-
-                if (bodytemperatureEffect.CurrentTemperature <= -ParameterValues.MAX_TEMP)
-                {
-                    bodytemperatureEffect.CurrentTemperature = -ParameterValues.MAX_TEMP;
+                    bodytemperatureEffect[currentPlayerIndex].CurrentTemperature = -ParameterValues.MAX_TEMP;
                 }
 
-                if (bodytemperatureEffect.CurrentTemperature >= ParameterValues.MAX_TEMP)
+                if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature >= ParameterValues.MAX_TEMP)
                 {
-                    bodytemperatureEffect.CurrentTemperature = ParameterValues.MAX_TEMP;
+                    bodytemperatureEffect[currentPlayerIndex].CurrentTemperature = ParameterValues.MAX_TEMP;
                 }
 
                 if (coldMeterImage != null)
                 {
-                    if (bodytemperatureEffect.CurrentTemperature < 0)
-                        coldMeterImage.fillAmount = Math.Abs(bodytemperatureEffect.CurrentTemperature) / (float)ParameterValues.MAX_TEMP;
+                    if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature < 0)
+                        coldMeterImage.fillAmount = Math.Abs(bodytemperatureEffect[currentPlayerIndex].CurrentTemperature) / (float)ParameterValues.MAX_TEMP;
                     else
                         coldMeterImage.fillAmount = 0;
                 }
 
                 if (hotMeterImage != null)
                 {
-                    if (bodytemperatureEffect.CurrentTemperature > 0)
-                        hotMeterImage.fillAmount = bodytemperatureEffect.CurrentTemperature / (float)ParameterValues.MAX_TEMP;
+                    if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature > 0)
+                        hotMeterImage.fillAmount = bodytemperatureEffect[currentPlayerIndex].CurrentTemperature / (float)ParameterValues.MAX_TEMP;
                     else
                         hotMeterImage.fillAmount = 0;
                 }
 
-                if (bodytemperatureEffect.IsCold)
+                if (bodytemperatureEffect[currentPlayerIndex].IsCold)
                 {
-                    if (bodytemperatureEffect.StartedTime == DateTime.MinValue)
-                        bodytemperatureEffect.StartedTime = GameTime.Now;
-                    bodytemperatureEffect.PlayShiver = true;
+                    if (bodytemperatureEffect[currentPlayerIndex].StartedTime == DateTime.MinValue)
+                        bodytemperatureEffect[currentPlayerIndex].StartedTime = GameTime.Now;
+                    bodytemperatureEffect[currentPlayerIndex].PlayShiver = true;
 
-                    if (bodytemperatureEffect.PlayShiver && !bodytemperatureEffect.PlayedShiver && !p.Movement.IsUnderwater && !p.Movement.touchingWater)
+                    if (bodytemperatureEffect[currentPlayerIndex].PlayShiver && !bodytemperatureEffect[currentPlayerIndex].PlayedShiver && !p.Movement.IsUnderwater && !p.Movement.touchingWater)
                     {
                         PlayShiver(p);
-                        bodytemperatureEffect.PlayedShiver = true;
+                        bodytemperatureEffect[currentPlayerIndex].PlayedShiver = true;
                     }
 
-                    bodytemperatureEffect.PlayRelief = true;
+                    bodytemperatureEffect[currentPlayerIndex].PlayRelief = true;
                 }
                 else
                 {
-                    if (bodytemperatureEffect.CurrentTemperature >= 0 && p.Statistics.HasStatusEffect(bodytemperatureEffect) && bodytemperatureEffect.PlayRelief)
+                    if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature >= 0 && p.Statistics.HasStatusEffect(bodytemperatureEffect[currentPlayerIndex]) && bodytemperatureEffect[currentPlayerIndex].PlayRelief)
                     {
                         PlayRelief(p);
                     }
-                    bodytemperatureEffect.Reset();
+                    bodytemperatureEffect[currentPlayerIndex].Reset();
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 12");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 12");
 
-                if (bodytemperatureEffect.CurrentTemperature >= (ParameterValues.HOT_THRESHOLD)
+                if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature >= (ParameterValues.HOT_THRESHOLD)
                     && (p.Statistics.GetPlayerEffect<Sunburn>() != null && (1f - p.Statistics.GetPlayerEffect<Sunburn>().SunExposureTime) <= 0.1f))
                 {
-                    Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature SunExposureTime : " + (1f - p.Statistics.GetPlayerEffect<Sunburn>().SunExposureTime));
-                    if (!p.Statistics.HasStatusEffect(hotEffect))
+                    Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature SunExposureTime : " + (1f - p.Statistics.GetPlayerEffect<Sunburn>().SunExposureTime));
+                    if (!p.Statistics.HasStatusEffect(hotEffect[currentPlayerIndex]))
                     {
-                        p.Statistics.RemoveStatusEffect(coldEffect);
-                        p.Statistics.ApplyStatusEffect(hotEffect, true);
-                        if (worldLoaded)
+                        p.Statistics.RemoveStatusEffect(coldEffect[currentPlayerIndex]);
+                        p.Statistics.ApplyStatusEffect(hotEffect[currentPlayerIndex], true);
+                        if (WorldUtilities.IsWorldLoaded())
                         {
                             ShowSubtitles(p, Main.HOT_MESSAGE);
                         }
                     }
-                    if (worldLoaded)
+                    if (WorldUtilities.IsWorldLoaded())
                     {
-                        hotEffect.ShowEffect(p);
+                        hotEffect[currentPlayerIndex].ShowEffect(p);
                     }
                 }
-                else if (bodytemperatureEffect.CurrentTemperature <= (ParameterValues.COLD_THRESHOLD)
-                    && !p.Statistics.HasStatusEffect(coldEffect))
+                else if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature <= (ParameterValues.COLD_THRESHOLD)
+                    && !p.Statistics.HasStatusEffect(coldEffect[currentPlayerIndex]))
                 {
-                    p.Statistics.RemoveStatusEffect(hotEffect);
-                    p.Statistics.ApplyStatusEffect(coldEffect, true);
-                    if (worldLoaded)
+                    p.Statistics.RemoveStatusEffect(hotEffect[currentPlayerIndex]);
+                    p.Statistics.ApplyStatusEffect(coldEffect[currentPlayerIndex], true);
+                    if (WorldUtilities.IsWorldLoaded())
                     {
                         ShowSubtitles(p, Main.COLD_MESSAGE);
                     }
                 }
-                else if (bodytemperatureEffect.CurrentTemperature < (ParameterValues.HOT_THRESHOLD) 
-                    && bodytemperatureEffect.CurrentTemperature > (ParameterValues.COLD_THRESHOLD))
+                else if (bodytemperatureEffect[currentPlayerIndex].CurrentTemperature < (ParameterValues.HOT_THRESHOLD) 
+                    && bodytemperatureEffect[currentPlayerIndex].CurrentTemperature > (ParameterValues.COLD_THRESHOLD))
                 {
-                    p.Statistics.RemoveStatusEffect(coldEffect);
-                    if (worldLoaded)
+                    p.Statistics.RemoveStatusEffect(coldEffect[currentPlayerIndex]);
+                    if (WorldUtilities.IsWorldLoaded())
                     {
-                        hotEffect.HideEffect(p);
+                        hotEffect[currentPlayerIndex].HideEffect(p);
                     }
-                    p.Statistics.RemoveStatusEffect(hotEffect);
+                    p.Statistics.RemoveStatusEffect(hotEffect[currentPlayerIndex]);
                 }
 
-                //Debug.Log("Stranded Deep Wet and Cold Mod : UpdateBodyTemperature 13");
+                //Debug.Log("Stranded Deep "+MODNAME+" Mod : UpdateBodyTemperature 13");
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep Wet and Cold Mod : error UpdateBodyTemperature : " + e);
+                Debug.Log("Stranded Deep "+MODNAME+" Mod : error UpdateBodyTemperature : " + e);
             }
         }
 
         private static void ConsumeWater(IPlayer p, float delta)
         {
-            temperatureStringBuilder.Append(" / sweating : " + delta);
+            temperatureStringBuilder.Append(" | sweating : " + delta);
+
+            if (p.Movement.GodMode || p.Statistics.Invincible)
+            {
+                return;
+            }
+
             SetWater(p, GetWater(p) - delta);
         }
 
         private static void ConsumeCalories(IPlayer p, float delta)
         {
-            temperatureStringBuilder.Append(" / burning calories : " + delta);
+            temperatureStringBuilder.Append(" | burning calories : " + delta);
+
+            if (p.Movement.GodMode || p.Statistics.Invincible)
+            {
+                return;
+            }
+
             SetCalories(p, GetCalories(p) - delta);
         }
 
-        private static void UpdateSick(IPlayer p, int elapsedMinutes, bool isSleeping)
+        private static void UpdateSick(IPlayer p, int currentPlayerIndex, int elapsedMinutes, bool isSleeping)
         {
-            if (!p.Statistics.HasStatusEffect(bodytemperatureEffect))
+            if (!p.Statistics.HasStatusEffect(bodytemperatureEffect[currentPlayerIndex]))
             {
                 // error
                 return;
             }
 
-            if (bodytemperatureEffect.CheckSick(isSleeping, GetSleep(p)))
+            if (bodytemperatureEffect[currentPlayerIndex].CheckSick(isSleeping, GetSleep(p)))
             {
-                if (!p.Statistics.HasStatusEffect(sickEffect))
+                if (!p.Statistics.HasStatusEffect(sickEffect[currentPlayerIndex]))
                 {
-                    Debug.Log("Stranded Deep Wet and Cold Mod : caught a cold");
-                    if (worldLoaded)
+                    Debug.Log("Stranded Deep "+MODNAME+" Mod : caught a cold");
+                    if (WorldUtilities.IsWorldLoaded())
                     {
                         ShowSubtitles(p, Main.SICK_MESSAGE);
                     }
-                    sickEffect.Reset();
-                    p.Statistics.ApplyStatusEffect(sickEffect);
+                    sickEffect[currentPlayerIndex].Reset();
+                    p.Statistics.ApplyStatusEffect(sickEffect[currentPlayerIndex]);
                     nextCough = DateTime.Now;
                 }
             }
 
-            if (p.Statistics.HasStatusEffect(sickEffect))
+            if (p.Statistics.HasStatusEffect(sickEffect[currentPlayerIndex]))
             {
-                if (sickEffect.CheckHealed(p, bodytemperatureEffect, feverEffect, housingSheltered, elapsedMinutes))
+                if (sickEffect[currentPlayerIndex].CheckHealed(p, bodytemperatureEffect[currentPlayerIndex], feverEffect[currentPlayerIndex], housingSheltered, elapsedMinutes))
                 {
                     nextGripe = DateTime.MaxValue;
                     nextCough = DateTime.MaxValue;
-                    p.Statistics.RemoveStatusEffect(sickEffect);
+                    p.Statistics.RemoveStatusEffect(sickEffect[currentPlayerIndex]);
                     //p.Movement.CanSprint = true;
                     PlayRelief(p);
                 }
                 else
                 {
                     float currrentSleep = GetSleep(p);
-                    SetSleep(p, currrentSleep + ParameterValues.SICK_ENERGY_MODIFICATOR);
+                    SetSleep(p, currrentSleep + ParameterValues.SICK_ENERGY_MODIFICATOR_PER_MINUTE);
                     //p.Movement.CanSprint = false;
                 }
             }
         }
 
-        private static void UpdateFever(IPlayer p, int elapsedMinutes)
+        private static void UpdateFever(IPlayer p, int currentPlayerIndex, int elapsedMinutes)
         {
-            if (p.Statistics.HasStatusEffect(feverEffect))
+            if (p.Statistics.HasStatusEffect(feverEffect[currentPlayerIndex]))
             {
-                bodytemperatureEffect.HasHadFever = true;
-                if (feverEffect.CheckHealed(p, bodytemperatureEffect, housingSheltered, elapsedMinutes))
+                bodytemperatureEffect[currentPlayerIndex].HasHadFever = true;
+                if (feverEffect[currentPlayerIndex].CheckHealed(p, bodytemperatureEffect[currentPlayerIndex], housingSheltered, elapsedMinutes))
                 {
                     nextGripe = DateTime.MaxValue;
-                    //p.Movement.canJump = !p.Statistics.GetStatusEffects().Contains("BROKEN_BONES");
-                    p.Statistics.RemoveStatusEffect(feverEffect);
-                    if (worldLoaded)
+                    p.Statistics.RemoveStatusEffect(feverEffect[currentPlayerIndex]);
+                    if (WorldUtilities.IsWorldLoaded())
                     {
                         ShowSubtitles(p, Main.END_FEVER_MESSAGE);
                     }
@@ -1352,63 +1345,25 @@ namespace StrandedDeepWetAndColdMod
                 }
                 else
                 {
-                    //p.Movement.CanSprint = false;
-                    //p.Movement.canJump = false;
                     float currrentSleep = GetSleep(p);
-                    SetSleep(p, currrentSleep + ParameterValues.FEVER_ENERGY_MODIFICATOR);
+                    SetSleep(p, currrentSleep + ParameterValues.FEVER_ENERGY_MODIFICATOR_PER_MINUTE);
                 }
             }
         }
 
-        private static void UpdateEnergy(IPlayer p, int elapsedMinutes, bool isSleeping)
+        private static void UpdateEnergy(IPlayer p, int currentPlayerIndex, int elapsedMinutes, bool isSleeping)
         {
             // resting mechanic
             if (housingSheltered)
-                SetSleep(p, GetSleep(p) + elapsedMinutes * ParameterValues.TIME_ENERGY_MODIFICATOR);
+                SetSleep(p, GetSleep(p) + elapsedMinutes * ParameterValues.TIME_ENERGY_MODIFICATOR_PER_MINUTE);
 
             if (!isSleeping)
-                SetSleep(p, GetSleep(p) - elapsedMinutes * ParameterValues.TIME_ENERGY_MODIFICATOR);
+                SetSleep(p, GetSleep(p) - elapsedMinutes * ParameterValues.TIME_ENERGY_MODIFICATOR_PER_MINUTE);
 
             if (energyMeterImage != null)
             {
                 energyMeterImage.fillAmount = p.Statistics.SleepPercent;
             }
         }
-
-        #region Audio effects
-
-        private static void PlayCough(IPlayer p)
-        {
-            if (p.Gender == 0)
-                AudioManager.GetAudioPlayer().Play2D(coughMan, AudioMixerChannel.Voice, AudioPlayMode.Single);
-            else
-                AudioManager.GetAudioPlayer().Play2D(coughWoman, AudioMixerChannel.Voice, AudioPlayMode.Single);
-        }
-
-        private static void PlayGripe(IPlayer p)
-        {
-            if (p.Gender == 0)
-                AudioManager.GetAudioPlayer().Play2D(gripeMan, AudioMixerChannel.Voice, AudioPlayMode.Single);
-            else
-                AudioManager.GetAudioPlayer().Play2D(gripeWoman, AudioMixerChannel.Voice, AudioPlayMode.Single);
-        }
-
-        private static void PlayShiver(IPlayer p)
-        {
-            if (p.Gender == 0)
-                AudioManager.GetAudioPlayer().Play2D(shiverMan, AudioMixerChannel.Voice, AudioPlayMode.Single);
-            else
-                AudioManager.GetAudioPlayer().Play2D(shiverWoman, AudioMixerChannel.Voice, AudioPlayMode.Single);
-        }
-
-        private static void PlayRelief(IPlayer p)
-        {
-            if (p.Gender == 0)
-                AudioManager.GetAudioPlayer().Play2D(reliefMan, AudioMixerChannel.Voice, AudioPlayMode.Single);
-            else
-                AudioManager.GetAudioPlayer().Play2D(reliefWoman, AudioMixerChannel.Voice, AudioPlayMode.Single);
-        }
-
-        #endregion
     }
 }

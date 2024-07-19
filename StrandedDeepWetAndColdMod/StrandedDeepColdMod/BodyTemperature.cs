@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using System.Text;
+using UnityEngine;
 
 namespace StrandedDeepWetAndColdMod
 {
@@ -63,7 +64,7 @@ namespace StrandedDeepWetAndColdMod
             }
         }
 
-        public int millisecondsBeforeSickness = 60 * 60 * 1000; // 1 ingame hour
+        //public int millisecondsBeforeSickness = 60 * 60 * 1000; // 1 ingame hour
         public bool PlayRelief { get; set; }
         public bool PlayShiver { get; set; }
         public bool PlayedShiver { get; set; }
@@ -90,13 +91,13 @@ namespace StrandedDeepWetAndColdMod
                 return false;
 
             TimeSpan delta = GameTime.Now.Subtract(StartedTime);
-            if (delta.TotalMilliseconds >= millisecondsBeforeSickness)
+            if (delta.TotalMilliseconds >= ParameterValues.SICK_INGAME_DELAY)
             {
-                if (isSleeping && r.Next(0, 701) < (250 - CurrentTemperature))
+                if (isSleeping && r.Next(0, ParameterValues.MAX_ENERGY + 1) < (250 - CurrentTemperature))
                 {
                     return true;
                 }
-                else if (r.Next(Math.Max(0, 700 - (int)energy), 701) < (250 - CurrentTemperature))
+                else if (r.Next(Math.Max(0, Mathf.Clamp(ParameterValues.MAX_ENERGY - (int)energy, 0, ParameterValues.MAX_ENERGY)), ParameterValues.MAX_ENERGY + 1) < (250 - CurrentTemperature))
                 {
                     return true;
                 }

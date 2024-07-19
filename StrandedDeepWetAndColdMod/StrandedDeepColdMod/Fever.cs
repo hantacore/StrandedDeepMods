@@ -12,7 +12,6 @@ namespace StrandedDeepWetAndColdMod
         private FieldInfo dummyField = typeof(PlayerEffect).GetField("_temperaturePerHour", BindingFlags.NonPublic | BindingFlags.Instance);
 
         public static string FEVER = "Fever";
-        public int millisecondsBeforeHeal = 8 * 60 * 60 * 1000; // 8 ingame hour
 
         public float PercentHealed
         {
@@ -33,7 +32,7 @@ namespace StrandedDeepWetAndColdMod
 
         public void Reset()
         {
-            PercentHealed = 100;
+            PercentHealed = ParameterValues.FEVER_HEAL_INGAME_DELAY_MINUTES;
             StartedTime = GameTime.Now;
         }
 
@@ -47,7 +46,7 @@ namespace StrandedDeepWetAndColdMod
             if (housingSheltered)
             {
                 // without cold, heal 5x faster
-                PercentHealed -= elapsedMinutes * ParameterValues.FEVER_HEAL_HOUSE_MULTIPLICATOR;
+                PercentHealed -= elapsedMinutes * ParameterValues.FEVER_HEAL_HOUSE_MULTIPLICATOR_PER_MINUTE;
                 if (PercentHealed <= 0)
                     return true;
             }

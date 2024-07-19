@@ -28,6 +28,11 @@ namespace StrandedDeepWetAndColdMod
             if (p == null)
                 return;
 
+            if (p.Movement.GodMode || p.Statistics.Invincible)
+            {
+                return;
+            }
+
             playerStatisticsWaterField.SetValue(p.Statistics, water);
         }
 
@@ -43,6 +48,11 @@ namespace StrandedDeepWetAndColdMod
         {
             if (p == null)
                 return;
+
+            if (p.Movement.GodMode || p.Statistics.Invincible)
+            {
+                return;
+            }
 
             playerStatisticsCaloriesField.SetValue(p.Statistics, calories);
         }
@@ -60,7 +70,12 @@ namespace StrandedDeepWetAndColdMod
             if (p == null)
                 return;
 
-            playerStatisticsSleepField.SetValue(p.Statistics, sleep);
+            if (p.Movement.GodMode || p.Statistics.Invincible)
+            {
+                return;
+            }
+
+            playerStatisticsSleepField.SetValue(p.Statistics, Mathf.Clamp(sleep, 0, ParameterValues.MAX_ENERGY));
         }
 
         #endregion
