@@ -78,7 +78,7 @@ namespace StrandedDeepTweaksMod
             if (buoy == null)
             {
                 io.gameObject.SetActive(false);
-                Debug.Log("Stranded Deep Tweaks Mod : adding buoyancy to " + io.name);
+                //Debug.Log("Stranded Deep Tweaks Mod : adding buoyancy to " + io.name);
                 Buoyancy newbuoy = io.gameObject.AddComponent<Buoyancy>();
                 fi_buoyancyDensity.SetValue(newbuoy, 600.0f);
                 Rigidbody rb = fi_rigidbody.GetValue(newbuoy) as Rigidbody;

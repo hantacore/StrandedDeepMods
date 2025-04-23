@@ -1168,6 +1168,8 @@ namespace StrandedDeepTweaksMod
         {
             try
             {
+                return;
+
                 InteractiveObject[] ios = Beam.Game.FindObjectsOfType<InteractiveObject>();
                 foreach (InteractiveObject io in ios)
                 {
