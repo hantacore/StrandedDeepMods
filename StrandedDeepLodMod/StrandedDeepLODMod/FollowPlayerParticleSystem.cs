@@ -6,6 +6,7 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using UnityEngine;
+using UnityEngine.Rendering;
 
 namespace StrandedDeepLODMod
 {
@@ -21,7 +22,7 @@ namespace StrandedDeepLODMod
             {
                 foreach (ParticleSystem psystem in GetComponents<ParticleSystem>())
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start system found : " + psystem.name);
+                    Debug.Log("Stranded Deep LOD Mod : Start particle system  system found : " + psystem.name);
                     if (psystem.name == ParticleSystemName)
                     {
                         ps = psystem;
@@ -29,6 +30,9 @@ namespace StrandedDeepLODMod
                 }
 
                 //ps.SetParticles()
+                ParticleSystem.EmissionModule emission = ps.emission; ;
+                emission.enabled = true;
+                emission.rateOverTime = 50;
 
                 // https://docs.unity3d.com/ScriptReference/ParticleSystem.MainModule.html
                 ParticleSystem.MainModule mm = ps.main;
@@ -45,26 +49,28 @@ namespace StrandedDeepLODMod
                 //mm.flipRotation = 1f; //(0 to 1)
                 mm.prewarm = true;
                 mm.maxParticles = maxParticles;
-                //mm.playOnAwake = true;
+#warning test
+                mm.playOnAwake = true;
                 //mm.randomizeRotationDirection = 40;
                 //mm.gravityModifier = new ParticleSystem.MinMaxCurve(1.05f, 1.2f);
                 //mm.gravityModifier = new ParticleSystem.MinMaxCurve(0.1f, 0.3f); // floating
+                mm.simulationSpace = ParticleSystemSimulationSpace.World;
 
                 ParticleSystem.ShapeModule sm = ps.shape;
                 sm.shapeType = ParticleSystemShapeType.Cone;
                 sm.angle = 10.0f;
                 sm.scale = new Vector3(2, 2, 1);
                 sm.rotation = new Vector3(0, 180, 0);
-                sm.position = PlayerRegistry.LocalPlayer.transform.forward * 4;
+                sm.position = -PlayerRegistry.LocalPlayer.transform.forward * 4;
                 sm.enabled = true;
 
-                ParticleSystem.NoiseModule nm = ps.noise;
-                nm.enabled = true;
-                nm.strength = 0.1f;
-                nm.frequency = 0.5f;
-                nm.damping = true;
-                nm.octaveCount = 1;
-                nm.quality = ParticleSystemNoiseQuality.High;
+                //ParticleSystem.NoiseModule nm = ps.noise;
+                //nm.enabled = true;
+                //nm.strength = 0.1f;
+                //nm.frequency = 0.5f;
+                //nm.damping = true;
+                //nm.octaveCount = 1;
+                //nm.quality = ParticleSystemNoiseQuality.High;
 
                 try
                 {
@@ -104,7 +110,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 2 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : FollowPlayerParticleSystem Start 2 failed : " + e);
                 }
                 try
                 {
@@ -113,17 +119,15 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 3 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : FollowPlayerParticleSystem Start 3 failed : " + e);
                 }
 
                 Debug.Log("Stranded Deep LOD Mod : FollowPlayerParticleSystem Start");
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep LOD Mod : particle system Start global failed : " + e);
+                Debug.Log("Stranded Deep LOD Mod : FollowPlayerParticleSystem global failed : " + e);
             }
-
-            
         }
 
         private FieldInfo fi_calculatedVelocity = typeof(Movement).GetField("calculatedVelocity", BindingFlags.NonPublic | BindingFlags.Instance);
@@ -137,60 +141,38 @@ namespace StrandedDeepLODMod
             else
             {
                 ps.Play(false);
-            }
 
-            ParticleSystem.MainModule mm = ps.main;
-            Vector3 vel = (Vector3)fi_calculatedVelocity.GetValue(PlayerRegistry.LocalPlayer.Movement);
-            mm.simulationSpeed = Mathf.Max(vel.magnitude, 0.1f);
+                ParticleSystem.MainModule mm = ps.main;
+                Vector3 vel = (Vector3)fi_calculatedVelocity.GetValue(PlayerRegistry.LocalPlayer.Movement);
+                //vel = new Vector3(vel.x * PlayerRegistry.LocalPlayer.transform.forward.x, 
+                //    vel.y * PlayerRegistry.LocalPlayer.transform.forward.y, 
+                //    vel.z * PlayerRegistry.LocalPlayer.transform.forward.z);
+                mm.simulationSpeed = Mathf.Max(vel.magnitude, 0.1f);
 
-            if (ps.isPaused)
-                ps.Play();
+                if (ps.isPaused)
+                    ps.Play();
 
-            // rotate the sprite
-            ParticleSystem.Particle[] particles = new ParticleSystem.Particle[maxParticles];
-            int count = ps.GetParticles(particles);
-            //Debug.Log("Stranded Deep LOD Mod : small fishes particle system check depth");
-            for (int i = count - 1; i >= 0; i--)
-            {
-                try
+                // remove particles above water
+                ParticleSystem.Particle[] particles = new ParticleSystem.Particle[maxParticles];
+                int count = ps.GetParticles(particles);
+                //Debug.Log("Stranded Deep LOD Mod : underwater particles : " + count);
+                for (int i = count - 1; i >= 0; i--)
                 {
-                    //Vector3 velocity = particles[i].velocity;
-                    //float perceivedAngle = (float)Math.Asin(velocity.y) * Mathf.Deg2Rad; //Mathf.Sign(velocity.y) * Mathf.Rad2Deg;
-                    //particles[i].rotation = perceivedAngle;
-                    //ps.SetParticles(particles, count);
-                    //Debug.Log("Stranded Deep LOD Mod : small fishes particle system check depth : " + ps.transform.TransformPoint(particles[i].position).y);
-
-                    if (ps.transform.TransformPoint(particles[i].position).y >= -0.5)
+                    try
                     {
-                        particles[i].remainingLifetime = 0f;
+                        if (ps.transform.TransformPoint(particles[i].position).y >= -0.5)
+                        {
+                            particles[i].remainingLifetime = 0f;
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.Log("Stranded Deep LOD Mod : particles depth control error : " + ex);
+                        return;
                     }
                 }
-                catch (Exception ex)
-                {
-                    Debug.Log("Stranded Deep LOD Mod : small fishes depth control error : " + ex);
-                    return;
-                }
+                ps.SetParticles(particles);
             }
-            ps.SetParticles(particles);
         }
-
-        //protected virtual bool CheckDistance()
-        //{
-        //    try
-        //    {
-        //        if (PlayerRegistry.LocalPlayer == null)
-        //            return false;
-
-        //        float magnitude = Vector3.Magnitude(this.gameObject.transform.position - PlayerRegistry.LocalPlayer.transform.position);
-        //        //Debug.Log("Stranded Deep AnimatedFoliage : CheckDistance magnitude = " + magnitude);
-        //        if (magnitude > 20f)
-        //            return false;
-        //    }
-        //    catch (Exception e)
-        //    {
-        //        Debug.Log("Stranded Deep AnimatedFoliage mod error on TreeBender CheckDistance : " + e);
-        //    }
-        //    return true;
-        //}
     }
 }

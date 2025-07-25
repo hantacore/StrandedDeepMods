@@ -9,6 +9,7 @@ namespace StrandedDeepLODMod
 {
     public class JellyfishParticleSystem : MonoBehaviour
     {
+        public const string ParticleSystemName = "jellyfishParticles";
         private ParticleSystem ps;
         public bool enter;
         public bool exit;
@@ -92,7 +93,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 2 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : JellyfishParticleSystem Start 2 failed : " + e);
                 }
                 try
                 {
@@ -101,7 +102,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 3 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : JellyfishParticleSystem Start 3 failed : " + e);
                 }
                 try
                 {
@@ -111,14 +112,14 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 4 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : JellyfishParticleSystem Start 4 failed : " + e);
                 }
 
                 //Debug.Log("Stranded Deep LOD Mod : particle system Start global init success");
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep LOD Mod : particle system Start global failed : " + e);
+                Debug.Log("Stranded Deep LOD Mod : JellyfishParticleSystem Start global failed : " + e);
             }
         }
 
@@ -178,7 +179,7 @@ namespace StrandedDeepLODMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep AnimatedFoliage mod error on TreeBender CheckDistance : " + e);
+                Debug.Log("Stranded Deep AnimatedFoliage mod error on JellyfishParticleSystem CheckDistance : " + e);
             }
             return true;
         }

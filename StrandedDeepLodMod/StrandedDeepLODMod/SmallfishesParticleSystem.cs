@@ -9,6 +9,7 @@ namespace StrandedDeepLODMod
 {
     public class SmallfishesParticleSystem : MonoBehaviour
     {
+        public const string ParticleSystemName = "smallfishesParticles";
         protected ParticleSystem ps;
         public bool enter;
         public bool exit;
@@ -34,6 +35,10 @@ namespace StrandedDeepLODMod
                 mm.startSpeed = 0f;
                 mm.startSize = new ParticleSystem.MinMaxCurve(0.01f, 0.1f);// 10;
                 mm.startRotation = new ParticleSystem.MinMaxCurve(-20.0F * Mathf.Deg2Rad, 20.0F * Mathf.Deg2Rad);//works, flips the sprite;
+
+                //test
+                mm.startRotationX = 90;// 90;//270;
+
                 mm.simulationSpeed = 0.2f;
                 mm.cullingMode = ParticleSystemCullingMode.Automatic;
                 mm.flipRotation = 1f; //(0 to 1)
@@ -101,12 +106,21 @@ namespace StrandedDeepLODMod
 
 
                     ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
-                    r.alignment = ParticleSystemRenderSpace.Facing;
+                    //r.alignment = ParticleSystemRenderSpace.Facing;
+
+                    // test
+                    r.renderMode = ParticleSystemRenderMode.Billboard;
+                    r.alignment = ParticleSystemRenderSpace.Velocity;
+
+                    r.allowRoll = false;
+                    r.freeformStretching = false;
+                    r.rotateWithStretchDirection = true;
+
                     r.material = mat;
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 2 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : SmallfishesParticleSystem Start 2 failed : " + e);
                 }
                 try
                 {
@@ -115,7 +129,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 3 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : SmallfishesParticleSystem Start 3 failed : " + e);
                 }
                 try
                 {
@@ -125,14 +139,14 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 4 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : SmallfishesParticleSystem Start 4 failed : " + e);
                 }
 
                 //Debug.Log("Stranded Deep LOD Mod : particle system Start global init success");
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep LOD Mod : particle system Start global failed : " + e);
+                Debug.Log("Stranded Deep LOD Mod : SmallfishesParticleSystem Start global failed : " + e);
             }
         }
 
@@ -194,7 +208,7 @@ namespace StrandedDeepLODMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep AnimatedFoliage mod error on TreeBender CheckDistance : " + e);
+                Debug.Log("Stranded Deep AnimatedFoliage mod error on SmallFishesParticleSystem CheckDistance : " + e);
             }
             return true;
         }

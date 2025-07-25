@@ -396,6 +396,7 @@ namespace StrandedDeepLODMod
                         //Debug.Log("Stranded Deep LOD Mod : adding jellyfish particle system to table coral");
                         ParticleSystem ps = go.AddComponent<ParticleSystem>();
                         JellyfishParticleSystem pst = go.AddComponent<JellyfishParticleSystem>();
+                        ps.name = JellyfishParticleSystem.ParticleSystemName;
                         ps.Play();
                     }
                 }
@@ -407,6 +408,7 @@ namespace StrandedDeepLODMod
                         //Debug.Log("Stranded Deep LOD Mod : adding shrimp particle system to coral rock");
                         ParticleSystem ps = go.AddComponent<ParticleSystem>();
                         ShrimpParticleSystem pst = go.AddComponent<ShrimpParticleSystem>();
+                        ps.name = ShrimpParticleSystem.ParticleSystemName;
                         ps.Play();
                     }
                 }
@@ -420,6 +422,7 @@ namespace StrandedDeepLODMod
                         //Debug.Log("Stranded Deep LOD Mod : adding smallfishes particle system to coral");
                         ParticleSystem ps = go.AddComponent<ParticleSystem>();
                         SmallfishesParticleSystem pst = go.AddComponent<SmallfishesParticleSystem>();
+                        ps.name = SmallfishesParticleSystem.ParticleSystemName;
                         ps.Play();
                     }
                 }
@@ -658,8 +661,8 @@ namespace StrandedDeepLODMod
             /// <returns></returns>
             internal static bool InZoneLoadingExtendedBounds(IPlayer player, Zone zone)
             {
-                float buffedLoadDistance = 250f * 4;
-                return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < buffedLoadDistance;
+                float zoneLoadDistance = WorldUtilities.IslandSize - 16 * WorldUtilities.IslandSizeRatio;//250f * 4;
+                return Vector2.Distance(new Vector2(player.transform.position.x, player.transform.position.z), new Vector2(zone.transform.position.x, zone.transform.position.z)) < zoneLoadDistance;
             }
         }
 

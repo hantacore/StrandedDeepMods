@@ -9,6 +9,7 @@ namespace StrandedDeepLODMod
 {
     public class ShrimpParticleSystem : MonoBehaviour
     {
+        public const string ParticleSystemName = "shrimpParticles";
         private ParticleSystem ps;
         public bool enter;
         public bool exit;
@@ -34,6 +35,9 @@ namespace StrandedDeepLODMod
                 mm.startSpeed = 0f;
                 mm.startSize = new ParticleSystem.MinMaxCurve(0.01f, 0.1f);// 10;
                 mm.startRotation = new ParticleSystem.MinMaxCurve(-20.0F * Mathf.Deg2Rad, 20.0F * Mathf.Deg2Rad);//works, flips the sprite;
+
+                //mm.startRotationX = 90;
+
                 mm.simulationSpeed = 0.1f;
                 mm.cullingMode = ParticleSystemCullingMode.Automatic;
                 mm.flipRotation = 1f; //(0 to 1)
@@ -93,12 +97,16 @@ namespace StrandedDeepLODMod
                     mat.renderQueue = 3300;
 
                     ParticleSystemRenderer r = ps.GetComponent<ParticleSystemRenderer>();
+
                     r.alignment = ParticleSystemRenderSpace.Facing;
+                    //r.renderMode = ParticleSystemRenderMode.Billboard;
+                    //r.alignment = ParticleSystemRenderSpace.Velocity;
+
                     r.material = mat;
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 2 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : ShrimpParticleSystem Start 2 failed : " + e);
                 }
                 try
                 {
@@ -107,7 +115,7 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 3 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : ShrimpParticleSystem Start 3 failed : " + e);
                 }
                 try
                 {
@@ -117,14 +125,14 @@ namespace StrandedDeepLODMod
                 }
                 catch (Exception e)
                 {
-                    Debug.Log("Stranded Deep LOD Mod : particle system Start 4 failed : " + e);
+                    Debug.Log("Stranded Deep LOD Mod : ShrimpParticleSystem Start 4 failed : " + e);
                 }
 
                 //Debug.Log("Stranded Deep LOD Mod : particle system Start global init success");
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep LOD Mod : particle system Start global failed : " + e);
+                Debug.Log("Stranded Deep LOD Mod : ShrimpParticleSystem Start global failed : " + e);
             }
         }
 
@@ -184,7 +192,7 @@ namespace StrandedDeepLODMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep AnimatedFoliage mod error on TreeBender CheckDistance : " + e);
+                Debug.Log("Stranded Deep AnimatedFoliage mod error on ShrimpParticleSystem CheckDistance : " + e);
             }
             return true;
         }
