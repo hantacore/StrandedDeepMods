@@ -24,6 +24,14 @@ namespace StrandedDeepAnimatedFoliageMod
         //float previousStormPercentage = 0;
         //float stormPercentage = 0;
 
+        // FIX: initOk manquant — DeformingInit() ne le mettait jamais à true,
+        //      et Update() appelait DeformingUpdate() sans le vérifier
+        protected bool initOk = false;
+
+        // OPT: limite de retries pour éviter d'appeler DeformingInit() à chaque frame en cas d'échec
+        private int _initFailCount = 0;
+        private const int MaxInitRetries = 5;
+
         public void Start()
         {
             try
@@ -76,7 +84,21 @@ namespace StrandedDeepAnimatedFoliageMod
                 //Debug.Log("Stranded Deep AnimatedFoliage mod BushBender stormpercentage = " + stormPercentage);
 
                 //UpdateSimpleBending();
-                DeformingUpdate();
+
+                // FIX: aligné sur les autres Benders — vérifie initOk avant d'appeler DeformingUpdate()
+                //      pour éviter un accès null à displacedVertices si DeformingInit() a échoué
+                if (!initOk)
+                {
+                    if (_initFailCount < MaxInitRetries)
+                    {
+                        DeformingInit();
+                        if (!initOk) _initFailCount++;
+                    }
+                }
+                else
+                {
+                    DeformingUpdate();
+                }
             }
             catch (Exception e)
             {
@@ -117,8 +139,11 @@ namespace StrandedDeepAnimatedFoliageMod
                     return;
 
                 InitClonedMesh();
-
                 RecomputeDeltas();
+
+                // FIX: initOk n'était jamais mis à true — DeformingInit() était rappelé
+                //      en boucle depuis DeformingUpdate() à chaque frame
+                initOk = true;
 
                 //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex count = " + originalVertices.Length);
             }
@@ -133,18 +158,26 @@ namespace StrandedDeepAnimatedFoliageMod
             float oscillationPhase = 0.1f;
             float oscillationDelta = 0.5f;
             delta = new Vector3[originalVertices.Length];
+
+            // OPT: Time.time mis en cache — remplace DateTime.Now.Second par vertex
+            float sinPhase = Mathf.Sin(Time.time * oscillationPhase * Mathf.PI * 2.0f);
+
             for (int i = 0; i < originalVertices.Length; i++)
             {
                 displacedVertices[i] = originalVertices[i];
 
                 // move more if far from center
-                float sqrMag = (originalVertices[i] - new Vector3(0, originalVertices[i].y, 0)).sqrMagnitude;
+                // OPT: évite d'allouer un new Vector3 juste pour annuler le composant Y
+                float vx = originalVertices[i].x;
+                float vz = originalVertices[i].z;
+                float sqrMag = vx * vx + vz * vz;
                 //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex sqrmag = " + sqrMag);
                 float ratio = sqrMag / 400f;//Mathf.Pow(sqrMag, 2) / 200f;
-                                            //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex ratio = " + ratio);
-                delta[i] = new Vector3((float)random.NextDouble() * Mathf.Sin(DateTime.Now.Second * oscillationPhase * Mathf.PI * 2.0f),
-                    (float)random.NextDouble() * Mathf.Sin(DateTime.Now.Second * oscillationPhase * Mathf.PI * 2.0f),
-                    (float)random.NextDouble() * Mathf.Sin(DateTime.Now.Second * oscillationPhase * Mathf.PI * 2.0f)) * ratio * oscillationDelta;
+                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex ratio = " + ratio);
+                delta[i] = new Vector3(
+                    (float)random.NextDouble() * sinPhase,
+                    (float)random.NextDouble() * sinPhase,
+                    (float)random.NextDouble() * sinPhase) * ratio * oscillationDelta;
                 //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex delta = " + delta[i]);
             }
         }
@@ -200,6 +233,10 @@ namespace StrandedDeepAnimatedFoliageMod
             clonedMesh.bindposes = originalMesh.bindposes;
 
             meshFilter.sharedMesh = clonedMesh;
+            // FIX: MarkDynamic() manquant — présent dans tous les autres Benders,
+            //      indique à Unity que ce mesh sera modifié fréquemment (optimisation driver GPU)
+#warning performance test
+            meshFilter.sharedMesh.MarkDynamic();
 
             originalVertices = originalMesh.vertices;
             displacedVertices = new Vector3[originalVertices.Length];
@@ -209,16 +246,22 @@ namespace StrandedDeepAnimatedFoliageMod
         {
             if (meshFilter != null)
             {
+                // OPT: stormRatio mis en cache une fois par frame au lieu de recalculer par vertex
+                float stormRatio = (float)Main.stormPercentage / 100f;
+
                 float t = 0.0f;// (Mathf.Sin(Time.time * 0.2f * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
                 int startIndex = 0; //random.Next(0, displacedVertices.Length - 2);
                 int endIndex = displacedVertices.Length;//random.Next(startIndex, displacedVertices.Length);
                 for (int vertex = startIndex; vertex < endIndex; vertex++)
                 {
-                    float phase = 0.2f * (originalVertices[vertex] - new Vector3(0, originalVertices[vertex].y, 0)).magnitude * (1 + (float)Main.stormPercentage / 100f);
+                    // OPT: évite d'allouer un new Vector3 juste pour annuler le composant Y
+                    float vx = originalVertices[vertex].x;
+                    float vz = originalVertices[vertex].z;
+                    float phase = 0.2f * Mathf.Sqrt(vx * vx + vz * vz) * (1 + stormRatio);
                     t = (Mathf.Sin(Time.time * phase * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
 
                     //Vector3 randomOsc = new Vector3((float)random.Next(0, 5) * delta[vertex].x, (float)random.Next(0, 5) * delta[vertex].y, (float)random.Next(0, 5) * delta[vertex].z);
-                    Vector3 randomOsc = delta[vertex] * (1 + (float)Main.stormPercentage / 100f);
+                    Vector3 randomOsc = delta[vertex] * (1 + stormRatio);
                     displacedVertices[vertex] = Vector3.Lerp(originalVertices[vertex] - randomOsc, originalVertices[vertex] + randomOsc, t);
                     //if (Mathf.Approximately(originalVertices[vertex].x, randomOsc.x)
                     //&& Mathf.Approximately(originalVertices[vertex].y, randomOsc.y)
@@ -229,12 +272,20 @@ namespace StrandedDeepAnimatedFoliageMod
                     //}
                 }
 
-                clonedMesh.vertices = displacedVertices;
+                // FIX: remplacé clonedMesh.vertices = displacedVertices par SetVertices()
+                //      comme tous les autres Benders — évite une copie de tableau inutile
+#warning performance test
+                clonedMesh.SetVertices(displacedVertices);
                 clonedMesh.RecalculateNormals();
             }
             else
             {
-                DeformingInit();
+                // OPT: retries limités via _initFailCount pour éviter de saturer le CPU
+                if (_initFailCount < MaxInitRetries)
+                {
+                    DeformingInit();
+                    if (!initOk) _initFailCount++;
+                }
             }
         }
 

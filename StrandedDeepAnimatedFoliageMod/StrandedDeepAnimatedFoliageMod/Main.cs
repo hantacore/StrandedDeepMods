@@ -27,6 +27,8 @@ namespace StrandedDeepAnimatedFoliageMod
         internal static bool animateSmallTrees = false;
         internal static bool animatePlants = false;
         internal static bool animateCorals = false;
+        internal static bool animateGrass = false;
+        internal static bool animateSeaweeds = false;
         internal static bool replaceTreeLeaves = false;
         internal static bool replaceBushTextures = false;
         internal static float distanceRatio = 1.0f;
@@ -132,6 +134,8 @@ namespace StrandedDeepAnimatedFoliageMod
             }
             animateBushes = GUILayout.Toggle(animateBushes, "Animate vegetation (performance ++)");
             animateCorals = GUILayout.Toggle(animateCorals, "Animate underwater corals and kelp (performance ++)");
+            animateGrass = GUILayout.Toggle(animateGrass, "Animate grass (performance +++)");
+            animateSeaweeds = GUILayout.Toggle(animateSeaweeds, "Animate underwater weeds (performance +++)");
             GUILayout.Label("Animation distance");
             distanceRatio = GUILayout.HorizontalSlider(distanceRatio, 0.1f, 1.0f);
 
@@ -383,7 +387,8 @@ namespace StrandedDeepAnimatedFoliageMod
 
         private static void ComputeStormPercentage()
         {
-            if (AtmosphereStorm.Instance.CurrentWeatherEvent != null)
+            if (AtmosphereStorm.Instance != null
+                && AtmosphereStorm.Instance.CurrentWeatherEvent != null)
             {
                 if (previousStormPercentage != AtmosphereStorm.Instance.CurrentWeatherEvent.Percentage)
                 {
@@ -522,6 +527,14 @@ namespace StrandedDeepAnimatedFoliageMod
                             {
                                 animateCorals = bool.Parse(tokens[1]);
                             }
+                            else if (tokens[0].Contains("animateGrass"))
+                            {
+                                animateGrass = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("animateSeaweeds"))
+                            {
+                                animateSeaweeds = bool.Parse(tokens[1]);
+                            }
                             else if (tokens[0].Contains("replaceTreeLeaves"))
                             {
                                 replaceTreeLeaves = bool.Parse(tokens[1]);
@@ -537,6 +550,10 @@ namespace StrandedDeepAnimatedFoliageMod
                                     distanceRatio = 0.1f;
                                 if (distanceRatio > 1.0f)
                                     distanceRatio = 1.0f;
+                            }
+                            else if (tokens[0].Contains("debugMode"))
+                            {
+                                debugMode = bool.Parse(tokens[1]);
                             }
                         }
                     }
@@ -556,9 +573,12 @@ namespace StrandedDeepAnimatedFoliageMod
                 sb.AppendLine("animateSmallTrees=" + animateSmallTrees + ";");
                 sb.AppendLine("animatePlants=" + animatePlants + ";");
                 sb.AppendLine("animateCorals=" + animateCorals + ";");
+                sb.AppendLine("animateGrass=" + animateGrass + ";");
+                sb.AppendLine("animateSeaweeds=" + animateSeaweeds + ";");
                 sb.AppendLine("replaceTreeLeaves=" + replaceTreeLeaves + ";");
                 sb.AppendLine("replaceBushTextures=" + replaceBushTextures + ";");
                 sb.AppendLine("distanceRatio=" + distanceRatio + ";");
+                sb.AppendLine("debugMode=" + debugMode + ";");
 
                 System.IO.File.WriteAllText(configFilePath, sb.ToString(), Encoding.UTF8);
             }

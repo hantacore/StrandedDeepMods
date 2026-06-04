@@ -2,8 +2,10 @@
   "Id": "StrandedDeepAnimatedFoliageMod",
   "DisplayName": "Stranded Deep Animated Foliage Mod",
   "Author": "Hantacore",
-  "Version": "0.0.7",
+  "Version": "0.0.8",
   "AssemblyName": "StrandedDeepAnimatedFoliageMod.dll",
   "EntryMethod": "StrandedDeepAnimatedFoliageMod.Main.Load",
-  "LoadAfter" : ["StrandedWideMod"]
+  "LoadAfter" : ["StrandedWideMod"],
+  "Homepage": "https://www.nexusmods.com/strandeddeep/mods/207",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
 }

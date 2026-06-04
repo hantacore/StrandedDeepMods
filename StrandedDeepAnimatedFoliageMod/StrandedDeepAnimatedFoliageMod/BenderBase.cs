@@ -13,8 +13,29 @@ namespace StrandedDeepAnimatedFoliageMod
         protected bool _animatedSecondaryMesh = false;
         protected Renderer renderer = null;
         protected MeshFilter meshFilter;
-        
+
+        // OPT: cache squared distance thresholds to avoid recomputing every frame
+        private float _sqrDistanceSmallTree;
+        private float _sqrDistanceFar;
+        private float _sqrDistanceSecondary;
+
         public bool IsSmallTree { get; set; }
+
+        protected virtual void Awake()
+        {
+            RefreshDistanceThresholds();
+        }
+
+        // Call this if Main.distanceRatio can change at runtime
+        protected void RefreshDistanceThresholds()
+        {
+            float secondary = Main.distanceRatio * 30f;
+            float smallTree = Main.distanceRatio * 50f;
+            float far = Main.distanceRatio * 200f;
+            _sqrDistanceSecondary = secondary * secondary;
+            _sqrDistanceSmallTree = smallTree * smallTree;
+            _sqrDistanceFar = far * far;
+        }
 
         protected virtual bool IsUnderwaterObject()
         {
@@ -28,11 +49,12 @@ namespace StrandedDeepAnimatedFoliageMod
                 if (PlayerRegistry.LocalPlayer == null)
                     return false;
 
-                float magnitude = Vector3.Magnitude(this.gameObject.transform.position - PlayerRegistry.LocalPlayer.transform.position);
+                // OPT: sqrMagnitude avoids a sqrt compared to Vector3.Magnitude
+                float sqrMagnitude = (this.gameObject.transform.position - PlayerRegistry.LocalPlayer.transform.position).sqrMagnitude;
                 //Debug.Log("Stranded Deep AnimatedFoliage : CheckDistance magnitude = " + magnitude);
-                _animatedSecondaryMesh = (magnitude <= Main.distanceRatio * 30f);
-                if (IsSmallTree && magnitude > Main.distanceRatio * 50f
-                    || magnitude > Main.distanceRatio * 200f)
+                _animatedSecondaryMesh = (sqrMagnitude <= _sqrDistanceSecondary);
+                if (IsSmallTree && sqrMagnitude > _sqrDistanceSmallTree
+                    || sqrMagnitude > _sqrDistanceFar)
                     return false;
             }
             catch (Exception e)
@@ -67,6 +89,10 @@ namespace StrandedDeepAnimatedFoliageMod
         {
             if (meshFilter != null
                 && !meshFilter.gameObject.activeSelf)
+                return false;
+
+            // OPT: guard LocalPlayer null before accessing Movement
+            if (PlayerRegistry.LocalPlayer == null)
                 return false;
 
             if (!CheckVisible()

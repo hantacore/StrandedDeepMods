@@ -1,4 +1,4 @@
-﻿using Beam;
+using Beam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,7 +9,8 @@ using UnityEngine.Rendering;
 
 namespace StrandedDeepAnimatedFoliageMod
 {
-    public class CoralBender : BenderBase
+    [RequireComponent(typeof(MeshFilter))]
+    class GrassBender : BenderBase
     {
         //public float RotationSpeed = 0.2f;
         public Vector3 fromAngle = new Vector3(0f, 0f, -5f);
@@ -22,8 +23,8 @@ namespace StrandedDeepAnimatedFoliageMod
         Mesh clonedMesh;
         Vector3[] originalVertices, displacedVertices;
         Vector3[] delta;
-        // OPT: ondulation retiré — le tableau était alloué dans RecomputeDeltas mais
-        //      jamais lu dans DeformingUpdate (bloc commenté). Suppression de l'allocation inutile.
+        // OPT: ondulation supprimé — alloué dans RecomputeDeltas mais jamais lu
+        //      dans DeformingUpdate (bloc commenté)
         //Vector3[] ondulation;
 
         public int BendAngle { get; set; }
@@ -32,64 +33,48 @@ namespace StrandedDeepAnimatedFoliageMod
 
         System.Random random = new System.Random();
 
-        bool IsKelp1 { get; set; }
-        bool IsKelp2 { get; set; }
-
         protected bool initOk = false;
 
         // OPT: limite de retries pour éviter d'appeler DeformingInit() à chaque frame en cas d'échec
         private int _initFailCount = 0;
         private const int MaxInitRetries = 5;
 
-        // FIX: timer pour réinitialiser périodiquement les angles du kelp —
-        //      InitSimpleBending() n'était appelé qu'une seule fois au Start(),
-        //      les angles ne changeaient jamais ensuite
-        private float _bendingReinitTimer = 0f;
-        private float _bendingReinitInterval = 5f;
-
         public void Start()
         {
             try
             {
-                // OPT: IsKelp1/IsKelp2 sont assignés dans DeformingInit() qui est appelé depuis Update(),
-                //      donc au moment du Start() ils sont toujours false — InitSimpleBending() ne serait
-                //      jamais appelé ici. On appelle DeformingInit() en premier pour résoudre ce bug.
-                DeformingInit();
-
-                if (IsKelp1 || IsKelp2)
-                {
-                    BendAngle = 5;
-                    //MinBendSpeed = 1;
-                    //MaxBendSpeed = 5;
-
-                    InitSimpleBending();
-                }
-                //DeformingInit();
+                // FIX: Start() était vide — meshFilter n'était jamais assigné, donc
+                //      DeformingInit() retournait immédiatement à chaque frame sans jamais
+                //      initialiser le mesh. On cherche le MeshFilter ici au démarrage.
+                meshFilter = GetComponentInChildren<MeshFilter>();
+                renderer = meshFilter != null ? meshFilter.gameObject.GetComponent<Renderer>() : GetComponentInChildren<Renderer>();
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep AnimatedFoliage Mod error in CoralBender Start : " + e);
+                Debug.Log("Stranded Deep AnimatedFoliage Mod error in GrassBender Start : " + e);
             }
         }
 
-        private void InitSimpleBending()
-        {
-            //Debug.Log("Stranded Deep AnimatedFoliage mod InitSimpleBending");
-            fromAngle = new Vector3(
-                (float)random.NextDouble() * random.Next(BendAngle * (-1 - (int)(Main.stormPercentage / 100f)), BendAngle * (1 + (int)(Main.stormPercentage / 100f))),
-                0f,
-                (float)random.NextDouble() * random.Next(-BendAngle - (int)(Main.stormPercentage * BendAngle / 100f), BendAngle * (1 + (int)(Main.stormPercentage / 100f))));
-            toAngle = new Vector3(
-                (float)random.NextDouble() * random.Next(BendAngle * (-1 - (int)(Main.stormPercentage / 100f)), BendAngle * (1 + (int)(Main.stormPercentage / 100f))),
-                0f,
-                (float)random.NextDouble() * random.Next(-BendAngle - (int)(Main.stormPercentage * BendAngle / 100f), BendAngle * (1 + (int)(Main.stormPercentage / 100f))));
-
-            float yScale = (float)random.Next(50, 110) / 100f;
-            fromScale = new Vector3((float)random.Next(98, 102) / 100f, yScale, (float)random.Next(98, 102) / 100f);
-            toScale = new Vector3((float)random.Next(98, 102) / 100f, yScale, (float)random.Next(98, 102) / 100f);
-
-            //RotationSpeed = (float)random.Next(MinBendSpeed * (1 + (int)(Main.stormPercentage / 100f)), MaxBendSpeed * (1 + (int)(Main.stormPercentage / 100f))) / (float)100;
-        }
+        // FIX: InitSimpleBending() n'était jamais appelée (Start() était vide, Update() ne l'appelait pas)
+        //      Conservée en commentaire pour référence — à réactiver si le bending simple est souhaité
+        //private void InitSimpleBending()
+        //{
+        //    //Debug.Log("Stranded Deep AnimatedFoliage mod InitSimpleBending");
+        //    fromAngle = new Vector3(
+        //        (float)random.NextDouble() * random.Next(BendAngle * (-1 - (int)(Main.stormPercentage / 100f)), BendAngle * (1 + (int)(Main.stormPercentage / 100f))),
+        //        0f,
+        //        (float)random.NextDouble() * random.Next(-BendAngle - (int)(Main.stormPercentage * BendAngle / 100f), BendAngle * (1 + (int)(Main.stormPercentage / 100f))));
+        //    toAngle = new Vector3(
+        //        (float)random.NextDouble() * random.Next(BendAngle * (-1 - (int)(Main.stormPercentage / 100f)), BendAngle * (1 + (int)(Main.stormPercentage / 100f))),
+        //        0f,
+        //        (float)random.NextDouble() * random.Next(-BendAngle - (int)(Main.stormPercentage * BendAngle / 100f), BendAngle * (1 + (int)(Main.stormPercentage / 100f))));
+        //
+        //    float yScale = (float)random.Next(50, 110) / 100f;
+        //    fromScale = new Vector3((float)random.Next(98, 102) / 100f, yScale, (float)random.Next(98, 102) / 100f);
+        //    toScale = new Vector3((float)random.Next(98, 102) / 100f, yScale, (float)random.Next(98, 102) / 100f);
+        //
+        //    //RotationSpeed = (float)random.Next(MinBendSpeed * (1 + (int)(Main.stormPercentage / 100f)), MaxBendSpeed * (1 + (int)(Main.stormPercentage / 100f))) / (float)100;
+        //}
 
         public void Update()
         {
@@ -98,10 +83,9 @@ namespace StrandedDeepAnimatedFoliageMod
                 if (!DoChecks())
                     return;
 
-                if (IsKelp1 || IsKelp2)
-                {
-                    UpdateSimpleBending();
-                }
+                // FIX: UpdateSimpleBending() n'était jamais appelée non plus — même sort qu'InitSimpleBending
+                //      à réactiver ici si besoin :
+                //UpdateSimpleBending();
 
                 if (!initOk)
                 {
@@ -119,12 +103,34 @@ namespace StrandedDeepAnimatedFoliageMod
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep AnimatedFoliage mod error on CoralBender update : " + e);
+                Debug.Log("Stranded Deep AnimatedFoliage mod error on GrassBender update : " + e);
             }
         }
 
         protected override bool IsUnderwaterObject()
         {
+            return false;
+        }
+
+        // FIX: distance réduite pour l'herbe — le deforming mesh est coûteux et l'herbe
+        //      n'est visible de près que. On limite à distanceRatio * 20f au lieu de 200f.
+        protected override bool CheckDistance()
+        {
+            try
+            {
+                if (PlayerRegistry.LocalPlayer == null)
+                    return false;
+
+                float sqrMagnitude = (this.gameObject.transform.position - PlayerRegistry.LocalPlayer.transform.position).sqrMagnitude;
+                // changer ici la distance d'animation de l'herbe
+                float maxDist = Main.distanceRatio * 50f;
+                if (sqrMagnitude > maxDist * maxDist)
+                    return false;
+            }
+            catch (Exception e)
+            {
+                Debug.Log("Stranded Deep AnimatedFoliage mod error on GrassBender CheckDistance : " + e);
+            }
             return true;
         }
 
@@ -160,66 +166,32 @@ namespace StrandedDeepAnimatedFoliageMod
         float previousstreamSpeed = 1.0f;
         float targetstreamSpeed = 1.0f;
 
-        private void UpdateSimpleBending()
-        {
-            if (previousstreamSpeed != targetstreamSpeed)
-            {
-                streamt += 0.001f * Time.deltaTime;
-                streamSpeed = Mathf.Lerp(previousstreamSpeed, targetstreamSpeed, streamt);
-                if (Mathf.Approximately(streamSpeed, targetstreamSpeed))
-                {
-                    previousstreamSpeed = targetstreamSpeed;
-                    streamt = 0.0f;
-                }
-            }
-            else
-            {
-                targetstreamSpeed = 1.0f + (1.0f * (float)Main.stormPercentage / 100f) + (float)random.NextDouble();
-            }
-            float phase = 0.2f;
-            float t = (Mathf.Sin(streamSpeed * Time.time * phase * Mathf.PI * 2.0f) + 1.0f) / 4.0f;
-            if (IsKelp1)
-            {
-                transform.localScale = Vector3.Lerp(fromScale, toScale, t);
-            }
-            transform.eulerAngles = Vector3.Lerp(fromAngle, toAngle, t);
-        }
+        // FIX: UpdateSimpleBending() n'était jamais appelée — conservée en commentaire pour référence
+        //private void UpdateSimpleBending()
+        //{
+        //    if (previousstreamSpeed != targetstreamSpeed)
+        //    {
+        //        streamt += 0.001f * Time.deltaTime;
+        //        streamSpeed = Mathf.Lerp(previousstreamSpeed, targetstreamSpeed, streamt);
+        //        if (Mathf.Approximately(streamSpeed, targetstreamSpeed))
+        //        {
+        //            previousstreamSpeed = targetstreamSpeed;
+        //            streamt = 0.0f;
+        //        }
+        //    }
+        //    else
+        //    {
+        //        targetstreamSpeed = 1.0f + (1.0f * (float)Main.stormPercentage / 100f) + (float)random.NextDouble();
+        //    }
+        //    float phase = 0.2f;
+        //    float t = (Mathf.Sin(streamSpeed * Time.time * phase * Mathf.PI * 2.0f) + 1.0f) / 4.0f;
+        //    transform.eulerAngles = Vector3.Lerp(fromAngle, toAngle, t);
+        //}
 
         private void DeformingInit()
         {
             try
             {
-                //Debug.Log("Stranded Deep AnimatedFoliage mod DeformingInit");
-
-                MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
-                foreach (MeshFilter mf in meshFilters)
-                {
-                    //int mesh = 0;
-                    //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter : " + mesh + " / " + (mf == null ? "null" : "not null"));
-                    //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter shared mesh : " + (mf.sharedMesh == null ? "null" : "not null"));
-                    //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter go name : " + mf.gameObject.name);
-                    //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter shared mesh vertex count : " + mesh + " / " + (mf.sharedMesh == null ? "null" : mf.sharedMesh.vertices.Length.ToString()));
-                    //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter mesh : " + mesh + " / " + (mf.mesh == null ? "null" : "not null"));
-
-                    if (mf.gameObject.name.Contains("Kelp_1")
-                        || mf.gameObject.name.Contains("Kelp_2")
-                        || mf.gameObject.name.Contains("Coral_Group_Red")
-                        || mf.gameObject.name.Contains("Coral_Group_Pink")
-                        || mf.gameObject.name.Contains("Coral_Group_White"))
-                    {
-                        meshFilter = mf;
-                        renderer = mf.gameObject.GetComponent<Renderer>();
-                        if (mf.gameObject.name.Contains("Kelp_1"))
-                        {
-                            IsKelp1 = true;
-                        }
-                        if (mf.gameObject.name.Contains("Kelp_2"))
-                        {
-                            IsKelp2 = true;
-                        }
-                    }
-                }
-
                 if (meshFilter == null)
                     return;
 
@@ -228,18 +200,18 @@ namespace StrandedDeepAnimatedFoliageMod
 
                 initOk = true;
 
-                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex count = " + originalVertices.Length);
+                //Debug.Log("Stranded Deep AnimatedFoliage mod GrassBender vertex count = " + originalVertices.Length);
             }
             catch (Exception e)
             {
-                Debug.Log("Stranded Deep AnimatedFoliage mod error on CoralBender DeformingInit : " + e);
+                Debug.Log("Stranded Deep AnimatedFoliage mod error on GrassBender DeformingInit : " + e);
             }
         }
 
         private void RecomputeDeltas()
         {
             float oscillationPhase = 0.05f;
-            float oscillationDelta = (IsKelp1 || IsKelp2) ? 0.8f : 0.5f;
+            float oscillationDelta = 0.15f; // FIX: réduit de 0.5 à 0.15 — amplitude trop importante
             delta = new Vector3[originalVertices.Length];
             // OPT: ondulation supprimé — jamais lu dans DeformingUpdate (bloc commenté)
             //ondulation = new Vector3[originalVertices.Length];
@@ -247,15 +219,26 @@ namespace StrandedDeepAnimatedFoliageMod
             // OPT: Time.time mis en cache — remplace DateTime.Now.Second par vertex
             float sinPhase = Mathf.Sin(Time.time * oscillationPhase * Mathf.PI * 2.0f);
 
+            // FIX: ratio basé sur la hauteur Y du vertex normalisée par la hauteur max de l'objet —
+            //      la formule héritée des arbres utilisait la distance XZ au centre (éloignement horizontal),
+            //      ce qui n'a pas de sens pour de l'herbe. Ici on veut que les sommets oscillent beaucoup
+            //      et la base reste ancrée : ratio = 0 en bas, ratio = 1 en haut.
+            float maxY = 0f;
+            for (int i = 0; i < originalVertices.Length; i++)
+                if (originalVertices[i].y > maxY) maxY = originalVertices[i].y;
+            if (maxY <= 0f) maxY = 1f; // guard division par zéro si tous les vertices sont à y=0
+
             for (int i = 0; i < originalVertices.Length; i++)
             {
                 displacedVertices[i] = originalVertices[i];
 
                 // move more if far from center
                 //float sqrMag = (originalVertices[i] - new Vector3(0, originalVertices[i].y, 0)).sqrMagnitude;
-                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex sqrmag = " + sqrMag);
-                float ratio = 0.2f;//sqrMag / 200f;
-                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex ratio = " + ratio);
+                //Debug.Log("Stranded Deep AnimatedFoliage mod GrassBender vertex sqrmag = " + sqrMag);
+                // FIX: ratio = hauteur normalisée — base immobile (y=0 → ratio=0), sommet max amplitude (y=maxY → ratio=1)
+                float ratio = Mathf.Max(0f, originalVertices[i].y) / maxY;
+                //float ratio = 0.2f;//sqrMag / 200f;
+                //Debug.Log("Stranded Deep AnimatedFoliage mod GrassBender vertex ratio = " + ratio);
                 delta[i] = new Vector3(
                     (float)random.NextDouble() * sinPhase,
                     (float)random.NextDouble() * sinPhase,
@@ -332,10 +315,6 @@ namespace StrandedDeepAnimatedFoliageMod
 
                     //Vector3 randomOsc = new Vector3((float)random.Next(0, 5) * delta[vertex].x, (float)random.Next(0, 5) * delta[vertex].y, (float)random.Next(0, 5) * delta[vertex].z);
                     Vector3 randomOsc = delta[vertex] * (1 + stormRatio);
-                    //if (IsKelp1 || IsKelp2)
-                    //{
-                    //    randomOsc = delta[vertex] * (1 + (float)Main.stormPercentage / 100f) + Vector3.Lerp(-ondulation[vertex], ondulation[vertex], t);
-                    //}
                     displacedVertices[vertex] = Vector3.Lerp(originalVertices[vertex] - randomOsc, originalVertices[vertex] + randomOsc, t);
                 }
 
