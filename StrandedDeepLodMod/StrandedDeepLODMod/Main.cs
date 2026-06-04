@@ -24,8 +24,11 @@ namespace StrandedDeepLODMod
         internal static bool increaseFishDrawingDistance = false;
         internal static bool increaseLODs = false;
         internal static bool ultraDistance = false;
+        internal static bool ultraMFBBQDistance = false; // mode extrême (x1000), réservé au debug
+        internal static int lodDistanceMultiplier = 5; // multiplicateur configurable (défaut x5)
         internal static bool permanentGroundCover = false;
         internal static bool increaseTerrainLOD = false;
+        internal static bool drawInstancedTerrain = true; // normales GPU interpolées, visuellement plus lisse
         internal static bool increaseOceanLOD = false;
         internal static bool increaseShadowsQuality = false;
 
@@ -74,17 +77,14 @@ namespace StrandedDeepLODMod
                 tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.shrimp2.png"));
                 _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.shrimp2.png", tex);
 
-                tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
-                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.foam.png"));
-                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.foam.png", tex);
-
-                tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
-                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.foam2.png"));
-                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.foam2.png", tex);
-
-                tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
-                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.random_mask.png"));
-                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.random_mask.png", tex);
+                // FIX: chargement conditionnel — les textures 4096x4096 (~64 MB GPU) ne sont
+                // chargées que si betterFoam est activé dans la config au démarrage.
+                // Si l'utilisateur active betterFoam en cours de jeu, EnsureFoamTexturesLoaded()
+                // est appelé à la demande (voir Main.OceanTextures.cs).
+                if (betterFoam)
+                {
+                    EnsureFoamTexturesLoaded();
+                }
 
                 tex = new Texture2D(1024, 1024, TextureFormat.ARGB32, false, false);
                 tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.particles.png"));
@@ -129,9 +129,20 @@ namespace StrandedDeepLODMod
             GUILayout.Label("Stranded Deep LOD mod by Hantacore");
             GUILayout.Label("LOD options");
             increaseLODs = GUILayout.Toggle(increaseLODs, "Increase drawing distances");
+            if (increaseLODs && !ultraDistance)
+            {
+                GUILayout.BeginHorizontal();
+                GUILayout.Label("LOD distance multiplier: " + lodDistanceMultiplier + "x", GUILayout.Width(200));
+                lodDistanceMultiplier = (int)GUILayout.HorizontalSlider(lodDistanceMultiplier, 2, 20, GUILayout.Width(150));
+                GUILayout.EndHorizontal();
+            }
             ultraDistance = GUILayout.Toggle(ultraDistance, "Ultra drawing distance (remove impostors, active only if \"Increase drawing distances\" is active, performance heavy)");
             increaseTerrainLOD = GUILayout.Toggle(increaseTerrainLOD, "Improve terrain smoothness");
-            increaseOceanLOD = GUILayout.Toggle(increaseTerrainLOD, "Improve ocean smoothness");
+            if (increaseTerrainLOD)
+            {
+                drawInstancedTerrain = GUILayout.Toggle(drawInstancedTerrain, "  \u2192 GPU instanced normals (smoother shading, neutral perf)");
+            }
+            increaseOceanLOD = GUILayout.Toggle(increaseOceanLOD, "Improve ocean smoothness");
             increaseShadowsQuality = GUILayout.Toggle(increaseShadowsQuality, "Improve shadows quality (experimental)");
             ultraUnderwaterDetail = GUILayout.Toggle(ultraUnderwaterDetail, "Ultra underwater details");
             betterFoam = GUILayout.Toggle(betterFoam, "Better foam textures");
@@ -148,7 +159,36 @@ namespace StrandedDeepLODMod
 
         static void OnHideGUI(UnityModManager.ModEntry modEntry)
         {
+            // Si l'utilisateur vient d'activer betterFoam, on charge les textures maintenant
+            if (betterFoam)
+                EnsureFoamTexturesLoaded();
             WriteConfig();
+        }
+
+        /// <summary>
+        /// Chargement paresseux des textures foam 4096x4096.
+        /// Appelé au Load() si betterFoam est actif, ou à la première activation via l'UI.
+        /// </summary>
+        internal static void EnsureFoamTexturesLoaded()
+        {
+            if (!_indexedTextures.ContainsKey("StrandedDeepLODMod.assets.Textures.foam.png"))
+            {
+                Texture2D tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.foam.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.foam.png", tex);
+            }
+            if (!_indexedTextures.ContainsKey("StrandedDeepLODMod.assets.Textures.foam2.png"))
+            {
+                Texture2D tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.foam2.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.foam2.png", tex);
+            }
+            if (!_indexedTextures.ContainsKey("StrandedDeepLODMod.assets.Textures.random_mask.png"))
+            {
+                Texture2D tex = new Texture2D(4096, 4096, TextureFormat.ARGB32, false, false);
+                tex.LoadImage(ExtractResource("StrandedDeepLODMod.assets.Textures.random_mask.png"));
+                _indexedTextures.Add("StrandedDeepLODMod.assets.Textures.random_mask.png", tex);
+            }
         }
 
         static int flag = 0;
@@ -614,14 +654,24 @@ namespace StrandedDeepLODMod
                                 Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : Zone" + z.name + "terrain heightmapPixelError : " + z.Terrain.heightmapPixelError);
                                 // An approximation of how many pixels the terrain will pop in the worst case when switching lod.
                                 // A higher value reduces the number of polygons drawn.
-                                z.Terrain.heightmapPixelError = 5;
+                                z.Terrain.heightmapPixelError = 1;
                                 Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : Zone" + z.name + "terrain heightmapMaximumLOD : " + z.Terrain.heightmapMaximumLOD);
+
+                                // FIX: force le niveau de détail max du heightmap (0 = toujours la résolution
+                                // la plus haute, élimine les arêtes anguleuses au proche).
+                                z.Terrain.heightmapMaximumLOD = 0;
+
+                                // FIX: active le renderer GPU instancié — Unity utilise les normales
+                                // du heightmap interpolées sur le GPU au lieu des normales calculées
+                                // par patch CPU, ce qui donne un rendu visuellement plus lisse.
+                                z.Terrain.drawInstanced = drawInstancedTerrain;
 
                                 // detailResolution Specifies the number of pixels in the detail resolution map. A larger detailResolution, leads to more accurate detail object painting.
                                 // resolutionPerPatch Specifies the size in pixels of each individually rendered detail patch. A larger number reduces draw calls, but might increase triangle count since detail patches are culled on a per batch basis. A recommended value is 16. If you use a very large detail object distance and your grass is very sparse, it makes sense to increase the value.
                                 //z.Terrain.terrainData.SetDetailResolution(1024, 32);
                                 z.Terrain.terrainData.SetDetailResolution(2048, 64);
                                 Debug.Log("Stranded Deep LOD Mod : IncreaseTerrainLOD : SetDetailResolution : " + z.Terrain.terrainData.detailResolution);
+
                             }
                             catch (Exception ex)
                             {
@@ -699,13 +749,17 @@ namespace StrandedDeepLODMod
                             {
                                 increaseFishDrawingDistance = bool.Parse(tokens[1]);
                             }
-                            else if (tokens[0].Contains("increasLODs"))
+                            else if (tokens[0].Contains("increaseLODs"))
                             {
                                 increaseLODs = bool.Parse(tokens[1]);
                             }
                             else if (tokens[0].Contains("ultraDistance"))
                             {
                                 ultraDistance = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("lodDistanceMultiplier"))
+                            {
+                                lodDistanceMultiplier = int.Parse(tokens[1]);
                             }
                             else if (tokens[0].Contains("increaseOceanLOD"))
                             {
@@ -730,6 +784,10 @@ namespace StrandedDeepLODMod
                             else if (tokens[0].Contains("increaseTerrainLOD"))
                             {
                                 increaseTerrainLOD = bool.Parse(tokens[1]);
+                            }
+                            else if (tokens[0].Contains("drawInstancedTerrain"))
+                            {
+                                drawInstancedTerrain = bool.Parse(tokens[1]);
                             }
                             else if (tokens[0].Contains("ultraUnderwaterDetail"))
                             {
@@ -758,8 +816,9 @@ namespace StrandedDeepLODMod
                 StringBuilder sb = new StringBuilder();
                 sb.AppendLine("moreFishes=" + moreFishes + ";");
                 sb.AppendLine("increaseFishDrawingDistance=" + increaseFishDrawingDistance + ";");
-                sb.AppendLine("increasLODs=" + increaseLODs + ";");
+                sb.AppendLine("increaseLODs=" + increaseLODs + ";");
                 sb.AppendLine("ultraDistance=" + ultraDistance + ";");
+                sb.AppendLine("lodDistanceMultiplier=" + lodDistanceMultiplier + ";");
                 sb.AppendLine("increaseOceanLOD=" + increaseOceanLOD + ";");
 
                 sb.AppendLine("addSmallFishes=" + addSmallFishes + ";");
@@ -767,6 +826,7 @@ namespace StrandedDeepLODMod
                 sb.AppendLine("addJellyFishes=" + addJellyFishes + ";");
                 sb.AppendLine("permanentGroundCover=" + permanentGroundCover + ";");
                 sb.AppendLine("increaseTerrainLOD=" + increaseTerrainLOD + ";");
+                sb.AppendLine("drawInstancedTerrain=" + drawInstancedTerrain + ";");
                 sb.AppendLine("ultraUnderwaterDetail=" + ultraUnderwaterDetail + ";");
                 sb.AppendLine("betterFoam=" + betterFoam + ";");
                 sb.AppendLine("underwaterParticles=" + underwaterParticles + ";");
