@@ -9,7 +9,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>StrandedDeepMusicMod</RootNamespace>
     <AssemblyName>StrandedDeepMusicMod</AssemblyName>
-    <TargetFrameworkVersion>v4.6.2</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.8</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <Deterministic>true</Deterministic>
     <TargetFrameworkProfile />
@@ -36,69 +36,100 @@
   <ItemGroup>
     <Reference Include="0Harmony, Version=2.0.2.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\StrandedDeepMods\UnityModManager\0Harmony.dll</HintPath>
+      <HintPath>..\..\..\UnityModManager\0Harmony.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Assembly-CSharp.dll</HintPath>
     </Reference>
     <Reference Include="Assembly-CSharp-firstpass, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\Assembly-CSharp-firstpass.dll</HintPath>
+    </Reference>
+    <Reference Include="bolt">
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\bolt.dll</HintPath>
+    </Reference>
+    <Reference Include="bolt.user">
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\bolt.user.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Win32.Registry, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.Win32.Registry.4.7.0\lib\net461\Microsoft.Win32.Registry.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Security.AccessControl, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.AccessControl.4.7.0\lib\net461\System.Security.AccessControl.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Security.Principal.Windows, Version=4.1.3.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <HintPath>..\packages\System.Security.Principal.Windows.4.7.0\lib\net461\System.Security.Principal.Windows.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="UnityEngine, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.AudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.AudioModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.CoreModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.CoreModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.IMGUIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.IMGUIModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI, Version=1.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UIModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\Stranded Deep 1.0.6\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+      <HintPath>..\..\..\Stranded Deep 1.0.17.0.23\Stranded_Deep_Data\Managed\UnityEngine.UIModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestAudioModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.UnityWebRequestAudioModule.dll</HintPath>
+    </Reference>
+    <Reference Include="UnityEngine.UnityWebRequestModule, Version=0.0.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\..\..\Stranded Deep 1.0.38.0.29\Stranded_Deep_Data\Managed\UnityEngine.UnityWebRequestModule.dll</HintPath>
     </Reference>
     <Reference Include="UnityModManager, Version=0.23.5.0, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\..\..\..\StrandedDeepMods\UnityModManager\UnityModManager.dll</HintPath>
+      <HintPath>..\..\..\UnityModManager\UnityModManager.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AudioLoader.cs" />
     <Compile Include="Main.cs" />
+    <Compile Include="MultiTrackManager.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="WAV.cs" />
     <Compile Include="WavUtility.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="..\..\Repository.json">
+      <Link>Repository.json</Link>
+    </None>
     <None Include="Info.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <None Include="packages.config" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
-    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\"
+    <PostBuildEvent>SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.38.0.29\Mods\"
 if not exist %25path%25 mkdir %25path%25
-SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.17.0.23\Mods\$(ProjectName)\"
+SET path="$(ProjectDir)..\..\..\Stranded Deep 1.0.38.0.29\Mods\$(ProjectName)\"
 if not exist %25path%25 mkdir %25path%25
 copy /Y "$(TargetDir)Info.json" %25path%25\.
-copy /Y "$(TargetDir)$(ProjectName).dll" %25path%25\.</PostBuildEvent>
+copy /Y "$(TargetDir)$(ProjectName).dll" %25path%25\.
+rem copy /Y "$(TargetDir)NAudio.dll" %25path%25\.</PostBuildEvent>
   </PropertyGroup>
 </Project>
