@@ -334,7 +334,7 @@ namespace StrandedWideMod_Harmony
                 else if (IslandSize == 2048)
                 {
                     float result = (ZoneTerrainSize / 2.67f);
-                    Debug.Log("Stranded Wide (Harmony edition) : computed WaveOverlayPosition 2048 = " + result);
+                    CustomLogger.Log("Stranded Wide (Harmony edition) : computed WaveOverlayPosition 2048 = " + result);
                     return result;
                 }
                 return 0;
@@ -452,48 +452,51 @@ namespace StrandedWideMod_Harmony
 
         public static Texture2D Blur(Texture2D image, int blurSize)
         {
-            Texture2D blurred = new Texture2D(image.width, image.height);
+            int width = image.width;
+            int height = image.height;
 
-            // look at every pixel in the blur rectangle
-            for (int xx = 0; xx < image.width; xx++)
+            // Read all pixels in one GPU roundtrip instead of one per GetPixel call
+            Color[] srcPixels = image.GetPixels();
+            Color[] dstPixels = new Color[srcPixels.Length];
+
+            for (int xx = 0; xx < width; xx++)
             {
-                for (int yy = 0; yy < image.height; yy++)
+                for (int yy = 0; yy < height; yy++)
                 {
                     float avgR = 0, avgG = 0, avgB = 0, avgA = 0;
                     int blurPixelCount = 0;
 
-                    // average the color of the red, green and blue for each pixel in the
-                    // blur size while making sure you don't go outside the image bounds
-                    for (int x = xx; (x < xx + blurSize && x < image.width); x++)
-                    {
-                        for (int y = yy; (y < yy + blurSize && y < image.height); y++)
-                        {
-                            Color pixel = image.GetPixel(x, y);
+                    int xMax = Math.Min(xx + blurSize, width);
+                    int yMax = Math.Min(yy + blurSize, height);
 
+                    for (int x = xx; x < xMax; x++)
+                    {
+                        for (int y = yy; y < yMax; y++)
+                        {
+                            Color pixel = srcPixels[x + y * width];
                             avgR += pixel.r;
                             avgG += pixel.g;
                             avgB += pixel.b;
                             avgA += pixel.a;
-
                             blurPixelCount++;
                         }
                     }
 
-                    avgR = avgR / blurPixelCount;
-                    avgG = avgG / blurPixelCount;
-                    avgB = avgB / blurPixelCount;
-                    avgA = avgA / blurPixelCount;
+                    float invCount = 1f / blurPixelCount;
+                    Color avg = new Color(avgR * invCount, avgG * invCount, avgB * invCount, avgA * invCount);
 
-                    // now that we know the average for the blur size, set each pixel to that color
-                    for (int x = xx; x < xx + blurSize && x < image.width; x++)
+                    for (int x = xx; x < xMax; x++)
                     {
-                        for (int y = yy; y < yy + blurSize && y < image.height; y++)
+                        for (int y = yy; y < yMax; y++)
                         {
-                            blurred.SetPixel(x, y, new Color(avgR, avgG, avgB, avgA));
+                            dstPixels[x + y * width] = avg;
                         }
                     }
                 }
             }
+
+            Texture2D blurred = new Texture2D(width, height);
+            blurred.SetPixels(dstPixels);
             blurred.Apply();
             return blurred;
         }

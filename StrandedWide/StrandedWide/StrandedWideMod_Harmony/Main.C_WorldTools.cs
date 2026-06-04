@@ -70,7 +70,7 @@ namespace StrandedWideMod_Harmony
             _bigIslandStitch.Apply();
             _bigIslandStitch = Main.Blur(_bigIslandStitch, 10);
 
-            ExportTexture(_bigIslandStitch, "bigstitch");
+            //ExportTexture(_bigIslandStitch, "bigstitch");
 
             return _bigIslandStitch;
         }

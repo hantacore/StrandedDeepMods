@@ -240,7 +240,8 @@ namespace StrandedWideMod_Harmony
         private static void OnGUI(UnityModManager.ModEntry modEntry)
         {
             GUILayout.Label("<b>Stranded Wide mod by Hantacore and Stranded Wide Team</b>");
-            GUILayout.Label("Team Discord : https://discord.gg/UKwtkzZgEU");
+            GUILayout.Label("Team Discord : ");
+            GUILayout.TextField("https://discord.gg/UKwtkzZgEU");
             if (Game.State != GameState.LOAD_GAME 
                 && Game.State != GameState.NEW_GAME
                 && Game.State != GameState.INTRO)
