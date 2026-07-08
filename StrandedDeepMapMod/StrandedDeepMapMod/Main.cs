@@ -552,6 +552,17 @@ namespace StrandedDeepMapMod
             int islandSize = WorldUtilities.IslandSize;
             bool isWide    = WorldUtilities.IsStrandedWide();
 
+            // FIX: l'Abyss est un placeholder pour l'océan — ne jamais l'afficher,
+            //      qu'il soit découvert ou non.
+            //      imgIsland.enabled = false ne suffit pas — Unity affiche un carré blanc
+            //      car le composant Image a une couleur blanche par défaut sans sprite.
+            //      On désactive le GameObject entier pour qu'il soit complètement invisible.
+            if (map.EditorData.Id.Contains(ABYSS_GUID))
+            {
+                imgIsland.gameObject.SetActive(false);
+                return;
+            }
+
             if (discovered || debugMode)
             {
                 if (map.EditorData.Id.Contains("MISSION_0") && _texMission0 != null)
@@ -592,12 +603,6 @@ namespace StrandedDeepMapMod
                     imgIsland.sprite = MakeSprite(tex, 350, 350, 170, 170);
                     SetIconSize(imgIsland, ICON_SIZE);
                 }
-            }
-            else if (map.EditorData.Id.Contains(ABYSS_GUID) && idx < islandSilhouetteTextures.Count && islandSilhouetteTextures[idx] != null)
-            {
-                float sz = isWide ? islandSize + 1 : 257;
-                imgIsland.sprite = MakeSprite(islandSilhouetteTextures[idx], (int)sz, (int)sz, sz / 2, sz / 2);
-                SetIconSize(imgIsland, ISLAND_SILHOUETTE_SIZE);
             }
             else
             {
