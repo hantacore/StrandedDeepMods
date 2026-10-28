@@ -1,0 +1,11 @@
+﻿{
+  "Id": "StrandedDeepBetterBushesMod",
+  "DisplayName": "Stranded Deep Better Bushes Mod",
+  "Author": "Hantacore",
+  "Version": "0.0.1",
+  "AssemblyName": "StrandedDeepBetterBushesMod.dll",
+  "EntryMethod": "StrandedDeepBetterBushesMod.Main.Load",
+  "LoadAfter" : ["StrandedWideMod"],
+  "Homepage": "",
+  "Repository" : "https://raw.githubusercontent.com/hantacore/StrandedDeepMods/main/Repository.json"
+}
