@@ -21,6 +21,11 @@ namespace StrandedDeepAnimatedFoliageMod
 
         public bool IsSmallTree { get; set; }
 
+        // Dernière distance² au joueur calculée par CheckDistance() : permet aux classes dérivées
+        // d'appliquer des portées différentes à plusieurs animations sans la recalculer.
+        // Valide uniquement après un DoChecks() qui a abouti.
+        protected float LastSqrDistance { get; private set; }
+
         protected virtual void Awake()
         {
             RefreshDistanceThresholds();
@@ -51,6 +56,7 @@ namespace StrandedDeepAnimatedFoliageMod
 
                 // OPT: sqrMagnitude avoids a sqrt compared to Vector3.Magnitude
                 float sqrMagnitude = (this.gameObject.transform.position - PlayerRegistry.LocalPlayer.transform.position).sqrMagnitude;
+                LastSqrDistance = sqrMagnitude;
                 //Debug.Log("Stranded Deep AnimatedFoliage : CheckDistance magnitude = " + magnitude);
                 _animatedSecondaryMesh = (sqrMagnitude <= _sqrDistanceSecondary);
                 if (IsSmallTree && sqrMagnitude > _sqrDistanceSmallTree

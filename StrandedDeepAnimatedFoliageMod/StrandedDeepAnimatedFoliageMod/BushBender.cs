@@ -1,4 +1,4 @@
-﻿using Beam;
+using Beam;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -31,6 +31,11 @@ namespace StrandedDeepAnimatedFoliageMod
         // OPT: limite de retries pour éviter d'appeler DeformingInit() à chaque frame en cas d'échec
         private int _initFailCount = 0;
         private const int MaxInitRetries = 5;
+
+        // FIX: bornes du subMesh[0] (feuillage) — seuls ces vertices sont animés,
+        //      le tronc/branches (subMesh[1]) reste immobile
+        private int _leavesStartVertex = 0;
+        private int _leavesEndVertex   = 0;
 
         public void Start()
         {
@@ -139,6 +144,12 @@ namespace StrandedDeepAnimatedFoliageMod
                     return;
 
                 InitClonedMesh();
+
+                // FIX: récupère les bornes du subMesh[0] (feuillage) pour n'animer que ces vertices
+                SubMeshDescriptor leavesSmd = clonedMesh.GetSubMesh(0);
+                _leavesStartVertex = leavesSmd.firstVertex;
+                _leavesEndVertex   = leavesSmd.firstVertex + leavesSmd.vertexCount;
+
                 RecomputeDeltas();
 
                 // FIX: initOk n'était jamais mis à true — DeformingInit() était rappelé
@@ -162,23 +173,24 @@ namespace StrandedDeepAnimatedFoliageMod
             // OPT: Time.time mis en cache — remplace DateTime.Now.Second par vertex
             float sinPhase = Mathf.Sin(Time.time * oscillationPhase * Mathf.PI * 2.0f);
 
+            // FIX: initialise tous les vertices à leur position originale (tronc inclus)
             for (int i = 0; i < originalVertices.Length; i++)
-            {
                 displacedVertices[i] = originalVertices[i];
 
+            // FIX: calcule delta uniquement pour le subMesh[0] (feuillage) —
+            //      les vertices du tronc/branches (subMesh[1]) gardent delta = Vector3.zero
+            for (int i = _leavesStartVertex; i < _leavesEndVertex; i++)
+            {
                 // move more if far from center
                 // OPT: évite d'allouer un new Vector3 juste pour annuler le composant Y
                 float vx = originalVertices[i].x;
                 float vz = originalVertices[i].z;
                 float sqrMag = vx * vx + vz * vz;
-                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex sqrmag = " + sqrMag);
-                float ratio = sqrMag / 400f;//Mathf.Pow(sqrMag, 2) / 200f;
-                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex ratio = " + ratio);
+                float ratio = sqrMag / 400f;
                 delta[i] = new Vector3(
                     (float)random.NextDouble() * sinPhase,
                     (float)random.NextDouble() * sinPhase,
                     (float)random.NextDouble() * sinPhase) * ratio * oscillationDelta;
-                //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender vertex delta = " + delta[i]);
             }
         }
 
@@ -249,9 +261,11 @@ namespace StrandedDeepAnimatedFoliageMod
                 // OPT: stormRatio mis en cache une fois par frame au lieu de recalculer par vertex
                 float stormRatio = (float)Main.stormPercentage / 100f;
 
-                float t = 0.0f;// (Mathf.Sin(Time.time * 0.2f * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
-                int startIndex = 0; //random.Next(0, displacedVertices.Length - 2);
-                int endIndex = displacedVertices.Length;//random.Next(startIndex, displacedVertices.Length);
+                float t = 0.0f;
+                // FIX: boucle limitée au subMesh[0] (feuillage) —
+                //      les vertices du tronc ne sont pas touchés, restent à originalVertices
+                int startIndex = _leavesStartVertex;
+                int endIndex   = _leavesEndVertex;
                 for (int vertex = startIndex; vertex < endIndex; vertex++)
                 {
                     // OPT: évite d'allouer un new Vector3 juste pour annuler le composant Y

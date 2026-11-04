@@ -21,6 +21,27 @@ namespace StrandedDeepAnimatedFoliageMod
             TexturesUpdated = false;
         }
 
+        private static readonly HashSet<Material> _patchedMaterials = new HashSet<Material>();
+
+        protected void ReduceSkyReflections(Renderer r)
+        {
+            if (r == null) return;
+            foreach (Material m in r.sharedMaterials)
+            {
+                // le HashSet évite de re-patcher le même matériau pour chaque arbre
+                if (m == null || !_patchedMaterials.Add(m)) continue;
+
+                Debug.Log("AnimatedFoliage : material " + m.name + " shader=" + m.shader.name);
+
+                if (m.HasProperty("_Glossiness")) m.SetFloat("_Glossiness", 0f);
+                if (m.HasProperty("_GlossyReflections")) m.SetFloat("_GlossyReflections", 0f);
+                if (m.HasProperty("_SpecularHighlights")) m.SetFloat("_SpecularHighlights", 0f);
+                if (m.HasProperty("_SpecColor")) m.SetColor("_SpecColor", Color.black);
+                m.EnableKeyword("_GLOSSYREFLECTIONS_OFF");
+                m.EnableKeyword("_SPECULARHIGHLIGHTS_OFF");
+            }
+        }
+
         protected override void ReplaceTextures(Renderer renderer)
         {
             if (renderer != null)
@@ -41,6 +62,8 @@ namespace StrandedDeepAnimatedFoliageMod
                         }
                     }
                 }
+
+                ReduceSkyReflections(renderer);
 
                 TexturesUpdated = true;
             }

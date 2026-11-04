@@ -59,15 +59,16 @@ namespace StrandedDeepAnimatedFoliageMod
         // FIX: oscillation continue par double sinusoïde déphasée — remplace le timer + réinitialisation
         //      qui causaient des sauts visuels. Les fréquences et le déphasage sont randomisés une seule
         //      fois au Start() et ne changent plus jamais — mouvement naturel et infini sans artefacts.
-        private float _freqX       = 0.2f;
-        private float _freqZ       = 0.15f;
+        private float _freqX = 0.2f;
+        private float _freqZ = 0.15f;
         private float _phaseOffset = 0f;
 
         public void Start()
         {
             try
             {
-                BendAngle = 1;
+                // FIX: BendAngle réduit de 5 à 3 — amplitude divisée par ~2
+                BendAngle = 3;
                 MinBendSpeed = 5;
                 MaxBendSpeed = 20;
 
@@ -75,9 +76,11 @@ namespace StrandedDeepAnimatedFoliageMod
                 MaxOscillationSpeed = 5;
 
                 // FIX: randomise les fréquences et le déphasage une seule fois —
-                //      aucune réinitialisation périodique ne sera nécessaire
-                _freqX       = (float)random.NextDouble() * 0.3f + 0.1f;  // 0.1 à 0.4 Hz
-                _freqZ       = (float)random.NextDouble() * 0.3f + 0.1f;
+                //      aucune réinitialisation périodique ne sera nécessaire.
+                //      Plage réduite à 0.05-0.20 Hz (au lieu de 0.1-0.4) pour un balancement
+                //      plus lent et naturel par temps calme.
+                _freqX = (float)random.NextDouble() * 0.15f + 0.05f;
+                _freqZ = (float)random.NextDouble() * 0.15f + 0.05f;
                 _phaseOffset = (float)random.NextDouble() * Mathf.PI * 2f;
                 //DeformingInit();
             }
@@ -91,6 +94,8 @@ namespace StrandedDeepAnimatedFoliageMod
         {
             try
             {
+                // Portée de l'oscillation : la distance maximale de BenderBase.CheckDistance()
+                // (200 * distanceRatio, 50 * distanceRatio pour les petits arbres).
                 if (!DoChecks())
                     return;
 
@@ -98,6 +103,11 @@ namespace StrandedDeepAnimatedFoliageMod
                 {
                     RotationBendUpdate();
                 }
+
+                // Portée de la déformation des vertices : plus courte, car bien plus coûteuse
+                // (SetVertices + RecalculateNormals). Voir VertexAnimationDistance.
+                if (!InVertexRange())
+                    return;
 
                 if (!initOk)
                 {
@@ -119,6 +129,48 @@ namespace StrandedDeepAnimatedFoliageMod
             }
         }
 
+        // Distance d'animation des vertices (multipliée par Main.distanceRatio).
+        // L'oscillation du tronc, bien moins coûteuse, porte plus loin : voir BenderBase.
+        private const float VertexAnimationDistance = 80f;
+
+        private bool InVertexRange()
+        {
+            float max = Main.distanceRatio * VertexAnimationDistance;
+            if (LastSqrDistance > max * max)
+                return false;
+
+            // Seul le mesh LOD0 est déformé : inutile de le calculer tant qu'il n'est pas affiché
+            // (renderer vaut null tant que DeformingInit() n'a pas trouvé le LOD0)
+            return renderer == null || renderer.isVisible;
+        }
+
+        private Renderer[] _allRenderers;
+
+        // L'oscillation du tronc doit se voir quel que soit le LOD affiché. Avec la version de base,
+        // renderer valait le LOD0 : l'arbre ne bougeait que tant que le LOD0 était visible, ce qui limitait
+        // en pratique la portée de l'oscillation à celle du LOD0, quelle que soit la distance configurée.
+        protected override bool CheckVisible()
+        {
+            if (_allRenderers == null)
+            {
+                // Renderers du palmier uniquement : ceux des noix de coco reparentées sont exclus
+                List<Renderer> list = new List<Renderer>();
+                foreach (Renderer r in GetComponentsInChildren<Renderer>(true))
+                {
+                    if (r != null && r.GetComponentInParent<InteractiveObject_FOOD>() == null)
+                        list.Add(r);
+                }
+                _allRenderers = list.ToArray();
+            }
+
+            for (int i = 0; i < _allRenderers.Length; i++)
+            {
+                if (_allRenderers[i] != null && _allRenderers[i].isVisible)
+                    return true;
+            }
+            return false;
+        }
+
         #region simple bending
 
         private void RotationBendUpdate()
@@ -126,10 +178,21 @@ namespace StrandedDeepAnimatedFoliageMod
             // FIX: double sinusoïde déphasée — oscillation continue et naturelle sans timer ni réinitialisation.
             //      _freqX et _freqZ légèrement différentes donnent un mouvement elliptique organique.
             //      _phaseOffset randomisé au Start() évite que tous les arbres soient en phase.
-            //      BendAngle modulé par la tempête pour plus d'amplitude par mauvais temps.
-            float storm  = 1f + Main.stormPercentage / 100f;
-            float angleX = Mathf.Sin(Time.time * _freqX) * BendAngle * storm;
-            float angleZ = Mathf.Sin(Time.time * _freqZ + _phaseOffset) * BendAngle * storm;
+            //
+            // FIX: amplitude séparée entre temps calme et tempête —
+            //      par temps calme l'arbre se balance doucement à 40% de l'amplitude max,
+            //      l'amplitude augmente progressivement avec stormPercentage jusqu'à 2× BendAngle.
+            //      Évite les agitations importantes sans raison météorologique.
+            float stormT = Main.stormPercentage / 100f;
+            // Amplitude stable quelle que soit la tempête
+            float amplitude = BendAngle * 0.6f;
+
+            // FIX: en tempête, c'est la fréquence qui augmente (jusqu'à 3× plus rapide)
+            //      plutôt que l'amplitude — l'arbre s'agite plus vite, pas plus fort
+            float freqMultiplier = 1f + stormT * 2f;
+
+            float angleX = Mathf.Sin(Time.time * _freqX * freqMultiplier) * amplitude;
+            float angleZ = Mathf.Sin(Time.time * _freqZ * freqMultiplier + _phaseOffset) * amplitude;
             transform.eulerAngles = new Vector3(angleX, 0f, angleZ);
         }
 
@@ -182,6 +245,11 @@ namespace StrandedDeepAnimatedFoliageMod
                 MeshFilter[] meshFilters = GetComponentsInChildren<MeshFilter>();
                 foreach (MeshFilter mf in meshFilters)
                 {
+                    // Les noix de coco peuvent être enfants du palmier (reparentage, voir Main_PalmFruitPatches) :
+                    // leur propre "LOD0" ne doit surtout pas être pris pour le mesh du palmier.
+                    if (mf.GetComponentInParent<InteractiveObject_FOOD>() != null)
+                        continue;
+
                     //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter : " + mesh + " / " + (mf == null ? "null" : "not null"));
                     //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter shared mesh : " + (mf.sharedMesh == null ? "null" : "not null"));
                     //Debug.Log("Stranded Deep AnimatedFoliage mod TreeBender submeshfilter go name : " + mf.gameObject.name);
@@ -198,8 +266,8 @@ namespace StrandedDeepAnimatedFoliageMod
                         || mf.gameObject.name == "Fixus_Tree_2_LOD0"
                         //|| mf.gameObject.name == "Fixus_Tree_2_LOD1"
                         || mf.gameObject.name == "LOD0")
-                        //|| mf.gameObject.name == "ground_cover_a_LOD0"
-                        //|| mf.gameObject.name == "ground_cover_c_LOD0"
+                    //|| mf.gameObject.name == "ground_cover_a_LOD0"
+                    //|| mf.gameObject.name == "ground_cover_c_LOD0"
                     {
                         if (Main.debugMode)
                             Debug.Log("Stranded Deep AnimatedFoliage mod DeformingInit for " + mf.gameObject.name);
@@ -235,7 +303,7 @@ namespace StrandedDeepAnimatedFoliageMod
             delta = new Vector3[originalVertices.Length];
 
             // OPT: replaced Dictionary with arrays for O(1) access without boxing/hashing
-            stormdelta  = new Vector3[originalVertices.Length];
+            stormdelta = new Vector3[originalVertices.Length];
             hasstormdelta = new bool[originalVertices.Length];
 
             // OPT: cache Time.time once instead of calling DateTime.Now per vertex
@@ -250,8 +318,8 @@ namespace StrandedDeepAnimatedFoliageMod
                 // OPT: precompute trig values shared across all vertices
                 float sinAngle = Mathf.Sin(angle);
                 float cosAngle = Mathf.Cos(angle);
-                float sqrSin   = sinAngle * sinAngle;
-                float sqrCos   = cosAngle * cosAngle;
+                float sqrSin = sinAngle * sinAngle;
+                float sqrCos = cosAngle * cosAngle;
                 float sinPhase = Mathf.Sin(timeSeed * oscillationPhase * Mathf.PI * 2.0f);
 
                 for (int i = 0; i < originalVertices.Length; i++)
@@ -270,11 +338,11 @@ namespace StrandedDeepAnimatedFoliageMod
 
                     //if (angle2 > 110 || angle2 < -110)
                     //{
-                        delta[i] = Quaternion.AngleAxis(angle, Vector3.up) 
-                                        * new Vector3(
-                                            (float)random.NextDouble() * sinPhase,
-                                            (float)random.NextDouble() * sinPhase,
-                                            (float)random.NextDouble() * sinPhase) * ratio * oscillationDelta;
+                    delta[i] = Quaternion.AngleAxis(angle, Vector3.up)
+                                    * new Vector3(
+                                        (float)random.NextDouble() * sinPhase,
+                                        (float)random.NextDouble() * sinPhase,
+                                        (float)random.NextDouble() * sinPhase) * ratio * oscillationDelta;
                     //}
                     //else
                     // FIX: était "angle2 < 110 || angle2 > -110" — toujours vraie (aucun angle ne peut
@@ -457,23 +525,23 @@ namespace StrandedDeepAnimatedFoliageMod
             {
                 //if (Main.stormPercentage > 0)
                 //{
-                    if (previousWindSpeed != targetWindSpeed)
+                if (previousWindSpeed != targetWindSpeed)
+                {
+                    windt += 0.001f * Time.deltaTime;
+                    windSpeed = Mathf.Lerp(previousWindSpeed, targetWindSpeed, windt);
+                    if (Mathf.Approximately(windSpeed, targetWindSpeed))
                     {
-                        windt += 0.001f * Time.deltaTime;
-                        windSpeed = Mathf.Lerp(previousWindSpeed, targetWindSpeed, windt);
-                        if (Mathf.Approximately(windSpeed, targetWindSpeed))
-                        {
-                            previousWindSpeed = targetWindSpeed;
-                            windt = 0.0f;
-                        }
+                        previousWindSpeed = targetWindSpeed;
+                        windt = 0.0f;
                     }
+                }
+                else
+                {
+                    if (IsPalm)
+                        targetWindSpeed = 2.0f + (2.0f * (float)Main.stormPercentage / 100f) + (float)random.NextDouble();
                     else
-                    {
-                        if (IsPalm)
-                            targetWindSpeed = 2.0f + (2.0f * (float)Main.stormPercentage / 100f) + (float)random.NextDouble();
-                        else
-                            // OPT: replaced DateTime.Now.Millisecond with Time.time — same randomness, no system call
-                            targetWindSpeed = (float)Math.Abs(Math.Sin(Time.time)) + (2.0f * (float)Main.stormPercentage / 100f) + (float)random.NextDouble();
+                        // OPT: replaced DateTime.Now.Millisecond with Time.time — same randomness, no system call
+                        targetWindSpeed = (float)Math.Abs(Math.Sin(Time.time)) + (2.0f * (float)Main.stormPercentage / 100f) + (float)random.NextDouble();
                 }
                 //}
 
@@ -488,7 +556,7 @@ namespace StrandedDeepAnimatedFoliageMod
                 for (int vertex = startIndex; vertex < endIndex; vertex++)
                 {
                     // OPT: array lookup replaces Dictionary.ContainsKey — no hashing, no boxing
-                    if (IsPalm 
+                    if (IsPalm
                         && Main.stormPercentage > 0
                         && hasstormdelta[vertex])
                     {
@@ -499,7 +567,7 @@ namespace StrandedDeepAnimatedFoliageMod
                         t = (Mathf.Sin(windTimeProduct * phase * Mathf.PI * 2.0f) + 1.0f) / 2.0f;
 
                         displacedVertices[vertex] = Vector3.Lerp(
-                                originalVertices[vertex] - Mathf.PingPong(windTimeProduct, 3.0f) * (stormdelta[vertex] * stormRatio), 
+                                originalVertices[vertex] - Mathf.PingPong(windTimeProduct, 3.0f) * (stormdelta[vertex] * stormRatio),
                                 originalVertices[vertex] + Mathf.PingPong(windTimeProduct, 3.0f) * (stormdelta[vertex] * stormRatio),
                             t);
 

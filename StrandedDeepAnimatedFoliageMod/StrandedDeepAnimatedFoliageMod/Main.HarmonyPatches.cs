@@ -76,18 +76,6 @@ namespace StrandedDeepAnimatedFoliageMod
                     AddTreeBenderIfNeeded(__result);
                 }
             }
-            if (Main.replaceTreeLeaves
-                && __result.gameObject.GetComponent<FicusTextureUpdater>() == null
-                && (__result.PrefabId == 66
-                || __result.PrefabId == 67
-                || __result.PrefabId == 47
-                || __result.PrefabId == 48
-                || __result.PrefabId == 49))
-            {
-                if (Main.debugMode)
-                    Debug.Log("Stranded Deep AnimatedFoliage mod : Adding FicusTextureUpdater if needed " + __result.gameObject.name);
-                __result.gameObject.AddComponent<FicusTextureUpdater>();
-            }
 
             if (Main.animateBushes
                 && __result.PrefabId == 205
@@ -97,12 +85,6 @@ namespace StrandedDeepAnimatedFoliageMod
                     Debug.Log("Stranded Deep AnimatedFoliage Mod : adding Bush Bender component");
                 // FIX: variable locale inutilisée supprimée
                 __result.gameObject.AddComponent<BushBender>();
-            }
-            if (Main.replaceBushTextures
-                && __result.gameObject.GetComponent<BushTextureUpdater>() == null
-                && __result.PrefabId == 205)
-            {
-                __result.gameObject.AddComponent<BushTextureUpdater>();
             }
         }
 
@@ -336,14 +318,14 @@ namespace StrandedDeepAnimatedFoliageMod
                                 {
                                     AddGrassBenderIfNeeded(go);
                                 }
-                                //else if (go.name.Contains("ground_cover_a"))
-                                //{
-                                //    AddGrassBenderIfNeeded(go);
-                                //}
-                                //else if (go.name.Contains("ground_cover_c"))
-                                //{
-                                //    AddGrassBenderIfNeeded(go);
-                                //}
+                                else if (go.name.Contains("ground_cover_a"))
+                                {
+                                    AddGroundCoverBenderIfNeeded(go);
+                                }
+                                else if (go.name.Contains("ground_cover_c"))
+                                {
+                                    AddGroundCoverBenderIfNeeded(go);
+                                }
                             }
                         }
                     }
@@ -363,6 +345,17 @@ namespace StrandedDeepAnimatedFoliageMod
             {
                 // FIX: variable locale inutilisée supprimée
                 gameObject.AddComponent<GrassBender>();
+            }
+        }
+
+        private static void AddGroundCoverBenderIfNeeded(GameObject gameObject)
+        {
+            if (Main.debugMode)
+                Debug.Log("Stranded Deep AnimatedFoliage Mod : adding GroundCoverBender component to " + gameObject.name);
+            if (gameObject.GetComponent<GroundCoverBender>() == null)
+            {
+                // FIX: variable locale inutilisée supprimée
+                gameObject.AddComponent<GroundCoverBender>();
             }
         }
 

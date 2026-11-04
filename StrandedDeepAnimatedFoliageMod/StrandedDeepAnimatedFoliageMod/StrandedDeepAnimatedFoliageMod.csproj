@@ -105,12 +105,12 @@
   <ItemGroup>
     <Compile Include="BenderBase.cs" />
     <Compile Include="BushBender.cs" />
-    <Compile Include="BushTextureUpdater.cs" />
     <Compile Include="CoralBender.cs" />
-    <Compile Include="FicusTextureUpdater.cs" />
     <Compile Include="GrassBender.cs" />
+    <Compile Include="GroundCoverBender.cs" />
     <Compile Include="Main.cs" />
     <Compile Include="Main.HarmonyPatches.cs" />
+    <Compile Include="Main.PalmFruitPatches.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SeaweedBender.cs" />
     <Compile Include="SmallTreeBender.cs" />
@@ -123,21 +123,6 @@
     <None Include="Info.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="assets\Textures\BRANCH_MainTex.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="assets\Textures\BRANCH_BumpMap.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="assets\Textures\Bush_Leafs_MAT_MainTex.png" />
-    <EmbeddedResource Include="assets\Textures\Bush_Tile_MAT _BumpMap.png" />
-    <EmbeddedResource Include="assets\Textures\Bush_Tile_MAT_MainTex.png" />
-    <None Include="assets\Textures\Bush_Tile_MAT_OcclusionMap.png" />
-  </ItemGroup>
-  <ItemGroup>
-    <EmbeddedResource Include="assets\Textures\Bush_Tile_MAT_DetailAlbedoMap.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

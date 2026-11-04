@@ -29,8 +29,6 @@ namespace StrandedDeepAnimatedFoliageMod
         internal static bool animateCorals = false;
         internal static bool animateGrass = false;
         internal static bool animateSeaweeds = false;
-        internal static bool replaceTreeLeaves = false;
-        internal static bool replaceBushTextures = false;
         internal static float distanceRatio = 1.0f;
 
         internal static bool debugMode = false;
@@ -139,9 +137,6 @@ namespace StrandedDeepAnimatedFoliageMod
             GUILayout.Label("Animation distance");
             distanceRatio = GUILayout.HorizontalSlider(distanceRatio, 0.1f, 1.0f);
 
-            GUILayout.Label("Textures options");
-            replaceTreeLeaves = GUILayout.Toggle(replaceTreeLeaves, "Replace tree leaves");
-            replaceBushTextures = GUILayout.Toggle(replaceBushTextures, "Replace bushes textures");
 
             GUILayout.Label("Other options");
             debugMode = GUILayout.Toggle(debugMode, "Debug mode");
@@ -419,8 +414,7 @@ namespace StrandedDeepAnimatedFoliageMod
         {
             //handler.Reset();
 
-            FicusTextureUpdater.Reset();
-            BushTextureUpdater.Reset();
+
 
             //DeformingPalmTopReset();
             //flag = 0;
@@ -535,14 +529,6 @@ namespace StrandedDeepAnimatedFoliageMod
                             {
                                 animateSeaweeds = bool.Parse(tokens[1]);
                             }
-                            else if (tokens[0].Contains("replaceTreeLeaves"))
-                            {
-                                replaceTreeLeaves = bool.Parse(tokens[1]);
-                            }
-                            else if (tokens[0].Contains("replaceBushTextures"))
-                            {
-                                replaceBushTextures = bool.Parse(tokens[1]);
-                            }
                             else if (tokens[0].Contains("distanceRatio"))
                             {
                                 distanceRatio = float.Parse(tokens[1]);
@@ -575,8 +561,6 @@ namespace StrandedDeepAnimatedFoliageMod
                 sb.AppendLine("animateCorals=" + animateCorals + ";");
                 sb.AppendLine("animateGrass=" + animateGrass + ";");
                 sb.AppendLine("animateSeaweeds=" + animateSeaweeds + ";");
-                sb.AppendLine("replaceTreeLeaves=" + replaceTreeLeaves + ";");
-                sb.AppendLine("replaceBushTextures=" + replaceBushTextures + ";");
                 sb.AppendLine("distanceRatio=" + distanceRatio + ";");
                 sb.AppendLine("debugMode=" + debugMode + ";");
 
